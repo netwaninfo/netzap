@@ -11,6 +11,9 @@ importers:
       '@biomejs/biome':
         specifier: 1.8.3
         version: 1.8.3
+      '@biomejs/cli-win32-x64':
+        specifier: ^1.8.3
+        version: 1.8.3
       turbo:
         specifier: ^2.0.11
         version: 2.0.11
@@ -103,7 +106,6 @@ packages:
     os: [win32]
     requiresBuild: true
     dev: true
-    optional: true
 
   /turbo-darwin-64@2.0.11:
     resolution: {integrity: sha512-YlHEEhcm+jI1BSZoLugGHUWDfRXaNaQIv7tGQBfadYjo9kixBnqoTOU6s1ubOrQMID+lizZZQs79GXwqM6vohg==}
