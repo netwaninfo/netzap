@@ -1,0 +1,12 @@
+{
+  "name": "@netwan/netzap",
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*",
+    "config/*"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "turbo": "^2.0.11"
+  }
+}
