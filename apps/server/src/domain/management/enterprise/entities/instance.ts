@@ -2,7 +2,7 @@ import type { InstanceState } from '@netzap/contracts/enums'
 import type { SetOptional } from 'type-fest'
 
 import { Entity } from '@/core/entities/entity'
-import { ObjectId } from '@/core/identifiers/object-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 export interface InstanceProps {
 	name: string
@@ -45,7 +45,7 @@ export class Instance extends Entity<InstanceProps> {
 
 	static create(
 		props: SetOptional<InstanceProps, 'qrCode' | 'state'>,
-		id?: string,
+		id?: UniqueEntityID,
 	) {
 		return new Instance(
 			{
@@ -53,7 +53,7 @@ export class Instance extends Entity<InstanceProps> {
 				qrCode: props.qrCode ?? null,
 				state: props.state ?? 'disconnected',
 			},
-			ObjectId.create(id),
+			id,
 		)
 	}
 }

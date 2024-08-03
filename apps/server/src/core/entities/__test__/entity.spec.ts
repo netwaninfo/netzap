@@ -1,5 +1,5 @@
-import { ObjectId } from '@/core/identifiers/object-id'
 import { Entity } from '../entity'
+import { UniqueEntityID } from '../unique-entity-id'
 
 interface RawEntityProps {
 	isTrue?: boolean
@@ -10,8 +10,8 @@ class RawEntity extends Entity<RawEntityProps> {
 		return this.props.isTrue
 	}
 
-	static create(props: RawEntityProps, id?: string) {
-		return new RawEntity(props, ObjectId.create(id))
+	static create(props: RawEntityProps, id?: UniqueEntityID) {
+		return new RawEntity(props, id)
 	}
 }
 
@@ -19,7 +19,7 @@ describe('Entity', () => {
 	it('should be able to get id', () => {
 		const entity = RawEntity.create({})
 
-		expect(entity.id).toBeInstanceOf(ObjectId)
+		expect(entity.id).toBeInstanceOf(UniqueEntityID)
 	})
 
 	it('should be able to entity equals it self', () => {

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 
 import { AttendantProfile } from '../attendant-profile'
 
-describe('Attendant Profile', () => {
+describe('AttendantProfile', () => {
 	it('should be able to create', () => {
 		const profile = AttendantProfile.create({
 			email: faker.internet.email(),

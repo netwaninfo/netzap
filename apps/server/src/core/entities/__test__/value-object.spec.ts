@@ -10,7 +10,7 @@ class RawValueObject extends ValueObject<RawValueObjectProps> {
 	}
 }
 
-describe('Value Object', () => {
+describe('ValueObject', () => {
 	it('should be able to equals it self', () => {
 		const valueObject = RawValueObject.create({
 			isTrue: true,

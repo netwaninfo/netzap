@@ -1,7 +1,7 @@
 import type { SetNonNullable, SetOptional } from 'type-fest'
 
 import { Entity } from '@/core/entities/entity'
-import { ObjectId } from '@/core/identifiers/object-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { AttendantInstanceList } from './attendant-instance-list'
 import type { AttendantProfile } from './value-objects/attendant-profile'
 
@@ -32,7 +32,7 @@ export class Attendant extends Entity<AttendantProps> {
 
 	static create(
 		props: SetOptional<AttendantProps, 'password' | 'instances'>,
-		id?: string,
+		id?: UniqueEntityID,
 	) {
 		const attendant = new Attendant(
 			{
@@ -40,7 +40,7 @@ export class Attendant extends Entity<AttendantProps> {
 				password: props.password ?? null,
 				instances: props.instances ?? AttendantInstanceList.create([]),
 			},
-			ObjectId.create(id),
+			id,
 		)
 
 		return attendant
