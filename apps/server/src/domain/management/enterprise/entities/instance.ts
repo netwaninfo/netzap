@@ -1,4 +1,4 @@
-import type { InstanceState } from '@netzap/contracts/enums'
+import type { InstanceStatus } from '@netzap/contracts/enums'
 import type { SetOptional } from 'type-fest'
 
 import { Entity } from '@/core/entities/entity'
@@ -7,7 +7,7 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 export interface InstanceProps {
 	name: string
 	qrCode: string | null
-	state: InstanceState
+	status: InstanceStatus
 }
 
 export class Instance extends Entity<InstanceProps> {
@@ -19,39 +19,39 @@ export class Instance extends Entity<InstanceProps> {
 		return this.props.qrCode
 	}
 
-	get state() {
-		return this.props.state
+	get status() {
+		return this.props.status
 	}
 
 	initialized() {
-		this.set({ state: 'initialized' })
+		this.set({ status: 'initialized' })
 	}
 
 	authenticated() {
-		this.set({ state: 'authenticated' })
+		this.set({ status: 'authenticated' })
 	}
 
 	failed() {
-		this.set({ state: 'failed' })
+		this.set({ status: 'failed' })
 	}
 
 	connected() {
-		this.set({ state: 'connected' })
+		this.set({ status: 'connected' })
 	}
 
 	disconnected() {
-		this.set({ state: 'disconnected' })
+		this.set({ status: 'disconnected' })
 	}
 
 	static create(
-		props: SetOptional<InstanceProps, 'qrCode' | 'state'>,
+		props: SetOptional<InstanceProps, 'qrCode' | 'status'>,
 		id?: UniqueEntityID,
 	) {
 		return new Instance(
 			{
 				...props,
 				qrCode: props.qrCode ?? null,
-				state: props.state ?? 'disconnected',
+				status: props.status ?? 'disconnected',
 			},
 			id,
 		)

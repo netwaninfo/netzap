@@ -97,6 +97,12 @@ importers:
       '@netzap/ts-config':
         specifier: workspace:^
         version: link:../../config/ts-config
+      '@netzap/tsup-config':
+        specifier: workspace:^
+        version: link:../../config/tsup-config
+      tsup:
+        specifier: ^8.2.4
+        version: 8.2.4(typescript@5.5.4)
       typescript:
         specifier: ^5.5.4
         version: 5.5.4

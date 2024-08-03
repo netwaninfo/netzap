@@ -16,7 +16,7 @@ describe('Instance', () => {
 		})
 
 		instance.initialized()
-		expect(instance.state).toBe('initialized')
+		expect(instance.status).toBe('initialized')
 	})
 
 	it('should be able to set is authenticated', () => {
@@ -25,7 +25,7 @@ describe('Instance', () => {
 		})
 
 		instance.authenticated()
-		expect(instance.state).toBe('authenticated')
+		expect(instance.status).toBe('authenticated')
 	})
 
 	it('should be able to set is failed', () => {
@@ -34,7 +34,7 @@ describe('Instance', () => {
 		})
 
 		instance.failed()
-		expect(instance.state).toBe('failed')
+		expect(instance.status).toBe('failed')
 	})
 
 	it('should be able to set is connected', () => {
@@ -43,7 +43,7 @@ describe('Instance', () => {
 		})
 
 		instance.connected()
-		expect(instance.state).toBe('connected')
+		expect(instance.status).toBe('connected')
 	})
 
 	it('should be able to set is disconnected', () => {
@@ -52,6 +52,6 @@ describe('Instance', () => {
 		})
 
 		instance.disconnected()
-		expect(instance.state).toBe('disconnected')
+		expect(instance.status).toBe('disconnected')
 	})
 })

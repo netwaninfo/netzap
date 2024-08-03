@@ -2,11 +2,30 @@
   "name": "@netzap/contracts",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup --silent"
+  },
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "./enums": "./src/enums/index.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./enums": {
+      "import": "./dist/enums/index.js",
+      "types": "./dist/enums/index.d.ts"
+    }
   },
   "devDependencies": {
     "@netzap/ts-config": "workspace:^",
+    "@netzap/tsup-config": "workspace:^",
+    "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },
   "dependencies": {

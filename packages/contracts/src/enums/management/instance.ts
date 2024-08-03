@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const instanceState = z.enum([
+export const instanceStatus = z.enum([
 	'initialized',
 	'failed',
 	'authenticated',
@@ -8,4 +8,4 @@ export const instanceState = z.enum([
 	'disconnected',
 ])
 
-export type InstanceState = z.infer<typeof instanceState>
+export type InstanceStatus = z.infer<typeof instanceStatus>
