@@ -1,0 +1,7 @@
+{
+	"extends": ["@netzap/ts-config/node"],
+	"compilerOptions": {
+		"baseUrl": "./",
+		"types": ["vitest/globals"]
+	}
+}

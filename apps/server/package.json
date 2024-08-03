@@ -1,0 +1,23 @@
+{
+  "name": "@netzap/server",
+  "version": "1.0.0",
+  "private": true,
+  "license": "ISC",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@netzap/ts-config": "workspace:^",
+    "@netzap/vitest-config": "workspace:^",
+    "@types/node": "^22.1.0",
+    "type-fest": "^4.23.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "@netzap/contracts": "workspace:^",
+    "bson-objectid": "^2.0.4"
+  }
+}

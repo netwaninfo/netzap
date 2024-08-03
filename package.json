@@ -1,13 +1,18 @@
 {
   "name": "@netwan/netzap",
   "version": "1.0.0",
+  "scripts": {
+    "dev": "turbo run dev"
+  },
   "workspaces": [
     "apps/*",
-    "config/*"
+    "config/*",
+    "packages/**/*"
   ],
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
     "@biomejs/cli-win32-x64": "^1.8.3",
     "turbo": "^2.0.11"
-  }
+  },
+  "packageManager": "pnpm@8.15.4"
 }
