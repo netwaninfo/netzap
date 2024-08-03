@@ -14,6 +14,7 @@
 		"@faker-js/faker": "^8.4.1",
 		"@netzap/ts-config": "workspace:^",
 		"@netzap/vitest-config": "workspace:^",
+		"@types/mime-types": "^2.1.4",
 		"@types/node": "^22.1.0",
 		"type-fest": "^4.23.0",
 		"typescript": "^5.5.4",
@@ -21,6 +22,7 @@
 	},
 	"dependencies": {
 		"@netzap/contracts": "workspace:^",
-		"bson-objectid": "^2.0.4"
+		"bson-objectid": "^2.0.4",
+		"mime-types": "^2.1.35"
 	}
 }

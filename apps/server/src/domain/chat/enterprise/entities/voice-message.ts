@@ -1,19 +1,25 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { SetOptional } from 'type-fest'
 import { Message, type MessageProps } from './message'
+import type { MessageMedia } from './message-media'
 
-export interface TextMessageProps extends MessageProps {
-	type: 'text'
+export interface VoiceMessageProps extends MessageProps {
+	type: 'voice'
+	media: MessageMedia
 }
 
-export class TextMessage extends Message<TextMessageProps> {
+export class VoiceMessage extends Message<VoiceMessageProps> {
 	get type() {
 		return this.props.type
 	}
 
+	get media() {
+		return this.props.media
+	}
+
 	static create(
 		props: SetOptional<
-			TextMessageProps,
+			VoiceMessageProps,
 			| 'type'
 			| 'quotedId'
 			| 'status'
@@ -25,10 +31,10 @@ export class TextMessage extends Message<TextMessageProps> {
 		>,
 		id?: UniqueEntityID,
 	) {
-		return new TextMessage(
+		return new VoiceMessage(
 			{
 				...props,
-				type: 'text',
+				type: 'voice',
 				quotedId: props.quotedId ?? null,
 				status: props.status ?? 'pending',
 				isGif: props.isGif ?? false,

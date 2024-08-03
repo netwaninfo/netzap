@@ -39,4 +39,8 @@ export class WAEntityID extends ValueObject<WAEntityIDProps> {
 
 		return new WAEntityID({ ref, node })
 	}
+
+	static create(props: WAEntityIDProps) {
+		return new WAEntityID(props)
+	}
 }

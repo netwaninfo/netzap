@@ -9,6 +9,7 @@ export interface MessageProps {
 	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 	chatId: UniqueEntityID
+	quotedId: UniqueEntityID | null
 	status: MessageStatus
 	type: MessageType
 	isForwarded: boolean
@@ -16,12 +17,7 @@ export interface MessageProps {
 	isFromDevice: boolean
 	createdAt: Date
 	sentBy: UniqueEntityID | null
-	// body: string | null
-	// media: MessageMedia | null
 	// contacts: Contact[] | null
-	// quoted: Quoted | null
-	// revokedAt: Date | null
-	// revokedBy: AttendantProfile | null
 }
 
 export abstract class Message<
@@ -41,6 +37,10 @@ export abstract class Message<
 
 	get chatId() {
 		return this.props.chatId
+	}
+
+	get quotedId() {
+		return this.props.quotedId
 	}
 
 	get status() {

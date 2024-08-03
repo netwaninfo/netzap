@@ -7,7 +7,7 @@ export const messageType = z.enum([
 	'image',
 	'video',
 	'document',
-	'sticker',
+	// 'sticker',
 	'vcard',
 	'multi_vcard',
 	'revoked',

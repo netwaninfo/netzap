@@ -2,18 +2,23 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { SetOptional } from 'type-fest'
 import { Message, type MessageProps } from './message'
 
-export interface TextMessageProps extends MessageProps {
-	type: 'text'
+export interface UnknownMessageProps extends MessageProps {
+	type: 'unknown'
+	payload: unknown
 }
 
-export class TextMessage extends Message<TextMessageProps> {
+export class UnknownMessage extends Message<UnknownMessageProps> {
 	get type() {
 		return this.props.type
 	}
 
+	get payload() {
+		return this.props.payload
+	}
+
 	static create(
 		props: SetOptional<
-			TextMessageProps,
+			UnknownMessageProps,
 			| 'type'
 			| 'quotedId'
 			| 'status'
@@ -25,10 +30,10 @@ export class TextMessage extends Message<TextMessageProps> {
 		>,
 		id?: UniqueEntityID,
 	) {
-		return new TextMessage(
+		return new UnknownMessage(
 			{
 				...props,
-				type: 'text',
+				type: 'unknown',
 				quotedId: props.quotedId ?? null,
 				status: props.status ?? 'pending',
 				isGif: props.isGif ?? false,
