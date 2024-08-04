@@ -1,5 +1,6 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { SetOptional } from 'type-fest'
 
 export interface ContactInstanceDetailsProps {
 	contactId: UniqueEntityID
@@ -24,7 +25,16 @@ export class ContactInstanceDetails extends Entity<ContactInstanceDetailsProps> 
 		return !this.props.isMyContact
 	}
 
-	static create(props: ContactInstanceDetailsProps, id?: UniqueEntityID) {
-		return new ContactInstanceDetails({ ...props }, id)
+	static create(
+		props: SetOptional<ContactInstanceDetailsProps, 'isMyContact'>,
+		id?: UniqueEntityID,
+	) {
+		return new ContactInstanceDetails(
+			{
+				...props,
+				isMyContact: props.isMyContact ?? false,
+			},
+			id,
+		)
 	}
 }

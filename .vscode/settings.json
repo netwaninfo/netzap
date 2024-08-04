@@ -7,7 +7,7 @@
 	"editor.defaultFormatter": "biomejs.biome",
 	"typescript.preferences.preferTypeOnlyAutoImports": true,
 	"biome.enabled": true,
-	"biome.lspBin": "./node_modules/@biomejs/biome/bin/biome",
+	"biome.lspBin": "./node_modules/@biomejs/bin/biome",
 	"[javascript]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
@@ -16,5 +16,6 @@
 	},
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "biomejs.biome"
-	}
+	},
+	"cSpell.words": ["vcard"]
 }

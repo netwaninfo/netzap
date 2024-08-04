@@ -6,6 +6,7 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 export interface InstanceProps {
 	name: string
+	phone: string
 	qrCode: string | null
 	status: InstanceStatus
 }
@@ -13,6 +14,10 @@ export interface InstanceProps {
 export class Instance extends Entity<InstanceProps> {
 	get name() {
 		return this.props.name
+	}
+
+	get phone() {
+		return this.props.phone
 	}
 
 	get qrCode() {
