@@ -4,12 +4,12 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Chat, type ChatProps } from './chat'
 
 export interface GroupChatProps extends ChatProps {
-	contactId: UniqueEntityID
+	groupId: UniqueEntityID
 }
 
 export class GroupChat extends Chat<GroupChatProps> {
-	get contactId() {
-		return this.props.contactId
+	get groupId() {
+		return this.props.groupId
 	}
 
 	static create(

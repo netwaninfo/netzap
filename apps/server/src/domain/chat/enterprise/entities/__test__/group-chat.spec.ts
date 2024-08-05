@@ -8,7 +8,7 @@ describe('GroupChat', () => {
 	it('should be able to create', () => {
 		const chat = GroupChat.create({
 			unreadCount: faker.number.int({ max: 99 }),
-			contactId: makeUniqueEntityID(),
+			groupId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
 			waId: makeWAEntityID(),
 		})

@@ -1,14 +1,14 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { SetOptional } from 'type-fest'
-import { Message, type MessageProps } from './message'
+import { GroupMessage, type GroupMessageProps } from './group-message'
 import type { MessageMedia } from './message-media'
 
-export interface VoiceMessageProps extends MessageProps {
-	type: 'voice'
+export interface GroupAudioMessageProps extends GroupMessageProps {
+	type: 'audio'
 	media: MessageMedia
 }
 
-export class VoiceMessage extends Message<VoiceMessageProps> {
+export class GroupAudioMessage extends GroupMessage<GroupAudioMessageProps> {
 	get type() {
 		return this.props.type
 	}
@@ -19,11 +19,10 @@ export class VoiceMessage extends Message<VoiceMessageProps> {
 
 	static create(
 		props: SetOptional<
-			VoiceMessageProps,
+			GroupAudioMessageProps,
 			| 'type'
-			| 'quotedId'
+			| 'quoted'
 			| 'status'
-			| 'isGif'
 			| 'isForwarded'
 			| 'isFromDevice'
 			| 'sentBy'
@@ -31,13 +30,12 @@ export class VoiceMessage extends Message<VoiceMessageProps> {
 		>,
 		id?: UniqueEntityID,
 	) {
-		return new VoiceMessage(
+		return new GroupAudioMessage(
 			{
 				...props,
-				type: 'voice',
-				quotedId: props.quotedId ?? null,
+				type: 'audio',
+				quoted: props.quoted ?? null,
 				status: props.status ?? 'pending',
-				isGif: props.isGif ?? false,
 				isForwarded: props.isForwarded ?? false,
 				isFromDevice: props.isFromDevice ?? true,
 				sentBy: props.sentBy ?? null,

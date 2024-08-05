@@ -1,29 +1,28 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { SetOptional } from 'type-fest'
-import { Message, type MessageProps } from './message'
+import { GroupMessage, type GroupMessageProps } from './group-message'
 import type { VCardContact } from './value-objects/v-card-contact'
 
-export interface VCardMessageProps extends MessageProps {
-	type: 'vcard'
-	contact: VCardContact
+export interface GroupMultiVCardMessageProps extends GroupMessageProps {
+	type: 'multi_vcard'
+	contacts: VCardContact[]
 }
 
-export class VCardMessage extends Message<VCardMessageProps> {
+export class GroupMultiVCardMessage extends GroupMessage<GroupMultiVCardMessageProps> {
 	get type() {
 		return this.props.type
 	}
 
-	get contact() {
-		return this.props.contact
+	get contacts() {
+		return this.props.contacts
 	}
 
 	static create(
 		props: SetOptional<
-			VCardMessageProps,
+			GroupMultiVCardMessageProps,
 			| 'type'
-			| 'quotedId'
+			| 'quoted'
 			| 'status'
-			| 'isGif'
 			| 'isForwarded'
 			| 'isFromDevice'
 			| 'sentBy'
@@ -31,13 +30,12 @@ export class VCardMessage extends Message<VCardMessageProps> {
 		>,
 		id?: UniqueEntityID,
 	) {
-		return new VCardMessage(
+		return new GroupMultiVCardMessage(
 			{
 				...props,
-				type: 'vcard',
-				quotedId: props.quotedId ?? null,
+				type: 'multi_vcard',
+				quoted: props.quoted ?? null,
 				status: props.status ?? 'pending',
-				isGif: props.isGif ?? false,
 				isForwarded: props.isForwarded ?? false,
 				isFromDevice: props.isFromDevice ?? true,
 				sentBy: props.sentBy ?? null,

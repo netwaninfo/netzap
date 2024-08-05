@@ -5,7 +5,7 @@ describe('Instance', () => {
 	it('should be able to create', () => {
 		const instance = Instance.create({
 			name: faker.company.name(),
-			phone: faker.phone.imei(),
+			phone: faker.phone.number(),
 		})
 
 		expect(instance).toBeTruthy()
@@ -14,7 +14,7 @@ describe('Instance', () => {
 	it('should be able to set is initialized', () => {
 		const instance = Instance.create({
 			name: faker.company.name(),
-			phone: faker.phone.imei(),
+			phone: faker.phone.number(),
 		})
 
 		instance.initialized()
@@ -24,7 +24,7 @@ describe('Instance', () => {
 	it('should be able to set is authenticated', () => {
 		const instance = Instance.create({
 			name: faker.company.name(),
-			phone: faker.phone.imei(),
+			phone: faker.phone.number(),
 		})
 
 		instance.authenticated()
@@ -34,7 +34,7 @@ describe('Instance', () => {
 	it('should be able to set is failed', () => {
 		const instance = Instance.create({
 			name: faker.company.name(),
-			phone: faker.phone.imei(),
+			phone: faker.phone.number(),
 		})
 
 		instance.failed()
@@ -44,7 +44,7 @@ describe('Instance', () => {
 	it('should be able to set is connected', () => {
 		const instance = Instance.create({
 			name: faker.company.name(),
-			phone: faker.phone.imei(),
+			phone: faker.phone.number(),
 		})
 
 		instance.connected()
@@ -54,7 +54,7 @@ describe('Instance', () => {
 	it('should be able to set is disconnected', () => {
 		const instance = Instance.create({
 			name: faker.company.name(),
-			phone: faker.phone.imei(),
+			phone: faker.phone.number(),
 		})
 
 		instance.disconnected()

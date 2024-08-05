@@ -2,7 +2,9 @@
   "name": "@netwan/netzap",
   "version": "1.0.0",
   "scripts": {
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix"
   },
   "workspaces": [
     "apps/*",

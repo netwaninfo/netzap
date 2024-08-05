@@ -3,11 +3,11 @@ import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-enti
 import { makeWAMessageID } from '@/test/factories/chat/value-objects/make-wa-message-id'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { each } from '@/test/utilities/each'
-import { MultiVCardMessage } from '../multi-v-card-message'
+import { PrivateMultiVCardMessage } from '../private-multi-v-card-message'
 
-describe('MultiVCardMessage', () => {
+describe('PrivateMultiVCardMessage', () => {
 	it('should be able to create', () => {
-		const message = MultiVCardMessage.create({
+		const message = PrivateMultiVCardMessage.create({
 			chatId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
 			waChatId: makeWAEntityID(),

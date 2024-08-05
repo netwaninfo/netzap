@@ -1,14 +1,14 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { SetOptional } from 'type-fest'
-import { Message, type MessageProps } from './message'
+import { GroupMessage, type GroupMessageProps } from './group-message'
 
-export interface RevokedMessageProps extends MessageProps {
+export interface GroupRevokedMessageProps extends GroupMessageProps {
 	type: 'revoked'
 	revokedAt: Date
 	revokedBy: UniqueEntityID | null
 }
 
-export class RevokedMessage extends Message<RevokedMessageProps> {
+export class GroupRevokedMessage extends GroupMessage<GroupRevokedMessageProps> {
 	get type() {
 		return this.props.type
 	}
@@ -23,11 +23,10 @@ export class RevokedMessage extends Message<RevokedMessageProps> {
 
 	static create(
 		props: SetOptional<
-			RevokedMessageProps,
+			GroupRevokedMessageProps,
 			| 'type'
-			| 'quotedId'
+			| 'quoted'
 			| 'status'
-			| 'isGif'
 			| 'isForwarded'
 			| 'isFromDevice'
 			| 'sentBy'
@@ -37,13 +36,12 @@ export class RevokedMessage extends Message<RevokedMessageProps> {
 		>,
 		id?: UniqueEntityID,
 	) {
-		return new RevokedMessage(
+		return new GroupRevokedMessage(
 			{
 				...props,
 				type: 'revoked',
-				quotedId: props.quotedId ?? null,
+				quoted: props.quoted ?? null,
 				status: props.status ?? 'pending',
-				isGif: props.isGif ?? false,
 				isForwarded: props.isForwarded ?? false,
 				isFromDevice: props.isFromDevice ?? true,
 				sentBy: props.sentBy ?? null,

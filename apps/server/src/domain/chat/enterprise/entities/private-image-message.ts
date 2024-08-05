@@ -1,14 +1,14 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { SetOptional } from 'type-fest'
-import { Message, type MessageProps } from './message'
 import type { MessageMedia } from './message-media'
+import { PrivateMessage, type PrivateMessageProps } from './private-message'
 
-export interface ImageMessageProps extends MessageProps {
+export interface PrivateImageMessageProps extends PrivateMessageProps {
 	type: 'image'
 	media: MessageMedia
 }
 
-export class ImageMessage extends Message<ImageMessageProps> {
+export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps> {
 	get type() {
 		return this.props.type
 	}
@@ -19,11 +19,10 @@ export class ImageMessage extends Message<ImageMessageProps> {
 
 	static create(
 		props: SetOptional<
-			ImageMessageProps,
+			PrivateImageMessageProps,
 			| 'type'
-			| 'quotedId'
+			| 'quoted'
 			| 'status'
-			| 'isGif'
 			| 'isForwarded'
 			| 'isFromDevice'
 			| 'sentBy'
@@ -31,13 +30,12 @@ export class ImageMessage extends Message<ImageMessageProps> {
 		>,
 		id?: UniqueEntityID,
 	) {
-		return new ImageMessage(
+		return new PrivateImageMessage(
 			{
 				...props,
 				type: 'image',
-				quotedId: props.quotedId ?? null,
+				quoted: props.quoted ?? null,
 				status: props.status ?? 'pending',
-				isGif: props.isGif ?? false,
 				isForwarded: props.isForwarded ?? false,
 				isFromDevice: props.isFromDevice ?? true,
 				sentBy: props.sentBy ?? null,

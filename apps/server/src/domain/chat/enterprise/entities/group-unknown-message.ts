@@ -1,13 +1,13 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { SetOptional } from 'type-fest'
-import { Message, type MessageProps } from './message'
+import { GroupMessage, type GroupMessageProps } from './group-message'
 
-export interface UnknownMessageProps extends MessageProps {
+export interface GroupUnknownMessageProps extends GroupMessageProps {
 	type: 'unknown'
 	payload: unknown
 }
 
-export class UnknownMessage extends Message<UnknownMessageProps> {
+export class GroupUnknownMessage extends GroupMessage<GroupUnknownMessageProps> {
 	get type() {
 		return this.props.type
 	}
@@ -18,11 +18,10 @@ export class UnknownMessage extends Message<UnknownMessageProps> {
 
 	static create(
 		props: SetOptional<
-			UnknownMessageProps,
+			GroupUnknownMessageProps,
 			| 'type'
-			| 'quotedId'
+			| 'quoted'
 			| 'status'
-			| 'isGif'
 			| 'isForwarded'
 			| 'isFromDevice'
 			| 'sentBy'
@@ -30,13 +29,12 @@ export class UnknownMessage extends Message<UnknownMessageProps> {
 		>,
 		id?: UniqueEntityID,
 	) {
-		return new UnknownMessage(
+		return new GroupUnknownMessage(
 			{
 				...props,
 				type: 'unknown',
-				quotedId: props.quotedId ?? null,
+				quoted: props.quoted ?? null,
 				status: props.status ?? 'pending',
-				isGif: props.isGif ?? false,
 				isForwarded: props.isForwarded ?? false,
 				isFromDevice: props.isFromDevice ?? true,
 				sentBy: props.sentBy ?? null,

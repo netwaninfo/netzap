@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { Group } from '../group'
 
 describe('Group', () => {
@@ -8,6 +9,7 @@ describe('Group', () => {
 		const group = Group.create({
 			name: faker.person.firstName(),
 			waId: makeWAEntityID(),
+			instanceId: makeUniqueEntityID(),
 		})
 
 		expect(group).toBeTruthy()
