@@ -4,7 +4,7 @@ export type WAEntityNode = 'c.us' | 'g.us' | 'lid'
 
 export interface WAEntityIDProps {
 	node: WAEntityNode
-	ref: string
+	number: string
 }
 
 export class WAEntityID extends ValueObject<WAEntityIDProps> {
@@ -12,8 +12,8 @@ export class WAEntityID extends ValueObject<WAEntityIDProps> {
 		return this.props.node
 	}
 
-	get ref() {
-		return this.props.ref
+	get number() {
+		return this.props.number
 	}
 
 	/**
@@ -21,7 +21,7 @@ export class WAEntityID extends ValueObject<WAEntityIDProps> {
 	 * @example '5511985637214@c.us'
 	 */
 	override toString() {
-		return `${this.ref}@${this.node}`
+		return `${this.number}@${this.node}`
 	}
 
 	override equals(id: WAEntityID) {
@@ -29,15 +29,15 @@ export class WAEntityID extends ValueObject<WAEntityIDProps> {
 	}
 
 	static createFromString(value: string) {
-		const [waRef, waNode] = value.split('@')
-		if (!waRef || !waNode) {
+		const [waNumber, waNode] = value.split('@')
+		if (!waNumber || !waNode) {
 			throw new Error(`Invalid value format for "${value}"`)
 		}
 
-		const ref = waRef.replaceAll(':', '').trim()
+		const number = waNumber.replaceAll(':', '').trim()
 		const node = waNode as WAEntityNode
 
-		return new WAEntityID({ ref, node })
+		return new WAEntityID({ number, node })
 	}
 
 	static create(props: WAEntityIDProps) {

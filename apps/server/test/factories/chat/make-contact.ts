@@ -3,7 +3,7 @@ import {
 	Contact,
 	type ContactProps,
 } from '@/domain/chat/enterprise/entities/contact'
-import { faker } from '@faker-js/faker'
+import { faker } from '@/test/lib/faker'
 import { makeUniqueEntityID } from '../make-unique-entity-id'
 import { makeWAEntityID } from './value-objects/make-wa-entity-id'
 

@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker'
+import { faker } from '@/test/lib/faker'
 
 import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
 import { VCardContact } from '../v-card-contact'

@@ -16,7 +16,7 @@ export interface MessageProps {
 	status: MessageStatus
 	type: MessageType
 	isForwarded: boolean
-	isFromDevice: boolean
+	isFromMe: boolean
 	createdAt: Date
 	sentBy: Attendant | null
 }
@@ -48,8 +48,8 @@ export abstract class Message<
 		return this.props.isForwarded
 	}
 
-	get isFromDevice() {
-		return this.props.isFromDevice
+	get isFromMe() {
+		return this.props.isFromMe
 	}
 
 	get createdAt() {

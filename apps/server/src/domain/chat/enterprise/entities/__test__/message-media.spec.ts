@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker'
+import { faker } from '@/test/lib/faker'
 
 import { makeMimeType } from '@/test/factories/chat/value-objects/make-mime-type'
 import { MessageMedia } from '../message-media'
