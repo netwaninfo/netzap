@@ -22,8 +22,12 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
 		return this.props.unreadCount
 	}
 
-	changeUnreadCount(unreadCount: number) {
-		this.set({ unreadCount })
+	read() {
+		this.set({ unreadCount: 0 })
+	}
+
+	unread() {
+		this.set({ unreadCount: -1 })
 	}
 
 	get lastMessageAt() {
