@@ -1,9 +1,10 @@
 import { z } from 'zod'
 
 export const instanceStatus = z.enum([
+	'stopped',
+	'starting',
 	'initialized',
 	'failed',
-	'authenticated',
 	'connected',
 	'disconnected',
 ])

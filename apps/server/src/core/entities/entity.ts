@@ -9,7 +9,7 @@ export abstract class Entity<Props> {
 		this._id = id ?? UniqueEntityID.create()
 	}
 
-	protected set<T = Partial<Props>>(newProps: T) {
+	protected set<T extends Partial<Props>>(newProps: T) {
 		this.props = Object.assign({}, this.props, newProps)
 	}
 

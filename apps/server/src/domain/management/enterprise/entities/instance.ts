@@ -28,24 +28,28 @@ export class Instance extends Entity<InstanceProps> {
 		return this.props.status
 	}
 
-	initialized() {
-		this.set({ status: 'initialized' })
+	stopped() {
+		this.set({ status: 'stopped', qrCode: null })
 	}
 
-	authenticated() {
-		this.set({ status: 'authenticated' })
+	starting() {
+		this.set({ status: 'starting', qrCode: null })
+	}
+
+	initialized(qrCode: string) {
+		this.set({ status: 'initialized', qrCode })
 	}
 
 	failed() {
-		this.set({ status: 'failed' })
+		this.set({ status: 'failed', qrCode: null })
 	}
 
 	connected() {
-		this.set({ status: 'connected' })
+		this.set({ status: 'connected', qrCode: null })
 	}
 
 	disconnected() {
-		this.set({ status: 'disconnected' })
+		this.set({ status: 'disconnected', qrCode: null })
 	}
 
 	static create(
@@ -56,7 +60,7 @@ export class Instance extends Entity<InstanceProps> {
 			{
 				...props,
 				qrCode: props.qrCode ?? null,
-				status: props.status ?? 'disconnected',
+				status: props.status ?? 'stopped',
 			},
 			id,
 		)

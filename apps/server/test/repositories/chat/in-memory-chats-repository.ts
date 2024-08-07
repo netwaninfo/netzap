@@ -24,6 +24,10 @@ export class InMemoryChatsRepository implements ChatsRepository {
 	}
 
 	async save(chat: Chat): Promise<void> {
-		this.items.push(chat)
+		const itemIndex = this.items.findIndex(
+			(item) => item.id.toString() === chat.id.toString(),
+		)
+
+		this.items[itemIndex] = chat
 	}
 }

@@ -29,4 +29,8 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
 	get lastMessageAt() {
 		return this.props.lastMessageAt
 	}
+
+	protected override set<T extends Partial<ChatProps>>(newProps: T) {
+		this.props = Object.assign({}, this.props, newProps)
+	}
 }

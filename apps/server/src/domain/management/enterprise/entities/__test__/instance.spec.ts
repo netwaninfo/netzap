@@ -11,24 +11,37 @@ describe('Instance', () => {
 		expect(instance).toBeTruthy()
 	})
 
+	it('should be able to set is stopped', () => {
+		const instance = Instance.create({
+			name: faker.company.name(),
+			phone: faker.phone.number(),
+		})
+
+		instance.stopped()
+		expect(instance.status).toBe('stopped')
+	})
+
+	it('should be able to set is starting', () => {
+		const instance = Instance.create({
+			name: faker.company.name(),
+			phone: faker.phone.number(),
+		})
+
+		instance.starting()
+		expect(instance.status).toBe('starting')
+	})
+
 	it('should be able to set is initialized', () => {
 		const instance = Instance.create({
 			name: faker.company.name(),
 			phone: faker.phone.number(),
 		})
 
-		instance.initialized()
+		const qrCode = faker.string.hexadecimal()
+		instance.initialized(qrCode)
+
 		expect(instance.status).toBe('initialized')
-	})
-
-	it('should be able to set is authenticated', () => {
-		const instance = Instance.create({
-			name: faker.company.name(),
-			phone: faker.phone.number(),
-		})
-
-		instance.authenticated()
-		expect(instance.status).toBe('authenticated')
+		expect(instance.qrCode).toBe(qrCode)
 	})
 
 	it('should be able to set is failed', () => {
