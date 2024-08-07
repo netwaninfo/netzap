@@ -9,12 +9,12 @@ export abstract class Entity<Props> {
 		this._id = id ?? UniqueEntityID.create()
 	}
 
-	get id() {
-		return this._id
+	protected set<T = Partial<Props>>(newProps: T) {
+		this.props = Object.assign({}, this.props, newProps)
 	}
 
-	protected set(newProps: Partial<Props>) {
-		this.props = Object.assign({}, this.props, newProps)
+	get id() {
+		return this._id
 	}
 
 	equals(entity: Entity<unknown>) {

@@ -10,7 +10,7 @@ describe('PrivateVoiceMessage', () => {
 			chatId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
 			waChatId: makeWAEntityID(),
-			waId: makeWAMessageID(),
+			waMessageId: makeWAMessageID(),
 			media: makeMessageMedia(),
 		})
 

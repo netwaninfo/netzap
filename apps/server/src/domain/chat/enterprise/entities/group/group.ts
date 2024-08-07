@@ -5,15 +5,15 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { WAEntityID } from '../value-objects/wa-entity-id'
 
 export interface GroupProps {
-	waId: WAEntityID
+	waGroupId: WAEntityID
 	instanceId: UniqueEntityID
 	name: string
 	imageUrl: string | null
 }
 
 export class Group extends Entity<GroupProps> {
-	get waId() {
-		return this.props.waId
+	get waGroupId() {
+		return this.props.waGroupId
 	}
 
 	get instanceId() {

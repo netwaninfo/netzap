@@ -10,7 +10,7 @@ describe('GroupTextMessage', () => {
 			chatId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
 			waChatId: makeWAEntityID(),
-			waId: makeWAMessageID(),
+			waMessageId: makeWAMessageID(),
 			author: makeContact(),
 		})
 

@@ -11,7 +11,7 @@ describe('PrivateMultiVCardMessage', () => {
 			chatId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
 			waChatId: makeWAEntityID(),
-			waId: makeWAMessageID(),
+			waMessageId: makeWAMessageID(),
 			contacts: each().map(() => makeVCardContact()),
 		})
 

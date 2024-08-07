@@ -12,7 +12,7 @@ export class WAGroupContact extends WAContact<WAGroupContactProps> {
 	}
 
 	get ref() {
-		return `${this.id.toString()}/${this.props}`
+		return `${this.instanceId.toString()}/${this.id.toString()}/${this.props.isGroup}`
 	}
 
 	static create(

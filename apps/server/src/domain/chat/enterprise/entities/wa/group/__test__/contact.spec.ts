@@ -1,4 +1,5 @@
 import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { faker } from '@/test/lib/faker'
 import { WAGroupContact } from '../contact'
 
@@ -12,6 +13,7 @@ describe('WAGroupContact', () => {
 				number: faker.helpers.fromRegExp(/[0-9]{13}/),
 				imageUrl: faker.internet.url(),
 				formattedNumber: faker.phone.number(),
+				instanceId: makeUniqueEntityID(),
 			},
 			makeWAEntityID(),
 		)

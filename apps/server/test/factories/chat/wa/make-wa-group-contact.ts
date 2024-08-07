@@ -4,6 +4,7 @@ import {
 	type WAGroupContactProps,
 } from '@/domain/chat/enterprise/entities/wa/group/contact'
 import { faker } from '@/test/lib/faker'
+import { makeUniqueEntityID } from '../../make-unique-entity-id'
 import { makeWAEntityID } from '../value-objects/make-wa-entity-id'
 
 export const makeWAGroupContact = (
@@ -12,6 +13,7 @@ export const makeWAGroupContact = (
 ) => {
 	return WAGroupContact.create(
 		{
+			instanceId: makeUniqueEntityID(),
 			name: faker.person.fullName(),
 			shortName: faker.person.firstName(),
 			pushName: faker.person.lastName(),

@@ -1,4 +1,5 @@
 import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { faker } from '@/test/lib/faker'
 import { WAPrivateContact } from '../contact'
 
@@ -16,6 +17,7 @@ describe('WAPrivateContact', () => {
 				isEnterprise: faker.datatype.boolean(),
 				isMyContact: faker.datatype.boolean(),
 				isWAContact: faker.datatype.boolean(),
+				instanceId: makeUniqueEntityID(),
 			},
 			makeWAEntityID(),
 		)

@@ -8,7 +8,7 @@ describe('Group', () => {
 	it('should be able to create', () => {
 		const group = Group.create({
 			name: faker.person.firstName(),
-			waId: makeWAEntityID(),
+			waGroupId: makeWAEntityID(),
 			instanceId: makeUniqueEntityID(),
 		})
 

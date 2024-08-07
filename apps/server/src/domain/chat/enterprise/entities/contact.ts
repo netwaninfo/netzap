@@ -5,7 +5,7 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 
 export interface ContactProps {
-	waId: WAEntityID
+	waContactId: WAEntityID
 	instanceId: UniqueEntityID
 	name: string
 	phone: string
@@ -16,8 +16,8 @@ export interface ContactProps {
 }
 
 export class Contact extends Entity<ContactProps> {
-	get waId() {
-		return this.props.waId
+	get waContactId() {
+		return this.props.waContactId
 	}
 
 	get instanceId() {

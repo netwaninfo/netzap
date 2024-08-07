@@ -1,4 +1,7 @@
-type BaseIdentifier = { equals(id: unknown): boolean }
+type BaseIdentifier = {
+	equals(id: unknown): boolean
+	toString(): string
+}
 
 export abstract class WAEntity<Props, Identifier extends BaseIdentifier> {
 	private _id: Identifier
@@ -9,12 +12,12 @@ export abstract class WAEntity<Props, Identifier extends BaseIdentifier> {
 		this._id = id
 	}
 
-	get id() {
-		return this._id
+	protected set<T = Partial<Props>>(newProps: T) {
+		this.props = Object.assign({}, this.props, newProps)
 	}
 
-	protected set(newProps: Partial<Props>) {
-		this.props = Object.assign({}, this.props, newProps)
+	get id() {
+		return this._id
 	}
 
 	equals(entity: WAEntity<unknown, BaseIdentifier>) {

@@ -1,7 +1,9 @@
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { WAEntity } from '@/core/entities/wa-entity'
 import type { WAEntityID } from '../value-objects/wa-entity-id'
 
 export interface WAContactProps {
+	instanceId: UniqueEntityID
 	name: string | null
 	pushName: string | null
 	shortName: string | null
@@ -15,6 +17,10 @@ export abstract class WAContact<Props extends WAContactProps> extends WAEntity<
 	Props,
 	WAEntityID
 > {
+	get instanceId() {
+		return this.props.instanceId
+	}
+
 	get name() {
 		return this.props.name
 	}
@@ -46,5 +52,9 @@ export abstract class WAContact<Props extends WAContactProps> extends WAEntity<
 
 	get imageUrl() {
 		return this.props.imageUrl
+	}
+
+	get isMe() {
+		return this.instanceId.equals(UniqueEntityID.create(this.id.toString()))
 	}
 }

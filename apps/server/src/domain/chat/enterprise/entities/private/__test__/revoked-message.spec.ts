@@ -9,7 +9,7 @@ describe('PrivateRevokedMessage', () => {
 			chatId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
 			waChatId: makeWAEntityID(),
-			waId: makeWAMessageID(),
+			waMessageId: makeWAMessageID(),
 		})
 
 		expect(message).toBeTruthy()

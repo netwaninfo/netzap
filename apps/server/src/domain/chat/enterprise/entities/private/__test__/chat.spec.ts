@@ -10,7 +10,7 @@ describe('PrivateChat', () => {
 			unreadCount: faker.number.int({ max: 99 }),
 			contactId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
-			waId: makeWAEntityID(),
+			waChatId: makeWAEntityID(),
 		})
 
 		expect(chat).toBeTruthy()

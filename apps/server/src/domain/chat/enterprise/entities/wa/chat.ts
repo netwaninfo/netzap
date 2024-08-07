@@ -3,21 +3,20 @@ import { WAEntity } from '@/core/entities/wa-entity'
 import type { WAEntityID } from '../value-objects/wa-entity-id'
 
 export interface WAChatProps {
-	deviceId: UniqueEntityID
+	instanceId: UniqueEntityID
 	name: string
 	timestamp: number
 	unreadCount: number
 	imageUrl: string | null
 	isGroup: boolean
-	// lastMessage: WAMessage | null
 }
 
 export abstract class WAChat<Props extends WAChatProps> extends WAEntity<
 	Props,
 	WAEntityID
 > {
-	get deviceId() {
-		return this.props.deviceId
+	get instanceId() {
+		return this.props.instanceId
 	}
 
 	get name() {
@@ -36,7 +35,7 @@ export abstract class WAChat<Props extends WAChatProps> extends WAEntity<
 		return this.props.imageUrl
 	}
 
-	get reference() {
-		return `${this.deviceId.toString()}/${this.id.toString()}`
+	get ref() {
+		return `${this.instanceId.toString()}/${this.id.toString()}`
 	}
 }

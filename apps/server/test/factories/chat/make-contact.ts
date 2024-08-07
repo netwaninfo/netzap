@@ -14,7 +14,7 @@ export function makeContact(
 	return Contact.create(
 		{
 			name: faker.person.firstName(),
-			waId: makeWAEntityID(),
+			waContactId: makeWAEntityID(),
 			phone: faker.phone.number(),
 			instanceId: makeUniqueEntityID(),
 			...override,

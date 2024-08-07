@@ -11,7 +11,7 @@ describe('GroupVideoMessage', () => {
 			chatId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
 			waChatId: makeWAEntityID(),
-			waId: makeWAMessageID(),
+			waMessageId: makeWAMessageID(),
 			media: makeMessageMedia(),
 			author: makeContact(),
 		})

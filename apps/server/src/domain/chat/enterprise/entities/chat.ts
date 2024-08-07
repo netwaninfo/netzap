@@ -3,15 +3,15 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 
 export interface ChatProps {
-	waId: WAEntityID
+	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 	unreadCount: number
 	lastMessageAt: Date | null
 }
 
 export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
-	get waId() {
-		return this.props.waId
+	get waChatId() {
+		return this.props.waChatId
 	}
 
 	get instanceId() {
@@ -20,6 +20,10 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
 
 	get unreadCount() {
 		return this.props.unreadCount
+	}
+
+	changeUnreadCount(unreadCount: number) {
+		this.set({ unreadCount })
 	}
 
 	get lastMessageAt() {

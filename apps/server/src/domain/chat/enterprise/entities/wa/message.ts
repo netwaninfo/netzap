@@ -9,7 +9,7 @@ import type { WAMessageMedia } from './value-objects/message-media'
 
 export interface WAMessageProps {
 	chatId: WAEntityID
-	deviceId: UniqueEntityID
+	instanceId: UniqueEntityID
 	ack: MessageStatus
 	type: MessageType
 	body: string | null
@@ -37,8 +37,8 @@ export abstract class WAMessage<Props extends WAMessageProps> extends WAEntity<
 		return this.props.chatId
 	}
 
-	get deviceId() {
-		return this.props.deviceId
+	get instanceId() {
+		return this.props.instanceId
 	}
 
 	get ack() {
@@ -82,6 +82,6 @@ export abstract class WAMessage<Props extends WAMessageProps> extends WAEntity<
 	}
 
 	get ref() {
-		return `${this.deviceId.toString()}/${this.chatId.toString()}/${this.id.toString()}`
+		return `${this.instanceId.toString()}/${this.chatId.toString()}/${this.id.toString()}`
 	}
 }

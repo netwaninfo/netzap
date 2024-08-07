@@ -14,7 +14,7 @@ describe('WAPrivateChat', () => {
 				unreadCount: faker.number.int({ max: 99 }),
 				imageUrl: faker.internet.url(),
 				contact: makeWAPrivateContact(),
-				deviceId: makeUniqueEntityID(),
+				instanceId: makeUniqueEntityID(),
 			},
 			makeWAEntityID(),
 		)

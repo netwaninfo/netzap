@@ -9,7 +9,7 @@ describe('Contact', () => {
 		const contact = Contact.create({
 			name: faker.person.firstName(),
 			instanceId: makeUniqueEntityID(),
-			waId: makeWAEntityID(),
+			waContactId: makeWAEntityID(),
 			phone: faker.phone.number(),
 		})
 

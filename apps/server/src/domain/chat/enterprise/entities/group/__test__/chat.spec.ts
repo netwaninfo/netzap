@@ -10,7 +10,7 @@ describe('GroupChat', () => {
 			unreadCount: faker.number.int({ max: 99 }),
 			groupId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
-			waId: makeWAEntityID(),
+			waChatId: makeWAEntityID(),
 		})
 
 		expect(chat).toBeTruthy()

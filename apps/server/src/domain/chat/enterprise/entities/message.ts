@@ -8,7 +8,7 @@ import type { WAMessageID } from './value-objects/wa-message-id'
 import type { Message as QuotedMessage } from '../types/message'
 
 export interface MessageProps {
-	waId: WAMessageID
+	waMessageId: WAMessageID
 	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 	chatId: UniqueEntityID
@@ -24,8 +24,8 @@ export interface MessageProps {
 export abstract class Message<
 	Props extends MessageProps,
 > extends Entity<Props> {
-	get waId() {
-		return this.props.waId
+	get waMessageId() {
+		return this.props.waMessageId
 	}
 
 	get waChatId() {

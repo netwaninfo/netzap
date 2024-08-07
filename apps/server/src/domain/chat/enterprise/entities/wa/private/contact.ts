@@ -41,7 +41,7 @@ export class WAPrivateContact extends WAContact<WAPrivateContactProps> {
 	}
 
 	get ref() {
-		return `${this.id.toString()}/${this.props}`
+		return `${this.instanceId.toString()}/${this.id.toString()}/${this.props.isGroup}`
 	}
 
 	static create(

@@ -11,7 +11,7 @@ describe('GroupVCardMessage', () => {
 			chatId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
 			waChatId: makeWAEntityID(),
-			waId: makeWAMessageID(),
+			waMessageId: makeWAMessageID(),
 			contact: makeVCardContact(),
 			author: makeContact(),
 		})

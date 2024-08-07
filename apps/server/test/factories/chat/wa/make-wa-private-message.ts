@@ -17,7 +17,7 @@ export const makeWAPrivateMessage = (
 			ack: 'pending',
 			body: faker.lorem.paragraph(),
 			chatId: makeWAEntityID(),
-			deviceId: makeUniqueEntityID(),
+			instanceId: makeUniqueEntityID(),
 			isForwarded: faker.datatype.boolean(),
 			isFromMe: faker.datatype.boolean(),
 			timestamp: Date.now(),
