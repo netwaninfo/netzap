@@ -2,14 +2,14 @@ import { makeContact } from '@/test/factories/chat/make-contact'
 import { makeWAPrivateChat } from '@/test/factories/chat/wa/make-wa-private-chat'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
-import { CreateContactFromWAContact } from '../../contact/create-contact-from-wa-contact-use-case'
+import { CreateContactFromWAContactUseCase } from '../../contact/create-contact-from-wa-contact-use-case'
 import { CreatePrivateChatFromWAChatUseCase } from '../create-private-chat-from-wa-chat-use-case'
 
 describe('CreatePrivateChatFromWAChatUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 
-	let createContactFromWAContact: CreateContactFromWAContact
+	let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
 
 	let sut: CreatePrivateChatFromWAChatUseCase
 
@@ -17,14 +17,14 @@ describe('CreatePrivateChatFromWAChatUseCase', () => {
 		chatsRepository = new InMemoryChatsRepository()
 		contactsRepository = new InMemoryContactsRepository()
 
-		createContactFromWAContact = new CreateContactFromWAContact(
+		createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
 			contactsRepository,
 		)
 
 		sut = new CreatePrivateChatFromWAChatUseCase(
 			chatsRepository,
 			contactsRepository,
-			createContactFromWAContact,
+			createContactFromWAContactUseCase,
 		)
 	})
 

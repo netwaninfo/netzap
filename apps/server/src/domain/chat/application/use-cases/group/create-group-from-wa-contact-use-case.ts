@@ -4,23 +4,23 @@ import type { WAGroupContact } from '@/domain/chat/enterprise/entities/wa/group/
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { GroupsRepository } from '../../repositories/groups-repository'
 
-interface CreateGroupFromWAContactRequest {
+interface CreateGroupFromWAContactUseCaseRequest {
 	waContact: WAGroupContact
 }
 
-type CreateGroupFromWAContactResponse = Either<
+type CreateGroupFromWAContactUseCaseResponse = Either<
 	ResourceAlreadyExistsError,
 	{
 		group: Group
 	}
 >
 
-export class CreateGroupFromWAContact {
+export class CreateGroupFromWAContactUseCase {
 	constructor(private groupsRepository: GroupsRepository) {}
 
 	async execute(
-		request: CreateGroupFromWAContactRequest,
-	): Promise<CreateGroupFromWAContactResponse> {
+		request: CreateGroupFromWAContactUseCaseRequest,
+	): Promise<CreateGroupFromWAContactUseCaseResponse> {
 		const { waContact } = request
 
 		const someGroup =

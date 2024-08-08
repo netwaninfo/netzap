@@ -5,7 +5,7 @@ import type { Chat } from '@/domain/chat/enterprise/types/chat'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { GroupsRepository } from '../../repositories/groups-repository'
-import type { CreateGroupFromWAContact } from '../group/create-group-from-wa-contact-use-case'
+import type { CreateGroupFromWAContactUseCase } from '../group/create-group-from-wa-contact-use-case'
 
 interface CreateGroupChatFromWAChatUseCaseRequest {
 	waChat: WAGroupChat
@@ -22,7 +22,7 @@ export class CreateGroupChatFromWAChatUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private groupsRepository: GroupsRepository,
-		private createGroupFromWAContact: CreateGroupFromWAContact,
+		private createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase,
 	) {}
 
 	async execute(
@@ -46,7 +46,7 @@ export class CreateGroupChatFromWAChatUseCase {
 		})
 
 		if (!group) {
-			const result = await this.createGroupFromWAContact.execute({
+			const result = await this.createGroupFromWAContactUseCase.execute({
 				waContact: waChat.contact,
 			})
 

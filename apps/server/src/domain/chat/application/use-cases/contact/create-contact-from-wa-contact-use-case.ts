@@ -4,23 +4,23 @@ import type { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/priv
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ContactsRepository } from '../../repositories/contacts-repository'
 
-interface CreateContactFromWAContactRequest {
+interface CreateContactFromWAContactUseCaseRequest {
 	waContact: WAPrivateContact
 }
 
-type CreateContactFromWAContactResponse = Either<
+type CreateContactFromWAContactUseCaseResponse = Either<
 	ResourceAlreadyExistsError,
 	{
 		contact: Contact
 	}
 >
 
-export class CreateContactFromWAContact {
+export class CreateContactFromWAContactUseCase {
 	constructor(private contactsRepository: ContactsRepository) {}
 
 	async execute(
-		request: CreateContactFromWAContactRequest,
-	): Promise<CreateContactFromWAContactResponse> {
+		request: CreateContactFromWAContactUseCaseRequest,
+	): Promise<CreateContactFromWAContactUseCaseResponse> {
 		const { waContact } = request
 
 		const someContact =

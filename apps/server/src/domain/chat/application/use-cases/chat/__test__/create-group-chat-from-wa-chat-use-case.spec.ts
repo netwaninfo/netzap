@@ -2,14 +2,14 @@ import { makeGroup } from '@/test/factories/chat/make-group'
 import { makeWAGroupChat } from '@/test/factories/chat/wa/make-wa-group-chat'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-groups-repository'
-import { CreateGroupFromWAContact } from '../../group/create-group-from-wa-contact-use-case'
+import { CreateGroupFromWAContactUseCase } from '../../group/create-group-from-wa-contact-use-case'
 import { CreateGroupChatFromWAChatUseCase } from '../create-group-chat-from-wa-chat-use-case'
 
 describe('CreateGroupChatFromWAChatUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let groupsRepository: InMemoryGroupsRepository
 
-	let createGroupFromWAContact: CreateGroupFromWAContact
+	let createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase
 
 	let sut: CreateGroupChatFromWAChatUseCase
 
@@ -17,12 +17,14 @@ describe('CreateGroupChatFromWAChatUseCase', () => {
 		chatsRepository = new InMemoryChatsRepository()
 		groupsRepository = new InMemoryGroupsRepository()
 
-		createGroupFromWAContact = new CreateGroupFromWAContact(groupsRepository)
+		createGroupFromWAContactUseCase = new CreateGroupFromWAContactUseCase(
+			groupsRepository,
+		)
 
 		sut = new CreateGroupChatFromWAChatUseCase(
 			chatsRepository,
 			groupsRepository,
-			createGroupFromWAContact,
+			createGroupFromWAContactUseCase,
 		)
 	})
 

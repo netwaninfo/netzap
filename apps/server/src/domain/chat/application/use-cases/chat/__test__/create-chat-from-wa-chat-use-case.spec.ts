@@ -5,8 +5,8 @@ import { makeWAPrivateChat } from '@/test/factories/chat/wa/make-wa-private-chat
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-groups-repository'
-import { CreateContactFromWAContact } from '../../contact/create-contact-from-wa-contact-use-case'
-import { CreateGroupFromWAContact } from '../../group/create-group-from-wa-contact-use-case'
+import { CreateContactFromWAContactUseCase } from '../../contact/create-contact-from-wa-contact-use-case'
+import { CreateGroupFromWAContactUseCase } from '../../group/create-group-from-wa-contact-use-case'
 import { CreateChatFromWAChatUseCase } from '../create-chat-from-wa-chat-use-case'
 import { CreateGroupChatFromWAChatUseCase } from '../create-group-chat-from-wa-chat-use-case'
 import { CreatePrivateChatFromWAChatUseCase } from '../create-private-chat-from-wa-chat-use-case'
@@ -15,13 +15,13 @@ describe('CreateChatFromWAChatUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let groupsRepository: InMemoryGroupsRepository
 
-	let createGroupFromWAContact: CreateGroupFromWAContact
+	let createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase
 
 	let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
 
 	let contactsRepository: InMemoryContactsRepository
 
-	let createContactFromWAContact: CreateContactFromWAContact
+	let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
 
 	let createPrivateChatFromWAChatUseCase: CreatePrivateChatFromWAChatUseCase
 
@@ -31,24 +31,26 @@ describe('CreateChatFromWAChatUseCase', () => {
 		chatsRepository = new InMemoryChatsRepository()
 		groupsRepository = new InMemoryGroupsRepository()
 
-		createGroupFromWAContact = new CreateGroupFromWAContact(groupsRepository)
+		createGroupFromWAContactUseCase = new CreateGroupFromWAContactUseCase(
+			groupsRepository,
+		)
 
 		createGroupChatFromWAChatUseCase = new CreateGroupChatFromWAChatUseCase(
 			chatsRepository,
 			groupsRepository,
-			createGroupFromWAContact,
+			createGroupFromWAContactUseCase,
 		)
 
 		contactsRepository = new InMemoryContactsRepository()
 
-		createContactFromWAContact = new CreateContactFromWAContact(
+		createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
 			contactsRepository,
 		)
 
 		createPrivateChatFromWAChatUseCase = new CreatePrivateChatFromWAChatUseCase(
 			chatsRepository,
 			contactsRepository,
-			createContactFromWAContact,
+			createContactFromWAContactUseCase,
 		)
 
 		sut = new CreateChatFromWAChatUseCase(

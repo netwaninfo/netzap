@@ -1,16 +1,16 @@
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
-import { CreateContactFromWAContact } from '../create-contact-from-wa-contact-use-case'
+import { CreateContactFromWAContactUseCase } from '../create-contact-from-wa-contact-use-case'
 
-describe('CreateContactFromWAContact', () => {
+describe('CreateContactFromWAContactUseCase', () => {
 	let contactsRepository: InMemoryContactsRepository
 
-	let sut: CreateContactFromWAContact
+	let sut: CreateContactFromWAContactUseCase
 
 	beforeEach(() => {
 		contactsRepository = new InMemoryContactsRepository()
 
-		sut = new CreateContactFromWAContact(contactsRepository)
+		sut = new CreateContactFromWAContactUseCase(contactsRepository)
 	})
 
 	it('should be able to create contact from wa contact', async () => {
