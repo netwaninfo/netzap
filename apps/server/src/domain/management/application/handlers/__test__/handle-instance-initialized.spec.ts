@@ -20,12 +20,12 @@ describe('HandleInstanceInitialized', () => {
 		instancesRepository.items.push(makeInstance({ qrCode: null }, instanceId))
 
 		const qrCode = faker.string.hexadecimal()
-		const result = await sut.execute({ instanceId, qrCode })
+		const response = await sut.execute({ instanceId, qrCode })
 
-		expect(result.isSuccess()).toBe(true)
-		if (result.isFailure()) return
+		expect(response.isSuccess()).toBe(true)
+		if (response.isFailure()) return
 
-		const { instance } = result.value
+		const { instance } = response.value
 		expect(instance.qrCode).toBe(qrCode)
 	})
 })

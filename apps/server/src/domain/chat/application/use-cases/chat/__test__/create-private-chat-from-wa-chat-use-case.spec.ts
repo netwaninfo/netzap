@@ -31,9 +31,9 @@ describe('CreatePrivateChatFromWAChatUseCase', () => {
 	it('should be able to create chat from wa chat', async () => {
 		const waChat = makeWAPrivateChat()
 
-		const result = await sut.execute({ waChat })
+		const response = await sut.execute({ waChat })
 
-		expect(result.isSuccess()).toBe(true)
+		expect(response.isSuccess()).toBe(true)
 		expect(chatsRepository.items).toHaveLength(1)
 		expect(contactsRepository.items).toHaveLength(1)
 	})
@@ -47,9 +47,9 @@ describe('CreatePrivateChatFromWAChatUseCase', () => {
 
 		contactsRepository.items.push(contact)
 
-		const result = await sut.execute({ waChat })
+		const response = await sut.execute({ waChat })
 
-		expect(result.isSuccess()).toBe(true)
+		expect(response.isSuccess()).toBe(true)
 		expect(chatsRepository.items).toHaveLength(1)
 		expect(contactsRepository.items).toHaveLength(1)
 	})

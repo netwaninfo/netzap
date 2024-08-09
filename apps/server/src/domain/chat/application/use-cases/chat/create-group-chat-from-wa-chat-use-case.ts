@@ -46,12 +46,12 @@ export class CreateGroupChatFromWAChatUseCase {
 		})
 
 		if (!group) {
-			const result = await this.createGroupFromWAContactUseCase.execute({
+			const response = await this.createGroupFromWAContactUseCase.execute({
 				waContact: waChat.contact,
 			})
 
-			if (result.isFailure()) return failure(result.value)
-			group = result.value.group
+			if (response.isFailure()) return failure(response.value)
+			group = response.value.group
 		}
 
 		const chat = GroupChat.create({

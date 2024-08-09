@@ -29,10 +29,10 @@ export class HandleReceivedMessage {
 		})
 
 		if (!chat) {
-			const result = await this.createChatFromWAChat.execute({ waChat })
-			if (result.isFailure()) return failure(result.value)
+			const response = await this.createChatFromWAChat.execute({ waChat })
+			if (response.isFailure()) return failure(response.value)
 
-			chat = result.value.chat
+			chat = response.value.chat
 		}
 
 		return success({})

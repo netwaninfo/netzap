@@ -1,11 +1,11 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Except, SetOptional } from 'type-fest'
-import type { VCardContact } from '../value-objects/v-card-contact'
+import type { Contact } from '../contact'
 import { PrivateMessage, type PrivateMessageProps } from './message'
 
 export interface PrivateVCardMessageProps extends PrivateMessageProps {
 	type: 'vcard'
-	contact: VCardContact
+	contact: Contact
 }
 
 export class PrivateVCardMessage extends PrivateMessage<PrivateVCardMessageProps> {

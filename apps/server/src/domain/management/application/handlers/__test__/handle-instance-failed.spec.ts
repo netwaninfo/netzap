@@ -18,12 +18,12 @@ describe('HandleInstanceFailed', () => {
 		const instanceId = makeUniqueEntityID()
 		instancesRepository.items.push(makeInstance({}, instanceId))
 
-		const result = await sut.execute({ instanceId })
+		const response = await sut.execute({ instanceId })
 
-		expect(result.isSuccess()).toBe(true)
-		if (result.isFailure()) return
+		expect(response.isSuccess()).toBe(true)
+		if (response.isFailure()) return
 
-		const { instance } = result.value
+		const { instance } = response.value
 		expect(instance.status).toBe('failed')
 		expect(instance.qrCode).toBe(null)
 	})

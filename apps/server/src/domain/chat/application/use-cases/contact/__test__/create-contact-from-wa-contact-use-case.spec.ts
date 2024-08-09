@@ -16,9 +16,9 @@ describe('CreateContactFromWAContactUseCase', () => {
 	it('should be able to create contact from wa contact', async () => {
 		const waContact = makeWAPrivateContact()
 
-		const result = await sut.execute({ waContact })
+		const response = await sut.execute({ waContact })
 
-		expect(result.isSuccess()).toBe(true)
+		expect(response.isSuccess()).toBe(true)
 		expect(contactsRepository.items).toHaveLength(1)
 	})
 })

@@ -31,9 +31,9 @@ describe('CreateGroupChatFromWAChatUseCase', () => {
 	it('should be able to create chat from wa chat', async () => {
 		const waChat = makeWAGroupChat()
 
-		const result = await sut.execute({ waChat })
+		const response = await sut.execute({ waChat })
 
-		expect(result.isSuccess()).toBe(true)
+		expect(response.isSuccess()).toBe(true)
 		expect(chatsRepository.items).toHaveLength(1)
 		expect(groupsRepository.items).toHaveLength(1)
 	})
@@ -47,9 +47,9 @@ describe('CreateGroupChatFromWAChatUseCase', () => {
 
 		groupsRepository.items.push(group)
 
-		const result = await sut.execute({ waChat })
+		const response = await sut.execute({ waChat })
 
-		expect(result.isSuccess()).toBe(true)
+		expect(response.isSuccess()).toBe(true)
 		expect(chatsRepository.items).toHaveLength(1)
 		expect(groupsRepository.items).toHaveLength(1)
 	})

@@ -35,7 +35,7 @@ describe('CreatePrivateVoiceMessageFromWAMessage', () => {
 		const chat = makePrivateChat()
 		chatsRepository.items.push(chat)
 
-		const result = await sut.execute({
+		const response = await sut.execute({
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
@@ -44,10 +44,10 @@ describe('CreatePrivateVoiceMessageFromWAMessage', () => {
 			}),
 		})
 
-		expect(result.isSuccess()).toBe(true)
-		if (result.isFailure()) return
+		expect(response.isSuccess()).toBe(true)
+		if (response.isFailure()) return
 
-		const { message } = result.value
+		const { message } = response.value
 
 		expect(message.media).toBeTruthy()
 		expect(messagesRepository.items).toHaveLength(1)
@@ -64,7 +64,7 @@ describe('CreatePrivateVoiceMessageFromWAMessage', () => {
 		})
 		messagesRepository.items.push(quotedMessage)
 
-		const result = await sut.execute({
+		const response = await sut.execute({
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
@@ -82,10 +82,10 @@ describe('CreatePrivateVoiceMessageFromWAMessage', () => {
 			}),
 		})
 
-		expect(result.isSuccess()).toBe(true)
-		if (result.isFailure()) return
+		expect(response.isSuccess()).toBe(true)
+		if (response.isFailure()) return
 
-		const { message } = result.value
+		const { message } = response.value
 
 		expect(message.media).toBeTruthy()
 		expect(message.quoted).toBeInstanceOf(PrivateMessage)

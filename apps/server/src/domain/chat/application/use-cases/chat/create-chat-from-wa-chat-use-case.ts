@@ -30,15 +30,17 @@ export class CreateChatFromWAChatUseCase {
 		let chat: Chat
 
 		if (isWAGroupChat(waChat)) {
-			const result = await this.createGroupChatFromWAChat.execute({ waChat })
+			const response = await this.createGroupChatFromWAChat.execute({ waChat })
 
-			if (result.isFailure()) return failure(result.value)
-			chat = result.value.chat
+			if (response.isFailure()) return failure(response.value)
+			chat = response.value.chat
 		} else {
-			const result = await this.createPrivateChatFromWAChat.execute({ waChat })
+			const response = await this.createPrivateChatFromWAChat.execute({
+				waChat,
+			})
 
-			if (result.isFailure()) return failure(result.value)
-			chat = result.value.chat
+			if (response.isFailure()) return failure(response.value)
+			chat = response.value.chat
 		}
 
 		return success({

@@ -60,21 +60,21 @@ describe('CreateChatFromWAChatUseCase', () => {
 	})
 
 	it('should be able to create private chat from wa chat', async () => {
-		const result = await sut.execute({
+		const response = await sut.execute({
 			waChat: makeWAPrivateChat(),
 		})
 
-		expect(result.isSuccess()).toBe(true)
+		expect(response.isSuccess()).toBe(true)
 		expect(chatsRepository.items).toHaveLength(1)
 		expect(chatsRepository.items[0]).toBeInstanceOf(PrivateChat)
 	})
 
 	it('should be able to create group chat from wa chat', async () => {
-		const result = await sut.execute({
+		const response = await sut.execute({
 			waChat: makeWAGroupChat(),
 		})
 
-		expect(result.isSuccess()).toBe(true)
+		expect(response.isSuccess()).toBe(true)
 		expect(chatsRepository.items).toHaveLength(1)
 		expect(chatsRepository.items[0]).toBeInstanceOf(GroupChat)
 	})

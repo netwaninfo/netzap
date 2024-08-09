@@ -1,5 +1,4 @@
 import { makeContact } from '@/test/factories/chat/make-contact'
-import { makeVCardContact } from '@/test/factories/chat/value-objects/make-v-card-contact'
 import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
 import { makeWAMessageID } from '@/test/factories/chat/value-objects/make-wa-message-id'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
@@ -13,7 +12,7 @@ describe('GroupMultiVCardMessage', () => {
 			instanceId: makeUniqueEntityID(),
 			waChatId: makeWAEntityID(),
 			waMessageId: makeWAMessageID(),
-			contacts: each().map(() => makeVCardContact()),
+			contacts: each().map(() => makeContact()),
 			author: makeContact(),
 		})
 

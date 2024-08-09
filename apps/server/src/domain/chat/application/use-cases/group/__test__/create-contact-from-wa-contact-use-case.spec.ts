@@ -16,9 +16,9 @@ describe('CreateGroupFromWAContactUseCase', () => {
 	it('should be able to create group from wa contact', async () => {
 		const waContact = makeWAPrivateContact()
 
-		const result = await sut.execute({ waContact })
+		const response = await sut.execute({ waContact })
 
-		expect(result.isSuccess()).toBe(true)
+		expect(response.isSuccess()).toBe(true)
 		expect(groupsRepository.items).toHaveLength(1)
 	})
 })

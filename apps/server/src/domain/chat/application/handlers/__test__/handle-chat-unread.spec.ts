@@ -17,15 +17,15 @@ describe('HandleChatUnread', () => {
 		const privateChat = makePrivateChat()
 		chatsRepository.items.push(privateChat)
 
-		const result = await sut.execute({
+		const response = await sut.execute({
 			instanceId: privateChat.instanceId,
 			waChatId: privateChat.waChatId,
 		})
 
-		expect(result.isSuccess()).toBe(true)
-		if (result.isFailure()) return
+		expect(response.isSuccess()).toBe(true)
+		if (response.isFailure()) return
 
-		const { chat } = result.value
+		const { chat } = response.value
 		expect(chat.unreadCount).toBe(-1)
 	})
 })

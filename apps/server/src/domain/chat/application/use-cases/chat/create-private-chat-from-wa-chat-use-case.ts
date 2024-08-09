@@ -47,12 +47,12 @@ export class CreatePrivateChatFromWAChatUseCase {
 			})
 
 		if (!contact) {
-			const result = await this.createContactFromWAContact.execute({
+			const response = await this.createContactFromWAContact.execute({
 				waContact: waChat.contact,
 			})
 
-			if (result.isFailure()) return failure(result.value)
-			contact = result.value.contact
+			if (response.isFailure()) return failure(response.value)
+			contact = response.value.contact
 		}
 
 		const chat = PrivateChat.create({

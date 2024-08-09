@@ -5,7 +5,6 @@ export default defineConfig(
 	mergeConfig(config, {
 		test: {
 			coverage: {
-				enabled: true,
 				provider: 'v8',
 				reporter: ['text', 'json', 'html'],
 			},
