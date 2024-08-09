@@ -2,13 +2,14 @@ import type { SetOptional } from 'type-fest'
 
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { ContactPhone } from './value-objects/contact-phone'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 
 export interface ContactProps {
 	waContactId: WAEntityID
 	instanceId: UniqueEntityID
 	name: string
-	phone: string
+	phone: ContactPhone
 	imageUrl: string | null
 	isInstance: boolean
 	isMe: boolean

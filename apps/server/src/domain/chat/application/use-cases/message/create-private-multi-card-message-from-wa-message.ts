@@ -1,15 +1,14 @@
 import { type Either, failure, success } from '@/core/either'
-import type { PrivateMultiVCardMessage } from '@/domain/chat/enterprise/entities/private/multi-v-card-message'
+import { PrivateMultiVCardMessage } from '@/domain/chat/enterprise/entities/private/multi-v-card-message'
 import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import type { PrivateMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import type { ChatsRepository } from '../../repositories/chats-repository'
-import type { ContactsRepository } from '../../repositories/contacts-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
-import type { CreateContactFromWAContactUseCase } from '../contact/create-contact-from-wa-contact-use-case'
+import type { CreateContactsFromWAContactsUseCase } from '../contact/create-contacts-from-wa-contacts-use-case'
 
 interface CreatePrivateMultiVCardMessageFromWAMessageRequest {
 	waMessage: WAPrivateMessage
@@ -18,7 +17,8 @@ interface CreatePrivateMultiVCardMessageFromWAMessageRequest {
 type CreatePrivateMultiVCardMessageFromWAMessageResponse = Either<
 	| ResourceNotFoundError
 	| InvalidResourceFormatError
-	| ResourceAlreadyExistsError,
+	| ResourceAlreadyExistsError
+	| null,
 	{
 		message: PrivateMultiVCardMessage
 	}
@@ -28,8 +28,7 @@ export class CreatePrivateMultiVCardMessageFromWAMessage {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
-		private contactsRepository: ContactsRepository,
-		private createContactFromWAContact: CreateContactFromWAContactUseCase,
+		private createContactsFromWAContacts: CreateContactsFromWAContactsUseCase,
 		private dateService: DateService,
 	) {}
 
@@ -38,9 +37,8 @@ export class CreatePrivateMultiVCardMessageFromWAMessage {
 	): Promise<CreatePrivateMultiVCardMessageFromWAMessageResponse> {
 		const { waMessage } = request
 
-		const waContact = waMessage.contacts?.at(0)
 		const hasInvalidFormat =
-			waMessage.type !== 'vcard' || !waMessage.hasContacts() || !waContact
+			waMessage.type !== 'multi_vcard' || !waMessage.hasContacts()
 
 		if (hasInvalidFormat) {
 			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
@@ -71,24 +69,19 @@ export class CreatePrivateMultiVCardMessageFromWAMessage {
 				)
 		}
 
-		let contact =
-			await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
-				instanceId: waMessage.instanceId,
-				waContactId: waContact.id,
-			})
+		const response = await this.createContactsFromWAContacts.execute({
+			instanceId: waMessage.instanceId,
+			waContacts: waMessage.contacts,
+		})
 
-		if (!contact) {
-			const response = await this.createContactFromWAContact.execute({
-				waContact,
-			})
-
-			if (response.isFailure()) return failure(response.value)
-			contact = response.value.contact
+		if (response.isFailure()) {
+			return failure(response.value)
 		}
 
+		const { contacts } = response.value
 		const message = PrivateMultiVCardMessage.create({
 			quoted,
-			contact,
+			contacts,
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 			waChatId: chat.waChatId,

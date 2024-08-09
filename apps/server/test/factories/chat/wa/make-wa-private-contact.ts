@@ -11,8 +11,11 @@ export const makeWAPrivateContact = (
 	override: Partial<WAPrivateContactProps> = {},
 	id: WAEntityID = makeWAEntityID(),
 ) => {
+	const isMyContact = faker.datatype.boolean()
+
 	return WAPrivateContact.create(
 		{
+			isMyContact,
 			instanceId: makeUniqueEntityID(),
 			name: faker.person.fullName(),
 			shortName: faker.person.firstName(),
@@ -22,8 +25,7 @@ export const makeWAPrivateContact = (
 			formattedNumber: faker.phone.number(),
 			isBusiness: faker.datatype.boolean(),
 			isEnterprise: faker.datatype.boolean(),
-			isMyContact: faker.datatype.boolean(),
-			isWAContact: faker.datatype.boolean(),
+			isWAContact: isMyContact,
 			...override,
 		},
 		id,

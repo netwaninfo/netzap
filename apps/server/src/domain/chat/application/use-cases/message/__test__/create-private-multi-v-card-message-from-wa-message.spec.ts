@@ -1,5 +1,4 @@
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
-import { makeContact } from '@/test/factories/chat/make-contact'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makePrivateVCardMessage } from '@/test/factories/chat/private/make-private-v-card-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
@@ -8,41 +7,40 @@ import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chat
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreateContactFromWAContactUseCase } from '../../contact/create-contact-from-wa-contact-use-case'
-import { CreatePrivateVCardMessageFromWAMessage } from '../create-private-v-card-message-from-wa-message'
+import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
+import { CreatePrivateMultiVCardMessageFromWAMessage } from '../create-private-multi-card-message-from-wa-message'
 
-describe('CreatePrivateVCardMessageFromWAMessage', () => {
+describe('CreatePrivateMultiVCardMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let contactsRepository: InMemoryContactsRepository
 
-	let createContactFromWAContact: CreateContactFromWAContactUseCase
+	let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
 
 	let dateService: FakeDateService
 
-	let sut: CreatePrivateVCardMessageFromWAMessage
+	let sut: CreatePrivateMultiVCardMessageFromWAMessage
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
 		contactsRepository = new InMemoryContactsRepository()
 
-		createContactFromWAContact = new CreateContactFromWAContactUseCase(
+		createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
 			contactsRepository,
 		)
 
 		dateService = new FakeDateService()
 
-		sut = new CreatePrivateVCardMessageFromWAMessage(
+		sut = new CreatePrivateMultiVCardMessageFromWAMessage(
 			chatsRepository,
 			messagesRepository,
-			contactsRepository,
-			createContactFromWAContact,
+			createContactsFromWAContacts,
 			dateService,
 		)
 	})
 
-	it('should be able to create a private vcard message', async () => {
+	it('should be able to create a private multi vcard message', async () => {
 		const chat = makePrivateChat()
 		chatsRepository.items.push(chat)
 
@@ -50,7 +48,7 @@ describe('CreatePrivateVCardMessageFromWAMessage', () => {
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'vcard',
+				type: 'multi_vcard',
 				contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
 			}),
 		})
@@ -60,40 +58,6 @@ describe('CreatePrivateVCardMessageFromWAMessage', () => {
 
 		expect(messagesRepository.items).toHaveLength(1)
 		expect(contactsRepository.items).toHaveLength(1)
-	})
-
-	it('should be able to create a private vcard message with existing contact', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
-		const contact = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(contact)
-
-		const createContactFromWAContactMock = vi.spyOn(
-			createContactFromWAContact,
-			'execute',
-		)
-
-		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'vcard',
-				contacts: [
-					makeWAPrivateContact(
-						{ instanceId: contact.instanceId },
-						contact.waContactId,
-					),
-				],
-			}),
-		})
-
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
-
-		expect(messagesRepository.items).toHaveLength(1)
-		expect(contactsRepository.items).toHaveLength(1)
-		expect(createContactFromWAContactMock).not.toHaveBeenCalled()
 	})
 
 	it('should be able to create a private vcard message quoting other message', async () => {
@@ -110,11 +74,11 @@ describe('CreatePrivateVCardMessageFromWAMessage', () => {
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'vcard',
+				type: 'multi_vcard',
 				contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
 				quoted: makeWAPrivateMessage(
 					{
-						type: 'vcard',
+						type: 'multi_vcard',
 						contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
 						instanceId: chat.instanceId,
 						waChatId: chat.waChatId,

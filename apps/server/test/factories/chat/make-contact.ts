@@ -5,6 +5,7 @@ import {
 } from '@/domain/chat/enterprise/entities/contact'
 import { faker } from '@/test/lib/faker'
 import { makeUniqueEntityID } from '../make-unique-entity-id'
+import { makeContactPhone } from './value-objects/make-contact-phone'
 import { makeWAEntityID } from './value-objects/make-wa-entity-id'
 
 export function makeContact(
@@ -15,7 +16,7 @@ export function makeContact(
 		{
 			name: faker.person.firstName(),
 			waContactId: makeWAEntityID(),
-			phone: faker.phone.number(),
+			phone: makeContactPhone(),
 			instanceId: makeUniqueEntityID(),
 			...override,
 		},

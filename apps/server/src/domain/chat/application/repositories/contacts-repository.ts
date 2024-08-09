@@ -7,10 +7,21 @@ export interface ContactsRepositoryFindUniqueByWAContactIdAndInstanceIdParams {
 	instanceId: UniqueEntityID
 }
 
+export interface ContactsRepositoryFindManyByWAContactIdsAndInstanceIdParams {
+	waContactIds: WAEntityID[]
+	instanceId: UniqueEntityID
+}
+
 export abstract class ContactsRepository {
 	abstract findUniqueByWAContactIdAndInstanceId(
 		params: ContactsRepositoryFindUniqueByWAContactIdAndInstanceIdParams,
 	): Promise<Contact | null>
 
+	abstract findManyByWAContactIdsAndInstanceId(
+		params: ContactsRepositoryFindManyByWAContactIdsAndInstanceIdParams,
+	): Promise<Contact[]>
+
 	abstract create(contact: Contact): Promise<void>
+
+	abstract createMany(contacts: Contact[]): Promise<void>
 }

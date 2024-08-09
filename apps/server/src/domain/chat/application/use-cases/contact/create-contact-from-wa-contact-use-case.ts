@@ -1,5 +1,6 @@
 import { type Either, failure, success } from '@/core/either'
 import { Contact } from '@/domain/chat/enterprise/entities/contact'
+import { ContactPhone } from '@/domain/chat/enterprise/entities/value-objects/contact-phone'
 import type { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ContactsRepository } from '../../repositories/contacts-repository'
@@ -37,7 +38,10 @@ export class CreateContactFromWAContactUseCase {
 		const contact = Contact.create({
 			instanceId: waContact.instanceId,
 			name: waContact.defaultName,
-			phone: waContact.number,
+			phone: ContactPhone.create({
+				formattedNumber: waContact.formattedNumber,
+				number: waContact.number,
+			}),
 			waContactId: waContact.id,
 			imageUrl: waContact.imageUrl,
 			isInstance: waContact.isInstance,

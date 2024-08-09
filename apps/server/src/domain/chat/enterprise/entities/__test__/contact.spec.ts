@@ -1,5 +1,6 @@
 import { faker } from '@/test/lib/faker'
 
+import { makeContactPhone } from '@/test/factories/chat/value-objects/make-contact-phone'
 import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { Contact } from '../contact'
@@ -10,7 +11,7 @@ describe('Contact', () => {
 			name: faker.person.firstName(),
 			instanceId: makeUniqueEntityID(),
 			waContactId: makeWAEntityID(),
-			phone: faker.phone.number(),
+			phone: makeContactPhone(),
 		})
 
 		expect(contact).toBeTruthy()
