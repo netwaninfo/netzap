@@ -4,11 +4,16 @@ import { GroupMessage, type GroupMessageProps } from './message'
 
 export interface GroupTextMessageProps extends GroupMessageProps {
 	type: 'text'
+	body: string
 }
 
 export class GroupTextMessage extends GroupMessage<GroupTextMessageProps> {
 	get type() {
 		return this.props.type
+	}
+
+	get body() {
+		return this.props.body
 	}
 
 	static create(

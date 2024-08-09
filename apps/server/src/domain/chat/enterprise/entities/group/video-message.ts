@@ -6,6 +6,7 @@ import { GroupMessage, type GroupMessageProps } from './message'
 export interface GroupVideoMessageProps extends GroupMessageProps {
 	type: 'video'
 	media: MessageMedia
+	body: string | null
 }
 
 export class GroupVideoMessage extends GroupMessage<GroupVideoMessageProps> {
@@ -15,6 +16,10 @@ export class GroupVideoMessage extends GroupMessage<GroupVideoMessageProps> {
 
 	get media() {
 		return this.props.media
+	}
+
+	get body() {
+		return this.props.body
 	}
 
 	static create(
@@ -27,6 +32,7 @@ export class GroupVideoMessage extends GroupMessage<GroupVideoMessageProps> {
 				| 'isFromMe'
 				| 'sentBy'
 				| 'createdAt'
+				| 'body'
 			>,
 			'type'
 		>,
@@ -36,6 +42,7 @@ export class GroupVideoMessage extends GroupMessage<GroupVideoMessageProps> {
 			{
 				...props,
 				type: 'video',
+				body: props.body ?? null,
 				quoted: props.quoted ?? null,
 				status: props.status ?? 'pending',
 				isForwarded: props.isForwarded ?? false,

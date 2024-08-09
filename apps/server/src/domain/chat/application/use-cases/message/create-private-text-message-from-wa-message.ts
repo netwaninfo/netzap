@@ -1,7 +1,5 @@
-import { Readable } from 'node:stream'
 import { type Either, failure, success } from '@/core/either'
-import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
-import { PrivateVoiceMessage } from '@/domain/chat/enterprise/entities/private/voice-message'
+import { PrivateTextMessage } from '@/domain/chat/enterprise/entities/private/text-message'
 import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import type { PrivateMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
@@ -9,33 +7,31 @@ import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found
 import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
-import type { StorageService } from '../../services/storage-service'
 
-interface CreatePrivateVoiceMessageFromWAMessageRequest {
+interface CreatePrivateTextMessageFromWAMessageRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateVoiceMessageFromWAMessageResponse = Either<
+type CreatePrivateTextMessageFromWAMessageResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
-		message: PrivateVoiceMessage
+		message: PrivateTextMessage
 	}
 >
 
-export class CreatePrivateVoiceMessageFromWAMessage {
+export class CreatePrivateTextMessageFromWAMessage {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
-		private storageService: StorageService,
 		private dateService: DateService,
 	) {}
 
 	async execute(
-		request: CreatePrivateVoiceMessageFromWAMessageRequest,
-	): Promise<CreatePrivateVoiceMessageFromWAMessageResponse> {
+		request: CreatePrivateTextMessageFromWAMessageRequest,
+	): Promise<CreatePrivateTextMessageFromWAMessageResponse> {
 		const { waMessage } = request
 
-		const hasInvalidFormat = waMessage.type !== 'voice' || !waMessage.hasMedia()
+		const hasInvalidFormat = waMessage.type !== 'text'
 		if (hasInvalidFormat) {
 			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
 		}
@@ -65,24 +61,9 @@ export class CreatePrivateVoiceMessageFromWAMessage {
 				)
 		}
 
-		const waMessageMedia = waMessage.media
-		const extension = waMessageMedia.mimeType.extension()
-
-		const storageObject = await this.storageService.put({
-			filename: `${waMessage.ref}.${extension}`,
-			mimeType: waMessageMedia.mimeType,
-			data: Readable.from(Buffer.from(waMessageMedia.data, 'base64')),
-		})
-
-		const media = MessageMedia.create({
-			key: storageObject.path,
-			url: storageObject.url,
-			mimeType: storageObject.mimeType,
-		})
-
-		const message = PrivateVoiceMessage.create({
-			media,
+		const message = PrivateTextMessage.create({
 			quoted,
+			body: waMessage.body,
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 			waChatId: chat.waChatId,

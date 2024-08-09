@@ -5,7 +5,7 @@ import type { StorageObject } from '../../enterprise/entities/value-objects/stor
 export interface StorageServicePutParams {
 	filename: string
 	mimeType: MimeType
-	body: Readable
+	data: Readable
 }
 
 export abstract class StorageService {

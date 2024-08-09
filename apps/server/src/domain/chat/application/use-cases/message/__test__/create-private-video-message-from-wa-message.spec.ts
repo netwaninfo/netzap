@@ -3,6 +3,7 @@ import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat
 import { makePrivateVideoMessage } from '@/test/factories/chat/private/make-private-video-message'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
 import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
+import { faker } from '@/test/lib/faker'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
@@ -41,6 +42,7 @@ describe('CreatePrivateVideoMessageFromWAMessage', () => {
 				waChatId: chat.waChatId,
 				type: 'video',
 				media: makeWAMessageMedia(),
+				body: faker.lorem.paragraph(),
 			}),
 		})
 
@@ -50,6 +52,7 @@ describe('CreatePrivateVideoMessageFromWAMessage', () => {
 		const { message } = result.value
 
 		expect(message.media).toBeTruthy()
+		expect(message.body).toBeTruthy()
 		expect(messagesRepository.items).toHaveLength(1)
 		expect(storageService.items).toHaveLength(1)
 	})

@@ -3,13 +3,13 @@ import type { Except, SetOptional } from 'type-fest'
 import type { MessageMedia } from '../message-media'
 import { PrivateMessage, type PrivateMessageProps } from './message'
 
-export interface PrivateVideoMessageProps extends PrivateMessageProps {
-	type: 'video'
+export interface PrivateDocumentMessageProps extends PrivateMessageProps {
+	type: 'document'
 	media: MessageMedia
 	body: string | null
 }
 
-export class PrivateVideoMessage extends PrivateMessage<PrivateVideoMessageProps> {
+export class PrivateDocumentMessage extends PrivateMessage<PrivateDocumentMessageProps> {
 	get type() {
 		return this.props.type
 	}
@@ -25,7 +25,7 @@ export class PrivateVideoMessage extends PrivateMessage<PrivateVideoMessageProps
 	static create(
 		props: Except<
 			SetOptional<
-				PrivateVideoMessageProps,
+				PrivateDocumentMessageProps,
 				| 'quoted'
 				| 'status'
 				| 'isForwarded'
@@ -38,10 +38,10 @@ export class PrivateVideoMessage extends PrivateMessage<PrivateVideoMessageProps
 		>,
 		id?: UniqueEntityID,
 	) {
-		return new PrivateVideoMessage(
+		return new PrivateDocumentMessage(
 			{
 				...props,
-				type: 'video',
+				type: 'document',
 				body: props.body ?? null,
 				quoted: props.quoted ?? null,
 				status: props.status ?? 'pending',

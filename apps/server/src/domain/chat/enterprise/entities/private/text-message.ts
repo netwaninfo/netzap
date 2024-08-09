@@ -4,11 +4,16 @@ import { PrivateMessage, type PrivateMessageProps } from './message'
 
 export interface PrivateTextMessageProps extends PrivateMessageProps {
 	type: 'text'
+	body: string
 }
 
 export class PrivateTextMessage extends PrivateMessage<PrivateTextMessageProps> {
 	get type() {
 		return this.props.type
+	}
+
+	get body() {
+		return this.props.body
 	}
 
 	static create(

@@ -71,7 +71,7 @@ export class CreatePrivateImageMessageFromWAMessage {
 		const storageObject = await this.storageService.put({
 			filename: `${waMessage.ref}.${extension}`,
 			mimeType: waMessageMedia.mimeType,
-			body: Readable.from(Buffer.from(waMessageMedia.data, 'base64')),
+			data: Readable.from(Buffer.from(waMessageMedia.data, 'base64')),
 		})
 
 		const media = MessageMedia.create({
@@ -81,10 +81,11 @@ export class CreatePrivateImageMessageFromWAMessage {
 		})
 
 		const message = PrivateImageMessage.create({
+			media,
 			quoted,
 			chatId: chat.id,
 			instanceId: chat.instanceId,
-			media,
+			body: waMessage.body,
 			waChatId: chat.waChatId,
 			waMessageId: waMessage.id,
 			isForwarded: waMessage.isForwarded,

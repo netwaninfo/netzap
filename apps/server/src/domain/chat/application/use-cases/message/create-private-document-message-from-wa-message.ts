@@ -1,7 +1,7 @@
 import { Readable } from 'node:stream'
 import { type Either, failure, success } from '@/core/either'
 import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
-import { PrivateVoiceMessage } from '@/domain/chat/enterprise/entities/private/voice-message'
+import { PrivateDocumentMessage } from '@/domain/chat/enterprise/entities/private/document-message'
 import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import type { PrivateMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
@@ -11,18 +11,18 @@ import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 import type { StorageService } from '../../services/storage-service'
 
-interface CreatePrivateVoiceMessageFromWAMessageRequest {
+interface CreatePrivateDocumentMessageFromWAMessageRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateVoiceMessageFromWAMessageResponse = Either<
+type CreatePrivateDocumentMessageFromWAMessageResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
-		message: PrivateVoiceMessage
+		message: PrivateDocumentMessage
 	}
 >
 
-export class CreatePrivateVoiceMessageFromWAMessage {
+export class CreatePrivateDocumentMessageFromWAMessage {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
@@ -31,11 +31,12 @@ export class CreatePrivateVoiceMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreatePrivateVoiceMessageFromWAMessageRequest,
-	): Promise<CreatePrivateVoiceMessageFromWAMessageResponse> {
+		request: CreatePrivateDocumentMessageFromWAMessageRequest,
+	): Promise<CreatePrivateDocumentMessageFromWAMessageResponse> {
 		const { waMessage } = request
 
-		const hasInvalidFormat = waMessage.type !== 'voice' || !waMessage.hasMedia()
+		const hasInvalidFormat =
+			waMessage.type !== 'document' || !waMessage.hasMedia()
 		if (hasInvalidFormat) {
 			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
 		}
@@ -80,11 +81,12 @@ export class CreatePrivateVoiceMessageFromWAMessage {
 			mimeType: storageObject.mimeType,
 		})
 
-		const message = PrivateVoiceMessage.create({
+		const message = PrivateDocumentMessage.create({
 			media,
 			quoted,
 			chatId: chat.id,
 			instanceId: chat.instanceId,
+			body: waMessage.body,
 			waChatId: chat.waChatId,
 			waMessageId: waMessage.id,
 			isForwarded: waMessage.isForwarded,

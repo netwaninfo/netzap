@@ -71,7 +71,7 @@ export class CreatePrivateAudioMessageFromWAMessage {
 		const storageObject = await this.storageService.put({
 			filename: `${waMessage.ref}.${extension}`,
 			mimeType: waMessageMedia.mimeType,
-			body: Readable.from(Buffer.from(waMessageMedia.data, 'base64')),
+			data: Readable.from(Buffer.from(waMessageMedia.data, 'base64')),
 		})
 
 		const media = MessageMedia.create({
@@ -81,10 +81,10 @@ export class CreatePrivateAudioMessageFromWAMessage {
 		})
 
 		const message = PrivateAudioMessage.create({
+			media,
 			quoted,
 			chatId: chat.id,
 			instanceId: chat.instanceId,
-			media,
 			waChatId: chat.waChatId,
 			waMessageId: waMessage.id,
 			isForwarded: waMessage.isForwarded,

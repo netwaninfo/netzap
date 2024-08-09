@@ -12,7 +12,7 @@ export interface WAMessageProps {
 	instanceId: UniqueEntityID
 	ack: MessageStatus
 	type: MessageType
-	body: string | null
+	body: string
 	timestamp: number
 	isForwarded: boolean
 	isFromMe: boolean
@@ -52,6 +52,14 @@ export abstract class WAMessage<Props extends WAMessageProps> extends WAEntity<
 
 	get body() {
 		return this.props.body
+	}
+
+	/**
+	 * Return true if body is not empty
+	 * @returns boolean
+	 */
+	hasBody() {
+		return !!this.body?.trim()
 	}
 
 	/**

@@ -6,6 +6,7 @@ import { PrivateMessage, type PrivateMessageProps } from './message'
 export interface PrivateImageMessageProps extends PrivateMessageProps {
 	type: 'image'
 	media: MessageMedia
+	body: string | null
 }
 
 export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps> {
@@ -15,6 +16,10 @@ export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps
 
 	get media() {
 		return this.props.media
+	}
+
+	get body() {
+		return this.props.body
 	}
 
 	static create(
@@ -27,6 +32,7 @@ export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps
 				| 'isFromMe'
 				| 'sentBy'
 				| 'createdAt'
+				| 'body'
 			>,
 			'type'
 		>,
@@ -36,6 +42,7 @@ export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps
 			{
 				...props,
 				type: 'image',
+				body: props.body ?? null,
 				quoted: props.quoted ?? null,
 				status: props.status ?? 'pending',
 				isForwarded: props.isForwarded ?? false,

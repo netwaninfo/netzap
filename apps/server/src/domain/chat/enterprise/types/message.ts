@@ -1,4 +1,5 @@
 import type { PrivateAudioMessage } from '../entities/private/audio-message'
+import type { PrivateDocumentMessage } from '../entities/private/document-message'
 import type { PrivateImageMessage } from '../entities/private/image-message'
 import type { PrivateMultiVCardMessage } from '../entities/private/multi-v-card-message'
 import type { PrivateRevokedMessage } from '../entities/private/revoked-message'
@@ -9,6 +10,7 @@ import type { PrivateVideoMessage } from '../entities/private/video-message'
 import type { PrivateVoiceMessage } from '../entities/private/voice-message'
 
 import type { GroupAudioMessage } from '../entities/group/audio-message'
+import type { GroupDocumentMessage } from '../entities/group/document-message'
 import type { GroupImageMessage } from '../entities/group/image-message'
 import type { GroupMultiVCardMessage } from '../entities/group/multi-v-card-message'
 import type { GroupRevokedMessage } from '../entities/group/revoked-message'
@@ -28,6 +30,7 @@ export type PrivateMessage =
 	| PrivateVCardMessage
 	| PrivateVideoMessage
 	| PrivateVoiceMessage
+	| PrivateDocumentMessage
 
 export type GroupMessage =
 	| GroupAudioMessage
@@ -39,5 +42,6 @@ export type GroupMessage =
 	| GroupVCardMessage
 	| GroupVideoMessage
 	| GroupVoiceMessage
+	| GroupDocumentMessage
 
 export type Message = PrivateMessage | GroupMessage

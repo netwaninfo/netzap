@@ -6,6 +6,7 @@ import { GroupMessage, type GroupMessageProps } from './message'
 export interface GroupImageMessageProps extends GroupMessageProps {
 	type: 'image'
 	media: MessageMedia
+	body: string | null
 }
 
 export class GroupImageMessage extends GroupMessage<GroupImageMessageProps> {
@@ -15,6 +16,10 @@ export class GroupImageMessage extends GroupMessage<GroupImageMessageProps> {
 
 	get media() {
 		return this.props.media
+	}
+
+	get body() {
+		return this.props.body
 	}
 
 	static create(
@@ -27,6 +32,7 @@ export class GroupImageMessage extends GroupMessage<GroupImageMessageProps> {
 				| 'isFromMe'
 				| 'sentBy'
 				| 'createdAt'
+				| 'body'
 			>,
 			'type'
 		>,
@@ -36,6 +42,7 @@ export class GroupImageMessage extends GroupMessage<GroupImageMessageProps> {
 			{
 				...props,
 				type: 'image',
+				body: props.body ?? null,
 				quoted: props.quoted ?? null,
 				status: props.status ?? 'pending',
 				isForwarded: props.isForwarded ?? false,
