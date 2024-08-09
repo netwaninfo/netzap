@@ -8,7 +8,7 @@ import type { WAPrivateContact } from './private/contact'
 import type { WAMessageMedia } from './value-objects/message-media'
 
 export interface WAMessageProps {
-	chatId: WAEntityID
+	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 	ack: MessageStatus
 	type: MessageType
@@ -21,6 +21,7 @@ export interface WAMessageProps {
 }
 
 const MESSAGE_MEDIA_TYPES: MessageType[] = [
+	'audio',
 	'image',
 	'video',
 	'voice',
@@ -33,8 +34,8 @@ export abstract class WAMessage<Props extends WAMessageProps> extends WAEntity<
 	Props,
 	WAMessageID
 > {
-	get chatId() {
-		return this.props.chatId
+	get waChatId() {
+		return this.props.waChatId
 	}
 
 	get instanceId() {
@@ -53,6 +54,9 @@ export abstract class WAMessage<Props extends WAMessageProps> extends WAEntity<
 		return this.props.body
 	}
 
+	/**
+	 * @returns number `unix`
+	 */
 	get timestamp() {
 		return this.props.timestamp
 	}
@@ -78,10 +82,16 @@ export abstract class WAMessage<Props extends WAMessageProps> extends WAEntity<
 	}
 
 	hasContacts(): this is SetNonNullable<Props, 'contacts'> {
-		return MESSAGE_CONTACTS_TYPES.includes(this.type) && !!this.contacts?.length
+		if (!MESSAGE_CONTACTS_TYPES.includes(this.type)) {
+			throw new Error(
+				`This method only can be called with message types: ${MESSAGE_CONTACTS_TYPES.join(', ')}`,
+			)
+		}
+
+		return !!this.contacts?.length
 	}
 
 	get ref() {
-		return `${this.instanceId.toString()}/${this.chatId.toString()}/${this.id.toString()}`
+		return `${this.instanceId.toString()}/${this.waChatId.toString()}/${this.id.toString()}`
 	}
 }

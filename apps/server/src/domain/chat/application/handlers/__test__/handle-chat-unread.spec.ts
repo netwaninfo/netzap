@@ -1,4 +1,4 @@
-import { makePrivateChat } from '@/test/factories/chat/make-private-chat'
+import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { HandleChatUnread } from '../handle-chat-unread'
 

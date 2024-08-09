@@ -11,6 +11,9 @@ export class WAMessageMedia extends ValueObject<WAMessageMediaProps> {
 		return this.props.mimeType
 	}
 
+	/**
+	 * @returns string `base64`
+	 */
 	get data() {
 		return this.props.data
 	}

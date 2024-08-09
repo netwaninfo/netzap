@@ -7,6 +7,9 @@ export class MimeType {
 		this.value = value
 	}
 
+	/**
+	 * @returns string `jpg|png|mp3|mp4`
+	 */
 	extension() {
 		return mime.extension(this.value) || 'unknown'
 	}
