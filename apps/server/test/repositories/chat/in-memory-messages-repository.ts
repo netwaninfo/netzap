@@ -16,7 +16,7 @@ export class InMemoryMessagesRepository implements MessagesRepository {
 		waMessageId,
 	}: MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams): Promise<PrivateMessage | null> {
 		const message = this.items.find(
-			(item) =>
+			(item): item is PrivateMessage =>
 				item.chatId.equals(chatId) &&
 				item.waMessageId.equals(waMessageId) &&
 				isPrivateMessage(item),

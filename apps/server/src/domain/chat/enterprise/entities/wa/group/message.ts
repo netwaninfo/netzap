@@ -22,16 +22,12 @@ export class WAGroupMessage extends WAMessage<WAGroupMessageProps> {
 	}
 
 	static create(
-		props: SetOptional<
-			WAGroupMessageProps,
-			'body' | 'media' | 'quoted' | 'contacts'
-		>,
+		props: SetOptional<WAGroupMessageProps, 'media' | 'quoted' | 'contacts'>,
 		id: WAMessageID,
 	) {
 		return new WAGroupMessage(
 			{
 				...props,
-				body: props.body ?? null,
 				quoted: props.quoted ?? null,
 				media: props.media ?? null,
 				contacts: props.contacts ?? null,

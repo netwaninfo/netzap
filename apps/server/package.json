@@ -9,6 +9,7 @@
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",
 		"test:ui": "vitest --ui --coverage",
+		"check:types": "tsc --noEmit",
 		"lint": "biome check --error-on-warnings",
 		"lint:fix": "biome check --write --error-on-warnings"
 	},
