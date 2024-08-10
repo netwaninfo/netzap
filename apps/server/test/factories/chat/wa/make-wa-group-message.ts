@@ -24,6 +24,7 @@ export const makeWAGroupMessage = (
 			timestamp: Date.now(),
 			type: 'text',
 			author: makeWAPrivateContact(),
+			raw: {},
 			...override,
 		},
 		id,

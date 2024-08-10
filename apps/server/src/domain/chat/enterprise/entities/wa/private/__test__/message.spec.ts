@@ -23,6 +23,7 @@ describe('WAPrivateMessage', () => {
 				contacts: [makeWAPrivateContact()],
 				media: makeWAMessageMedia(),
 				quoted: makeWAPrivateMessage(),
+				raw: {},
 			},
 			makeWAMessageID(),
 		)

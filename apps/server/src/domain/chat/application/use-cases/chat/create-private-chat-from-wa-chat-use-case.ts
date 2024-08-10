@@ -5,7 +5,7 @@ import type { Chat } from '@/domain/chat/enterprise/types/chat'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { ContactsRepository } from '../../repositories/contacts-repository'
-import type { CreateContactFromWAContact } from '../contact/create-contact-from-wa-contact-use-case'
+import type { CreateContactFromWAContactUseCase } from '../contact/create-contact-from-wa-contact-use-case'
 
 interface CreatePrivateChatFromWAChatUseCaseRequest {
 	waChat: WAPrivateChat
@@ -22,7 +22,7 @@ export class CreatePrivateChatFromWAChatUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private contactsRepository: ContactsRepository,
-		private createContactFromWAContact: CreateContactFromWAContact,
+		private createContactFromWAContact: CreateContactFromWAContactUseCase,
 	) {}
 
 	async execute(

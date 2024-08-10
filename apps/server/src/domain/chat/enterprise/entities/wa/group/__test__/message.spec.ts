@@ -24,6 +24,7 @@ describe('WAGroupMessage', () => {
 				media: makeWAMessageMedia(),
 				quoted: makeWAGroupMessage(),
 				author: makeWAPrivateContact(),
+				raw: {},
 			},
 			makeWAMessageID(),
 		)

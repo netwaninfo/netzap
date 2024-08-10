@@ -8,6 +8,7 @@ import type { WAPrivateContact } from './private/contact'
 import type { WAMessageMedia } from './value-objects/message-media'
 
 export interface WAMessageProps {
+	raw: unknown
 	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 	ack: MessageStatus
@@ -34,6 +35,10 @@ export abstract class WAMessage<Props extends WAMessageProps> extends WAEntity<
 	Props,
 	WAMessageID
 > {
+	get raw() {
+		return this.props.raw
+	}
+
 	get waChatId() {
 		return this.props.waChatId
 	}

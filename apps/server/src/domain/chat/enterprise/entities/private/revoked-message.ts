@@ -3,6 +3,7 @@ import type { Except, SetOptional } from 'type-fest'
 import { PrivateMessage, type PrivateMessageProps } from './message'
 
 export interface PrivateRevokedMessageProps extends PrivateMessageProps {
+	quoted: null
 	type: 'revoked'
 	revokedAt: Date
 	revokedBy: UniqueEntityID | null
@@ -25,7 +26,6 @@ export class PrivateRevokedMessage extends PrivateMessage<PrivateRevokedMessageP
 		props: Except<
 			SetOptional<
 				PrivateRevokedMessageProps,
-				| 'quoted'
 				| 'status'
 				| 'isForwarded'
 				| 'isFromMe'
@@ -34,7 +34,7 @@ export class PrivateRevokedMessage extends PrivateMessage<PrivateRevokedMessageP
 				| 'revokedAt'
 				| 'revokedBy'
 			>,
-			'type'
+			'type' | 'quoted'
 		>,
 		id?: UniqueEntityID,
 	) {
@@ -42,7 +42,7 @@ export class PrivateRevokedMessage extends PrivateMessage<PrivateRevokedMessageP
 			{
 				...props,
 				type: 'revoked',
-				quoted: props.quoted ?? null,
+				quoted: null,
 				status: props.status ?? 'pending',
 				isForwarded: props.isForwarded ?? false,
 				isFromMe: props.isFromMe ?? true,

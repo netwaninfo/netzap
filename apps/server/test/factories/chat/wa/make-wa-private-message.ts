@@ -22,6 +22,7 @@ export const makeWAPrivateMessage = (
 			isFromMe: faker.datatype.boolean(),
 			timestamp: Date.now(),
 			type: 'text',
+			raw: {},
 			...override,
 		},
 		id,

@@ -1,5 +1,5 @@
 import { type Either, failure, success } from '@/core/either'
-import { PrivateMultiVCardMessage } from '@/domain/chat/enterprise/entities/private/multi-v-card-message'
+import { PrivateUnknownMessage } from '@/domain/chat/enterprise/entities/private/unknown-message'
 import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import type { PrivateMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
@@ -7,35 +7,31 @@ import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found
 import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
-import type { CreateContactsFromWAContactsUseCase } from '../contact/create-contacts-from-wa-contacts-use-case'
 
-interface CreatePrivateMultiVCardMessageFromWAMessageRequest {
+interface CreatePrivateUnknownMessageFromWAMessageRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateMultiVCardMessageFromWAMessageResponse = Either<
-	ResourceNotFoundError | InvalidResourceFormatError | null,
+type CreatePrivateUnknownMessageFromWAMessageResponse = Either<
+	ResourceNotFoundError | InvalidResourceFormatError,
 	{
-		message: PrivateMultiVCardMessage
+		message: PrivateUnknownMessage
 	}
 >
 
-export class CreatePrivateMultiVCardMessageFromWAMessage {
+export class CreatePrivateUnknownMessageFromWAMessage {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
-		private createContactsFromWAContacts: CreateContactsFromWAContactsUseCase,
 		private dateService: DateService,
 	) {}
 
 	async execute(
-		request: CreatePrivateMultiVCardMessageFromWAMessageRequest,
-	): Promise<CreatePrivateMultiVCardMessageFromWAMessageResponse> {
+		request: CreatePrivateUnknownMessageFromWAMessageRequest,
+	): Promise<CreatePrivateUnknownMessageFromWAMessageResponse> {
 		const { waMessage } = request
 
-		const hasInvalidFormat =
-			waMessage.type !== 'multi_vcard' || !waMessage.hasContacts()
-
+		const hasInvalidFormat = waMessage.type !== 'unknown'
 		if (hasInvalidFormat) {
 			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
 		}
@@ -65,19 +61,8 @@ export class CreatePrivateMultiVCardMessageFromWAMessage {
 				)
 		}
 
-		const response = await this.createContactsFromWAContacts.execute({
-			instanceId: waMessage.instanceId,
-			waContacts: waMessage.contacts,
-		})
-
-		if (response.isFailure()) {
-			return failure(response.value)
-		}
-
-		const { contacts } = response.value
-		const message = PrivateMultiVCardMessage.create({
+		const message = PrivateUnknownMessage.create({
 			quoted,
-			contacts,
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 			waChatId: chat.waChatId,
@@ -86,6 +71,7 @@ export class CreatePrivateMultiVCardMessageFromWAMessage {
 			createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
 			isFromMe: waMessage.isFromMe,
 			status: waMessage.ack,
+			payload: waMessage.raw,
 		})
 
 		await this.messagesRepository.create(message)

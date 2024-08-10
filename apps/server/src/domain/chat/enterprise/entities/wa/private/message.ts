@@ -16,16 +16,12 @@ export class WAPrivateMessage extends WAMessage<WAPrivateMessageProps> {
 	}
 
 	static create(
-		props: SetOptional<
-			WAPrivateMessageProps,
-			'body' | 'media' | 'quoted' | 'contacts'
-		>,
+		props: SetOptional<WAPrivateMessageProps, 'media' | 'quoted' | 'contacts'>,
 		id: WAMessageID,
 	) {
 		return new WAPrivateMessage(
 			{
 				...props,
-				body: props.body ?? null,
 				quoted: props.quoted ?? null,
 				media: props.media ?? null,
 				contacts: props.contacts ?? null,
