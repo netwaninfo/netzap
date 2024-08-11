@@ -216,7 +216,7 @@ describe('CreatePrivateMessageFromWAMessage', () => {
 		expect(message).instanceOf(PrivateImageMessage)
 	})
 
-	it('should be able to create a multi vcard message', async () => {
+	it('should be able to create a private multi vcard message', async () => {
 		const waMessage = makeWAPrivateMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -232,7 +232,7 @@ describe('CreatePrivateMessageFromWAMessage', () => {
 		expect(message).instanceOf(PrivateMultiVCardMessage)
 	})
 
-	it('should be able to create a vcard message', async () => {
+	it('should be able to create a private vcard message', async () => {
 		const waMessage = makeWAPrivateMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -248,7 +248,7 @@ describe('CreatePrivateMessageFromWAMessage', () => {
 		expect(message).instanceOf(PrivateVCardMessage)
 	})
 
-	it('should be able to create a revoked message', async () => {
+	it('should be able to create a private revoked message', async () => {
 		const waMessage = makeWAPrivateMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
