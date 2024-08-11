@@ -1,9 +1,14 @@
 import type {
 	MessagesRepository,
+	MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams,
 	MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams,
 } from '@/domain/chat/application/repositories/messages-repository'
-import { isPrivateMessage } from '@/domain/chat/enterprise/type-guards/message'
+import {
+	isGroupMessage,
+	isPrivateMessage,
+} from '@/domain/chat/enterprise/type-guards/message'
 import type {
+	GroupMessage,
 	Message,
 	PrivateMessage,
 } from '@/domain/chat/enterprise/types/message'
@@ -20,6 +25,20 @@ export class InMemoryMessagesRepository implements MessagesRepository {
 				item.chatId.equals(chatId) &&
 				item.waMessageId.equals(waMessageId) &&
 				isPrivateMessage(item),
+		)
+
+		return message ?? null
+	}
+
+	async findUniqueGroupMessageByChatIAndWAMessageId({
+		chatId,
+		waMessageId,
+	}: MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams): Promise<GroupMessage | null> {
+		const message = this.items.find(
+			(item): item is GroupMessage =>
+				item.chatId.equals(chatId) &&
+				item.waMessageId.equals(waMessageId) &&
+				isGroupMessage(item),
 		)
 
 		return message ?? null

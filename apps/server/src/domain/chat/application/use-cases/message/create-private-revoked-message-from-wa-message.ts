@@ -35,10 +35,11 @@ export class CreatePrivateRevokedMessageFromWAMessage {
 			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
 		}
 
-		const chat = await this.chatsRepository.findUniqueByWAChatIdAndInstanceId({
-			instanceId: waMessage.instanceId,
-			waChatId: waMessage.waChatId,
-		})
+		const chat =
+			await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
+				instanceId: waMessage.instanceId,
+				waChatId: waMessage.waChatId,
+			})
 
 		if (!chat) {
 			return failure(

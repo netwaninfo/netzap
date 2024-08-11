@@ -31,7 +31,7 @@ export class CreatePrivateChatFromWAChatUseCase {
 		const { waChat } = request
 
 		const someChat =
-			await this.chatsRepository.findUniqueByWAChatIdAndInstanceId({
+			await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
 				instanceId: waChat.instanceId,
 				waChatId: waChat.id,
 			})

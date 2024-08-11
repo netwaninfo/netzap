@@ -31,7 +31,7 @@ export class CreateGroupChatFromWAChatUseCase {
 		const { waChat } = request
 
 		const someChat =
-			await this.chatsRepository.findUniqueByWAChatIdAndInstanceId({
+			await this.chatsRepository.findUniqueGroupChatByWAChatIdAndInstanceId({
 				instanceId: waChat.instanceId,
 				waChatId: waChat.id,
 			})
