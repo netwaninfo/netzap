@@ -1,48 +1,61 @@
-import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
-import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
-import { makePrivateVideoMessage } from '@/test/factories/chat/private/make-private-video-message'
-import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
+import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
+import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
+import { makeGroupDocumentMessage } from '@/test/factories/chat/group/make-group-document-message'
+import { makeContact } from '@/test/factories/chat/make-contact'
+import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
+import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
 import { faker } from '@/test/lib/faker'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
+import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { CreatePrivateVideoMessageFromWAMessage } from '../create-private-video-message-from-wa-message'
+import { CreateGroupDocumentMessageFromWAMessage } from '../create-group-document-message-from-wa-message-use-case'
 
-describe('CreatePrivateVideoMessageFromWAMessage', () => {
+describe('CreateGroupDocumentMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
+	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let sut: CreatePrivateVideoMessageFromWAMessage
+	let sut: CreateGroupDocumentMessageFromWAMessage
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
+		contactsRepository = new InMemoryContactsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
 		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		sut = new CreatePrivateVideoMessageFromWAMessage(
+		sut = new CreateGroupDocumentMessageFromWAMessage(
 			chatsRepository,
+			contactsRepository,
 			messagesRepository,
 			storageService,
 			dateService,
 		)
 	})
 
-	it('should be able to create a private video message', async () => {
-		const chat = makePrivateChat()
+	it('should be able to create a group document message', async () => {
+		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
+		const author = makeContact({ instanceId: chat.instanceId })
+		contactsRepository.items.push(author)
+
 		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
+			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'video',
+				type: 'document',
 				media: makeWAMessageMedia(),
 				body: faker.lorem.paragraph(),
+				author: makeWAPrivateContact(
+					{ instanceId: author.instanceId },
+					author.waContactId,
+				),
 			}),
 		})
 
@@ -57,25 +70,32 @@ describe('CreatePrivateVideoMessageFromWAMessage', () => {
 		expect(storageService.items).toHaveLength(1)
 	})
 
-	it('should be able to create a private video message quoting other message', async () => {
-		const chat = makePrivateChat()
+	it('should be able to create a group document message quoting other message', async () => {
+		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
-		const quotedMessage = makePrivateVideoMessage({
+		const author = makeContact({ instanceId: chat.instanceId })
+		contactsRepository.items.push(author)
+
+		const quotedMessage = makeGroupDocumentMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 		})
 		messagesRepository.items.push(quotedMessage)
 
 		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
+			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'video',
+				type: 'document',
 				media: makeWAMessageMedia(),
-				quoted: makeWAPrivateMessage(
+				author: makeWAPrivateContact(
+					{ instanceId: author.instanceId },
+					author.waContactId,
+				),
+				quoted: makeWAGroupMessage(
 					{
-						type: 'video',
+						type: 'document',
 						media: makeWAMessageMedia(),
 						instanceId: chat.instanceId,
 						waChatId: chat.waChatId,
@@ -91,7 +111,7 @@ describe('CreatePrivateVideoMessageFromWAMessage', () => {
 		const { message } = response.value
 
 		expect(message.media).toBeTruthy()
-		expect(message.quoted).toBeInstanceOf(PrivateMessage)
+		expect(message.quoted).toBeInstanceOf(GroupMessage)
 		expect(messagesRepository.items).toHaveLength(2)
 		expect(storageService.items).toHaveLength(1)
 	})

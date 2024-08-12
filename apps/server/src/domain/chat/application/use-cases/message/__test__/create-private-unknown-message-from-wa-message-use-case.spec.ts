@@ -1,46 +1,34 @@
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
-import { makePrivateMultiVCardMessage } from '@/test/factories/chat/private/make-private-multi-v-card-message'
-import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
+import { makePrivateUnknownMessage } from '@/test/factories/chat/private/make-private-unknown-message'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
+import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
+import { faker } from '@/test/lib/faker'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
-import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
-import { CreatePrivateMultiVCardMessageFromWAMessage } from '../create-private-multi-card-message-from-wa-message'
+import { CreatePrivateUnknownMessageFromWAMessage } from '../create-private-unknown-message-from-wa-message-use-case'
 
-describe('CreatePrivateMultiVCardMessageFromWAMessage', () => {
+describe('CreatePrivateUnknownMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
-	let contactsRepository: InMemoryContactsRepository
-
-	let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
-
 	let dateService: FakeDateService
 
-	let sut: CreatePrivateMultiVCardMessageFromWAMessage
+	let sut: CreatePrivateUnknownMessageFromWAMessage
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
-		contactsRepository = new InMemoryContactsRepository()
-
-		createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
-			contactsRepository,
-		)
-
 		dateService = new FakeDateService()
 
-		sut = new CreatePrivateMultiVCardMessageFromWAMessage(
+		sut = new CreatePrivateUnknownMessageFromWAMessage(
 			chatsRepository,
 			messagesRepository,
-			createContactsFromWAContacts,
 			dateService,
 		)
 	})
 
-	it('should be able to create a private multi vcard message', async () => {
+	it('should be able to create a private unknown message', async () => {
 		const chat = makePrivateChat()
 		chatsRepository.items.push(chat)
 
@@ -48,8 +36,9 @@ describe('CreatePrivateMultiVCardMessageFromWAMessage', () => {
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'multi_vcard',
-				contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+				type: 'unknown',
+				media: makeWAMessageMedia(),
+				body: faker.lorem.paragraph(),
 			}),
 		})
 
@@ -57,14 +46,13 @@ describe('CreatePrivateMultiVCardMessageFromWAMessage', () => {
 		if (response.isFailure()) return
 
 		expect(messagesRepository.items).toHaveLength(1)
-		expect(contactsRepository.items).toHaveLength(1)
 	})
 
-	it('should be able to create a private vcard message quoting other message', async () => {
+	it('should be able to create a private unknown message quoting other message', async () => {
 		const chat = makePrivateChat()
 		chatsRepository.items.push(chat)
 
-		const quotedMessage = makePrivateMultiVCardMessage({
+		const quotedMessage = makePrivateUnknownMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 		})
@@ -74,12 +62,12 @@ describe('CreatePrivateMultiVCardMessageFromWAMessage', () => {
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'multi_vcard',
-				contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+				type: 'unknown',
+				media: makeWAMessageMedia(),
 				quoted: makeWAPrivateMessage(
 					{
-						type: 'multi_vcard',
-						contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+						type: 'unknown',
+						media: makeWAMessageMedia(),
 						instanceId: chat.instanceId,
 						waChatId: chat.waChatId,
 					},

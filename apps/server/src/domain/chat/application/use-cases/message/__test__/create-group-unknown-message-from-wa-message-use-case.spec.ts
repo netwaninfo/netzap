@@ -1,6 +1,6 @@
 import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
-import { makeGroupImageMessage } from '@/test/factories/chat/group/make-group-image-message'
+import { makeGroupUnknownMessage } from '@/test/factories/chat/group/make-group-unknown-message'
 import { makeContact } from '@/test/factories/chat/make-contact'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
@@ -10,35 +10,31 @@ import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chat
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { CreateGroupImageMessageFromWAMessage } from '../create-group-image-message-from-wa-message'
+import { CreateGroupUnknownMessageFromWAMessage } from '../create-group-unknown-message-from-wa-message-use-case'
 
-describe('CreateGroupImageMessageFromWAMessage', () => {
+describe('CreateGroupUnknownMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
-	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let sut: CreateGroupImageMessageFromWAMessage
+	let sut: CreateGroupUnknownMessageFromWAMessage
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		contactsRepository = new InMemoryContactsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
-		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		sut = new CreateGroupImageMessageFromWAMessage(
+		sut = new CreateGroupUnknownMessageFromWAMessage(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,
-			storageService,
 			dateService,
 		)
 	})
 
-	it('should be able to create a group image message', async () => {
+	it('should be able to create a group unknown message', async () => {
 		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
@@ -49,7 +45,7 @@ describe('CreateGroupImageMessageFromWAMessage', () => {
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'image',
+				type: 'unknown',
 				media: makeWAMessageMedia(),
 				body: faker.lorem.paragraph(),
 				author: makeWAPrivateContact(
@@ -62,22 +58,17 @@ describe('CreateGroupImageMessageFromWAMessage', () => {
 		expect(response.isSuccess()).toBe(true)
 		if (response.isFailure()) return
 
-		const { message } = response.value
-
-		expect(message.media).toBeTruthy()
-		expect(message.body).toBeTruthy()
 		expect(messagesRepository.items).toHaveLength(1)
-		expect(storageService.items).toHaveLength(1)
 	})
 
-	it('should be able to create a group image message quoting other message', async () => {
+	it('should be able to create a group unknown message quoting other message', async () => {
 		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
 		const author = makeContact({ instanceId: chat.instanceId })
 		contactsRepository.items.push(author)
 
-		const quotedMessage = makeGroupImageMessage({
+		const quotedMessage = makeGroupUnknownMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 		})
@@ -87,7 +78,7 @@ describe('CreateGroupImageMessageFromWAMessage', () => {
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'image',
+				type: 'unknown',
 				media: makeWAMessageMedia(),
 				author: makeWAPrivateContact(
 					{ instanceId: author.instanceId },
@@ -95,7 +86,7 @@ describe('CreateGroupImageMessageFromWAMessage', () => {
 				),
 				quoted: makeWAGroupMessage(
 					{
-						type: 'image',
+						type: 'unknown',
 						media: makeWAMessageMedia(),
 						instanceId: chat.instanceId,
 						waChatId: chat.waChatId,
@@ -110,9 +101,7 @@ describe('CreateGroupImageMessageFromWAMessage', () => {
 
 		const { message } = response.value
 
-		expect(message.media).toBeTruthy()
 		expect(message.quoted).toBeInstanceOf(GroupMessage)
 		expect(messagesRepository.items).toHaveLength(2)
-		expect(storageService.items).toHaveLength(1)
 	})
 })

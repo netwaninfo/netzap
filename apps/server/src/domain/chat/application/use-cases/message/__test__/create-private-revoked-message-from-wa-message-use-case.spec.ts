@@ -5,7 +5,7 @@ import { faker } from '@/test/lib/faker'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreatePrivateRevokedMessageFromWAMessage } from '../create-private-revoked-message-from-wa-message'
+import { CreatePrivateRevokedMessageFromWAMessage } from '../create-private-revoked-message-from-wa-message-use-case'
 
 describe('CreatePrivateRevokedMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository

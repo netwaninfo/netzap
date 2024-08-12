@@ -1,21 +1,22 @@
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
-import { makePrivateAudioMessage } from '@/test/factories/chat/private/make-private-audio-message'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
+import { makePrivateImageMessage } from '@/test/factories/chat/private/make-private-image-message'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
 import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
+import { faker } from '@/test/lib/faker'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { CreatePrivateAudioMessageFromWAMessage } from '../create-private-audio-message-from-wa-message'
+import { CreatePrivateImageMessageFromWAMessage } from '../create-private-image-message-from-wa-message-use-case'
 
-describe('CreatePrivateAudioMessageFromWAMessage', () => {
+describe('CreatePrivateImageMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let sut: CreatePrivateAudioMessageFromWAMessage
+	let sut: CreatePrivateImageMessageFromWAMessage
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -23,7 +24,7 @@ describe('CreatePrivateAudioMessageFromWAMessage', () => {
 		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		sut = new CreatePrivateAudioMessageFromWAMessage(
+		sut = new CreatePrivateImageMessageFromWAMessage(
 			chatsRepository,
 			messagesRepository,
 			storageService,
@@ -31,7 +32,7 @@ describe('CreatePrivateAudioMessageFromWAMessage', () => {
 		)
 	})
 
-	it('should be able to create a private audio message', async () => {
+	it('should be able to create a private image message', async () => {
 		const chat = makePrivateChat()
 		chatsRepository.items.push(chat)
 
@@ -39,8 +40,9 @@ describe('CreatePrivateAudioMessageFromWAMessage', () => {
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'audio',
+				type: 'image',
 				media: makeWAMessageMedia(),
+				body: faker.lorem.paragraph(),
 			}),
 		})
 
@@ -50,15 +52,16 @@ describe('CreatePrivateAudioMessageFromWAMessage', () => {
 		const { message } = response.value
 
 		expect(message.media).toBeTruthy()
+		expect(message.body).toBeTruthy()
 		expect(messagesRepository.items).toHaveLength(1)
 		expect(storageService.items).toHaveLength(1)
 	})
 
-	it('should be able to create a private audio message quoting other message', async () => {
+	it('should be able to create a private image message quoting other message', async () => {
 		const chat = makePrivateChat()
 		chatsRepository.items.push(chat)
 
-		const quotedMessage = makePrivateAudioMessage({
+		const quotedMessage = makePrivateImageMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 		})
@@ -68,11 +71,11 @@ describe('CreatePrivateAudioMessageFromWAMessage', () => {
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'audio',
+				type: 'image',
 				media: makeWAMessageMedia(),
 				quoted: makeWAPrivateMessage(
 					{
-						type: 'audio',
+						type: 'image',
 						media: makeWAMessageMedia(),
 						instanceId: chat.instanceId,
 						waChatId: chat.waChatId,

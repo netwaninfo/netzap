@@ -1,48 +1,44 @@
 import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
-import { makeGroupMultiVCardMessage } from '@/test/factories/chat/group/make-group-multi-v-card-message'
+import { makeGroupVideoMessage } from '@/test/factories/chat/group/make-group-video-message'
 import { makeContact } from '@/test/factories/chat/make-contact'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
+import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
+import { faker } from '@/test/lib/faker'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
-import { CreateGroupMultiVCardMessageFromWAMessage } from '../create-group-multi-card-message-from-wa-message'
+import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
+import { CreateGroupVideoMessageFromWAMessage } from '../create-group-video-message-from-wa-message-use-case'
 
-describe('CreateGroupMultiVCardMessageFromWAMessage', () => {
+describe('CreateGroupVideoMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
-
-	let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
-
+	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let sut: CreateGroupMultiVCardMessageFromWAMessage
+	let sut: CreateGroupVideoMessageFromWAMessage
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		contactsRepository = new InMemoryContactsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
-
-		createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
-			contactsRepository,
-		)
-
+		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		sut = new CreateGroupMultiVCardMessageFromWAMessage(
+		sut = new CreateGroupVideoMessageFromWAMessage(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,
-			createContactsFromWAContacts,
+			storageService,
 			dateService,
 		)
 	})
 
-	it('should be able to create a group multi vcard message', async () => {
+	it('should be able to create a group video message', async () => {
 		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
@@ -53,8 +49,9 @@ describe('CreateGroupMultiVCardMessageFromWAMessage', () => {
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'multi_vcard',
-				contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+				type: 'video',
+				media: makeWAMessageMedia(),
+				body: faker.lorem.paragraph(),
 				author: makeWAPrivateContact(
 					{ instanceId: author.instanceId },
 					author.waContactId,
@@ -65,18 +62,22 @@ describe('CreateGroupMultiVCardMessageFromWAMessage', () => {
 		expect(response.isSuccess()).toBe(true)
 		if (response.isFailure()) return
 
+		const { message } = response.value
+
+		expect(message.media).toBeTruthy()
+		expect(message.body).toBeTruthy()
 		expect(messagesRepository.items).toHaveLength(1)
-		expect(contactsRepository.items).toHaveLength(2)
+		expect(storageService.items).toHaveLength(1)
 	})
 
-	it('should be able to create a group vcard message quoting other message', async () => {
+	it('should be able to create a group video message quoting other message', async () => {
 		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
 		const author = makeContact({ instanceId: chat.instanceId })
 		contactsRepository.items.push(author)
 
-		const quotedMessage = makeGroupMultiVCardMessage({
+		const quotedMessage = makeGroupVideoMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 		})
@@ -86,16 +87,16 @@ describe('CreateGroupMultiVCardMessageFromWAMessage', () => {
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'multi_vcard',
-				contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+				type: 'video',
+				media: makeWAMessageMedia(),
 				author: makeWAPrivateContact(
 					{ instanceId: author.instanceId },
 					author.waContactId,
 				),
 				quoted: makeWAGroupMessage(
 					{
-						type: 'multi_vcard',
-						contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+						type: 'video',
+						media: makeWAMessageMedia(),
 						instanceId: chat.instanceId,
 						waChatId: chat.waChatId,
 					},
@@ -109,7 +110,9 @@ describe('CreateGroupMultiVCardMessageFromWAMessage', () => {
 
 		const { message } = response.value
 
+		expect(message.media).toBeTruthy()
 		expect(message.quoted).toBeInstanceOf(GroupMessage)
 		expect(messagesRepository.items).toHaveLength(2)
+		expect(storageService.items).toHaveLength(1)
 	})
 })

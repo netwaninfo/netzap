@@ -1,26 +1,25 @@
 import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
-import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
-import { makeGroupDocumentMessage } from '@/test/factories/chat/group/make-group-document-message'
+import { makeGroupAudioMessage } from '@/test/factories/chat/group/make-group-audio-message'
 import { makeContact } from '@/test/factories/chat/make-contact'
+import { makeGroupChat } from '@/test/factories/chat/make-group-chat'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
-import { faker } from '@/test/lib/faker'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { CreateGroupDocumentMessageFromWAMessage } from '../create-group-document-message-from-wa-message'
+import { CreateGroupAudioMessageFromWAMessage } from '../create-group-audio-message-from-wa-message-use-case'
 
-describe('CreateGroupDocumentMessageFromWAMessage', () => {
+describe('CreateGroupAudioMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let sut: CreateGroupDocumentMessageFromWAMessage
+	let sut: CreateGroupAudioMessageFromWAMessage
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -29,7 +28,7 @@ describe('CreateGroupDocumentMessageFromWAMessage', () => {
 		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		sut = new CreateGroupDocumentMessageFromWAMessage(
+		sut = new CreateGroupAudioMessageFromWAMessage(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,
@@ -38,7 +37,7 @@ describe('CreateGroupDocumentMessageFromWAMessage', () => {
 		)
 	})
 
-	it('should be able to create a group document message', async () => {
+	it('should be able to create a group audio message', async () => {
 		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
@@ -49,9 +48,8 @@ describe('CreateGroupDocumentMessageFromWAMessage', () => {
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'document',
+				type: 'audio',
 				media: makeWAMessageMedia(),
-				body: faker.lorem.paragraph(),
 				author: makeWAPrivateContact(
 					{ instanceId: author.instanceId },
 					author.waContactId,
@@ -65,19 +63,18 @@ describe('CreateGroupDocumentMessageFromWAMessage', () => {
 		const { message } = response.value
 
 		expect(message.media).toBeTruthy()
-		expect(message.body).toBeTruthy()
 		expect(messagesRepository.items).toHaveLength(1)
 		expect(storageService.items).toHaveLength(1)
 	})
 
-	it('should be able to create a group document message quoting other message', async () => {
+	it('should be able to create a group audio message quoting other message', async () => {
 		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
 		const author = makeContact({ instanceId: chat.instanceId })
 		contactsRepository.items.push(author)
 
-		const quotedMessage = makeGroupDocumentMessage({
+		const quotedMessage = makeGroupAudioMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 		})
@@ -87,7 +84,7 @@ describe('CreateGroupDocumentMessageFromWAMessage', () => {
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'document',
+				type: 'audio',
 				media: makeWAMessageMedia(),
 				author: makeWAPrivateContact(
 					{ instanceId: author.instanceId },
@@ -95,7 +92,7 @@ describe('CreateGroupDocumentMessageFromWAMessage', () => {
 				),
 				quoted: makeWAGroupMessage(
 					{
-						type: 'document',
+						type: 'audio',
 						media: makeWAMessageMedia(),
 						instanceId: chat.instanceId,
 						waChatId: chat.waChatId,

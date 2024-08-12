@@ -8,7 +8,7 @@ import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chat
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreateGroupRevokedMessageFromWAMessage } from '../create-group-revoked-message-from-wa-message'
+import { CreateGroupRevokedMessageFromWAMessage } from '../create-group-revoked-message-from-wa-message-use-case'
 
 describe('CreateGroupRevokedMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository

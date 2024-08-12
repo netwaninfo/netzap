@@ -1,40 +1,48 @@
 import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
-import { makeGroupTextMessage } from '@/test/factories/chat/group/make-group-text-message'
+import { makeGroupVCardMessage } from '@/test/factories/chat/group/make-group-v-card-message'
 import { makeContact } from '@/test/factories/chat/make-contact'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
-import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
-import { faker } from '@/test/lib/faker'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreateGroupTextMessageFromWAMessage } from '../create-group-text-message-from-wa-message'
+import { CreateContactFromWAContactUseCase } from '../../contact/create-contact-from-wa-contact-use-case'
+import { CreateGroupVCardMessageFromWAMessage } from '../create-group-v-card-message-from-wa-message-use-case'
 
-describe('CreateGroupTextMessageFromWAMessage', () => {
+describe('CreateGroupVCardMessageFromWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
+
+	let createContactFromWAContact: CreateContactFromWAContactUseCase
+
 	let dateService: FakeDateService
 
-	let sut: CreateGroupTextMessageFromWAMessage
+	let sut: CreateGroupVCardMessageFromWAMessage
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		contactsRepository = new InMemoryContactsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
+
+		createContactFromWAContact = new CreateContactFromWAContactUseCase(
+			contactsRepository,
+		)
+
 		dateService = new FakeDateService()
 
-		sut = new CreateGroupTextMessageFromWAMessage(
+		sut = new CreateGroupVCardMessageFromWAMessage(
 			chatsRepository,
-			contactsRepository,
 			messagesRepository,
+			contactsRepository,
+			createContactFromWAContact,
 			dateService,
 		)
 	})
 
-	it('should be able to create a group text message', async () => {
+	it('should be able to create a group vcard message', async () => {
 		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
@@ -45,9 +53,12 @@ describe('CreateGroupTextMessageFromWAMessage', () => {
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'text',
-				media: makeWAMessageMedia(),
-				body: faker.lorem.paragraph(),
+				type: 'vcard',
+				contacts: [
+					makeWAPrivateContact({
+						instanceId: chat.instanceId,
+					}),
+				],
 				author: makeWAPrivateContact(
 					{ instanceId: author.instanceId },
 					author.waContactId,
@@ -58,20 +69,59 @@ describe('CreateGroupTextMessageFromWAMessage', () => {
 		expect(response.isSuccess()).toBe(true)
 		if (response.isFailure()) return
 
-		const { message } = response.value
-
-		expect(message.body).toBeTruthy()
 		expect(messagesRepository.items).toHaveLength(1)
+		expect(contactsRepository.items).toHaveLength(2)
 	})
 
-	it('should be able to create a group text message quoting other message', async () => {
+	it('should be able to create a group vcard message with existing contact', async () => {
 		const chat = makeGroupChat()
 		chatsRepository.items.push(chat)
 
 		const author = makeContact({ instanceId: chat.instanceId })
 		contactsRepository.items.push(author)
 
-		const quotedMessage = makeGroupTextMessage({
+		const contact = makeContact({ instanceId: chat.instanceId })
+		contactsRepository.items.push(contact)
+
+		const createContactFromWAContactMock = vi.spyOn(
+			createContactFromWAContact,
+			'execute',
+		)
+
+		const response = await sut.execute({
+			waMessage: makeWAGroupMessage({
+				instanceId: chat.instanceId,
+				waChatId: chat.waChatId,
+				type: 'vcard',
+				contacts: [
+					makeWAPrivateContact(
+						{ instanceId: contact.instanceId },
+						contact.waContactId,
+					),
+				],
+				author: makeWAPrivateContact(
+					{ instanceId: author.instanceId },
+					author.waContactId,
+				),
+			}),
+		})
+
+		expect(response.isSuccess()).toBe(true)
+		if (response.isFailure()) return
+
+		expect(messagesRepository.items).toHaveLength(1)
+		expect(contactsRepository.items).toHaveLength(2)
+		expect(createContactFromWAContactMock).not.toHaveBeenCalled()
+	})
+
+	it('should be able to create a group vcard message quoting other message', async () => {
+		const chat = makeGroupChat()
+		chatsRepository.items.push(chat)
+
+		const author = makeContact({ instanceId: chat.instanceId })
+		contactsRepository.items.push(author)
+
+		const quotedMessage = makeGroupVCardMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,
 		})
@@ -81,16 +131,20 @@ describe('CreateGroupTextMessageFromWAMessage', () => {
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
-				type: 'text',
-				media: makeWAMessageMedia(),
+				type: 'vcard',
+				contacts: [
+					makeWAPrivateContact({
+						instanceId: chat.instanceId,
+					}),
+				],
 				author: makeWAPrivateContact(
 					{ instanceId: author.instanceId },
 					author.waContactId,
 				),
 				quoted: makeWAGroupMessage(
 					{
-						type: 'text',
-						media: makeWAMessageMedia(),
+						type: 'vcard',
+						contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
 						instanceId: chat.instanceId,
 						waChatId: chat.waChatId,
 					},
@@ -105,7 +159,6 @@ describe('CreateGroupTextMessageFromWAMessage', () => {
 		const { message } = response.value
 
 		expect(message.quoted).toBeInstanceOf(GroupMessage)
-		expect(message.body).toBeTruthy()
 		expect(messagesRepository.items).toHaveLength(2)
 	})
 })
