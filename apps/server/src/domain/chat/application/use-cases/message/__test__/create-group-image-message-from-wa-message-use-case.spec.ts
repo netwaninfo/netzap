@@ -11,16 +11,16 @@ import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-c
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { CreateGroupImageMessageFromWAMessage } from '../create-group-image-message-from-wa-message-use-case'
+import { CreateGroupImageMessageFromWAMessageUseCase } from '../create-group-image-message-from-wa-message-use-case'
 
-describe('CreateGroupImageMessageFromWAMessage', () => {
+describe('CreateGroupImageMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let sut: CreateGroupImageMessageFromWAMessage
+	let sut: CreateGroupImageMessageFromWAMessageUseCase
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -29,7 +29,7 @@ describe('CreateGroupImageMessageFromWAMessage', () => {
 		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		sut = new CreateGroupImageMessageFromWAMessage(
+		sut = new CreateGroupImageMessageFromWAMessageUseCase(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,

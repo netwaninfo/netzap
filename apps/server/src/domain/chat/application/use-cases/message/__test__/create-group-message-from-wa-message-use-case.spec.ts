@@ -21,19 +21,19 @@ import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
 import { CreateContactFromWAContactUseCase } from '../../contact/create-contact-from-wa-contact-use-case'
 import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
-import { CreateGroupAudioMessageFromWAMessage } from '../create-group-audio-message-from-wa-message-use-case'
-import { CreateGroupDocumentMessageFromWAMessage } from '../create-group-document-message-from-wa-message-use-case'
-import { CreateGroupImageMessageFromWAMessage } from '../create-group-image-message-from-wa-message-use-case'
-import { CreateGroupMessageFromWAMessage } from '../create-group-message-from-wa-message-use-case'
-import { CreateGroupMultiVCardMessageFromWAMessage } from '../create-group-multi-card-message-from-wa-message-use-case'
-import { CreateGroupRevokedMessageFromWAMessage } from '../create-group-revoked-message-from-wa-message-use-case'
-import { CreateGroupTextMessageFromWAMessage } from '../create-group-text-message-from-wa-message-use-case'
-import { CreateGroupUnknownMessageFromWAMessage } from '../create-group-unknown-message-from-wa-message-use-case'
-import { CreateGroupVCardMessageFromWAMessage } from '../create-group-v-card-message-from-wa-message-use-case'
-import { CreateGroupVideoMessageFromWAMessage } from '../create-group-video-message-from-wa-message-use-case'
-import { CreateGroupVoiceMessageFromWAMessage } from '../create-group-voice-message-from-wa-message-use-case'
+import { CreateGroupAudioMessageFromWAMessageUseCase } from '../create-group-audio-message-from-wa-message-use-case'
+import { CreateGroupDocumentMessageFromWAMessageUseCase } from '../create-group-document-message-from-wa-message-use-case'
+import { CreateGroupImageMessageFromWAMessageUseCase } from '../create-group-image-message-from-wa-message-use-case'
+import { CreateGroupMessageFromWAMessageUseCase } from '../create-group-message-from-wa-message-use-case'
+import { CreateGroupMultiVCardMessageFromWAMessageUseCase } from '../create-group-multi-card-message-from-wa-message-use-case'
+import { CreateGroupRevokedMessageFromWAMessageUseCase } from '../create-group-revoked-message-from-wa-message-use-case'
+import { CreateGroupTextMessageFromWAMessageUseCase } from '../create-group-text-message-from-wa-message-use-case'
+import { CreateGroupUnknownMessageFromWAMessageUseCase } from '../create-group-unknown-message-from-wa-message-use-case'
+import { CreateGroupVCardMessageFromWAMessageUseCase } from '../create-group-v-card-message-from-wa-message-use-case'
+import { CreateGroupVideoMessageFromWAMessageUseCase } from '../create-group-video-message-from-wa-message-use-case'
+import { CreateGroupVoiceMessageFromWAMessageUseCase } from '../create-group-voice-message-from-wa-message-use-case'
 
-describe('CreateGroupMessageFromWAMessage', () => {
+describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	let contactsRepository: InMemoryContactsRepository
 
 	let createContactFromWAContact: CreateContactFromWAContactUseCase
@@ -43,23 +43,23 @@ describe('CreateGroupMessageFromWAMessage', () => {
 	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let createGroupAudioMessageFromWAMessage: CreateGroupAudioMessageFromWAMessage
-	let createGroupDocumentMessageFromWAMessage: CreateGroupDocumentMessageFromWAMessage
-	let createGroupImageMessageFromWAMessage: CreateGroupImageMessageFromWAMessage
+	let createGroupAudioMessageFromWAMessage: CreateGroupAudioMessageFromWAMessageUseCase
+	let createGroupDocumentMessageFromWAMessage: CreateGroupDocumentMessageFromWAMessageUseCase
+	let createGroupImageMessageFromWAMessage: CreateGroupImageMessageFromWAMessageUseCase
 
 	let createContactsFromWAContactsUseCase: CreateContactsFromWAContactsUseCase
 
-	let createGroupMultiVCardMessageFromWAMessage: CreateGroupMultiVCardMessageFromWAMessage
-	let createGroupRevokedMessageFromWAMessage: CreateGroupRevokedMessageFromWAMessage
-	let createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessage
-	let createGroupUnknownMessageFromWAMessage: CreateGroupUnknownMessageFromWAMessage
+	let createGroupMultiVCardMessageFromWAMessage: CreateGroupMultiVCardMessageFromWAMessageUseCase
+	let createGroupRevokedMessageFromWAMessage: CreateGroupRevokedMessageFromWAMessageUseCase
+	let createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase
+	let createGroupUnknownMessageFromWAMessage: CreateGroupUnknownMessageFromWAMessageUseCase
 
-	let createGroupVCardMessageFromWAMessage: CreateGroupVCardMessageFromWAMessage
+	let createGroupVCardMessageFromWAMessage: CreateGroupVCardMessageFromWAMessageUseCase
 
-	let createGroupVideoMessageFromWAMessage: CreateGroupVideoMessageFromWAMessage
-	let createGroupVoiceMessageFromWAMessage: CreateGroupVoiceMessageFromWAMessage
+	let createGroupVideoMessageFromWAMessage: CreateGroupVideoMessageFromWAMessageUseCase
+	let createGroupVoiceMessageFromWAMessage: CreateGroupVoiceMessageFromWAMessageUseCase
 
-	let sut: CreateGroupMessageFromWAMessage
+	let sut: CreateGroupMessageFromWAMessageUseCase
 	let chat: GroupChat
 
 	beforeEach(() => {
@@ -75,7 +75,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 		dateService = new FakeDateService()
 
 		createGroupAudioMessageFromWAMessage =
-			new CreateGroupAudioMessageFromWAMessage(
+			new CreateGroupAudioMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
@@ -84,7 +84,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 			)
 
 		createGroupDocumentMessageFromWAMessage =
-			new CreateGroupDocumentMessageFromWAMessage(
+			new CreateGroupDocumentMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
@@ -93,7 +93,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 			)
 
 		createGroupImageMessageFromWAMessage =
-			new CreateGroupImageMessageFromWAMessage(
+			new CreateGroupImageMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
@@ -105,7 +105,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 			new CreateContactsFromWAContactsUseCase(contactsRepository)
 
 		createGroupMultiVCardMessageFromWAMessage =
-			new CreateGroupMultiVCardMessageFromWAMessage(
+			new CreateGroupMultiVCardMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
@@ -114,7 +114,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 			)
 
 		createGroupRevokedMessageFromWAMessage =
-			new CreateGroupRevokedMessageFromWAMessage(
+			new CreateGroupRevokedMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
@@ -122,7 +122,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 			)
 
 		createGroupTextMessageFromWAMessage =
-			new CreateGroupTextMessageFromWAMessage(
+			new CreateGroupTextMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
@@ -130,7 +130,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 			)
 
 		createGroupUnknownMessageFromWAMessage =
-			new CreateGroupUnknownMessageFromWAMessage(
+			new CreateGroupUnknownMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
@@ -138,7 +138,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 			)
 
 		createGroupVCardMessageFromWAMessage =
-			new CreateGroupVCardMessageFromWAMessage(
+			new CreateGroupVCardMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				contactsRepository,
@@ -147,7 +147,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 			)
 
 		createGroupVideoMessageFromWAMessage =
-			new CreateGroupVideoMessageFromWAMessage(
+			new CreateGroupVideoMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
@@ -156,7 +156,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 			)
 
 		createGroupVoiceMessageFromWAMessage =
-			new CreateGroupVoiceMessageFromWAMessage(
+			new CreateGroupVoiceMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
@@ -164,7 +164,7 @@ describe('CreateGroupMessageFromWAMessage', () => {
 				dateService,
 			)
 
-		sut = new CreateGroupMessageFromWAMessage(
+		sut = new CreateGroupMessageFromWAMessageUseCase(
 			contactsRepository,
 			createContactFromWAContact,
 			createGroupAudioMessageFromWAMessage,

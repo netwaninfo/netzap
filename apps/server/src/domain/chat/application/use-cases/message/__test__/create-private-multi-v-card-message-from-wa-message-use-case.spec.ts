@@ -8,9 +8,9 @@ import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-c
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
-import { CreatePrivateMultiVCardMessageFromWAMessage } from '../create-private-multi-card-message-from-wa-message-use-case'
+import { CreatePrivateMultiVCardMessageFromWAMessageUseCase } from '../create-private-multi-card-message-from-wa-message-use-case'
 
-describe('CreatePrivateMultiVCardMessageFromWAMessage', () => {
+describe('CreatePrivateMultiVCardMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let contactsRepository: InMemoryContactsRepository
@@ -19,7 +19,7 @@ describe('CreatePrivateMultiVCardMessageFromWAMessage', () => {
 
 	let dateService: FakeDateService
 
-	let sut: CreatePrivateMultiVCardMessageFromWAMessage
+	let sut: CreatePrivateMultiVCardMessageFromWAMessageUseCase
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -32,7 +32,7 @@ describe('CreatePrivateMultiVCardMessageFromWAMessage', () => {
 
 		dateService = new FakeDateService()
 
-		sut = new CreatePrivateMultiVCardMessageFromWAMessage(
+		sut = new CreatePrivateMultiVCardMessageFromWAMessageUseCase(
 			chatsRepository,
 			messagesRepository,
 			createContactsFromWAContacts,

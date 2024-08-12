@@ -12,18 +12,18 @@ import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 import type { StorageService } from '../../services/storage-service'
 
-interface CreateGroupVoiceMessageFromWAMessageRequest {
+interface CreateGroupVoiceMessageFromWAMessageUseCaseRequest {
 	waMessage: WAGroupMessage
 }
 
-type CreateGroupVoiceMessageFromWAMessageResponse = Either<
+type CreateGroupVoiceMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: GroupVoiceMessage
 	}
 >
 
-export class CreateGroupVoiceMessageFromWAMessage {
+export class CreateGroupVoiceMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private contactsRepository: ContactsRepository,
@@ -33,8 +33,8 @@ export class CreateGroupVoiceMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreateGroupVoiceMessageFromWAMessageRequest,
-	): Promise<CreateGroupVoiceMessageFromWAMessageResponse> {
+		request: CreateGroupVoiceMessageFromWAMessageUseCaseRequest,
+	): Promise<CreateGroupVoiceMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'voice' || !waMessage.hasMedia()

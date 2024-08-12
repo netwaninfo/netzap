@@ -9,9 +9,9 @@ import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-c
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
-import { CreateGroupMultiVCardMessageFromWAMessage } from '../create-group-multi-card-message-from-wa-message-use-case'
+import { CreateGroupMultiVCardMessageFromWAMessageUseCase } from '../create-group-multi-card-message-from-wa-message-use-case'
 
-describe('CreateGroupMultiVCardMessageFromWAMessage', () => {
+describe('CreateGroupMultiVCardMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
@@ -20,7 +20,7 @@ describe('CreateGroupMultiVCardMessageFromWAMessage', () => {
 
 	let dateService: FakeDateService
 
-	let sut: CreateGroupMultiVCardMessageFromWAMessage
+	let sut: CreateGroupMultiVCardMessageFromWAMessageUseCase
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -33,7 +33,7 @@ describe('CreateGroupMultiVCardMessageFromWAMessage', () => {
 
 		dateService = new FakeDateService()
 
-		sut = new CreateGroupMultiVCardMessageFromWAMessage(
+		sut = new CreateGroupMultiVCardMessageFromWAMessageUseCase(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,

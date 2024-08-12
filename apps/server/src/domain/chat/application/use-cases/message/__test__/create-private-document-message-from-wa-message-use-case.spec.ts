@@ -8,15 +8,15 @@ import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chat
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { CreatePrivateDocumentMessageFromWAMessage } from '../create-private-document-message-from-wa-message-use-case'
+import { CreatePrivateDocumentMessageFromWAMessageUseCase } from '../create-private-document-message-from-wa-message-use-case'
 
-describe('CreatePrivateDocumentMessageFromWAMessage', () => {
+describe('CreatePrivateDocumentMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let sut: CreatePrivateDocumentMessageFromWAMessage
+	let sut: CreatePrivateDocumentMessageFromWAMessageUseCase
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -24,7 +24,7 @@ describe('CreatePrivateDocumentMessageFromWAMessage', () => {
 		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		sut = new CreatePrivateDocumentMessageFromWAMessage(
+		sut = new CreatePrivateDocumentMessageFromWAMessageUseCase(
 			chatsRepository,
 			messagesRepository,
 			storageService,

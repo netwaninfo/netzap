@@ -9,18 +9,18 @@ import type { ContactsRepository } from '../../repositories/contacts-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 
-interface CreateGroupUnknownMessageFromWAMessageRequest {
+interface CreateGroupUnknownMessageFromWAMessageUseCaseRequest {
 	waMessage: WAGroupMessage
 }
 
-type CreateGroupUnknownMessageFromWAMessageResponse = Either<
+type CreateGroupUnknownMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: GroupUnknownMessage
 	}
 >
 
-export class CreateGroupUnknownMessageFromWAMessage {
+export class CreateGroupUnknownMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private contactsRepository: ContactsRepository,
@@ -29,8 +29,8 @@ export class CreateGroupUnknownMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreateGroupUnknownMessageFromWAMessageRequest,
-	): Promise<CreateGroupUnknownMessageFromWAMessageResponse> {
+		request: CreateGroupUnknownMessageFromWAMessageUseCaseRequest,
+	): Promise<CreateGroupUnknownMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'unknown'

@@ -4,22 +4,22 @@ import type { PrivateMessage } from '@/domain/chat/enterprise/types/message'
 import type { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { CreatePrivateAudioMessageFromWAMessage } from './create-private-audio-message-from-wa-message'
-import type { CreatePrivateDocumentMessageFromWAMessage } from './create-private-document-message-from-wa-message'
-import type { CreatePrivateImageMessageFromWAMessage } from './create-private-image-message-from-wa-message'
-import type { CreatePrivateMultiVCardMessageFromWAMessage } from './create-private-multi-card-message-from-wa-message'
-import type { CreatePrivateRevokedMessageFromWAMessage } from './create-private-revoked-message-from-wa-message'
-import type { CreatePrivateTextMessageFromWAMessage } from './create-private-text-message-from-wa-message'
-import type { CreatePrivateUnknownMessageFromWAMessage } from './create-private-unknown-message-from-wa-message'
-import type { CreatePrivateVCardMessageFromWAMessage } from './create-private-v-card-message-from-wa-message'
-import type { CreatePrivateVideoMessageFromWAMessage } from './create-private-video-message-from-wa-message'
-import type { CreatePrivateVoiceMessageFromWAMessage } from './create-private-voice-message-from-wa-message'
+import type { CreatePrivateAudioMessageFromWAMessageUseCase } from './create-private-audio-message-from-wa-message-use-case'
+import type { CreatePrivateDocumentMessageFromWAMessageUseCase } from './create-private-document-message-from-wa-message-use-case'
+import type { CreatePrivateImageMessageFromWAMessageUseCase } from './create-private-image-message-from-wa-message-use-case'
+import type { CreatePrivateMultiVCardMessageFromWAMessageUseCase } from './create-private-multi-card-message-from-wa-message-use-case'
+import type { CreatePrivateRevokedMessageFromWAMessageUseCase } from './create-private-revoked-message-from-wa-message-use-case'
+import type { CreatePrivateTextMessageFromWAMessageUseCase } from './create-private-text-message-from-wa-message-use-case'
+import type { CreatePrivateUnknownMessageFromWAMessageUseCase } from './create-private-unknown-message-from-wa-message-use-case'
+import type { CreatePrivateVCardMessageFromWAMessageUseCase } from './create-private-v-card-message-from-wa-message-use-case'
+import type { CreatePrivateVideoMessageFromWAMessageUseCase } from './create-private-video-message-from-wa-message-use-case'
+import type { CreatePrivateVoiceMessageFromWAMessageUseCase } from './create-private-voice-message-from-wa-message-use-case'
 
-interface CreatePrivateMessageFromWAMessageRequest {
+interface CreatePrivateMessageFromWAMessageUseCaseRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateMessageFromWAMessageResponse = Either<
+type CreatePrivateMessageFromWAMessageUseCaseResponse = Either<
 	| ResourceNotFoundError
 	| InvalidResourceFormatError
 	| ResourceAlreadyExistsError
@@ -29,23 +29,23 @@ type CreatePrivateMessageFromWAMessageResponse = Either<
 	}
 >
 
-export class CreatePrivateMessageFromWAMessage {
+export class CreatePrivateMessageFromWAMessageUseCase {
 	constructor(
-		private createPrivateAudioMessageFromWAMessage: CreatePrivateAudioMessageFromWAMessage,
-		private createPrivateDocumentMessageFromWAMessage: CreatePrivateDocumentMessageFromWAMessage,
-		private createPrivateImageMessageFromWAMessage: CreatePrivateImageMessageFromWAMessage,
-		private createPrivateMultiVCardMessageFromWAMessage: CreatePrivateMultiVCardMessageFromWAMessage,
-		private createPrivateRevokedMessageFromWAMessage: CreatePrivateRevokedMessageFromWAMessage,
-		private createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessage,
-		private createPrivateUnknownMessageFromWAMessage: CreatePrivateUnknownMessageFromWAMessage,
-		private createPrivateVCardMessageFromWAMessage: CreatePrivateVCardMessageFromWAMessage,
-		private createPrivateVideoMessageFromWAMessage: CreatePrivateVideoMessageFromWAMessage,
-		private createPrivateVoiceMessageFromWAMessage: CreatePrivateVoiceMessageFromWAMessage,
+		private createPrivateAudioMessageFromWAMessage: CreatePrivateAudioMessageFromWAMessageUseCase,
+		private createPrivateDocumentMessageFromWAMessage: CreatePrivateDocumentMessageFromWAMessageUseCase,
+		private createPrivateImageMessageFromWAMessage: CreatePrivateImageMessageFromWAMessageUseCase,
+		private createPrivateMultiVCardMessageFromWAMessage: CreatePrivateMultiVCardMessageFromWAMessageUseCase,
+		private createPrivateRevokedMessageFromWAMessage: CreatePrivateRevokedMessageFromWAMessageUseCase,
+		private createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessageUseCase,
+		private createPrivateUnknownMessageFromWAMessage: CreatePrivateUnknownMessageFromWAMessageUseCase,
+		private createPrivateVCardMessageFromWAMessage: CreatePrivateVCardMessageFromWAMessageUseCase,
+		private createPrivateVideoMessageFromWAMessage: CreatePrivateVideoMessageFromWAMessageUseCase,
+		private createPrivateVoiceMessageFromWAMessage: CreatePrivateVoiceMessageFromWAMessageUseCase,
 	) {}
 
 	async execute(
-		request: CreatePrivateMessageFromWAMessageRequest,
-	): Promise<CreatePrivateMessageFromWAMessageResponse> {
+		request: CreatePrivateMessageFromWAMessageUseCaseRequest,
+	): Promise<CreatePrivateMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		switch (waMessage.type) {

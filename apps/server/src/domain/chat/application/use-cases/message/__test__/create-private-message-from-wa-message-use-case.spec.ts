@@ -20,43 +20,43 @@ import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
 import { CreateContactFromWAContactUseCase } from '../../contact/create-contact-from-wa-contact-use-case'
 import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
-import { CreatePrivateAudioMessageFromWAMessage } from '../create-private-audio-message-from-wa-message-use-case'
-import { CreatePrivateDocumentMessageFromWAMessage } from '../create-private-document-message-from-wa-message-use-case'
-import { CreatePrivateImageMessageFromWAMessage } from '../create-private-image-message-from-wa-message-use-case'
-import { CreatePrivateMessageFromWAMessage } from '../create-private-message-from-wa-message-use-case'
-import { CreatePrivateMultiVCardMessageFromWAMessage } from '../create-private-multi-card-message-from-wa-message-use-case'
-import { CreatePrivateRevokedMessageFromWAMessage } from '../create-private-revoked-message-from-wa-message-use-case'
-import { CreatePrivateTextMessageFromWAMessage } from '../create-private-text-message-from-wa-message-use-case'
-import { CreatePrivateUnknownMessageFromWAMessage } from '../create-private-unknown-message-from-wa-message-use-case'
-import { CreatePrivateVCardMessageFromWAMessage } from '../create-private-v-card-message-from-wa-message-use-case'
-import { CreatePrivateVideoMessageFromWAMessage } from '../create-private-video-message-from-wa-message-use-case'
-import { CreatePrivateVoiceMessageFromWAMessage } from '../create-private-voice-message-from-wa-message-use-case'
+import { CreatePrivateAudioMessageFromWAMessageUseCase } from '../create-private-audio-message-from-wa-message-use-case'
+import { CreatePrivateDocumentMessageFromWAMessageUseCase } from '../create-private-document-message-from-wa-message-use-case'
+import { CreatePrivateImageMessageFromWAMessageUseCase } from '../create-private-image-message-from-wa-message-use-case'
+import { CreatePrivateMessageFromWAMessageUseCase } from '../create-private-message-from-wa-message-use-case'
+import { CreatePrivateMultiVCardMessageFromWAMessageUseCase } from '../create-private-multi-card-message-from-wa-message-use-case'
+import { CreatePrivateRevokedMessageFromWAMessageUseCase } from '../create-private-revoked-message-from-wa-message-use-case'
+import { CreatePrivateTextMessageFromWAMessageUseCase } from '../create-private-text-message-from-wa-message-use-case'
+import { CreatePrivateUnknownMessageFromWAMessageUseCase } from '../create-private-unknown-message-from-wa-message-use-case'
+import { CreatePrivateVCardMessageFromWAMessageUseCase } from '../create-private-v-card-message-from-wa-message-use-case'
+import { CreatePrivateVideoMessageFromWAMessageUseCase } from '../create-private-video-message-from-wa-message-use-case'
+import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '../create-private-voice-message-from-wa-message-use-case'
 
-describe('CreatePrivateMessageFromWAMessage', () => {
+describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let createPrivateAudioMessageFromWAMessage: CreatePrivateAudioMessageFromWAMessage
-	let createPrivateDocumentMessageFromWAMessage: CreatePrivateDocumentMessageFromWAMessage
-	let createPrivateImageMessageFromWAMessage: CreatePrivateImageMessageFromWAMessage
+	let createPrivateAudioMessageFromWAMessageUseCase: CreatePrivateAudioMessageFromWAMessageUseCase
+	let createPrivateDocumentMessageFromWAMessageUseCase: CreatePrivateDocumentMessageFromWAMessageUseCase
+	let createPrivateImageMessageFromWAMessageUseCase: CreatePrivateImageMessageFromWAMessageUseCase
 
 	let contactsRepository: InMemoryContactsRepository
 	let createContactsFromWAContactsUseCase: CreateContactsFromWAContactsUseCase
 
-	let createPrivateMultiVCardMessageFromWAMessage: CreatePrivateMultiVCardMessageFromWAMessage
-	let createPrivateRevokedMessageFromWAMessage: CreatePrivateRevokedMessageFromWAMessage
-	let createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessage
-	let createPrivateUnknownMessageFromWAMessage: CreatePrivateUnknownMessageFromWAMessage
+	let createPrivateMultiVCardMessageFromWAMessageUseCase: CreatePrivateMultiVCardMessageFromWAMessageUseCase
+	let createPrivateRevokedMessageFromWAMessageUseCase: CreatePrivateRevokedMessageFromWAMessageUseCase
+	let createPrivateTextMessageFromWAMessageUseCase: CreatePrivateTextMessageFromWAMessageUseCase
+	let createPrivateUnknownMessageFromWAMessageUseCase: CreatePrivateUnknownMessageFromWAMessageUseCase
 
 	let createContactFromWAContact: CreateContactFromWAContactUseCase
-	let createPrivateVCardMessageFromWAMessage: CreatePrivateVCardMessageFromWAMessage
+	let createPrivateVCardMessageFromWAMessageUseCase: CreatePrivateVCardMessageFromWAMessageUseCase
 
-	let createPrivateVideoMessageFromWAMessage: CreatePrivateVideoMessageFromWAMessage
-	let createPrivateVoiceMessageFromWAMessage: CreatePrivateVoiceMessageFromWAMessage
+	let createPrivateVideoMessageFromWAMessageUseCase: CreatePrivateVideoMessageFromWAMessageUseCase
+	let createPrivateVoiceMessageFromWAMessageUseCase: CreatePrivateVoiceMessageFromWAMessageUseCase
 
-	let sut: CreatePrivateMessageFromWAMessage
+	let sut: CreatePrivateMessageFromWAMessageUseCase
 	let chat: PrivateChat
 
 	beforeEach(() => {
@@ -65,24 +65,24 @@ describe('CreatePrivateMessageFromWAMessage', () => {
 		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		createPrivateAudioMessageFromWAMessage =
-			new CreatePrivateAudioMessageFromWAMessage(
+		createPrivateAudioMessageFromWAMessageUseCase =
+			new CreatePrivateAudioMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				storageService,
 				dateService,
 			)
 
-		createPrivateDocumentMessageFromWAMessage =
-			new CreatePrivateDocumentMessageFromWAMessage(
+		createPrivateDocumentMessageFromWAMessageUseCase =
+			new CreatePrivateDocumentMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				storageService,
 				dateService,
 			)
 
-		createPrivateImageMessageFromWAMessage =
-			new CreatePrivateImageMessageFromWAMessage(
+		createPrivateImageMessageFromWAMessageUseCase =
+			new CreatePrivateImageMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				storageService,
@@ -93,30 +93,30 @@ describe('CreatePrivateMessageFromWAMessage', () => {
 		createContactsFromWAContactsUseCase =
 			new CreateContactsFromWAContactsUseCase(contactsRepository)
 
-		createPrivateMultiVCardMessageFromWAMessage =
-			new CreatePrivateMultiVCardMessageFromWAMessage(
+		createPrivateMultiVCardMessageFromWAMessageUseCase =
+			new CreatePrivateMultiVCardMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				createContactsFromWAContactsUseCase,
 				dateService,
 			)
 
-		createPrivateRevokedMessageFromWAMessage =
-			new CreatePrivateRevokedMessageFromWAMessage(
+		createPrivateRevokedMessageFromWAMessageUseCase =
+			new CreatePrivateRevokedMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				dateService,
 			)
 
-		createPrivateTextMessageFromWAMessage =
-			new CreatePrivateTextMessageFromWAMessage(
+		createPrivateTextMessageFromWAMessageUseCase =
+			new CreatePrivateTextMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				dateService,
 			)
 
-		createPrivateUnknownMessageFromWAMessage =
-			new CreatePrivateUnknownMessageFromWAMessage(
+		createPrivateUnknownMessageFromWAMessageUseCase =
+			new CreatePrivateUnknownMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				dateService,
@@ -126,8 +126,8 @@ describe('CreatePrivateMessageFromWAMessage', () => {
 			contactsRepository,
 		)
 
-		createPrivateVCardMessageFromWAMessage =
-			new CreatePrivateVCardMessageFromWAMessage(
+		createPrivateVCardMessageFromWAMessageUseCase =
+			new CreatePrivateVCardMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				contactsRepository,
@@ -135,33 +135,33 @@ describe('CreatePrivateMessageFromWAMessage', () => {
 				dateService,
 			)
 
-		createPrivateVideoMessageFromWAMessage =
-			new CreatePrivateVideoMessageFromWAMessage(
+		createPrivateVideoMessageFromWAMessageUseCase =
+			new CreatePrivateVideoMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				storageService,
 				dateService,
 			)
 
-		createPrivateVoiceMessageFromWAMessage =
-			new CreatePrivateVoiceMessageFromWAMessage(
+		createPrivateVoiceMessageFromWAMessageUseCase =
+			new CreatePrivateVoiceMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
 				storageService,
 				dateService,
 			)
 
-		sut = new CreatePrivateMessageFromWAMessage(
-			createPrivateAudioMessageFromWAMessage,
-			createPrivateDocumentMessageFromWAMessage,
-			createPrivateImageMessageFromWAMessage,
-			createPrivateMultiVCardMessageFromWAMessage,
-			createPrivateRevokedMessageFromWAMessage,
-			createPrivateTextMessageFromWAMessage,
-			createPrivateUnknownMessageFromWAMessage,
-			createPrivateVCardMessageFromWAMessage,
-			createPrivateVideoMessageFromWAMessage,
-			createPrivateVoiceMessageFromWAMessage,
+		sut = new CreatePrivateMessageFromWAMessageUseCase(
+			createPrivateAudioMessageFromWAMessageUseCase,
+			createPrivateDocumentMessageFromWAMessageUseCase,
+			createPrivateImageMessageFromWAMessageUseCase,
+			createPrivateMultiVCardMessageFromWAMessageUseCase,
+			createPrivateRevokedMessageFromWAMessageUseCase,
+			createPrivateTextMessageFromWAMessageUseCase,
+			createPrivateUnknownMessageFromWAMessageUseCase,
+			createPrivateVCardMessageFromWAMessageUseCase,
+			createPrivateVideoMessageFromWAMessageUseCase,
+			createPrivateVoiceMessageFromWAMessageUseCase,
 		)
 
 		chat = makePrivateChat()

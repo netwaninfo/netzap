@@ -6,22 +6,22 @@ import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource
 import type { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import type { ContactsRepository } from '../../repositories/contacts-repository'
 import type { CreateContactFromWAContactUseCase } from '../contact/create-contact-from-wa-contact-use-case'
-import type { CreateGroupAudioMessageFromWAMessage } from './create-group-audio-message-from-wa-message'
-import type { CreateGroupDocumentMessageFromWAMessage } from './create-group-document-message-from-wa-message'
-import type { CreateGroupImageMessageFromWAMessage } from './create-group-image-message-from-wa-message'
-import type { CreateGroupMultiVCardMessageFromWAMessage } from './create-group-multi-card-message-from-wa-message'
-import type { CreateGroupRevokedMessageFromWAMessage } from './create-group-revoked-message-from-wa-message'
-import type { CreateGroupTextMessageFromWAMessage } from './create-group-text-message-from-wa-message'
-import type { CreateGroupUnknownMessageFromWAMessage } from './create-group-unknown-message-from-wa-message'
-import type { CreateGroupVCardMessageFromWAMessage } from './create-group-v-card-message-from-wa-message'
-import type { CreateGroupVideoMessageFromWAMessage } from './create-group-video-message-from-wa-message'
-import type { CreateGroupVoiceMessageFromWAMessage } from './create-group-voice-message-from-wa-message'
+import type { CreateGroupAudioMessageFromWAMessageUseCase } from './create-group-audio-message-from-wa-message-use-case'
+import type { CreateGroupDocumentMessageFromWAMessageUseCase } from './create-group-document-message-from-wa-message-use-case'
+import type { CreateGroupImageMessageFromWAMessageUseCase } from './create-group-image-message-from-wa-message-use-case'
+import type { CreateGroupMultiVCardMessageFromWAMessageUseCase } from './create-group-multi-card-message-from-wa-message-use-case'
+import type { CreateGroupRevokedMessageFromWAMessageUseCase } from './create-group-revoked-message-from-wa-message-use-case'
+import type { CreateGroupTextMessageFromWAMessageUseCase } from './create-group-text-message-from-wa-message-use-case'
+import type { CreateGroupUnknownMessageFromWAMessageUseCase } from './create-group-unknown-message-from-wa-message-use-case'
+import type { CreateGroupVCardMessageFromWAMessageUseCase } from './create-group-v-card-message-from-wa-message-use-case'
+import type { CreateGroupVideoMessageFromWAMessageUseCase } from './create-group-video-message-from-wa-message-use-case'
+import type { CreateGroupVoiceMessageFromWAMessageUseCase } from './create-group-voice-message-from-wa-message-use-case'
 
-interface CreateGroupMessageFromWAMessageRequest {
+interface CreateGroupMessageFromWAMessageUseCaseRequest {
 	waMessage: WAGroupMessage
 }
 
-type CreateGroupMessageFromWAMessageResponse = Either<
+type CreateGroupMessageFromWAMessageUseCaseResponse = Either<
 	| ResourceNotFoundError
 	| InvalidResourceFormatError
 	| ResourceAlreadyExistsError
@@ -31,25 +31,25 @@ type CreateGroupMessageFromWAMessageResponse = Either<
 	}
 >
 
-export class CreateGroupMessageFromWAMessage {
+export class CreateGroupMessageFromWAMessageUseCase {
 	constructor(
 		private contactsRepository: ContactsRepository,
 		private createContactFromWAContact: CreateContactFromWAContactUseCase,
-		private createGroupAudioMessageFromWAMessage: CreateGroupAudioMessageFromWAMessage,
-		private createGroupDocumentMessageFromWAMessage: CreateGroupDocumentMessageFromWAMessage,
-		private createGroupImageMessageFromWAMessage: CreateGroupImageMessageFromWAMessage,
-		private createGroupMultiVCardMessageFromWAMessage: CreateGroupMultiVCardMessageFromWAMessage,
-		private createGroupRevokedMessageFromWAMessage: CreateGroupRevokedMessageFromWAMessage,
-		private createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessage,
-		private createGroupUnknownMessageFromWAMessage: CreateGroupUnknownMessageFromWAMessage,
-		private createGroupVCardMessageFromWAMessage: CreateGroupVCardMessageFromWAMessage,
-		private createGroupVideoMessageFromWAMessage: CreateGroupVideoMessageFromWAMessage,
-		private createGroupVoiceMessageFromWAMessage: CreateGroupVoiceMessageFromWAMessage,
+		private createGroupAudioMessageFromWAMessage: CreateGroupAudioMessageFromWAMessageUseCase,
+		private createGroupDocumentMessageFromWAMessage: CreateGroupDocumentMessageFromWAMessageUseCase,
+		private createGroupImageMessageFromWAMessage: CreateGroupImageMessageFromWAMessageUseCase,
+		private createGroupMultiVCardMessageFromWAMessage: CreateGroupMultiVCardMessageFromWAMessageUseCase,
+		private createGroupRevokedMessageFromWAMessage: CreateGroupRevokedMessageFromWAMessageUseCase,
+		private createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase,
+		private createGroupUnknownMessageFromWAMessage: CreateGroupUnknownMessageFromWAMessageUseCase,
+		private createGroupVCardMessageFromWAMessage: CreateGroupVCardMessageFromWAMessageUseCase,
+		private createGroupVideoMessageFromWAMessage: CreateGroupVideoMessageFromWAMessageUseCase,
+		private createGroupVoiceMessageFromWAMessage: CreateGroupVoiceMessageFromWAMessageUseCase,
 	) {}
 
 	async execute(
-		request: CreateGroupMessageFromWAMessageRequest,
-	): Promise<CreateGroupMessageFromWAMessageResponse> {
+		request: CreateGroupMessageFromWAMessageUseCaseRequest,
+	): Promise<CreateGroupMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		/**

@@ -8,18 +8,18 @@ import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 
-interface CreatePrivateTextMessageFromWAMessageRequest {
+interface CreatePrivateTextMessageFromWAMessageUseCaseRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateTextMessageFromWAMessageResponse = Either<
+type CreatePrivateTextMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: PrivateTextMessage
 	}
 >
 
-export class CreatePrivateTextMessageFromWAMessage {
+export class CreatePrivateTextMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
@@ -27,8 +27,8 @@ export class CreatePrivateTextMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreatePrivateTextMessageFromWAMessageRequest,
-	): Promise<CreatePrivateTextMessageFromWAMessageResponse> {
+		request: CreatePrivateTextMessageFromWAMessageUseCaseRequest,
+	): Promise<CreatePrivateTextMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'text'

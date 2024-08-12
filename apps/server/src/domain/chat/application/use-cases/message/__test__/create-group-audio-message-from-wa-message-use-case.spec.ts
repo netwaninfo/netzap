@@ -10,16 +10,16 @@ import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-c
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { CreateGroupAudioMessageFromWAMessage } from '../create-group-audio-message-from-wa-message-use-case'
+import { CreateGroupAudioMessageFromWAMessageUseCase } from '../create-group-audio-message-from-wa-message-use-case'
 
-describe('CreateGroupAudioMessageFromWAMessage', () => {
+describe('CreateGroupAudioMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let sut: CreateGroupAudioMessageFromWAMessage
+	let sut: CreateGroupAudioMessageFromWAMessageUseCase
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -28,7 +28,7 @@ describe('CreateGroupAudioMessageFromWAMessage', () => {
 		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		sut = new CreateGroupAudioMessageFromWAMessage(
+		sut = new CreateGroupAudioMessageFromWAMessageUseCase(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,

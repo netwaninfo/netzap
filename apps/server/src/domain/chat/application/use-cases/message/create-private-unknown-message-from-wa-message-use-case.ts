@@ -8,18 +8,18 @@ import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 
-interface CreatePrivateUnknownMessageFromWAMessageRequest {
+interface CreatePrivateUnknownMessageFromWAMessageUseCaseRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateUnknownMessageFromWAMessageResponse = Either<
+type CreatePrivateUnknownMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: PrivateUnknownMessage
 	}
 >
 
-export class CreatePrivateUnknownMessageFromWAMessage {
+export class CreatePrivateUnknownMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
@@ -27,8 +27,8 @@ export class CreatePrivateUnknownMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreatePrivateUnknownMessageFromWAMessageRequest,
-	): Promise<CreatePrivateUnknownMessageFromWAMessageResponse> {
+		request: CreatePrivateUnknownMessageFromWAMessageUseCaseRequest,
+	): Promise<CreatePrivateUnknownMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'unknown'

@@ -11,11 +11,11 @@ import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 import type { CreateContactFromWAContactUseCase } from '../contact/create-contact-from-wa-contact-use-case'
 
-interface CreateGroupVCardMessageFromWAMessageRequest {
+interface CreateGroupVCardMessageFromWAMessageUseCaseRequest {
 	waMessage: WAGroupMessage
 }
 
-type CreateGroupVCardMessageFromWAMessageResponse = Either<
+type CreateGroupVCardMessageFromWAMessageUseCaseResponse = Either<
 	| ResourceNotFoundError
 	| InvalidResourceFormatError
 	| ResourceAlreadyExistsError,
@@ -24,7 +24,7 @@ type CreateGroupVCardMessageFromWAMessageResponse = Either<
 	}
 >
 
-export class CreateGroupVCardMessageFromWAMessage {
+export class CreateGroupVCardMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
@@ -34,8 +34,8 @@ export class CreateGroupVCardMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreateGroupVCardMessageFromWAMessageRequest,
-	): Promise<CreateGroupVCardMessageFromWAMessageResponse> {
+		request: CreateGroupVCardMessageFromWAMessageUseCaseRequest,
+	): Promise<CreateGroupVCardMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const waContact = waMessage.contacts?.at(0)

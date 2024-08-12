@@ -11,18 +11,18 @@ import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 import type { StorageService } from '../../services/storage-service'
 
-interface CreatePrivateImageMessageFromWAMessageRequest {
+interface CreatePrivateImageMessageFromWAMessageUseCaseRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateImageMessageFromWAMessageResponse = Either<
+type CreatePrivateImageMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: PrivateImageMessage
 	}
 >
 
-export class CreatePrivateImageMessageFromWAMessage {
+export class CreatePrivateImageMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
@@ -31,8 +31,8 @@ export class CreatePrivateImageMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreatePrivateImageMessageFromWAMessageRequest,
-	): Promise<CreatePrivateImageMessageFromWAMessageResponse> {
+		request: CreatePrivateImageMessageFromWAMessageUseCaseRequest,
+	): Promise<CreatePrivateImageMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'image' || !waMessage.hasMedia()

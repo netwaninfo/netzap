@@ -11,18 +11,18 @@ import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 import type { StorageService } from '../../services/storage-service'
 
-interface CreatePrivateAudioMessageFromWAMessageRequest {
+interface CreatePrivateAudioMessageFromWAMessageUseCaseRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateAudioMessageFromWAMessageResponse = Either<
+type CreatePrivateAudioMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: PrivateAudioMessage
 	}
 >
 
-export class CreatePrivateAudioMessageFromWAMessage {
+export class CreatePrivateAudioMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
@@ -31,8 +31,8 @@ export class CreatePrivateAudioMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreatePrivateAudioMessageFromWAMessageRequest,
-	): Promise<CreatePrivateAudioMessageFromWAMessageResponse> {
+		request: CreatePrivateAudioMessageFromWAMessageUseCaseRequest,
+	): Promise<CreatePrivateAudioMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'audio' || !waMessage.hasMedia()

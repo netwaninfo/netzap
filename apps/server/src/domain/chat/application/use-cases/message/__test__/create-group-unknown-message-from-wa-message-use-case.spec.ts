@@ -10,15 +10,15 @@ import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chat
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreateGroupUnknownMessageFromWAMessage } from '../create-group-unknown-message-from-wa-message-use-case'
+import { CreateGroupUnknownMessageFromWAMessageUseCase } from '../create-group-unknown-message-from-wa-message-use-case'
 
-describe('CreateGroupUnknownMessageFromWAMessage', () => {
+describe('CreateGroupUnknownMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let dateService: FakeDateService
 
-	let sut: CreateGroupUnknownMessageFromWAMessage
+	let sut: CreateGroupUnknownMessageFromWAMessageUseCase
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -26,7 +26,7 @@ describe('CreateGroupUnknownMessageFromWAMessage', () => {
 		messagesRepository = new InMemoryMessagesRepository()
 		dateService = new FakeDateService()
 
-		sut = new CreateGroupUnknownMessageFromWAMessage(
+		sut = new CreateGroupUnknownMessageFromWAMessageUseCase(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,

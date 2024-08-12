@@ -7,18 +7,18 @@ import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 
-interface CreatePrivateRevokedMessageFromWAMessageRequest {
+interface CreatePrivateRevokedMessageFromWAMessageUseCaseRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateRevokedMessageFromWAMessageResponse = Either<
+type CreatePrivateRevokedMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: PrivateRevokedMessage
 	}
 >
 
-export class CreatePrivateRevokedMessageFromWAMessage {
+export class CreatePrivateRevokedMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
@@ -26,8 +26,8 @@ export class CreatePrivateRevokedMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreatePrivateRevokedMessageFromWAMessageRequest,
-	): Promise<CreatePrivateRevokedMessageFromWAMessageResponse> {
+		request: CreatePrivateRevokedMessageFromWAMessageUseCaseRequest,
+	): Promise<CreatePrivateRevokedMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'revoked'

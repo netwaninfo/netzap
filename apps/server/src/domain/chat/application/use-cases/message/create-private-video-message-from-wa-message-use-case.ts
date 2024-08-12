@@ -11,18 +11,18 @@ import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 import type { StorageService } from '../../services/storage-service'
 
-interface CreatePrivateVideoMessageFromWAMessageRequest {
+interface CreatePrivateVideoMessageFromWAMessageUseCaseRequest {
 	waMessage: WAPrivateMessage
 }
 
-type CreatePrivateVideoMessageFromWAMessageResponse = Either<
+type CreatePrivateVideoMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: PrivateVideoMessage
 	}
 >
 
-export class CreatePrivateVideoMessageFromWAMessage {
+export class CreatePrivateVideoMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
@@ -31,8 +31,8 @@ export class CreatePrivateVideoMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreatePrivateVideoMessageFromWAMessageRequest,
-	): Promise<CreatePrivateVideoMessageFromWAMessageResponse> {
+		request: CreatePrivateVideoMessageFromWAMessageUseCaseRequest,
+	): Promise<CreatePrivateVideoMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'video' || !waMessage.hasMedia()

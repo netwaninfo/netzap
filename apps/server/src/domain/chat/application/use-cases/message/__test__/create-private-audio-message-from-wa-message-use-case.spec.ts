@@ -7,15 +7,15 @@ import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chat
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { CreatePrivateAudioMessageFromWAMessage } from '../create-private-audio-message-from-wa-message-use-case'
+import { CreatePrivateAudioMessageFromWAMessageUseCase } from '../create-private-audio-message-from-wa-message-use-case'
 
-describe('CreatePrivateAudioMessageFromWAMessage', () => {
+describe('CreatePrivateAudioMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let storageService: FakeStorageService
 	let dateService: FakeDateService
 
-	let sut: CreatePrivateAudioMessageFromWAMessage
+	let sut: CreatePrivateAudioMessageFromWAMessageUseCase
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -23,7 +23,7 @@ describe('CreatePrivateAudioMessageFromWAMessage', () => {
 		storageService = new FakeStorageService()
 		dateService = new FakeDateService()
 
-		sut = new CreatePrivateAudioMessageFromWAMessage(
+		sut = new CreatePrivateAudioMessageFromWAMessageUseCase(
 			chatsRepository,
 			messagesRepository,
 			storageService,

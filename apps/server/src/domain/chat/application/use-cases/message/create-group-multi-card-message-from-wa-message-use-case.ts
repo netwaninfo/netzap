@@ -10,18 +10,18 @@ import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 import type { CreateContactsFromWAContactsUseCase } from '../contact/create-contacts-from-wa-contacts-use-case'
 
-interface CreateGroupMultiVCardMessageFromWAMessageRequest {
+interface CreateGroupMultiVCardMessageFromWAMessageUseCaseRequest {
 	waMessage: WAGroupMessage
 }
 
-type CreateGroupMultiVCardMessageFromWAMessageResponse = Either<
+type CreateGroupMultiVCardMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError | null,
 	{
 		message: GroupMultiVCardMessage
 	}
 >
 
-export class CreateGroupMultiVCardMessageFromWAMessage {
+export class CreateGroupMultiVCardMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private contactsRepository: ContactsRepository,
@@ -31,8 +31,8 @@ export class CreateGroupMultiVCardMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreateGroupMultiVCardMessageFromWAMessageRequest,
-	): Promise<CreateGroupMultiVCardMessageFromWAMessageResponse> {
+		request: CreateGroupMultiVCardMessageFromWAMessageUseCaseRequest,
+	): Promise<CreateGroupMultiVCardMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat =

@@ -2,18 +2,21 @@ import { type Either, success } from '@/core/either'
 import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message'
 import type { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 
-interface CreateMessageFromWAMessageRequest {
+interface CreateMessageFromWAMessageUseCaseRequest {
 	waMessage: WAMessage
 }
 
-type CreateMessageFromWAMessageResponse = Either<ResourceNotFoundError, {}>
+type CreateMessageFromWAMessageUseCaseResponse = Either<
+	ResourceNotFoundError,
+	{}
+>
 
-export class CreateMessageFromWAMessage {
+export class CreateMessageFromWAMessageUseCase {
 	constructor() {}
 
 	async execute(
-		request: CreateMessageFromWAMessageRequest,
-	): Promise<CreateMessageFromWAMessageResponse> {
+		request: CreateMessageFromWAMessageUseCaseRequest,
+	): Promise<CreateMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		return success({})

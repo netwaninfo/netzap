@@ -5,21 +5,21 @@ import { faker } from '@/test/lib/faker'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreatePrivateRevokedMessageFromWAMessage } from '../create-private-revoked-message-from-wa-message-use-case'
+import { CreatePrivateRevokedMessageFromWAMessageUseCase } from '../create-private-revoked-message-from-wa-message-use-case'
 
-describe('CreatePrivateRevokedMessageFromWAMessage', () => {
+describe('CreatePrivateRevokedMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let dateService: FakeDateService
 
-	let sut: CreatePrivateRevokedMessageFromWAMessage
+	let sut: CreatePrivateRevokedMessageFromWAMessageUseCase
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
 		dateService = new FakeDateService()
 
-		sut = new CreatePrivateRevokedMessageFromWAMessage(
+		sut = new CreatePrivateRevokedMessageFromWAMessageUseCase(
 			chatsRepository,
 			messagesRepository,
 			dateService,

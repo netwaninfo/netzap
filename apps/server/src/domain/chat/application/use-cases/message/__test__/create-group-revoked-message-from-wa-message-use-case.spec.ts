@@ -8,15 +8,15 @@ import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chat
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreateGroupRevokedMessageFromWAMessage } from '../create-group-revoked-message-from-wa-message-use-case'
+import { CreateGroupRevokedMessageFromWAMessageUseCase } from '../create-group-revoked-message-from-wa-message-use-case'
 
-describe('CreateGroupRevokedMessageFromWAMessage', () => {
+describe('CreateGroupRevokedMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
 	let dateService: FakeDateService
 
-	let sut: CreateGroupRevokedMessageFromWAMessage
+	let sut: CreateGroupRevokedMessageFromWAMessageUseCase
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
@@ -24,7 +24,7 @@ describe('CreateGroupRevokedMessageFromWAMessage', () => {
 		messagesRepository = new InMemoryMessagesRepository()
 		dateService = new FakeDateService()
 
-		sut = new CreateGroupRevokedMessageFromWAMessage(
+		sut = new CreateGroupRevokedMessageFromWAMessageUseCase(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,

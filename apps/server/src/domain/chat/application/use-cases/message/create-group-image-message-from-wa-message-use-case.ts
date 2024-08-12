@@ -12,18 +12,18 @@ import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 import type { StorageService } from '../../services/storage-service'
 
-interface CreateGroupImageMessageFromWAMessageRequest {
+interface CreateGroupImageMessageFromWAMessageUseCaseRequest {
 	waMessage: WAGroupMessage
 }
 
-type CreateGroupImageMessageFromWAMessageResponse = Either<
+type CreateGroupImageMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: GroupImageMessage
 	}
 >
 
-export class CreateGroupImageMessageFromWAMessage {
+export class CreateGroupImageMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private contactsRepository: ContactsRepository,
@@ -33,8 +33,8 @@ export class CreateGroupImageMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreateGroupImageMessageFromWAMessageRequest,
-	): Promise<CreateGroupImageMessageFromWAMessageResponse> {
+		request: CreateGroupImageMessageFromWAMessageUseCaseRequest,
+	): Promise<CreateGroupImageMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'image' || !waMessage.hasMedia()

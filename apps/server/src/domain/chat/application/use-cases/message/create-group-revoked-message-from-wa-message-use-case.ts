@@ -8,18 +8,18 @@ import type { ContactsRepository } from '../../repositories/contacts-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
 
-interface CreateGroupRevokedMessageFromWAMessageRequest {
+interface CreateGroupRevokedMessageFromWAMessageUseCaseRequest {
 	waMessage: WAGroupMessage
 }
 
-type CreateGroupRevokedMessageFromWAMessageResponse = Either<
+type CreateGroupRevokedMessageFromWAMessageUseCaseResponse = Either<
 	ResourceNotFoundError | InvalidResourceFormatError,
 	{
 		message: GroupRevokedMessage
 	}
 >
 
-export class CreateGroupRevokedMessageFromWAMessage {
+export class CreateGroupRevokedMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private contactsRepository: ContactsRepository,
@@ -28,8 +28,8 @@ export class CreateGroupRevokedMessageFromWAMessage {
 	) {}
 
 	async execute(
-		request: CreateGroupRevokedMessageFromWAMessageRequest,
-	): Promise<CreateGroupRevokedMessageFromWAMessageResponse> {
+		request: CreateGroupRevokedMessageFromWAMessageUseCaseRequest,
+	): Promise<CreateGroupRevokedMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
 		const hasInvalidFormat = waMessage.type !== 'revoked'
