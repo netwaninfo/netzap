@@ -5,10 +5,12 @@ import { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-
 
 describe('CreateMessageMediaFromWAMessageUseCase', () => {
 	let storageService: FakeStorageService
+
 	let sut: CreateMessageMediaFromWAMessageUseCase
 
 	beforeEach(() => {
 		storageService = new FakeStorageService()
+
 		sut = new CreateMessageMediaFromWAMessageUseCase(storageService)
 	})
 

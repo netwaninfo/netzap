@@ -32,6 +32,7 @@ import { CreateGroupUnknownMessageFromWAMessageUseCase } from '../create-group-u
 import { CreateGroupVCardMessageFromWAMessageUseCase } from '../create-group-v-card-message-from-wa-message-use-case'
 import { CreateGroupVideoMessageFromWAMessageUseCase } from '../create-group-video-message-from-wa-message-use-case'
 import { CreateGroupVoiceMessageFromWAMessageUseCase } from '../create-group-voice-message-from-wa-message-use-case'
+import { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-from-wa-message-use-case'
 
 describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	let contactsRepository: InMemoryContactsRepository
@@ -40,7 +41,10 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
+
 	let storageService: FakeStorageService
+	let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
+
 	let dateService: FakeDateService
 
 	let createGroupAudioMessageFromWAMessage: CreateGroupAudioMessageFromWAMessageUseCase
@@ -72,6 +76,11 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
 		storageService = new FakeStorageService()
+
+		storageService = new FakeStorageService()
+		createMessageMediaFromWAMessage =
+			new CreateMessageMediaFromWAMessageUseCase(storageService)
+
 		dateService = new FakeDateService()
 
 		createGroupAudioMessageFromWAMessage =
@@ -79,7 +88,7 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 
@@ -88,7 +97,7 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 
@@ -97,7 +106,7 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 

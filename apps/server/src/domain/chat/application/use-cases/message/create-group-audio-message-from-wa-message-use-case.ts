@@ -1,7 +1,5 @@
-import { Readable } from 'node:stream'
 import { type Either, failure, success } from '@/core/either'
 import { GroupAudioMessage } from '@/domain/chat/enterprise/entities/group/audio-message'
-import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
 import type { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/message'
 import type { GroupMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
@@ -10,7 +8,7 @@ import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { ContactsRepository } from '../../repositories/contacts-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
-import type { StorageService } from '../../services/storage-service'
+import type { CreateMessageMediaFromWAMessageUseCase } from './create-message-media-from-wa-message-use-case'
 
 interface CreateGroupAudioMessageFromWAMessageUseCaseRequest {
 	waMessage: WAGroupMessage
@@ -28,7 +26,7 @@ export class CreateGroupAudioMessageFromWAMessageUseCase {
 		private chatsRepository: ChatsRepository,
 		private contactsRepository: ContactsRepository,
 		private messagesRepository: MessagesRepository,
-		private storageService: StorageService,
+		private createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase,
 		private dateService: DateService,
 	) {}
 
@@ -77,20 +75,12 @@ export class CreateGroupAudioMessageFromWAMessageUseCase {
 				)
 		}
 
-		const waMessageMedia = waMessage.media
-		const extension = waMessageMedia.mimeType.extension()
-
-		const storageObject = await this.storageService.put({
-			filename: `${waMessage.ref}.${extension}`,
-			mimeType: waMessageMedia.mimeType,
-			data: Readable.from(Buffer.from(waMessageMedia.data, 'base64')),
+		const response = await this.createMessageMediaFromWAMessage.execute({
+			waMessage,
 		})
 
-		const media = MessageMedia.create({
-			key: storageObject.path,
-			url: storageObject.url,
-			mimeType: storageObject.mimeType,
-		})
+		if (response.isFailure()) return failure(response.value)
+		const { media } = response.value
 
 		const message = GroupAudioMessage.create({
 			author,

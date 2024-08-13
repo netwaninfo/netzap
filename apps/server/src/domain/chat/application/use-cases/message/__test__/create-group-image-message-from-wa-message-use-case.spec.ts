@@ -12,12 +12,16 @@ import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-m
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
 import { CreateGroupImageMessageFromWAMessageUseCase } from '../create-group-image-message-from-wa-message-use-case'
+import { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-from-wa-message-use-case'
 
 describe('CreateGroupImageMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
+
 	let storageService: FakeStorageService
+	let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
+
 	let dateService: FakeDateService
 
 	let sut: CreateGroupImageMessageFromWAMessageUseCase
@@ -26,14 +30,18 @@ describe('CreateGroupImageMessageFromWAMessageUseCase', () => {
 		chatsRepository = new InMemoryChatsRepository()
 		contactsRepository = new InMemoryContactsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
+
 		storageService = new FakeStorageService()
+		createMessageMediaFromWAMessage =
+			new CreateMessageMediaFromWAMessageUseCase(storageService)
+
 		dateService = new FakeDateService()
 
 		sut = new CreateGroupImageMessageFromWAMessageUseCase(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,
-			storageService,
+			createMessageMediaFromWAMessage,
 			dateService,
 		)
 	})
