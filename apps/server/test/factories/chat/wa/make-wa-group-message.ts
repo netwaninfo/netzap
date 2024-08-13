@@ -13,17 +13,19 @@ export const makeWAGroupMessage = (
 	override: Partial<WAGroupMessageProps> = {},
 	id: WAMessageID = makeWAMessageID(),
 ) => {
+	const instanceId = makeUniqueEntityID()
+
 	return WAGroupMessage.create(
 		{
+			instanceId,
 			ack: 'pending',
 			body: faker.lorem.paragraph(),
 			waChatId: makeWAEntityID(),
-			instanceId: makeUniqueEntityID(),
 			isForwarded: faker.datatype.boolean(),
 			isFromMe: faker.datatype.boolean(),
 			timestamp: Date.now(),
 			type: 'text',
-			author: makeWAPrivateContact(),
+			author: makeWAPrivateContact({ instanceId }),
 			raw: {},
 			...override,
 		},

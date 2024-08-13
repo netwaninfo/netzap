@@ -1,12 +1,13 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { Message } from '../types/message'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 
 export interface ChatProps {
 	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 	unreadCount: number
-	lastMessageAt: Date | null
+	lastMessage: Message | null
 }
 
 export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
@@ -30,8 +31,8 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
 		this.set({ unreadCount: -1 })
 	}
 
-	get lastMessageAt() {
-		return this.props.lastMessageAt
+	interact(message: Message): void {
+		this.set({ lastMessage: message })
 	}
 
 	protected override set<T extends Partial<ChatProps>>(newProps: T) {
