@@ -10,12 +10,12 @@ import type { ChatsRepository } from '../repositories/chats-repository'
 import type { CreateChatFromWAChatUseCase } from '../use-cases/chat/create-chat-from-wa-chat-use-case'
 import type { CreateMessageFromWAMessageUseCase } from '../use-cases/message/create-message-from-wa-message-use-case'
 
-interface HandleReceivedRequestMessage {
+interface HandleReceivedWARequestMessage {
 	waMessage: WAMessage
 	waChat: WAChat
 }
 
-type HandleReceivedResponseMessage = Either<
+type HandleReceivedWAResponseMessage = Either<
 	| ResourceNotFoundError
 	| InvalidResourceFormatError
 	| ResourceAlreadyExistsError
@@ -26,7 +26,7 @@ type HandleReceivedResponseMessage = Either<
 	}
 >
 
-export class HandleReceivedMessage {
+export class HandleReceivedWAMessage {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private createChatFromWAChat: CreateChatFromWAChatUseCase,
@@ -34,8 +34,8 @@ export class HandleReceivedMessage {
 	) {}
 
 	async execute(
-		request: HandleReceivedRequestMessage,
-	): Promise<HandleReceivedResponseMessage> {
+		request: HandleReceivedWARequestMessage,
+	): Promise<HandleReceivedWAResponseMessage> {
 		const { waChat, waMessage } = request
 
 		let chat = await this.chatsRepository.findUniqueByWAChatIdAndInstanceId({

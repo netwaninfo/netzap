@@ -45,9 +45,9 @@ import { CreatePrivateUnknownMessageFromWAMessageUseCase } from '../../use-cases
 import { CreatePrivateVCardMessageFromWAMessageUseCase } from '../../use-cases/message/create-private-v-card-message-from-wa-message-use-case'
 import { CreatePrivateVideoMessageFromWAMessageUseCase } from '../../use-cases/message/create-private-video-message-from-wa-message-use-case'
 import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '../../use-cases/message/create-private-voice-message-from-wa-message-use-case'
-import { HandleReceivedMessage } from '../handle-received-message'
+import { HandleReceivedWAMessage } from '../handle-received-wa-message'
 
-describe('HandleReceivedMessage', () => {
+describe('HandleReceivedWAMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let groupsRepository: InMemoryGroupsRepository
 
@@ -106,7 +106,7 @@ describe('HandleReceivedMessage', () => {
 
 	let createMessageFromWAMessage: CreateMessageFromWAMessageUseCase
 
-	let sut: HandleReceivedMessage
+	let sut: HandleReceivedWAMessage
 
 	let instanceId: UniqueEntityID
 
@@ -359,7 +359,7 @@ describe('HandleReceivedMessage', () => {
 			createGroupMessageFromWAMessage,
 		)
 
-		sut = new HandleReceivedMessage(
+		sut = new HandleReceivedWAMessage(
 			chatsRepository,
 			createChatFromWAChat,
 			createMessageFromWAMessage,

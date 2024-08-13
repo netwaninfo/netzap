@@ -1,19 +1,19 @@
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
-import { HandleChatUnread } from '../handle-chat-unread'
+import { HandleWAChatRead } from '../handle-wa-chat-read'
 
-describe('HandleChatUnread', () => {
+describe('HandleWAChatRead', () => {
 	let chatsRepository: InMemoryChatsRepository
 
-	let sut: HandleChatUnread
+	let sut: HandleWAChatRead
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 
-		sut = new HandleChatUnread(chatsRepository)
+		sut = new HandleWAChatRead(chatsRepository)
 	})
 
-	it('should be able to set chat unread', async () => {
+	it('should be able to set chat read', async () => {
 		const privateChat = makePrivateChat()
 		chatsRepository.items.push(privateChat)
 
@@ -26,6 +26,6 @@ describe('HandleChatUnread', () => {
 		if (response.isFailure()) return
 
 		const { chat } = response.value
-		expect(chat.unreadCount).toBe(-1)
+		expect(chat.unreadCount).toBe(0)
 	})
 })
