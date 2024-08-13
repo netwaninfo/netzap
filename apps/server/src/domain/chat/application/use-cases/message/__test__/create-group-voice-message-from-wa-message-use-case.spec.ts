@@ -1,3 +1,5 @@
+import type { Contact } from '@/domain/chat/enterprise/entities/contact'
+import type { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
 import { makeGroupVoiceMessage } from '@/test/factories/chat/group/make-group-voice-message'
@@ -25,6 +27,9 @@ describe('CreateGroupVoiceMessageFromWAMessageUseCase', () => {
 
 	let sut: CreateGroupVoiceMessageFromWAMessageUseCase
 
+	let chat: GroupChat
+	let author: Contact
+
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		contactsRepository = new InMemoryContactsRepository()
@@ -43,15 +48,15 @@ describe('CreateGroupVoiceMessageFromWAMessageUseCase', () => {
 			createMessageMediaFromWAMessage,
 			dateService,
 		)
+
+		chat = makeGroupChat()
+		chatsRepository.items.push(chat)
+
+		author = makeContact({ instanceId: chat.instanceId })
+		contactsRepository.items.push(author)
 	})
 
 	it('should be able to create a group voice message', async () => {
-		const chat = makeGroupChat()
-		chatsRepository.items.push(chat)
-
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const response = await sut.execute({
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
@@ -76,12 +81,6 @@ describe('CreateGroupVoiceMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group voice message quoting other message', async () => {
-		const chat = makeGroupChat()
-		chatsRepository.items.push(chat)
-
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const quotedMessage = makeGroupVoiceMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,

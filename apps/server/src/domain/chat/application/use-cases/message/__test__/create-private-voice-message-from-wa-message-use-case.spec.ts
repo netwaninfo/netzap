@@ -1,3 +1,4 @@
+import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makePrivateVoiceMessage } from '@/test/factories/chat/private/make-private-voice-message'
@@ -21,6 +22,8 @@ describe('CreatePrivateVoiceMessageFromWAMessageUseCase', () => {
 
 	let sut: CreatePrivateVoiceMessageFromWAMessageUseCase
 
+	let chat: PrivateChat
+
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
@@ -37,12 +40,12 @@ describe('CreatePrivateVoiceMessageFromWAMessageUseCase', () => {
 			createMessageMediaFromWAMessage,
 			dateService,
 		)
+
+		chat = makePrivateChat()
+		chatsRepository.items.push(chat)
 	})
 
 	it('should be able to create a private voice message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const response = await sut.execute({
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
@@ -63,9 +66,6 @@ describe('CreatePrivateVoiceMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a private voice message quoting other message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const quotedMessage = makePrivateVoiceMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,

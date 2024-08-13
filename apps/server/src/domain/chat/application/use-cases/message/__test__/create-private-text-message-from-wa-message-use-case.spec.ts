@@ -1,3 +1,4 @@
+import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makePrivateTextMessage } from '@/test/factories/chat/private/make-private-text-message'
@@ -16,6 +17,8 @@ describe('CreatePrivateTextMessageFromWAMessageUseCase', () => {
 
 	let sut: CreatePrivateTextMessageFromWAMessageUseCase
 
+	let chat: PrivateChat
+
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
@@ -26,12 +29,12 @@ describe('CreatePrivateTextMessageFromWAMessageUseCase', () => {
 			messagesRepository,
 			dateService,
 		)
+
+		chat = makePrivateChat()
+		chatsRepository.items.push(chat)
 	})
 
 	it('should be able to create a private text message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const response = await sut.execute({
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
@@ -52,9 +55,6 @@ describe('CreatePrivateTextMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a private text message quoting other message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const quotedMessage = makePrivateTextMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,

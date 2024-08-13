@@ -1,3 +1,4 @@
+import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
 import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
@@ -14,6 +15,8 @@ describe('CreatePrivateRevokedMessageFromWAMessageUseCase', () => {
 
 	let sut: CreatePrivateRevokedMessageFromWAMessageUseCase
 
+	let chat: PrivateChat
+
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
@@ -24,12 +27,12 @@ describe('CreatePrivateRevokedMessageFromWAMessageUseCase', () => {
 			messagesRepository,
 			dateService,
 		)
+
+		chat = makePrivateChat()
+		chatsRepository.items.push(chat)
 	})
 
 	it('should be able to create a private revoked message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const response = await sut.execute({
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,

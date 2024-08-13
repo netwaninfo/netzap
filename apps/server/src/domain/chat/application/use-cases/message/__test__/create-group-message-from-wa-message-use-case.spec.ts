@@ -1,3 +1,4 @@
+import type { Contact } from '@/domain/chat/enterprise/entities/contact'
 import { GroupAudioMessage } from '@/domain/chat/enterprise/entities/group/audio-message'
 import type { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { GroupDocumentMessage } from '@/domain/chat/enterprise/entities/group/document-message'
@@ -64,7 +65,9 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	let createGroupVoiceMessageFromWAMessage: CreateGroupVoiceMessageFromWAMessageUseCase
 
 	let sut: CreateGroupMessageFromWAMessageUseCase
+
 	let chat: GroupChat
+	let author: Contact
 
 	beforeEach(() => {
 		contactsRepository = new InMemoryContactsRepository()
@@ -190,6 +193,9 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 
 		chat = makeGroupChat()
 		chatsRepository.items.push(chat)
+
+		author = makeContact({ instanceId: chat.instanceId })
+		contactsRepository.items.push(author)
 	})
 
 	it('should be able to create a group audio message', async () => {
@@ -198,7 +204,10 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 			instanceId: chat.instanceId,
 			type: 'audio',
 			media: makeWAMessageMedia(),
-			author: makeWAPrivateContact({ instanceId: chat.instanceId }),
+			author: makeWAPrivateContact(
+				{ instanceId: chat.instanceId },
+				author.waContactId,
+			),
 		})
 
 		const response = await sut.execute({ waMessage })
@@ -210,9 +219,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group document message', async () => {
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const waMessage = makeWAGroupMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -233,9 +239,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group image message', async () => {
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const waMessage = makeWAGroupMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -256,9 +259,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group multi vcard message', async () => {
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const waMessage = makeWAGroupMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -283,9 +283,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group vcard message', async () => {
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const waMessage = makeWAGroupMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -310,9 +307,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group revoked message', async () => {
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const waMessage = makeWAGroupMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -332,9 +326,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group video message', async () => {
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const waMessage = makeWAGroupMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -355,9 +346,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group voice message', async () => {
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const waMessage = makeWAGroupMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -378,9 +366,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group text message', async () => {
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const waMessage = makeWAGroupMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,
@@ -400,9 +385,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group unknown message', async () => {
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const waMessage = makeWAGroupMessage({
 			waChatId: chat.waChatId,
 			instanceId: chat.instanceId,

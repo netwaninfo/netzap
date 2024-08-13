@@ -1,3 +1,5 @@
+import type { Contact } from '@/domain/chat/enterprise/entities/contact'
+import type { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
 import { makeGroupVCardMessage } from '@/test/factories/chat/group/make-group-v-card-message'
@@ -22,6 +24,9 @@ describe('CreateGroupVCardMessageFromWAMessageUseCase', () => {
 
 	let sut: CreateGroupVCardMessageFromWAMessageUseCase
 
+	let chat: GroupChat
+	let author: Contact
+
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		contactsRepository = new InMemoryContactsRepository()
@@ -40,15 +45,15 @@ describe('CreateGroupVCardMessageFromWAMessageUseCase', () => {
 			createContactFromWAContact,
 			dateService,
 		)
+
+		chat = makeGroupChat()
+		chatsRepository.items.push(chat)
+
+		author = makeContact({ instanceId: chat.instanceId })
+		contactsRepository.items.push(author)
 	})
 
 	it('should be able to create a group vcard message', async () => {
-		const chat = makeGroupChat()
-		chatsRepository.items.push(chat)
-
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const response = await sut.execute({
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
@@ -74,12 +79,6 @@ describe('CreateGroupVCardMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group vcard message with existing contact', async () => {
-		const chat = makeGroupChat()
-		chatsRepository.items.push(chat)
-
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const contact = makeContact({ instanceId: chat.instanceId })
 		contactsRepository.items.push(contact)
 
@@ -115,12 +114,6 @@ describe('CreateGroupVCardMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group vcard message quoting other message', async () => {
-		const chat = makeGroupChat()
-		chatsRepository.items.push(chat)
-
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const quotedMessage = makeGroupVCardMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,

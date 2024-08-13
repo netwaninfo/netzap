@@ -1,3 +1,4 @@
+import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makePrivateUnknownMessage } from '@/test/factories/chat/private/make-private-unknown-message'
@@ -16,6 +17,8 @@ describe('CreatePrivateUnknownMessageFromWAMessageUseCase', () => {
 
 	let sut: CreatePrivateUnknownMessageFromWAMessageUseCase
 
+	let chat: PrivateChat
+
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
@@ -26,12 +29,12 @@ describe('CreatePrivateUnknownMessageFromWAMessageUseCase', () => {
 			messagesRepository,
 			dateService,
 		)
+
+		chat = makePrivateChat()
+		chatsRepository.items.push(chat)
 	})
 
 	it('should be able to create a private unknown message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const response = await sut.execute({
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
@@ -49,9 +52,6 @@ describe('CreatePrivateUnknownMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a private unknown message quoting other message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const quotedMessage = makePrivateUnknownMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,

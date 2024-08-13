@@ -1,3 +1,4 @@
+import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makePrivateVideoMessage } from '@/test/factories/chat/private/make-private-video-message'
@@ -22,6 +23,8 @@ describe('CreatePrivateVideoMessageFromWAMessageUseCase', () => {
 
 	let sut: CreatePrivateVideoMessageFromWAMessageUseCase
 
+	let chat: PrivateChat
+
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
@@ -38,12 +41,12 @@ describe('CreatePrivateVideoMessageFromWAMessageUseCase', () => {
 			createMessageMediaFromWAMessage,
 			dateService,
 		)
+
+		chat = makePrivateChat()
+		chatsRepository.items.push(chat)
 	})
 
 	it('should be able to create a private video message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const response = await sut.execute({
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
@@ -66,9 +69,6 @@ describe('CreatePrivateVideoMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a private video message quoting other message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const quotedMessage = makePrivateVideoMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,

@@ -1,3 +1,4 @@
+import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
 import { makeContact } from '@/test/factories/chat/make-contact'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
@@ -22,6 +23,8 @@ describe('CreatePrivateVCardMessageFromWAMessageUseCase', () => {
 
 	let sut: CreatePrivateVCardMessageFromWAMessageUseCase
 
+	let chat: PrivateChat
+
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
@@ -40,12 +43,12 @@ describe('CreatePrivateVCardMessageFromWAMessageUseCase', () => {
 			createContactFromWAContact,
 			dateService,
 		)
+
+		chat = makePrivateChat()
+		chatsRepository.items.push(chat)
 	})
 
 	it('should be able to create a private vcard message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const response = await sut.execute({
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
@@ -63,9 +66,6 @@ describe('CreatePrivateVCardMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a private vcard message with existing contact', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const contact = makeContact({ instanceId: chat.instanceId })
 		contactsRepository.items.push(contact)
 
@@ -97,9 +97,6 @@ describe('CreatePrivateVCardMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a private vcard message quoting other message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-
 		const quotedMessage = makePrivateVCardMessage({
 			chatId: chat.id,
 			instanceId: chat.instanceId,

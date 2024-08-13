@@ -61,6 +61,7 @@ describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 	let createPrivateVoiceMessageFromWAMessageUseCase: CreatePrivateVoiceMessageFromWAMessageUseCase
 
 	let sut: CreatePrivateMessageFromWAMessageUseCase
+
 	let chat: PrivateChat
 
 	beforeEach(() => {

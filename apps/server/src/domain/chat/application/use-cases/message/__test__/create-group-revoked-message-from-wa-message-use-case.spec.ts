@@ -1,3 +1,5 @@
+import type { Contact } from '@/domain/chat/enterprise/entities/contact'
+import type { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
 import { makeContact } from '@/test/factories/chat/make-contact'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
@@ -18,6 +20,9 @@ describe('CreateGroupRevokedMessageFromWAMessageUseCase', () => {
 
 	let sut: CreateGroupRevokedMessageFromWAMessageUseCase
 
+	let chat: GroupChat
+	let author: Contact
+
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		contactsRepository = new InMemoryContactsRepository()
@@ -30,15 +35,15 @@ describe('CreateGroupRevokedMessageFromWAMessageUseCase', () => {
 			messagesRepository,
 			dateService,
 		)
+
+		chat = makeGroupChat()
+		chatsRepository.items.push(chat)
+
+		author = makeContact({ instanceId: chat.instanceId })
+		contactsRepository.items.push(author)
 	})
 
 	it('should be able to create a group revoked message', async () => {
-		const chat = makeGroupChat()
-		chatsRepository.items.push(chat)
-
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-
 		const response = await sut.execute({
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
