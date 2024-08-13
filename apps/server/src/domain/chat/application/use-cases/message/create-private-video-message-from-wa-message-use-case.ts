@@ -1,6 +1,4 @@
-import { Readable } from 'node:stream'
 import { type Either, failure, success } from '@/core/either'
-import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
 import { PrivateVideoMessage } from '@/domain/chat/enterprise/entities/private/video-message'
 import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import type { PrivateMessage } from '@/domain/chat/enterprise/types/message'
@@ -9,7 +7,7 @@ import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found
 import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 import type { DateService } from '../../services/date-service'
-import type { StorageService } from '../../services/storage-service'
+import type { CreateMessageMediaFromWAMessageUseCase } from './create-message-media-from-wa-message-use-case'
 
 interface CreatePrivateVideoMessageFromWAMessageUseCaseRequest {
 	waMessage: WAPrivateMessage
@@ -26,7 +24,7 @@ export class CreatePrivateVideoMessageFromWAMessageUseCase {
 	constructor(
 		private chatsRepository: ChatsRepository,
 		private messagesRepository: MessagesRepository,
-		private storageService: StorageService,
+		private createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase,
 		private dateService: DateService,
 	) {}
 
@@ -66,20 +64,12 @@ export class CreatePrivateVideoMessageFromWAMessageUseCase {
 				)
 		}
 
-		const waMessageMedia = waMessage.media
-		const extension = waMessageMedia.mimeType.extension()
-
-		const storageObject = await this.storageService.put({
-			filename: `${waMessage.ref}.${extension}`,
-			mimeType: waMessageMedia.mimeType,
-			data: Readable.from(Buffer.from(waMessageMedia.data, 'base64')),
+		const response = await this.createMessageMediaFromWAMessage.execute({
+			waMessage,
 		})
 
-		const media = MessageMedia.create({
-			key: storageObject.path,
-			url: storageObject.url,
-			mimeType: storageObject.mimeType,
-		})
+		if (response.isFailure()) return failure(response.value)
+		const { media } = response.value
 
 		const message = PrivateVideoMessage.create({
 			media,

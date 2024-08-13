@@ -20,6 +20,7 @@ describe('CreateGroupAudioMessageFromWAMessageUseCase', () => {
 
 	let storageService: FakeStorageService
 	let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
+
 	let dateService: FakeDateService
 
 	let sut: CreateGroupAudioMessageFromWAMessageUseCase

@@ -20,6 +20,7 @@ import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
 import { CreateContactFromWAContactUseCase } from '../../contact/create-contact-from-wa-contact-use-case'
 import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
+import { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-from-wa-message-use-case'
 import { CreatePrivateAudioMessageFromWAMessageUseCase } from '../create-private-audio-message-from-wa-message-use-case'
 import { CreatePrivateDocumentMessageFromWAMessageUseCase } from '../create-private-document-message-from-wa-message-use-case'
 import { CreatePrivateImageMessageFromWAMessageUseCase } from '../create-private-image-message-from-wa-message-use-case'
@@ -35,7 +36,10 @@ import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '../create-private
 describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
+
 	let storageService: FakeStorageService
+	let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
+
 	let dateService: FakeDateService
 
 	let createPrivateAudioMessageFromWAMessageUseCase: CreatePrivateAudioMessageFromWAMessageUseCase
@@ -62,14 +66,18 @@ describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
+
 		storageService = new FakeStorageService()
+		createMessageMediaFromWAMessage =
+			new CreateMessageMediaFromWAMessageUseCase(storageService)
+
 		dateService = new FakeDateService()
 
 		createPrivateAudioMessageFromWAMessageUseCase =
 			new CreatePrivateAudioMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 
@@ -77,7 +85,7 @@ describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 			new CreatePrivateDocumentMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 
@@ -85,7 +93,7 @@ describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 			new CreatePrivateImageMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 
@@ -139,7 +147,7 @@ describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 			new CreatePrivateVideoMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 
@@ -147,7 +155,7 @@ describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 			new CreatePrivateVoiceMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 

@@ -160,7 +160,7 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 
@@ -169,7 +169,7 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
-				storageService,
+				createMessageMediaFromWAMessage,
 				dateService,
 			)
 
