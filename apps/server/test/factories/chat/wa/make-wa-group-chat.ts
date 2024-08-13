@@ -7,6 +7,7 @@ import { faker } from '@/test/lib/faker'
 import { makeUniqueEntityID } from '../../make-unique-entity-id'
 import { makeWAEntityID } from '../value-objects/make-wa-entity-id'
 import { makeWAGroupContact } from './make-wa-group-contact'
+import { makeWAPrivateContact } from './make-wa-private-contact'
 
 export const makeWAGroupChat = (
 	override: Partial<WAGroupChatProps> = {},
@@ -22,6 +23,7 @@ export const makeWAGroupChat = (
 			unreadCount: faker.number.int({ max: 99 }),
 			imageUrl: faker.internet.url(),
 			contact: makeWAGroupContact({ instanceId }, id),
+			participants: [makeWAPrivateContact({ instanceId })],
 			...override,
 		},
 		id,

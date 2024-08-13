@@ -1,4 +1,4 @@
-import type { Except, SetOptional } from 'type-fest'
+import type { Except, SetNonNullable, SetOptional } from 'type-fest'
 import type { WAEntityID } from '../../value-objects/wa-entity-id'
 import { WAChat, type WAChatProps } from '../chat'
 import type { WAPrivateContact } from './contact'
@@ -17,6 +17,14 @@ export class WAPrivateChat extends WAChat<WAPrivateChatProps> {
 
 	get contact() {
 		return this.props.contact
+	}
+
+	get lastMessage() {
+		return this.props.lastMessage
+	}
+
+	hasLastMessage(): this is SetNonNullable<WAPrivateChatProps, 'lastMessage'> {
+		return !!this.lastMessage
 	}
 
 	static create(

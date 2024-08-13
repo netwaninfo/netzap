@@ -5,6 +5,7 @@ import type { Chat } from '@/domain/chat/enterprise/types/chat'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ChatsRepository } from '../../repositories/chats-repository'
 import type { GroupsRepository } from '../../repositories/groups-repository'
+import type { CreateContactsFromWAContactsUseCase } from '../contact/create-contacts-from-wa-contacts-use-case'
 import type { CreateGroupFromWAContactUseCase } from '../group/create-group-from-wa-contact-use-case'
 
 interface CreateGroupChatFromWAChatUseCaseRequest {
@@ -12,7 +13,7 @@ interface CreateGroupChatFromWAChatUseCaseRequest {
 }
 
 type CreateGroupChatFromWAChatUseCaseResponse = Either<
-	ResourceAlreadyExistsError,
+	ResourceAlreadyExistsError | null,
 	{
 		chat: Chat
 	}
@@ -23,6 +24,7 @@ export class CreateGroupChatFromWAChatUseCase {
 		private chatsRepository: ChatsRepository,
 		private groupsRepository: GroupsRepository,
 		private createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase,
+		private createContactsFromWAContacts: CreateContactsFromWAContactsUseCase,
 	) {}
 
 	async execute(
@@ -53,6 +55,13 @@ export class CreateGroupChatFromWAChatUseCase {
 			if (response.isFailure()) return failure(response.value)
 			group = response.value.group
 		}
+
+		const response = await this.createContactsFromWAContacts.execute({
+			waContacts: waChat.participants,
+			instanceId: waChat.instanceId,
+		})
+
+		if (response.isFailure()) return failure(response.value)
 
 		const chat = GroupChat.create({
 			groupId: group.id,

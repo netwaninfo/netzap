@@ -53,9 +53,11 @@ describe('HandleReceivedWAMessage', () => {
 
 	let createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase
 
-	let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
-
 	let contactsRepository: InMemoryContactsRepository
+
+	let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
+
+	let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
 
 	let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
 
@@ -118,13 +120,18 @@ describe('HandleReceivedWAMessage', () => {
 			groupsRepository,
 		)
 
+		contactsRepository = new InMemoryContactsRepository()
+
+		createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
+			contactsRepository,
+		)
+
 		createGroupChatFromWAChatUseCase = new CreateGroupChatFromWAChatUseCase(
 			chatsRepository,
 			groupsRepository,
 			createGroupFromWAContactUseCase,
+			createContactsFromWAContacts,
 		)
-
-		contactsRepository = new InMemoryContactsRepository()
 
 		createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
 			contactsRepository,

@@ -52,11 +52,6 @@ export class CreateGroupMessageFromWAMessageUseCase {
 	): Promise<CreateGroupMessageFromWAMessageUseCaseResponse> {
 		const { waMessage } = request
 
-		/**
-		 * Check and create the author's contact while there is no event that does this
-		 * TODO: Remove after implements some `group_` event
-		 */
-
 		const author =
 			await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
 				instanceId: waMessage.instanceId,
@@ -70,8 +65,6 @@ export class CreateGroupMessageFromWAMessageUseCase {
 
 			if (response.isFailure()) return failure(response.value)
 		}
-
-		// ---------------------
 
 		switch (waMessage.type) {
 			case 'audio': {

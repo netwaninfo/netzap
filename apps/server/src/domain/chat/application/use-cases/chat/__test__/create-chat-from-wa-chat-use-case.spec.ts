@@ -6,6 +6,7 @@ import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chat
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-groups-repository'
 import { CreateContactFromWAContactUseCase } from '../../contact/create-contact-from-wa-contact-use-case'
+import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
 import { CreateGroupFromWAContactUseCase } from '../../group/create-group-from-wa-contact-use-case'
 import { CreateChatFromWAChatUseCase } from '../create-chat-from-wa-chat-use-case'
 import { CreateGroupChatFromWAChatUseCase } from '../create-group-chat-from-wa-chat-use-case'
@@ -17,9 +18,11 @@ describe('CreateChatFromWAChatUseCase', () => {
 
 	let createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase
 
-	let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
-
 	let contactsRepository: InMemoryContactsRepository
+
+	let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
+
+	let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
 
 	let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
 
@@ -35,13 +38,18 @@ describe('CreateChatFromWAChatUseCase', () => {
 			groupsRepository,
 		)
 
+		contactsRepository = new InMemoryContactsRepository()
+
+		createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
+			contactsRepository,
+		)
+
 		createGroupChatFromWAChatUseCase = new CreateGroupChatFromWAChatUseCase(
 			chatsRepository,
 			groupsRepository,
 			createGroupFromWAContactUseCase,
+			createContactsFromWAContacts,
 		)
-
-		contactsRepository = new InMemoryContactsRepository()
 
 		createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
 			contactsRepository,
