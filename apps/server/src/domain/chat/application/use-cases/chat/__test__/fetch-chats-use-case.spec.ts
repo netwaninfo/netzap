@@ -2,6 +2,7 @@ import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
+import { each } from '@/test/utilities/each'
 import { FetchChatsUseCase } from '../fetch-chats-use-case'
 
 describe('FetchChatsUseCase', () => {
@@ -19,7 +20,7 @@ describe('FetchChatsUseCase', () => {
 		const instanceId = makeUniqueEntityID()
 
 		chatsRepository.items.push(
-			...Array.from(Array(2)).map(() => makePrivateChat({ instanceId })),
+			...each(2).map(() => makePrivateChat({ instanceId })),
 			makeGroupChat({ instanceId }),
 		)
 
