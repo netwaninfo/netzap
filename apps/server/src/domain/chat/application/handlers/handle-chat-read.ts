@@ -5,24 +5,24 @@ import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-enti
 import type { Chat } from '../../enterprise/types/chat'
 import type { ChatsRepository } from '../repositories/chats-repository'
 
-interface HandleWAChatReadRequest {
+interface HandleChatReadRequest {
 	instanceId: UniqueEntityID
 	waChatId: WAEntityID
 }
 
-type HandleWAChatReadResponse = Either<
+type HandleChatReadResponse = Either<
 	ResourceNotFoundError,
 	{
 		chat: Chat
 	}
 >
 
-export class HandleWAChatRead {
+export class HandleChatRead {
 	constructor(private chatsRepository: ChatsRepository) {}
 
 	async execute(
-		request: HandleWAChatReadRequest,
-	): Promise<HandleWAChatReadResponse> {
+		request: HandleChatReadRequest,
+	): Promise<HandleChatReadResponse> {
 		const { instanceId, waChatId } = request
 
 		const chat = await this.chatsRepository.findUniqueByWAChatIdAndInstanceId({
