@@ -1,5 +1,7 @@
 import type {
 	ChatsRepository,
+	ChatsRepositoryCountByInstanceIdParams,
+	ChatsRepositoryFindManyPaginatedByInstanceIdParams,
 	ChatsRepositoryFindUniqueByWAChatIdAndInstanceId,
 	ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceId,
 	ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceId,
@@ -11,6 +13,7 @@ import {
 	isPrivateChat,
 } from '@/domain/chat/enterprise/type-guards/chat'
 import type { Chat } from '@/domain/chat/enterprise/types/chat'
+import { Pagination } from '@/domain/shared/entities/pagination'
 
 export class InMemoryChatsRepository implements ChatsRepository {
 	items: Chat[] = []
@@ -53,6 +56,23 @@ export class InMemoryChatsRepository implements ChatsRepository {
 		)
 
 		return item ?? null
+	}
+
+	async countByInstanceId({
+		instanceId,
+	}: ChatsRepositoryCountByInstanceIdParams): Promise<number> {
+		return this.items.filter((item) => item.instanceId.equals(instanceId))
+			.length
+	}
+
+	async findManyPaginatedByInstanceId({
+		instanceId,
+		page,
+		take,
+	}: ChatsRepositoryFindManyPaginatedByInstanceIdParams): Promise<Chat[]> {
+		return this.items
+			.filter((item) => item.instanceId.equals(instanceId))
+			.slice(Pagination.skip({ limit: take, page }), page * take)
 	}
 
 	async create(chat: Chat): Promise<void> {

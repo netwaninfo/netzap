@@ -1,7 +1,7 @@
 import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
+import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
 import { makeContact } from '@/test/factories/chat/make-contact'
-import { makeGroupChat } from '@/test/factories/chat/make-group-chat'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
