@@ -16,7 +16,7 @@ export function makeGroupChat(
 			unreadCount: faker.number.int({ max: 99 }),
 			groupId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
+			waChatId: makeWAEntityID({ node: 'g.us' }),
 			...override,
 		},
 		id,

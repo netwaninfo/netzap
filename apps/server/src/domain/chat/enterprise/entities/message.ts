@@ -5,6 +5,7 @@ import type { Attendant } from './attendant'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 import type { WAMessageID } from './value-objects/wa-message-id'
 
+import type { SetNonNullable } from 'type-fest'
 import type { Message as QuotedMessage } from '../types/message'
 
 export interface MessageProps {
@@ -58,5 +59,9 @@ export abstract class Message<
 
 	get sentBy() {
 		return this.props.sentBy
+	}
+
+	hasSentBy(): this is SetNonNullable<MessageProps, 'sentBy'> {
+		return !!this.sentBy
 	}
 }

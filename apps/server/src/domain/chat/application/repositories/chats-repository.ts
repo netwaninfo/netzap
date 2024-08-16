@@ -5,17 +5,17 @@ import type { PrivateChat } from '../../enterprise/entities/private/chat'
 import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
 import type { Chat } from '../../enterprise/types/chat'
 
-export interface ChatsRepositoryFindUniqueByWAChatIdAndInstanceId {
+export interface ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams {
 	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 }
 
-export interface ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceId {
+export interface ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceIdParams {
 	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 }
 
-export interface ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceId {
+export interface ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceIdParams {
 	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 }
@@ -31,15 +31,15 @@ export interface ChatsRepositoryCountByInstanceIdParams {
 
 export abstract class ChatsRepository {
 	abstract findUniqueByWAChatIdAndInstanceId(
-		params: ChatsRepositoryFindUniqueByWAChatIdAndInstanceId,
+		params: ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams,
 	): Promise<Chat | null>
 
 	abstract findUniquePrivateChatByWAChatIdAndInstanceId(
-		params: ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceId,
+		params: ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceIdParams,
 	): Promise<PrivateChat | null>
 
 	abstract findUniqueGroupChatByWAChatIdAndInstanceId(
-		params: ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceId,
+		params: ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceIdParams,
 	): Promise<GroupChat | null>
 
 	abstract findManyPaginatedByInstanceId(

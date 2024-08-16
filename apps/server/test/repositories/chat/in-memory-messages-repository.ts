@@ -1,7 +1,7 @@
 import type {
 	MessagesRepository,
 	MessagesRepositoryCountByInstanceIdAndWAChatIdParams,
-	MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatId,
+	MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams,
 	MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams,
 	MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams,
 } from '@/domain/chat/application/repositories/messages-repository'
@@ -52,7 +52,7 @@ export class InMemoryMessagesRepository implements MessagesRepository {
 		page,
 		take,
 		waChatId,
-	}: MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatId): Promise<
+	}: MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams): Promise<
 		Message[]
 	> {
 		return this.items

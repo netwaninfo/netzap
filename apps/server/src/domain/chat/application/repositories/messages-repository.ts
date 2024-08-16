@@ -18,7 +18,7 @@ export interface MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdPa
 	waMessageId: WAMessageID
 }
 
-export interface MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatId
+export interface MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams
 	extends PaginationParams {
 	instanceId: UniqueEntityID
 	waChatId: WAEntityID
@@ -39,7 +39,7 @@ export abstract class MessagesRepository {
 	): Promise<GroupMessage | null>
 
 	abstract findManyPaginatedByInstanceIdAndWAChatId(
-		params: MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatId,
+		params: MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams,
 	): Promise<Message[]>
 
 	abstract countByInstanceIdAndWAChatId(

@@ -16,7 +16,7 @@ export function makePrivateChat(
 			unreadCount: faker.number.int({ max: 99 }),
 			contactId: makeUniqueEntityID(),
 			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
+			waChatId: makeWAEntityID({ node: 'c.us' }),
 			...override,
 		},
 		id,

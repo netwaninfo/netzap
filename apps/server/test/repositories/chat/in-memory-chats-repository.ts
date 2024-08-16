@@ -2,9 +2,9 @@ import type {
 	ChatsRepository,
 	ChatsRepositoryCountByInstanceIdParams,
 	ChatsRepositoryFindManyPaginatedByInstanceIdParams,
-	ChatsRepositoryFindUniqueByWAChatIdAndInstanceId,
-	ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceId,
-	ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceId,
+	ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams,
+	ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceIdParams,
+	ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceIdParams,
 } from '@/domain/chat/application/repositories/chats-repository'
 import type { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
@@ -21,7 +21,7 @@ export class InMemoryChatsRepository implements ChatsRepository {
 	async findUniqueByWAChatIdAndInstanceId({
 		instanceId,
 		waChatId,
-	}: ChatsRepositoryFindUniqueByWAChatIdAndInstanceId): Promise<Chat | null> {
+	}: ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams): Promise<Chat | null> {
 		const item = this.items.find(
 			(item) =>
 				item.waChatId.equals(waChatId) && item.instanceId.equals(instanceId),
@@ -33,7 +33,7 @@ export class InMemoryChatsRepository implements ChatsRepository {
 	async findUniqueGroupChatByWAChatIdAndInstanceId({
 		instanceId,
 		waChatId,
-	}: ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceId): Promise<GroupChat | null> {
+	}: ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceIdParams): Promise<GroupChat | null> {
 		const item = this.items.find(
 			(item): item is GroupChat =>
 				item.waChatId.equals(waChatId) &&
@@ -47,7 +47,7 @@ export class InMemoryChatsRepository implements ChatsRepository {
 	async findUniquePrivateChatByWAChatIdAndInstanceId({
 		instanceId,
 		waChatId,
-	}: ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceId): Promise<PrivateChat | null> {
+	}: ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceIdParams): Promise<PrivateChat | null> {
 		const item = this.items.find(
 			(item): item is PrivateChat =>
 				item.waChatId.equals(waChatId) &&

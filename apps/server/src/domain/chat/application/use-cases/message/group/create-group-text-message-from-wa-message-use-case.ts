@@ -1,0 +1,108 @@
+import { type Either, failure, success } from '@/core/either'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { GroupTextMessage } from '@/domain/chat/enterprise/entities/group/text-message'
+import type { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/message'
+import type { GroupMessage } from '@/domain/chat/enterprise/types/message'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import type { AttendantsRepository } from '../../../repositories/attendants-repository'
+import type { ChatsRepository } from '../../../repositories/chats-repository'
+import type { ContactsRepository } from '../../../repositories/contacts-repository'
+import type { MessagesRepository } from '../../../repositories/messages-repository'
+import type { DateService } from '../../../services/date-service'
+
+interface CreateGroupTextMessageFromWAMessageUseCaseRequest {
+	waMessage: WAGroupMessage
+	attendantId?: UniqueEntityID
+}
+
+type CreateGroupTextMessageFromWAMessageUseCaseResponse = Either<
+	ResourceNotFoundError | InvalidResourceFormatError,
+	{
+		message: GroupTextMessage
+	}
+>
+
+export class CreateGroupTextMessageFromWAMessageUseCase {
+	constructor(
+		private chatsRepository: ChatsRepository,
+		private contactsRepository: ContactsRepository,
+		private messagesRepository: MessagesRepository,
+		private attendantsRepository: AttendantsRepository,
+		private dateService: DateService,
+	) {}
+
+	async execute(
+		request: CreateGroupTextMessageFromWAMessageUseCaseRequest,
+	): Promise<CreateGroupTextMessageFromWAMessageUseCaseResponse> {
+		const { waMessage, attendantId } = request
+
+		const hasInvalidFormat = waMessage.type !== 'text'
+		if (hasInvalidFormat) {
+			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
+		}
+
+		const [chat, author, attendant] = await Promise.all([
+			this.chatsRepository.findUniqueGroupChatByWAChatIdAndInstanceId({
+				instanceId: waMessage.instanceId,
+				waChatId: waMessage.waChatId,
+			}),
+			this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
+				instanceId: waMessage.instanceId,
+				waContactId: waMessage.author.id,
+			}),
+			attendantId &&
+				this.attendantsRepository.findUniqueByIdAndInstanceId({
+					attendantId,
+					instanceId: waMessage.instanceId,
+				}),
+		])
+
+		if (!chat) {
+			return failure(
+				new ResourceNotFoundError({
+					id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
+				}),
+			)
+		}
+
+		if (!author) {
+			return failure(new ResourceNotFoundError({ id: waMessage.author.ref }))
+		}
+
+		if (attendantId && !attendant) {
+			return failure(new ResourceNotFoundError({ id: attendantId.toString() }))
+		}
+
+		let quoted: GroupMessage | null = null
+
+		if (waMessage.hasQuoted()) {
+			quoted =
+				await this.messagesRepository.findUniqueGroupMessageByChatIAndWAMessageId(
+					{
+						chatId: chat.id,
+						waMessageId: waMessage.quoted.id,
+					},
+				)
+		}
+
+		const message = GroupTextMessage.create({
+			author,
+			quoted,
+			body: waMessage.body,
+			chatId: chat.id,
+			instanceId: chat.instanceId,
+			waChatId: chat.waChatId,
+			waMessageId: waMessage.id,
+			isForwarded: waMessage.isForwarded,
+			createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
+			isFromMe: waMessage.isFromMe,
+			status: waMessage.ack,
+			sentBy: attendant,
+		})
+
+		await this.messagesRepository.create(message)
+
+		return success({ message })
+	}
+}

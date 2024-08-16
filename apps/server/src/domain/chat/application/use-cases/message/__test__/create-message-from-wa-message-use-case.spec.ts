@@ -6,6 +6,7 @@ import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
+import { InMemoryAttendantsRepository } from '@/test/repositories/chat/in-memory-attendants-repository'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
@@ -13,30 +14,30 @@ import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
 import { CreateContactFromWAContactUseCase } from '../../contact/create-contact-from-wa-contact-use-case'
 import { CreateContactsFromWAContactsUseCase } from '../../contact/create-contacts-from-wa-contacts-use-case'
-import { CreateGroupAudioMessageFromWAMessageUseCase } from '../create-group-audio-message-from-wa-message-use-case'
-import { CreateGroupDocumentMessageFromWAMessageUseCase } from '../create-group-document-message-from-wa-message-use-case'
-import { CreateGroupImageMessageFromWAMessageUseCase } from '../create-group-image-message-from-wa-message-use-case'
-import { CreateGroupMessageFromWAMessageUseCase } from '../create-group-message-from-wa-message-use-case'
-import { CreateGroupMultiVCardMessageFromWAMessageUseCase } from '../create-group-multi-card-message-from-wa-message-use-case'
-import { CreateGroupRevokedMessageFromWAMessageUseCase } from '../create-group-revoked-message-from-wa-message-use-case'
-import { CreateGroupTextMessageFromWAMessageUseCase } from '../create-group-text-message-from-wa-message-use-case'
-import { CreateGroupUnknownMessageFromWAMessageUseCase } from '../create-group-unknown-message-from-wa-message-use-case'
-import { CreateGroupVCardMessageFromWAMessageUseCase } from '../create-group-v-card-message-from-wa-message-use-case'
-import { CreateGroupVideoMessageFromWAMessageUseCase } from '../create-group-video-message-from-wa-message-use-case'
-import { CreateGroupVoiceMessageFromWAMessageUseCase } from '../create-group-voice-message-from-wa-message-use-case'
 import { CreateMessageFromWAMessageUseCase } from '../create-message-from-wa-message-use-case'
 import { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-from-wa-message-use-case'
-import { CreatePrivateAudioMessageFromWAMessageUseCase } from '../create-private-audio-message-from-wa-message-use-case'
-import { CreatePrivateDocumentMessageFromWAMessageUseCase } from '../create-private-document-message-from-wa-message-use-case'
-import { CreatePrivateImageMessageFromWAMessageUseCase } from '../create-private-image-message-from-wa-message-use-case'
-import { CreatePrivateMessageFromWAMessageUseCase } from '../create-private-message-from-wa-message-use-case'
-import { CreatePrivateMultiVCardMessageFromWAMessageUseCase } from '../create-private-multi-card-message-from-wa-message-use-case'
-import { CreatePrivateRevokedMessageFromWAMessageUseCase } from '../create-private-revoked-message-from-wa-message-use-case'
-import { CreatePrivateTextMessageFromWAMessageUseCase } from '../create-private-text-message-from-wa-message-use-case'
-import { CreatePrivateUnknownMessageFromWAMessageUseCase } from '../create-private-unknown-message-from-wa-message-use-case'
-import { CreatePrivateVCardMessageFromWAMessageUseCase } from '../create-private-v-card-message-from-wa-message-use-case'
-import { CreatePrivateVideoMessageFromWAMessageUseCase } from '../create-private-video-message-from-wa-message-use-case'
-import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '../create-private-voice-message-from-wa-message-use-case'
+import { CreateGroupAudioMessageFromWAMessageUseCase } from '../group/create-group-audio-message-from-wa-message-use-case'
+import { CreateGroupDocumentMessageFromWAMessageUseCase } from '../group/create-group-document-message-from-wa-message-use-case'
+import { CreateGroupImageMessageFromWAMessageUseCase } from '../group/create-group-image-message-from-wa-message-use-case'
+import { CreateGroupMessageFromWAMessageUseCase } from '../group/create-group-message-from-wa-message-use-case'
+import { CreateGroupMultiVCardMessageFromWAMessageUseCase } from '../group/create-group-multi-card-message-from-wa-message-use-case'
+import { CreateGroupRevokedMessageFromWAMessageUseCase } from '../group/create-group-revoked-message-from-wa-message-use-case'
+import { CreateGroupTextMessageFromWAMessageUseCase } from '../group/create-group-text-message-from-wa-message-use-case'
+import { CreateGroupUnknownMessageFromWAMessageUseCase } from '../group/create-group-unknown-message-from-wa-message-use-case'
+import { CreateGroupVCardMessageFromWAMessageUseCase } from '../group/create-group-v-card-message-from-wa-message-use-case'
+import { CreateGroupVideoMessageFromWAMessageUseCase } from '../group/create-group-video-message-from-wa-message-use-case'
+import { CreateGroupVoiceMessageFromWAMessageUseCase } from '../group/create-group-voice-message-from-wa-message-use-case'
+import { CreatePrivateAudioMessageFromWAMessageUseCase } from '../private/create-private-audio-message-from-wa-message-use-case'
+import { CreatePrivateDocumentMessageFromWAMessageUseCase } from '../private/create-private-document-message-from-wa-message-use-case'
+import { CreatePrivateImageMessageFromWAMessageUseCase } from '../private/create-private-image-message-from-wa-message-use-case'
+import { CreatePrivateMessageFromWAMessageUseCase } from '../private/create-private-message-from-wa-message-use-case'
+import { CreatePrivateMultiVCardMessageFromWAMessageUseCase } from '../private/create-private-multi-card-message-from-wa-message-use-case'
+import { CreatePrivateRevokedMessageFromWAMessageUseCase } from '../private/create-private-revoked-message-from-wa-message-use-case'
+import { CreatePrivateTextMessageFromWAMessageUseCase } from '../private/create-private-text-message-from-wa-message-use-case'
+import { CreatePrivateUnknownMessageFromWAMessageUseCase } from '../private/create-private-unknown-message-from-wa-message-use-case'
+import { CreatePrivateVCardMessageFromWAMessageUseCase } from '../private/create-private-v-card-message-from-wa-message-use-case'
+import { CreatePrivateVideoMessageFromWAMessageUseCase } from '../private/create-private-video-message-from-wa-message-use-case'
+import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '../private/create-private-voice-message-from-wa-message-use-case'
 
 describe('CreateMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
@@ -56,6 +57,9 @@ describe('CreateMessageFromWAMessageUseCase', () => {
 
 	let createPrivateMultiVCardMessageFromWAMessageUseCase: CreatePrivateMultiVCardMessageFromWAMessageUseCase
 	let createPrivateRevokedMessageFromWAMessageUseCase: CreatePrivateRevokedMessageFromWAMessageUseCase
+
+	let attendantsRepository: InMemoryAttendantsRepository
+
 	let createPrivateTextMessageFromWAMessageUseCase: CreatePrivateTextMessageFromWAMessageUseCase
 	let createPrivateUnknownMessageFromWAMessageUseCase: CreatePrivateUnknownMessageFromWAMessageUseCase
 
@@ -137,10 +141,13 @@ describe('CreateMessageFromWAMessageUseCase', () => {
 				dateService,
 			)
 
+		attendantsRepository = new InMemoryAttendantsRepository()
+
 		createPrivateTextMessageFromWAMessageUseCase =
 			new CreatePrivateTextMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
+				attendantsRepository,
 				dateService,
 			)
 
@@ -246,6 +253,7 @@ describe('CreateMessageFromWAMessageUseCase', () => {
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
+				attendantsRepository,
 				dateService,
 			)
 
