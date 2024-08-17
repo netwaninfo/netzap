@@ -2,6 +2,7 @@ import type {
 	MessagesRepository,
 	MessagesRepositoryCountByInstanceIdAndWAChatIdParams,
 	MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams,
+	MessagesRepositoryFindUniqueByCreatedAtAndInstanceIdAndWAChatIdParams,
 	MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams,
 	MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams,
 	MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams,
@@ -16,6 +17,7 @@ import type {
 	PrivateMessage,
 } from '@/domain/chat/enterprise/types/message'
 import { Pagination } from '@/domain/shared/entities/pagination'
+import dayjs from 'dayjs'
 
 export class InMemoryMessagesRepository implements MessagesRepository {
 	items: Message[] = []
@@ -56,6 +58,21 @@ export class InMemoryMessagesRepository implements MessagesRepository {
 			(item): item is GroupMessage =>
 				item.instanceId.equals(instanceId) &&
 				item.waMessageId.equals(waMessageId),
+		)
+
+		return message ?? null
+	}
+
+	async findUniqueByCreatedAtAndInstanceIdAndWAChatId({
+		createdAt,
+		instanceId,
+		waChatId,
+	}: MessagesRepositoryFindUniqueByCreatedAtAndInstanceIdAndWAChatIdParams): Promise<Message | null> {
+		const message = this.items.find(
+			(item): item is GroupMessage =>
+				item.instanceId.equals(instanceId) &&
+				item.waChatId.equals(waChatId) &&
+				dayjs(item.createdAt).isSame(createdAt, 'seconds'),
 		)
 
 		return message ?? null

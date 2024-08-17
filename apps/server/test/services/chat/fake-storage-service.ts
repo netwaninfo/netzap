@@ -22,4 +22,8 @@ export class FakeStorageService implements StorageService {
 
 		return object
 	}
+
+	async delete(path: string): Promise<void> {
+		this.items = this.items.filter((item) => item.path !== path)
+	}
 }

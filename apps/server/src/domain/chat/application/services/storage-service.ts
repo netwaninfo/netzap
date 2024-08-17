@@ -10,4 +10,5 @@ export interface StorageServicePutParams {
 
 export abstract class StorageService {
 	abstract put(params: StorageServicePutParams): Promise<StorageObject>
+	abstract delete(path: string): Promise<void>
 }

@@ -2,6 +2,7 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Except, SetOptional } from 'type-fest'
 import type { MessageMedia } from '../message-media'
 import { GroupMessage, type GroupMessageProps } from './message'
+import { GroupRevokedMessage } from './revoked-message'
 
 export interface GroupAudioMessageProps extends GroupMessageProps {
 	type: 'audio'
@@ -15,6 +16,24 @@ export class GroupAudioMessage extends GroupMessage<GroupAudioMessageProps> {
 
 	get media() {
 		return this.props.media
+	}
+
+	revoke(): GroupRevokedMessage {
+		return GroupRevokedMessage.create(
+			{
+				author: this.author,
+				chatId: this.chatId,
+				instanceId: this.instanceId,
+				waChatId: this.waChatId,
+				waMessageId: this.waMessageId,
+				isForwarded: this.isForwarded,
+				createdAt: this.createdAt,
+				revokedAt: new Date(),
+				isFromMe: this.isFromMe,
+				status: this.status,
+			},
+			this.id,
+		)
 	}
 
 	static create(

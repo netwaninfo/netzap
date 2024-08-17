@@ -17,5 +17,5 @@
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
-	"cSpell.words": ["vcard"]
+	"cSpell.words": ["vcard", "netzap"]
 }

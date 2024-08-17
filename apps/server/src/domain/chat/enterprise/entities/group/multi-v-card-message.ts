@@ -2,6 +2,7 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Except, SetOptional } from 'type-fest'
 import type { Contact } from '../contact'
 import { GroupMessage, type GroupMessageProps } from './message'
+import { GroupRevokedMessage } from './revoked-message'
 
 export interface GroupMultiVCardMessageProps extends GroupMessageProps {
 	type: 'multi_vcard'
@@ -15,6 +16,24 @@ export class GroupMultiVCardMessage extends GroupMessage<GroupMultiVCardMessageP
 
 	get contacts() {
 		return this.props.contacts
+	}
+
+	revoke(): GroupRevokedMessage {
+		return GroupRevokedMessage.create(
+			{
+				author: this.author,
+				chatId: this.chatId,
+				instanceId: this.instanceId,
+				waChatId: this.waChatId,
+				waMessageId: this.waMessageId,
+				isForwarded: this.isForwarded,
+				createdAt: this.createdAt,
+				revokedAt: new Date(),
+				isFromMe: this.isFromMe,
+				status: this.status,
+			},
+			this.id,
+		)
 	}
 
 	static create(

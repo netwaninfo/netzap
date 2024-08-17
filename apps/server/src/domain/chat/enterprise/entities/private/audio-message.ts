@@ -2,6 +2,7 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Except, SetOptional } from 'type-fest'
 import type { MessageMedia } from '../message-media'
 import { PrivateMessage, type PrivateMessageProps } from './message'
+import { PrivateRevokedMessage } from './revoked-message'
 
 export interface PrivateAudioMessageProps extends PrivateMessageProps {
 	type: 'audio'
@@ -15,6 +16,23 @@ export class PrivateAudioMessage extends PrivateMessage<PrivateAudioMessageProps
 
 	get media() {
 		return this.props.media
+	}
+
+	revoke(): PrivateRevokedMessage {
+		return PrivateRevokedMessage.create(
+			{
+				chatId: this.chatId,
+				instanceId: this.instanceId,
+				waChatId: this.waChatId,
+				waMessageId: this.waMessageId,
+				isForwarded: this.isForwarded,
+				createdAt: this.createdAt,
+				revokedAt: new Date(),
+				isFromMe: this.isFromMe,
+				status: this.status,
+			},
+			this.id,
+		)
 	}
 
 	static create(

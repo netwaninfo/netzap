@@ -1,6 +1,7 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Except, SetOptional } from 'type-fest'
 import { GroupMessage, type GroupMessageProps } from './message'
+import { GroupRevokedMessage } from './revoked-message'
 
 export interface GroupTextMessageProps extends GroupMessageProps {
 	type: 'text'
@@ -14,6 +15,24 @@ export class GroupTextMessage extends GroupMessage<GroupTextMessageProps> {
 
 	get body() {
 		return this.props.body
+	}
+
+	revoke(): GroupRevokedMessage {
+		return GroupRevokedMessage.create(
+			{
+				author: this.author,
+				chatId: this.chatId,
+				instanceId: this.instanceId,
+				waChatId: this.waChatId,
+				waMessageId: this.waMessageId,
+				isForwarded: this.isForwarded,
+				createdAt: this.createdAt,
+				revokedAt: new Date(),
+				isFromMe: this.isFromMe,
+				status: this.status,
+			},
+			this.id,
+		)
 	}
 
 	static create(

@@ -1,6 +1,7 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Except, SetOptional } from 'type-fest'
 import { PrivateMessage, type PrivateMessageProps } from './message'
+import { PrivateRevokedMessage } from './revoked-message'
 
 export interface PrivateTextMessageProps extends PrivateMessageProps {
 	type: 'text'
@@ -14,6 +15,23 @@ export class PrivateTextMessage extends PrivateMessage<PrivateTextMessageProps> 
 
 	get body() {
 		return this.props.body
+	}
+
+	revoke(): PrivateRevokedMessage {
+		return PrivateRevokedMessage.create(
+			{
+				chatId: this.chatId,
+				instanceId: this.instanceId,
+				waChatId: this.waChatId,
+				waMessageId: this.waMessageId,
+				isForwarded: this.isForwarded,
+				createdAt: this.createdAt,
+				revokedAt: new Date(),
+				isFromMe: this.isFromMe,
+				status: this.status,
+			},
+			this.id,
+		)
 	}
 
 	static create(

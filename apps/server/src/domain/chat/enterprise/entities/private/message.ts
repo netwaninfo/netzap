@@ -10,7 +10,7 @@ export interface PrivateMessageProps extends MessageProps {
 type PrivateMessageWithQuoted = SetNonNullable<MessageProps, 'quoted'>
 
 export abstract class PrivateMessage<
-	Props extends MessageProps,
+	Props extends PrivateMessageProps,
 > extends Message<Props> {
 	get quoted() {
 		return this.props.quoted

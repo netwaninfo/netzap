@@ -11,8 +11,12 @@ export interface GroupMessageProps extends MessageProps {
 type GroupMessageWithQuoted = SetNonNullable<MessageProps, 'quoted'>
 
 export abstract class GroupMessage<
-	Props extends MessageProps,
+	Props extends GroupMessageProps,
 > extends Message<Props> {
+	get author() {
+		return this.props.author
+	}
+
 	get quoted() {
 		return this.props.quoted
 	}
