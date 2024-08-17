@@ -2,6 +2,7 @@ import type {
 	MessagesRepository,
 	MessagesRepositoryCountByInstanceIdAndWAChatIdParams,
 	MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams,
+	MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams,
 	MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams,
 	MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams,
 } from '@/domain/chat/application/repositories/messages-repository'
@@ -47,6 +48,19 @@ export class InMemoryMessagesRepository implements MessagesRepository {
 		return message ?? null
 	}
 
+	async findUniqueByWAMessageIdAndInstanceId({
+		instanceId,
+		waMessageId,
+	}: MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams): Promise<Message | null> {
+		const message = this.items.find(
+			(item): item is GroupMessage =>
+				item.instanceId.equals(instanceId) &&
+				item.waMessageId.equals(waMessageId),
+		)
+
+		return message ?? null
+	}
+
 	async findManyPaginatedByInstanceIdAndWAChatId({
 		instanceId,
 		page,
@@ -75,5 +89,13 @@ export class InMemoryMessagesRepository implements MessagesRepository {
 
 	async create(message: Message): Promise<void> {
 		this.items.push(message)
+	}
+
+	async save(message: Message): Promise<void> {
+		const itemIndex = this.items.findIndex(
+			(item) => item.id.toString() === message.id.toString(),
+		)
+
+		this.items[itemIndex] = message
 	}
 }

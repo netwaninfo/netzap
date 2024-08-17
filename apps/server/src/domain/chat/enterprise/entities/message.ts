@@ -45,6 +45,10 @@ export abstract class Message<
 		return this.props.status
 	}
 
+	setStatus(status: MessageStatus) {
+		this.set({ status })
+	}
+
 	get isForwarded() {
 		return this.props.isForwarded
 	}
@@ -63,5 +67,9 @@ export abstract class Message<
 
 	hasSentBy(): this is SetNonNullable<MessageProps, 'sentBy'> {
 		return !!this.sentBy
+	}
+
+	protected override set<T extends Partial<MessageProps>>(newProps: T) {
+		this.props = Object.assign({}, this.props, newProps)
 	}
 }

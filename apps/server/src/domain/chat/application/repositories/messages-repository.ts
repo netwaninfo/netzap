@@ -29,6 +29,11 @@ export interface MessagesRepositoryCountByInstanceIdAndWAChatIdParams {
 	waChatId: WAEntityID
 }
 
+export interface MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams {
+	instanceId: UniqueEntityID
+	waMessageId: WAMessageID
+}
+
 export abstract class MessagesRepository {
 	abstract findUniquePrivateMessageByChatIAndWAMessageId(
 		params: MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams,
@@ -37,6 +42,10 @@ export abstract class MessagesRepository {
 	abstract findUniqueGroupMessageByChatIAndWAMessageId(
 		params: MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams,
 	): Promise<GroupMessage | null>
+
+	abstract findUniqueByWAMessageIdAndInstanceId(
+		params: MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams,
+	): Promise<Message | null>
 
 	abstract findManyPaginatedByInstanceIdAndWAChatId(
 		params: MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams,
@@ -47,4 +56,6 @@ export abstract class MessagesRepository {
 	): Promise<number>
 
 	abstract create(message: Message): Promise<void>
+
+	abstract save(message: Message): Promise<void>
 }
