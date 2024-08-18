@@ -4,6 +4,7 @@ import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found
 import type { MessageStatus } from '@netzap/contracts/enums'
 import type { Message } from '../../enterprise/types/message'
 import type { WAMessage } from '../../enterprise/types/wa-message'
+import { MessageEmitter } from '../emitters/message-emitter'
 import type { MessagesRepository } from '../repositories/messages-repository'
 
 interface HandleChangeWAMessageACKRequest {
@@ -19,7 +20,10 @@ type HandleChangeWAMessageACKResponse = Either<
 >
 
 export class HandleChangeWAMessageACK {
-	constructor(private messagesRepository: MessagesRepository) {}
+	constructor(
+		private messagesRepository: MessagesRepository,
+		private messageEmitter: MessageEmitter,
+	) {}
 
 	async execute(
 		request: HandleChangeWAMessageACKRequest,
@@ -38,6 +42,7 @@ export class HandleChangeWAMessageACK {
 
 		message.setStatus(ack)
 		await this.messagesRepository.save(message)
+		this.messageEmitter.emitChange({ message })
 
 		return success({ message })
 	}

@@ -4,6 +4,8 @@ import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { GroupTextMessage } from '@/domain/chat/enterprise/entities/group/text-message'
 import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateTextMessage } from '@/domain/chat/enterprise/entities/private/text-message'
+import { FakeChatEmitter } from '@/test/emitters/chat/fake-chat-emitter'
+import { FakeMessageEmitter } from '@/test/emitters/chat/fake-message-emitter'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
 import { makeAttendant } from '@/test/factories/chat/make-attendant'
 import { makeContact } from '@/test/factories/chat/make-contact'
@@ -14,9 +16,16 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { InMemoryAttendantsRepository } from '@/test/repositories/chat/in-memory-attendants-repository'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
+import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-groups-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeWhatsAppService } from '@/test/services/chat/fake-whats-app-service'
+import { CreateChatFromWAChatUseCase } from '../../use-cases/chat/create-chat-from-wa-chat-use-case'
+import { CreateGroupChatFromWAChatUseCase } from '../../use-cases/chat/create-group-chat-from-wa-chat-use-case'
+import { CreatePrivateChatFromWAChatUseCase } from '../../use-cases/chat/create-private-chat-from-wa-chat-use-case'
+import { CreateContactFromWAContactUseCase } from '../../use-cases/contact/create-contact-from-wa-contact-use-case'
+import { CreateContactsFromWAContactsUseCase } from '../../use-cases/contact/create-contacts-from-wa-contacts-use-case'
+import { CreateGroupFromWAContactUseCase } from '../../use-cases/group/create-group-from-wa-contact-use-case'
 import { CreateTextMessageFromWAMessageUseCase } from '../../use-cases/message/create-text-message-from-wa-message-use-case'
 import { CreateGroupTextMessageFromWAMessageUseCase } from '../../use-cases/message/group/create-group-text-message-from-wa-message-use-case'
 import { CreatePrivateTextMessageFromWAMessageUseCase } from '../../use-cases/message/private/create-private-text-message-from-wa-message-use-case'
@@ -28,14 +37,32 @@ describe('HandleSendTextMessage', () => {
 	let attendantsRepository: InMemoryAttendantsRepository
 	let dateService: FakeDateService
 
-	let createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessageUseCase
+	let groupsRepository: InMemoryGroupsRepository
+
+	let createGroupFromWAContact: CreateGroupFromWAContactUseCase
 
 	let contactsRepository: InMemoryContactsRepository
+
+	let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
+
+	let createGroupChatFromWAChat: CreateGroupChatFromWAChatUseCase
+
+	let createContactFromWAContact: CreateContactFromWAContactUseCase
+
+	let createPrivateChatFromWAChat: CreatePrivateChatFromWAChatUseCase
+
+	let createChatFromWAChat: CreateChatFromWAChatUseCase
+
+	let createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessageUseCase
+
 	let createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase
 
 	let createTextMessageFromWAMessage: CreateTextMessageFromWAMessageUseCase
 
 	let whatsAppService: FakeWhatsAppService
+
+	let messageEmitter: FakeMessageEmitter
+	let chatEmitter: FakeChatEmitter
 
 	let sut: HandleSendTextMessage
 
@@ -48,6 +75,40 @@ describe('HandleSendTextMessage', () => {
 		attendantsRepository = new InMemoryAttendantsRepository()
 		dateService = new FakeDateService()
 
+		groupsRepository = new InMemoryGroupsRepository()
+
+		createGroupFromWAContact = new CreateGroupFromWAContactUseCase(
+			groupsRepository,
+		)
+
+		contactsRepository = new InMemoryContactsRepository()
+
+		createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
+			contactsRepository,
+		)
+
+		createGroupChatFromWAChat = new CreateGroupChatFromWAChatUseCase(
+			chatsRepository,
+			groupsRepository,
+			createGroupFromWAContact,
+			createContactsFromWAContacts,
+		)
+
+		createContactFromWAContact = new CreateContactFromWAContactUseCase(
+			contactsRepository,
+		)
+
+		createPrivateChatFromWAChat = new CreatePrivateChatFromWAChatUseCase(
+			chatsRepository,
+			contactsRepository,
+			createContactFromWAContact,
+		)
+
+		createChatFromWAChat = new CreateChatFromWAChatUseCase(
+			createGroupChatFromWAChat,
+			createPrivateChatFromWAChat,
+		)
+
 		createPrivateTextMessageFromWAMessage =
 			new CreatePrivateTextMessageFromWAMessageUseCase(
 				chatsRepository,
@@ -56,7 +117,6 @@ describe('HandleSendTextMessage', () => {
 				dateService,
 			)
 
-		contactsRepository = new InMemoryContactsRepository()
 		createGroupTextMessageFromWAMessage =
 			new CreateGroupTextMessageFromWAMessageUseCase(
 				chatsRepository,
@@ -73,10 +133,16 @@ describe('HandleSendTextMessage', () => {
 
 		whatsAppService = new FakeWhatsAppService()
 
+		messageEmitter = new FakeMessageEmitter()
+		chatEmitter = new FakeChatEmitter()
+
 		sut = new HandleSendTextMessage(
 			chatsRepository,
+			createChatFromWAChat,
 			createTextMessageFromWAMessage,
 			whatsAppService,
+			messageEmitter,
+			chatEmitter,
 		)
 
 		instanceId = makeUniqueEntityID()
@@ -90,7 +156,9 @@ describe('HandleSendTextMessage', () => {
 		}
 
 		const privateChat = makePrivateChat({ instanceId })
-		chatsRepository.items.push(privateChat)
+		whatsAppService.getChatByWAChatId = async (params) => {
+			return whatsAppService.getPrivateChatByWAChatId(params)
+		}
 
 		const response = await sut.execute({
 			instanceId,
@@ -105,9 +173,13 @@ describe('HandleSendTextMessage', () => {
 		const { message, chat } = response.value
 
 		expect(messagesRepository.items).toHaveLength(1)
+		expect(message).toBeInstanceOf(PrivateTextMessage)
+		expect(messageEmitter.items).toHaveLength(1)
+
+		expect(chatEmitter.items).toHaveLength(2)
+		expect(chatsRepository.items).toHaveLength(1)
 		expect(chat).toBeInstanceOf(PrivateChat)
 		expect(chat.lastMessage).toBeTruthy()
-		expect(message).toBeInstanceOf(PrivateTextMessage)
 	})
 
 	it('should be able to send text message to group chat', async () => {
@@ -121,10 +193,10 @@ describe('HandleSendTextMessage', () => {
 			})
 		}
 
-		const groupChat = makeGroupChat({
-			instanceId,
-		})
-		chatsRepository.items.push(groupChat)
+		const groupChat = makeGroupChat({ instanceId })
+		whatsAppService.getChatByWAChatId = async (params) => {
+			return whatsAppService.getGroupChatByWAChatId(params)
+		}
 
 		const response = await sut.execute({
 			instanceId,
@@ -139,8 +211,12 @@ describe('HandleSendTextMessage', () => {
 		const { message, chat } = response.value
 
 		expect(messagesRepository.items).toHaveLength(1)
+		expect(message).toBeInstanceOf(GroupTextMessage)
+		expect(messageEmitter.items).toHaveLength(1)
+
+		expect(chatEmitter.items).toHaveLength(2)
+		expect(chatsRepository.items).toHaveLength(1)
 		expect(chat).toBeInstanceOf(GroupChat)
 		expect(chat.lastMessage).toBeTruthy()
-		expect(message).toBeInstanceOf(GroupTextMessage)
 	})
 })

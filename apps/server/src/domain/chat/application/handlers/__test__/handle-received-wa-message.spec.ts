@@ -3,6 +3,8 @@ import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
 import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
+import { FakeChatEmitter } from '@/test/emitters/chat/fake-chat-emitter'
+import { FakeMessageEmitter } from '@/test/emitters/chat/fake-message-emitter'
 import { makeWAGroupChat } from '@/test/factories/chat/wa/make-wa-group-chat'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateChat } from '@/test/factories/chat/wa/make-wa-private-chat'
@@ -111,6 +113,9 @@ describe('HandleReceivedWAMessage', () => {
 	let createPrivateMessageFromWAMessage: CreatePrivateMessageFromWAMessageUseCase
 
 	let createMessageFromWAMessage: CreateMessageFromWAMessageUseCase
+
+	let messageEmitter: FakeMessageEmitter
+	let chatEmitter: FakeChatEmitter
 
 	let sut: HandleReceivedWAMessage
 
@@ -374,10 +379,15 @@ describe('HandleReceivedWAMessage', () => {
 			createGroupMessageFromWAMessage,
 		)
 
+		messageEmitter = new FakeMessageEmitter()
+		chatEmitter = new FakeChatEmitter()
+
 		sut = new HandleReceivedWAMessage(
 			chatsRepository,
 			createChatFromWAChat,
 			createMessageFromWAMessage,
+			messageEmitter,
+			chatEmitter,
 		)
 
 		instanceId = makeUniqueEntityID()
@@ -401,6 +411,8 @@ describe('HandleReceivedWAMessage', () => {
 
 		expect(chat).toBeInstanceOf(PrivateChat)
 		expect(chat.lastMessage).toBeInstanceOf(PrivateMessage)
+		expect(messageEmitter.items).toHaveLength(1)
+		expect(chatEmitter.items).toHaveLength(1)
 	})
 
 	it('should be able to create a group chat and message', async () => {
@@ -425,5 +437,7 @@ describe('HandleReceivedWAMessage', () => {
 
 		expect(chat).toBeInstanceOf(GroupChat)
 		expect(chat.lastMessage).toBeInstanceOf(GroupMessage)
+		expect(messageEmitter.items).toHaveLength(1)
+		expect(chatEmitter.items).toHaveLength(1)
 	})
 })

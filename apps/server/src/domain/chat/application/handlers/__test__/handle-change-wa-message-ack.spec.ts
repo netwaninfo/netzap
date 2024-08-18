@@ -1,3 +1,4 @@
+import { FakeMessageEmitter } from '@/test/emitters/chat/fake-message-emitter'
 import { makePrivateTextMessage } from '@/test/factories/chat/private/make-private-text-message'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
@@ -6,13 +7,15 @@ import { HandleChangeWAMessageACK } from '../handle-change-wa-message-ack'
 
 describe('HandleChangeWAMessageACK', () => {
 	let messagesRepository: InMemoryMessagesRepository
+	let messageEmitter: FakeMessageEmitter
 
 	let sut: HandleChangeWAMessageACK
 
 	beforeEach(() => {
 		messagesRepository = new InMemoryMessagesRepository()
+		messageEmitter = new FakeMessageEmitter()
 
-		sut = new HandleChangeWAMessageACK(messagesRepository)
+		sut = new HandleChangeWAMessageACK(messagesRepository, messageEmitter)
 	})
 
 	it('should be able to update message from wa message ack', async () => {
@@ -37,5 +40,6 @@ describe('HandleChangeWAMessageACK', () => {
 
 		expect(messagesRepository.items).toHaveLength(1)
 		expect(message.status).toBe('read')
+		expect(messageEmitter.items).toHaveLength(1)
 	})
 })

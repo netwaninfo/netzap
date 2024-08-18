@@ -6,6 +6,8 @@ import type { Chat } from '../../enterprise/types/chat'
 import type { Message } from '../../enterprise/types/message'
 import type { WAChat } from '../../enterprise/types/wa-chat'
 import type { WAMessage } from '../../enterprise/types/wa-message'
+import { ChatEmitter } from '../emitters/chat-emitter'
+import { MessageEmitter } from '../emitters/message-emitter'
 import type { ChatsRepository } from '../repositories/chats-repository'
 import type { CreateChatFromWAChatUseCase } from '../use-cases/chat/create-chat-from-wa-chat-use-case'
 import type { CreateMessageFromWAMessageUseCase } from '../use-cases/message/create-message-from-wa-message-use-case'
@@ -31,6 +33,8 @@ export class HandleReceivedWAMessage {
 		private chatsRepository: ChatsRepository,
 		private createChatFromWAChat: CreateChatFromWAChatUseCase,
 		private createMessageFromWAMessage: CreateMessageFromWAMessageUseCase,
+		private messageEmitter: MessageEmitter,
+		private chatEmitter: ChatEmitter,
 	) {}
 
 	async execute(
@@ -55,10 +59,13 @@ export class HandleReceivedWAMessage {
 		})
 
 		if (response.isFailure()) return failure(response.value)
+
 		const { message } = response.value
+		this.messageEmitter.emitCreate({ message })
 
 		chat.interact(message)
 		await this.chatsRepository.save(chat)
+		this.chatEmitter.emitChange({ chat })
 
 		return success({ message, chat })
 	}

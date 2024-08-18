@@ -1,16 +1,19 @@
+import { FakeChatEmitter } from '@/test/emitters/chat/fake-chat-emitter'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { HandleChatRead } from '../handle-chat-read'
 
 describe('HandleChatRead', () => {
 	let chatsRepository: InMemoryChatsRepository
+	let chatEmitter: FakeChatEmitter
 
 	let sut: HandleChatRead
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
+		chatEmitter = new FakeChatEmitter()
 
-		sut = new HandleChatRead(chatsRepository)
+		sut = new HandleChatRead(chatsRepository, chatEmitter)
 	})
 
 	it('should be able to set chat read', async () => {
@@ -27,5 +30,6 @@ describe('HandleChatRead', () => {
 
 		const { chat } = response.value
 		expect(chat.unreadCount).toBe(0)
+		expect(chatEmitter.items).toHaveLength(1)
 	})
 })

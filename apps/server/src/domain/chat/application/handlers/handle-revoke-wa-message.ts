@@ -8,6 +8,7 @@ import {
 import type { Message } from '../../enterprise/types/message'
 import type { WAChat } from '../../enterprise/types/wa-chat'
 import type { WAMessage } from '../../enterprise/types/wa-message'
+import { MessageEmitter } from '../emitters/message-emitter'
 import type { MessagesRepository } from '../repositories/messages-repository'
 import type { DateService } from '../services/date-service'
 import type { StorageService } from '../services/storage-service'
@@ -29,6 +30,7 @@ export class HandleRevokeWAMessage {
 		private messagesRepository: MessagesRepository,
 		private dateService: DateService,
 		private storageService: StorageService,
+		private messageEmitter: MessageEmitter,
 	) {}
 
 	async execute(
@@ -69,6 +71,7 @@ export class HandleRevokeWAMessage {
 
 		const message = prevMessage.revoke()
 		await this.messagesRepository.save(message)
+		this.messageEmitter.emitRevoked({ message })
 
 		return success({ message })
 	}

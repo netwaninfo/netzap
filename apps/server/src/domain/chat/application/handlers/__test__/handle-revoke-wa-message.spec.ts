@@ -2,6 +2,7 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message'
 import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message'
 import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
+import { FakeMessageEmitter } from '@/test/emitters/chat/fake-message-emitter'
 import { makeGroupTextMessage } from '@/test/factories/chat/group/make-group-text-message'
 import { makePrivateAudioMessage } from '@/test/factories/chat/private/make-private-audio-message'
 import { makePrivateTextMessage } from '@/test/factories/chat/private/make-private-text-message'
@@ -23,6 +24,7 @@ describe('HandleRevokeWAMessage', () => {
 	let messagesRepository: InMemoryMessagesRepository
 	let dateService: FakeDateService
 	let storageService: FakeStorageService
+	let messageEmitter: FakeMessageEmitter
 
 	let sut: HandleRevokeWAMessage
 
@@ -35,11 +37,13 @@ describe('HandleRevokeWAMessage', () => {
 		messagesRepository = new InMemoryMessagesRepository()
 		dateService = new FakeDateService()
 		storageService = new FakeStorageService()
+		messageEmitter = new FakeMessageEmitter()
 
 		sut = new HandleRevokeWAMessage(
 			messagesRepository,
 			dateService,
 			storageService,
+			messageEmitter,
 		)
 
 		instanceId = makeUniqueEntityID()

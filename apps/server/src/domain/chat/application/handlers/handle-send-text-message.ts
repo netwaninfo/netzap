@@ -1,13 +1,17 @@
 import { type Either, failure, success } from '@/core/either'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
 import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id'
 import type { Chat } from '../../enterprise/types/chat'
 import type { Message } from '../../enterprise/types/message'
+import { ChatEmitter } from '../emitters/chat-emitter'
+import { MessageEmitter } from '../emitters/message-emitter'
 import type { ChatsRepository } from '../repositories/chats-repository'
 import type { WhatsAppService } from '../services/whats-app-service'
+import { CreateChatFromWAChatUseCase } from '../use-cases/chat/create-chat-from-wa-chat-use-case'
 import type { CreateTextMessageFromWAMessageUseCase } from '../use-cases/message/create-text-message-from-wa-message-use-case'
 
 interface HandleSendTextMessageRequest {
@@ -19,7 +23,10 @@ interface HandleSendTextMessageRequest {
 }
 
 type HandleSendTextMessageResponse = Either<
-	ResourceNotFoundError | InvalidResourceFormatError,
+	| ResourceNotFoundError
+	| InvalidResourceFormatError
+	| ResourceAlreadyExistsError
+	| null,
 	{
 		message: Message
 		chat: Chat
@@ -29,8 +36,11 @@ type HandleSendTextMessageResponse = Either<
 export class HandleSendTextMessage {
 	constructor(
 		private chatsRepository: ChatsRepository,
+		private createChatFromWAChat: CreateChatFromWAChatUseCase,
 		private createTextMessageFromWAMessage: CreateTextMessageFromWAMessageUseCase,
 		private whatsAppService: WhatsAppService,
+		private messageEmitter: MessageEmitter,
+		private chatEmitter: ChatEmitter,
 	) {}
 
 	async execute(
@@ -38,17 +48,30 @@ export class HandleSendTextMessage {
 	): Promise<HandleSendTextMessageResponse> {
 		const { attendantId, body, instanceId, waChatId, quotedId } = request
 
-		const chat = await this.chatsRepository.findUniqueByWAChatIdAndInstanceId({
+		let chat = await this.chatsRepository.findUniqueByWAChatIdAndInstanceId({
 			instanceId,
 			waChatId,
 		})
 
 		if (!chat) {
-			return failure(
-				new ResourceNotFoundError({
-					id: `${instanceId.toString()}/${waChatId.toString()}`,
-				}),
-			)
+			const waChat = await this.whatsAppService.getChatByWAChatId({
+				instanceId,
+				waChatId,
+			})
+
+			if (!waChat) {
+				return failure(
+					new ResourceNotFoundError({
+						id: `${instanceId.toString()}/${waChatId.toString()}`,
+					}),
+				)
+			}
+
+			const response = await this.createChatFromWAChat.execute({ waChat })
+			if (response.isFailure()) return failure(response.value)
+
+			chat = response.value.chat
+			this.chatEmitter.emitCreate({ chat })
 		}
 
 		const waMessage = await this.whatsAppService.sendTextMessage({
@@ -64,10 +87,13 @@ export class HandleSendTextMessage {
 		})
 
 		if (response.isFailure()) return failure(response.value)
+
 		const { message } = response.value
+		this.messageEmitter.emitCreate({ message })
 
 		chat.interact(message)
 		await this.chatsRepository.save(chat)
+		this.chatEmitter.emitChange({ chat })
 
 		return success({ message, chat })
 	}
