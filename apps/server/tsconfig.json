@@ -9,6 +9,7 @@
 		"allowSyntheticDefaultImports": true,
 		"target": "es2022",
 		"baseUrl": "./",
+		"outDir": "./dist",
 		"incremental": true,
 		"strictBindCallApply": true,
 		"forceConsistentCasingInFileNames": true,
@@ -16,5 +17,6 @@
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
 		"types": ["vitest/globals"]
-	}
+	},
+	"exclude": ["dist", "coverage"]
 }

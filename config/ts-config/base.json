@@ -14,7 +14,7 @@
 		"noImplicitAny": true,
 		"moduleResolution": "NodeNext",
 		"module": "NodeNext",
-		"outDir": "dist",
+		"outDir": "./dist",
 		"noUncheckedIndexedAccess": true
 	},
 	"exclude": [
