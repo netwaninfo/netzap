@@ -1,12 +1,15 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
-  "tasks": {
-    "dev": {
-      "persistent": true,
-      "cache": false
-    },
-    "lint": {},
-    "lint:fix": {}
-  }
+	"$schema": "https://turbo.build/schema.json",
+	"ui": "tui",
+	"tasks": {
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"outputs": [
+				"./dist/**"
+			]
+		},
+		"lint": {},
+		"lint:fix": {}
+	}
 }

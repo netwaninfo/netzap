@@ -4,6 +4,7 @@ import {
 	type NestFastifyApplication,
 } from '@nestjs/platform-fastify'
 import { AppModule } from './app.module'
+import { EnvService } from './env/env.service'
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestFastifyApplication>(
@@ -11,7 +12,10 @@ async function bootstrap() {
 		new FastifyAdapter(),
 	)
 
-	await app.listen(3000)
+	const envService = app.get<EnvService>(EnvService)
+	const port = envService.get('PORT')
+
+	await app.listen(port)
 }
 
 bootstrap()

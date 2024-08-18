@@ -5,7 +5,7 @@
 		"source.organizeImports.biome": "explicit"
 	},
 	"editor.defaultFormatter": "biomejs.biome",
-	"typescript.preferences.preferTypeOnlyAutoImports": true,
+	"typescript.preferences.preferTypeOnlyAutoImports": false,
 	"biome.enabled": true,
 	"biome.lspBin": "./node_modules/@biomejs/bin/biome",
 	"[javascript]": {

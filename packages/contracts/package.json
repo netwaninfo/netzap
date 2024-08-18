@@ -2,7 +2,6 @@
 	"name": "@netzap/contracts",
 	"version": "1.0.0",
 	"private": true,
-	"type": "module",
 	"scripts": {
 		"dev": "tsup --watch",
 		"build": "tsup --silent",
@@ -14,11 +13,13 @@
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/index.js",
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.js",
 			"types": "./dist/index.d.ts"
 		},
 		"./enums": {
-			"import": "./dist/enums/index.js",
+			"import": "./dist/enums/index.mjs",
+			"require": "./dist/enums/index.js",
 			"types": "./dist/enums/index.d.ts"
 		}
 	},

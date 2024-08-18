@@ -1,12 +1,9 @@
 {
-  "name": "@netzap/ts-config",
-  "version": "1.0.0",
-  "private": true,
-  "exports": {
-    "./node": "./node.json",
-    "./node-pkg": "./node-pkg.json"
-  },
-  "devDependencies": {
-    "@total-typescript/tsconfig": "^1.0.4"
-  }
+	"name": "@netzap/ts-config",
+	"version": "1.0.0",
+	"private": true,
+	"exports": {
+		"./node": "./node.json",
+		"./node-pkg": "./node-pkg.json"
+	}
 }

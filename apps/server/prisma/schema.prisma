@@ -20,6 +20,7 @@ model Instance {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   name   String
+  phone  String         @unique
   qrCode String?        @map("qr_code")
   status InstanceStatus @default(disconnected)
 
