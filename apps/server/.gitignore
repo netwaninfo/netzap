@@ -1,2 +1,8 @@
 # Tests
 coverage
+
+# Enviroments
+.env
+
+# Docker
+.docker

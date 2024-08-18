@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum InstanceStatus {
+  stopped
+  starting
+  initialized
+  failed
+  connected
+  disconnected
+}
+
+model Instance {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name   String
+  qrCode String?        @map("qr_code")
+  status InstanceStatus @default(disconnected)
+
+  attendantIds String[]    @map("attendant_ids") @db.ObjectId
+  attendants   Attendant[] @relation(fields: [attendantIds], references: [id])
+
+  @@map("instances")
+}
+
+type AttendantProfile {
+  name        String
+  email       String
+  displayName String @map("display_name")
+}
+
+model Attendant {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  profile  AttendantProfile
+  password String?
+
+  instanceIds String[]   @map("instance_ids") @db.ObjectId
+  instances   Instance[] @relation(fields: [instanceIds], references: [id])
+
+  sentMessages    Message[] @relation("AttendantSentMessages")
+  revokedMessages Message[] @relation("AttendantRevokedMessages")
+
+  @@unique([profile.email])
+  @@map("attendants")
+}
+
+type ContactPhone {
+  number          String
+  formattedNumber String @map("formatted_number")
+}
+
+model ContactInstance {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  waContactId String @map("wa_contact_id")
+  instanceId  String @map("instance_id") @db.ObjectId
+
+  isMe        Boolean @map("is_me")
+  isMyContact Boolean @map("is_my_contact")
+
+  contact Contact @relation(fields: [waContactId], references: [waContactId])
+
+  @@unique([instanceId, waContactId])
+  @@index([instanceId])
+  @@map("contacts_instances")
+}
+
+model Contact {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  waContactId String       @unique @map("wa_contact_id")
+  phone       ContactPhone
+  name        String
+
+  imageUrl   String? @map("image_url")
+  isInstance Boolean @map("is_instance")
+
+  vCardMessagesIds String[] @default([]) @map("v_card_messages_ids") @db.ObjectId
+
+  records ContactInstance[]
+  chats   Chat[]
+
+  messages      Message[] @relation("ContactMessagesAuthor")
+  vCardMessages Message[] @relation(fields: [vCardMessagesIds], references: [id], "ContactVCardMessages")
+
+  @@unique([phone.number])
+  @@map("contacts")
+}
+
+model Group {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  waGroupId  String  @map("wa_group_id")
+  instanceId String  @map("instance_id") @db.ObjectId
+  name       String
+  imageUrl   String? @map("image_url")
+
+  chats Chat[]
+
+  @@unique([waGroupId, instanceId])
+  @@index([instanceId])
+  @@map("groups")
+}
+
+enum ChatType {
+  private
+  group
+}
+
+model Chat {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  waChatId    String @map("wa_chat_id")
+  instanceId  String @map("instance_id") @db.ObjectId
+  unreadCount Int    @map("unread_count")
+
+  type          ChatType
+  recipientId   String   @map("recipient_id") @db.ObjectId
+  lastMessageId String?  @unique @map("last_message_id") @db.ObjectId
+
+  group   Group?   @relation(fields: [recipientId], references: [id])
+  contact Contact? @relation(fields: [recipientId], references: [id])
+  message Message? @relation(fields: [lastMessageId], references: [id])
+
+  @@unique([instanceId, waChatId])
+  @@index([instanceId])
+  @@map("chats")
+}
+
+enum MessageStatus {
+  error
+  pending
+  sent
+  read
+  played
+}
+
+enum MessageType {
+  text
+  audio
+  voice
+  image
+  video
+  document
+  vcard
+  multi_vcard
+  revoked
+  unknown
+}
+
+type MessageMedia {
+  url      String
+  key      String
+  mimeType String @map("mime_type")
+}
+
+model Message {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  waMessageId String @unique @map("wa_message_id")
+  waChatId    String @map("wa_chat_id")
+
+  instanceId String   @map("instance_id") @db.ObjectId
+  chatId     String   @map("chat_id") @db.ObjectId
+  chatType   ChatType @map("chat_type")
+
+  status MessageStatus @default(pending)
+  type   MessageType
+  body   String?
+
+  isForwarded Boolean @map("is_forwarded")
+  isFromMe    Boolean @map("is_from_me")
+
+  media   MessageMedia?
+  payload Json?
+
+  chat Chat?
+
+  senderId    String?  @map("sender_id") @db.ObjectId
+  revokerId   String?  @map("revoker_id") @db.ObjectId
+  authorId    String?  @map("author_id") @db.ObjectId
+  contactsIds String[] @map("contacts_ids") @db.ObjectId
+  quotedId    String?  @map("quoted_id") @db.ObjectId
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  revokedAt DateTime? @map("revoked_at")
+
+  sentBy    Attendant? @relation("AttendantSentMessages", fields: [senderId], references: [id])
+  revokedBy Attendant? @relation("AttendantRevokedMessages", fields: [revokerId], references: [id])
+  author    Contact?   @relation("ContactMessagesAuthor", fields: [authorId], references: [id])
+  contacts  Contact[]  @relation("ContactVCardMessages", fields: [contactsIds], references: [id])
+
+  quoted  Message?  @relation("MessageQuotedOrReplyMessage", fields: [quotedId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies Message[] @relation("MessageQuotedOrReplyMessage")
+
+  @@unique([chatId, waMessageId])
+  @@unique([instanceId, waMessageId])
+  @@index([instanceId, waChatId, createdAt])
+  @@index([instanceId, waChatId])
+  @@index([quotedId])
+  @@map("messages")
+}

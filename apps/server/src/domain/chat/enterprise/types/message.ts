@@ -33,7 +33,6 @@ export type PrivateMessageCanRevoke =
 	| PrivateTextMessage
 	| PrivateUnknownMessage
 	| PrivateVCardMessage
-	| PrivateMessageWithMedia
 
 export type PrivateMessage = PrivateMessageCanRevoke | PrivateRevokedMessage
 
@@ -50,7 +49,6 @@ export type GroupMessageCanRevoke =
 	| GroupTextMessage
 	| GroupUnknownMessage
 	| GroupVCardMessage
-	| GroupMessageWithMedia
 
 export type GroupMessage = GroupMessageCanRevoke | GroupRevokedMessage
 
