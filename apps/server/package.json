@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "nest start --watch",
 		"db:push": "prisma db push",
+		"db:generate": "prisma generate",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",

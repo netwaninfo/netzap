@@ -52,11 +52,6 @@ model Attendant {
   @@map("attendants")
 }
 
-type ContactPhone {
-  number          String
-  formattedNumber String @map("formatted_number")
-}
-
 model ContactInstance {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
@@ -76,9 +71,10 @@ model ContactInstance {
 model Contact {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  waContactId String       @unique @map("wa_contact_id")
-  phone       ContactPhone
-  name        String
+  waContactId    String @unique @map("wa_contact_id")
+  phone          String
+  formattedPhone String @map("formatted_phone")
+  name           String
 
   imageUrl   String? @map("image_url")
   isInstance Boolean @map("is_instance")
@@ -91,7 +87,7 @@ model Contact {
   messages      Message[] @relation("ContactMessagesAuthor")
   vCardMessages Message[] @relation(fields: [vCardMessagesIds], references: [id], "ContactVCardMessages")
 
-  @@unique([phone.number])
+  @@unique([phone])
   @@map("contacts")
 }
 
