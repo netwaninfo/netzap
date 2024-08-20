@@ -7,6 +7,9 @@ const nodeEnvSchema = z
 export const envSchema = z.object({
 	NODE_ENV: nodeEnvSchema,
 	PORT: z.coerce.number().optional().default(3333),
+
+	CLERK_PUBLISHABLE_KEY: z.string(),
+	CLERK_SECRET_KEY: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>

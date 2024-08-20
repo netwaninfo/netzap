@@ -9,13 +9,4 @@ describe('Attendant', () => {
 
 		expect(attendant).toBeTruthy()
 	})
-
-	it('should be able to check has password', () => {
-		const attendant = Attendant.create({
-			profile: makeAttendantProfile(),
-			password: '12345',
-		})
-
-		expect(attendant.hasPassword()).toBe(true)
-	})
 })

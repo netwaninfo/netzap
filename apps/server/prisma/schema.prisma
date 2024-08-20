@@ -30,17 +30,10 @@ model Instance {
   @@map("instances")
 }
 
-type AttendantProfile {
-  name        String
-  email       String
-  displayName String @map("display_name")
-}
-
 model Attendant {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  profile  AttendantProfile
-  password String?
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  ssoId       String @unique @map("sso_id")
+  displayName String @map("display_name")
 
   instanceIds String[]   @map("instance_ids") @db.ObjectId
   instances   Instance[] @relation(fields: [instanceIds], references: [id])
@@ -48,7 +41,6 @@ model Attendant {
   sentMessages    Message[] @relation("AttendantSentMessages")
   revokedMessages Message[] @relation("AttendantRevokedMessages")
 
-  @@unique([profile.email])
   @@map("attendants")
 }
 

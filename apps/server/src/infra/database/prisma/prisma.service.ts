@@ -11,8 +11,8 @@ export class PrismaService
 	extends PrismaClient
 	implements OnModuleInit, OnModuleDestroy
 {
-	constructor(private envService: EnvService) {
-		const isDevelopment = envService.get('NODE_ENV') === 'development'
+	constructor(private env: EnvService) {
+		const isDevelopment = env.get('NODE_ENV') === 'development'
 
 		super({
 			...(isDevelopment && { log: ['warn', 'error'] }),
