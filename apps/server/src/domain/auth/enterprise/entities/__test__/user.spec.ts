@@ -8,6 +8,7 @@ describe('User', () => {
 			{
 				name: faker.person.firstName(),
 				email: faker.internet.email(),
+				internalId: makeUniqueEntityID(),
 			},
 			makeUniqueEntityID(faker.string.uuid()),
 		)

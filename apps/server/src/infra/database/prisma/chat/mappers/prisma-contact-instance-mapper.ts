@@ -7,7 +7,7 @@ import {
 	type ContactInstance as PrismaContactInstance,
 } from '@prisma/client'
 
-type Raw = PrismaContactInstance & {
+export type Raw = PrismaContactInstance & {
 	contact: PrismaContact
 }
 
@@ -18,7 +18,7 @@ export class PrismaContactInstanceMapper {
 		return Contact.create(
 			{
 				instanceId: UniqueEntityID.create(raw.instanceId),
-				waContactId: WAEntityID.createFromString(raw.waContactId),
+				waContactId: WAEntityID.createFromString(contact.waContactId),
 				name: contact.name,
 				phone: ContactPhone.create({
 					formattedNumber: contact.formattedPhone,

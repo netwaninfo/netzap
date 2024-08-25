@@ -20,10 +20,10 @@ export class PrismaContactsRepository implements ContactsRepository {
 		instanceId,
 		waContactId,
 	}: ContactsRepositoryFindUniqueByWAContactIdAndInstanceIdParams): Promise<Contact | null> {
-		const raw = await this.prisma.contactInstance.findUnique({
+		const raw = await this.prisma.contactInstance.findFirst({
 			where: {
-				instanceId_waContactId: {
-					instanceId: instanceId.toString(),
+				instanceId: instanceId.toString(),
+				contact: {
 					waContactId: waContactId.toString(),
 				},
 			},
@@ -46,8 +46,10 @@ export class PrismaContactsRepository implements ContactsRepository {
 		const raw = await this.prisma.contactInstance.findMany({
 			where: {
 				instanceId: instanceId.toString(),
-				waContactId: {
-					in: waContactIds.map((id) => id.toString()),
+				contact: {
+					waContactId: {
+						in: waContactIds.map((id) => id.toString()),
+					},
 				},
 			},
 			include: {
@@ -122,17 +124,17 @@ export class PrismaContactsRepository implements ContactsRepository {
 	}
 
 	async create(contact: Contact): Promise<void> {
-		this.prisma.$transaction([
+		await this.prisma.$transaction([
 			this.prisma.contact.create({
-				data: PrismaContactMapper.toPrismaCreate(contact),
+				data: PrismaContactMapper.toPrisma(contact),
 			}),
 		])
 	}
 
 	async createMany(contacts: Contact[]): Promise<void> {
-		this.prisma.$transaction([
+		await this.prisma.$transaction([
 			this.prisma.contact.createMany({
-				data: contacts.map(PrismaContactMapper.toPrismaCreate),
+				data: contacts.map(PrismaContactMapper.toPrisma),
 			}),
 		])
 	}

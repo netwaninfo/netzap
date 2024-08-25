@@ -9,12 +9,8 @@ export class InMemoryAttendantsRepository implements AttendantsRepository {
 
 	async findUniqueByIdAndInstanceId({
 		attendantId,
-		instanceId,
 	}: AttendantsRepositoryFindUniqueByIdAndInstanceIdParams): Promise<Attendant | null> {
-		const item = this.items.find(
-			(item) =>
-				item.id.equals(attendantId) && item.instanceId.equals(instanceId),
-		)
+		const item = this.items.find((item) => item.id.equals(attendantId))
 
 		return item ?? null
 	}

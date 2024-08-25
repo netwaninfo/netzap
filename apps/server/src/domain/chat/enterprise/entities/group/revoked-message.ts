@@ -1,11 +1,12 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Except, SetOptional } from 'type-fest'
+import { Attendant } from '../attendant'
 import { GroupMessage, type GroupMessageProps } from './message'
 
 export interface GroupRevokedMessageProps extends GroupMessageProps {
 	type: 'revoked'
 	revokedAt: Date
-	revokedBy: UniqueEntityID | null
+	revokedBy: Attendant | null
 }
 
 export class GroupRevokedMessage extends GroupMessage<GroupRevokedMessageProps> {

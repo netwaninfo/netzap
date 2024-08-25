@@ -47,16 +47,20 @@ model Attendant {
 model ContactInstance {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  waContactId String @map("wa_contact_id")
-  instanceId  String @map("instance_id") @db.ObjectId
+  contactId  String @map("contact_id") @db.ObjectId
+  instanceId String @map("instance_id") @db.ObjectId
 
   isMe        Boolean @map("is_me")
   isMyContact Boolean @map("is_my_contact")
 
-  contact Contact @relation(fields: [waContactId], references: [waContactId])
+  vCardMessageIds String[] @default([]) @map("v_card_messages_ids") @db.ObjectId
 
-  @@unique([instanceId, waContactId])
-  @@index([instanceId])
+  contact       Contact   @relation(fields: [contactId], references: [id])
+  vCardMessages Message[] @relation(fields: [vCardMessageIds], references: [id], "ContactVCardMessages")
+
+  messages Message[] @relation("ContactMessagesAuthor")
+
+  @@unique([contactId, instanceId])
   @@map("contacts_instances")
 }
 
@@ -71,13 +75,8 @@ model Contact {
   imageUrl   String? @map("image_url")
   isInstance Boolean @map("is_instance")
 
-  vCardMessagesIds String[] @default([]) @map("v_card_messages_ids") @db.ObjectId
-
-  records ContactInstance[]
-  chats   Chat[]
-
-  messages      Message[] @relation("ContactMessagesAuthor")
-  vCardMessages Message[] @relation(fields: [vCardMessagesIds], references: [id], "ContactVCardMessages")
+  instances ContactInstance[]
+  chats     Chat[]
 
   @@unique([phone])
   @@map("contacts")
@@ -170,19 +169,20 @@ model Message {
 
   chat Chat?
 
-  senderId    String?  @map("sender_id") @db.ObjectId
-  revokerId   String?  @map("revoker_id") @db.ObjectId
-  authorId    String?  @map("author_id") @db.ObjectId
-  contactsIds String[] @map("contacts_ids") @db.ObjectId
-  quotedId    String?  @map("quoted_id") @db.ObjectId
+  senderId           String?  @map("sender_id") @db.ObjectId
+  revokerId          String?  @map("revoker_id") @db.ObjectId
+  authorId           String?  @map("author_id") @db.ObjectId
+  contactInstanceIds String[] @map("contacts_ids") @db.ObjectId
+  quotedId           String?  @map("quoted_id") @db.ObjectId
 
   createdAt DateTime  @default(now()) @map("created_at")
   revokedAt DateTime? @map("revoked_at")
 
-  sentBy    Attendant? @relation("AttendantSentMessages", fields: [senderId], references: [id])
-  revokedBy Attendant? @relation("AttendantRevokedMessages", fields: [revokerId], references: [id])
-  author    Contact?   @relation("ContactMessagesAuthor", fields: [authorId], references: [id])
-  contacts  Contact[]  @relation("ContactVCardMessages", fields: [contactsIds], references: [id])
+  sentBy    Attendant?       @relation("AttendantSentMessages", fields: [senderId], references: [id])
+  revokedBy Attendant?       @relation("AttendantRevokedMessages", fields: [revokerId], references: [id])
+  author    ContactInstance? @relation("ContactMessagesAuthor", fields: [authorId, instanceId], references: [contactId, instanceId])
+
+  contacts ContactInstance[] @relation("ContactVCardMessages", fields: [contactInstanceIds], references: [id])
 
   quoted  Message?  @relation("MessageQuotedOrReplyMessage", fields: [quotedId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies Message[] @relation("MessageQuotedOrReplyMessage")

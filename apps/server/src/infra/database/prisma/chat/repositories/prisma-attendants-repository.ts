@@ -22,7 +22,7 @@ export class PrismaAttendantsRepository implements AttendantsRepository {
 	}: AttendantsRepositoryFindUniqueByIdAndInstanceIdParams): Promise<Attendant | null> {
 		const raw = await this.prisma.attendant.findUnique({
 			where: {
-				ssoId: attendantId.toString(),
+				id: attendantId.toString(),
 				instanceIds: {
 					hasSome: [instanceId.toString()],
 				},
@@ -31,7 +31,6 @@ export class PrismaAttendantsRepository implements AttendantsRepository {
 				id: true,
 				displayName: true,
 				ssoId: true,
-				instanceIds: false,
 			},
 		})
 
@@ -46,10 +45,9 @@ export class PrismaAttendantsRepository implements AttendantsRepository {
 		return PrismaAttendantMapper.toDomain({
 			id: raw.id,
 			ssoId: raw.ssoId,
-			displayName: raw.displayName,
-			instanceId: instanceId.toString(),
-			email: user.email,
 			name: user.name,
+			email: user.email,
+			displayName: raw.displayName,
 		})
 	}
 }

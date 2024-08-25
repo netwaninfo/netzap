@@ -113,7 +113,7 @@ describe('CreateGroupTextMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group text message sent by attendant', async () => {
-		const attendant = makeAttendant({ instanceId: chat.instanceId })
+		const attendant = makeAttendant()
 		attendantsRepository.items.push(attendant)
 
 		const response = await sut.execute({

@@ -9,6 +9,10 @@ export interface MessageMediaProps {
 }
 
 export class MessageMedia extends Entity<MessageMediaProps> {
+	get url() {
+		return this.props.url
+	}
+
 	get key() {
 		return this.props.key
 	}

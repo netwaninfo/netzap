@@ -1,5 +1,5 @@
 import { type Either, failure, success } from '@/core/either'
-import { Group } from '@/domain/chat/enterprise/entities/group/group'
+import { Group } from '@/domain/chat/enterprise/entities/group'
 import type { WAGroupContact } from '@/domain/chat/enterprise/entities/wa/group/contact'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { GroupsRepository } from '../../repositories/groups-repository'

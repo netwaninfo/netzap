@@ -2,7 +2,7 @@ import { Contact } from '@/domain/chat/enterprise/entities/contact'
 import { Prisma } from '@prisma/client'
 
 export class PrismaContactMapper {
-	static toPrismaCreate(contact: Contact): Prisma.ContactUncheckedCreateInput {
+	static toPrisma(contact: Contact): Prisma.ContactUncheckedCreateInput {
 		return {
 			id: contact.id.toString(),
 			formattedPhone: contact.phone.formattedNumber,
@@ -11,7 +11,7 @@ export class PrismaContactMapper {
 			name: contact.name,
 			waContactId: contact.waContactId.toString(),
 			imageUrl: contact.imageUrl,
-			records: {
+			instances: {
 				connectOrCreate: {
 					create: {
 						instanceId: contact.instanceId.toString(),
@@ -19,9 +19,9 @@ export class PrismaContactMapper {
 						isMyContact: contact.isMyContact,
 					},
 					where: {
-						instanceId_waContactId: {
+						contactId_instanceId: {
+							contactId: contact.id.toString(),
 							instanceId: contact.instanceId.toString(),
-							waContactId: contact.waContactId.toString(),
 						},
 					},
 				},

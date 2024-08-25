@@ -27,12 +27,15 @@ export type PrivateMessageWithMedia =
 	| PrivateVoiceMessage
 	| PrivateDocumentMessage
 
+export type PrivateMessageWithContacts =
+	| PrivateMultiVCardMessage
+	| PrivateVCardMessage
+
 export type PrivateMessageCanRevoke =
 	| PrivateMessageWithMedia
-	| PrivateMultiVCardMessage
+	| PrivateMessageWithContacts
 	| PrivateTextMessage
 	| PrivateUnknownMessage
-	| PrivateVCardMessage
 
 export type PrivateMessage = PrivateMessageCanRevoke | PrivateRevokedMessage
 
@@ -43,12 +46,15 @@ export type GroupMessageWithMedia =
 	| GroupVoiceMessage
 	| GroupDocumentMessage
 
+export type GroupMessageWithContacts =
+	| GroupMultiVCardMessage
+	| GroupVCardMessage
+
 export type GroupMessageCanRevoke =
 	| GroupMessageWithMedia
-	| GroupMultiVCardMessage
+	| GroupMessageWithContacts
 	| GroupTextMessage
 	| GroupUnknownMessage
-	| GroupVCardMessage
 
 export type GroupMessage = GroupMessageCanRevoke | GroupRevokedMessage
 

@@ -1,5 +1,5 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Group } from '../../enterprise/entities/group/group'
+import type { Group } from '../../enterprise/entities/group'
 import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
 
 export interface GroupsRepositoryFindUniqueByWAGroupIdAndInstanceIdParams {

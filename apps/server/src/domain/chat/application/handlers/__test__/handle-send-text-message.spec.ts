@@ -146,7 +146,7 @@ describe('HandleSendTextMessage', () => {
 		)
 
 		instanceId = makeUniqueEntityID()
-		attendant = makeAttendant({ instanceId })
+		attendant = makeAttendant()
 		attendantsRepository.items.push(attendant)
 	})
 

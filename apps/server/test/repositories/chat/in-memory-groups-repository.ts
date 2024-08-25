@@ -2,7 +2,7 @@ import type {
 	GroupsRepository,
 	GroupsRepositoryFindUniqueByWAGroupIdAndInstanceIdParams,
 } from '@/domain/chat/application/repositories/groups-repository'
-import type { Group } from '@/domain/chat/enterprise/entities/group/group'
+import type { Group } from '@/domain/chat/enterprise/entities/group'
 
 export class InMemoryGroupsRepository implements GroupsRepository {
 	items: Group[] = []

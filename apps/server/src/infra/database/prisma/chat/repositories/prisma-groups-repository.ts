@@ -2,7 +2,7 @@ import {
 	GroupsRepository,
 	GroupsRepositoryFindUniqueByWAGroupIdAndInstanceIdParams,
 } from '@/domain/chat/application/repositories/groups-repository'
-import { Group } from '@/domain/chat/enterprise/entities/group/group'
+import { Group } from '@/domain/chat/enterprise/entities/group'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma.service'
 import { PrismaGroupMapper } from '../mappers/prisma-group-mapper'
@@ -30,9 +30,9 @@ export class PrismaGroupsRepository implements GroupsRepository {
 	}
 
 	async create(group: Group): Promise<void> {
-		this.prisma.$transaction([
+		await this.prisma.$transaction([
 			this.prisma.group.create({
-				data: PrismaGroupMapper.toPrismaCreate(group),
+				data: PrismaGroupMapper.toPrisma(group),
 			}),
 		])
 	}

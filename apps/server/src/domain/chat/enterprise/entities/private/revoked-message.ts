@@ -1,12 +1,13 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Except, SetOptional } from 'type-fest'
+import { Attendant } from '../attendant'
 import { PrivateMessage, type PrivateMessageProps } from './message'
 
 export interface PrivateRevokedMessageProps extends PrivateMessageProps {
 	quoted: null
 	type: 'revoked'
 	revokedAt: Date
-	revokedBy: UniqueEntityID | null
+	revokedBy: Attendant | null
 }
 
 export class PrivateRevokedMessage extends PrivateMessage<PrivateRevokedMessageProps> {
