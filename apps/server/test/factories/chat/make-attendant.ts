@@ -11,8 +11,7 @@ export const makeAttendant = (
 ) => {
 	const attendant = Attendant.create(
 		{
-			email: faker.internet.email(),
-			name: faker.person.firstName(),
+			displayName: faker.internet.userName(),
 			...override,
 		},
 		id,
