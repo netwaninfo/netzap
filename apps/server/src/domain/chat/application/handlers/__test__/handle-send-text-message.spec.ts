@@ -1,5 +1,4 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Attendant } from '@/domain/chat/enterprise/entities/attendant'
 import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { GroupTextMessage } from '@/domain/chat/enterprise/entities/group/text-message'
 import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
@@ -7,13 +6,11 @@ import { PrivateTextMessage } from '@/domain/chat/enterprise/entities/private/te
 import { FakeChatEmitter } from '@/test/emitters/chat/fake-chat-emitter'
 import { FakeMessageEmitter } from '@/test/emitters/chat/fake-message-emitter'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
-import { makeAttendant } from '@/test/factories/chat/make-attendant'
 import { makeContact } from '@/test/factories/chat/make-contact'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { InMemoryAttendantsRepository } from '@/test/repositories/chat/in-memory-attendants-repository'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-groups-repository'
@@ -34,7 +31,6 @@ import { HandleSendTextMessage } from '../handle-send-text-message'
 describe('HandleSendTextMessage', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
-	let attendantsRepository: InMemoryAttendantsRepository
 	let dateService: FakeDateService
 
 	let groupsRepository: InMemoryGroupsRepository
@@ -67,12 +63,11 @@ describe('HandleSendTextMessage', () => {
 	let sut: HandleSendTextMessage
 
 	let instanceId: UniqueEntityID
-	let attendant: Attendant
+	let attendantId: UniqueEntityID
 
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
-		attendantsRepository = new InMemoryAttendantsRepository()
 		dateService = new FakeDateService()
 
 		groupsRepository = new InMemoryGroupsRepository()
@@ -113,7 +108,6 @@ describe('HandleSendTextMessage', () => {
 			new CreatePrivateTextMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
-				attendantsRepository,
 				dateService,
 			)
 
@@ -122,7 +116,6 @@ describe('HandleSendTextMessage', () => {
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
-				attendantsRepository,
 				dateService,
 			)
 
@@ -146,8 +139,7 @@ describe('HandleSendTextMessage', () => {
 		)
 
 		instanceId = makeUniqueEntityID()
-		attendant = makeAttendant()
-		attendantsRepository.items.push(attendant)
+		attendantId = makeUniqueEntityID()
 	})
 
 	it('should be able to send text message to private chat', async () => {
@@ -162,7 +154,7 @@ describe('HandleSendTextMessage', () => {
 
 		const response = await sut.execute({
 			instanceId,
-			attendantId: attendant.id,
+			attendantId,
 			body: 'message',
 			waChatId: privateChat.waChatId,
 		})
@@ -200,7 +192,7 @@ describe('HandleSendTextMessage', () => {
 
 		const response = await sut.execute({
 			instanceId,
-			attendantId: attendant.id,
+			attendantId,
 			body: 'message',
 			waChatId: groupChat.waChatId,
 		})

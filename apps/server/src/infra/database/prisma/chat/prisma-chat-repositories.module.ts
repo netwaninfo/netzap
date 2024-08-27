@@ -1,15 +1,11 @@
-import { AttendantsRepository } from '@/domain/chat/application/repositories/attendants-repository'
 import { ContactsRepository } from '@/domain/chat/application/repositories/contacts-repository'
 import { GroupsRepository } from '@/domain/chat/application/repositories/groups-repository'
 import { Module } from '@nestjs/common'
-import { PrismaChatMessageService } from './prisma-chat-message.service'
-import { PrismaAttendantsRepository } from './repositories/prisma-attendants-repository'
 import { PrismaContactsRepository } from './repositories/prisma-contacts-repository'
 import { PrismaGroupsRepository } from './repositories/prisma-groups-repository'
 
 @Module({
 	providers: [
-		PrismaChatMessageService,
 		{
 			provide: ContactsRepository,
 			useClass: PrismaContactsRepository,
@@ -18,11 +14,7 @@ import { PrismaGroupsRepository } from './repositories/prisma-groups-repository'
 			provide: GroupsRepository,
 			useClass: PrismaGroupsRepository,
 		},
-		{
-			provide: AttendantsRepository,
-			useClass: PrismaAttendantsRepository,
-		},
 	],
-	exports: [ContactsRepository, GroupsRepository, AttendantsRepository],
+	exports: [ContactsRepository, GroupsRepository],
 })
 export class PrismaChatRepositories {}

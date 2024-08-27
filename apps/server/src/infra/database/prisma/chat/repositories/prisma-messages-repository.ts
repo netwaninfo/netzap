@@ -19,21 +19,8 @@ import { PrismaService } from '../../prisma.service'
 import { PrismaGroupMessageMapper } from '../mappers/group/message-mapper'
 import { PrismaMessageMapper } from '../mappers/prisma-message-mapper'
 import { PrismaPrivateMessageMapper } from '../mappers/private/message-mapper'
-import { PrismaChatMessageService } from '../prisma-chat-message.service'
-
-const ATTENDANT_SELECT = {
-	id: true,
-	displayName: true,
-	ssoId: true,
-} satisfies Prisma.AttendantSelect
 
 const QUOTED_MESSAGE_INCLUDES = {
-	sentBy: {
-		select: ATTENDANT_SELECT,
-	},
-	revokedBy: {
-		select: ATTENDANT_SELECT,
-	},
 	contacts: {
 		include: {
 			contact: true,
@@ -47,12 +34,6 @@ const QUOTED_MESSAGE_INCLUDES = {
 } satisfies Prisma.MessageInclude
 
 const MESSAGE_INCLUDES = {
-	sentBy: {
-		select: ATTENDANT_SELECT,
-	},
-	revokedBy: {
-		select: ATTENDANT_SELECT,
-	},
 	contacts: {
 		include: {
 			contact: true,
@@ -70,16 +51,13 @@ const MESSAGE_INCLUDES = {
 
 @Injectable()
 export class PrismaMessagesRepository implements MessagesRepository {
-	constructor(
-		private prisma: PrismaService,
-		private messageService: PrismaChatMessageService,
-	) {}
+	constructor(private prisma: PrismaService) {}
 
 	async findUniquePrivateMessageByChatIAndWAMessageId({
 		chatId,
 		waMessageId,
 	}: MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams): Promise<PrivateMessage | null> {
-		const prismaMessage = await this.prisma.message.findUnique({
+		const raw = await this.prisma.message.findUnique({
 			where: {
 				chatType: 'private',
 				chatId_waMessageId: {
@@ -90,18 +68,16 @@ export class PrismaMessagesRepository implements MessagesRepository {
 			include: MESSAGE_INCLUDES,
 		})
 
-		if (!prismaMessage) return null
+		if (!raw) return null
 
-		return PrismaPrivateMessageMapper.toDomain(
-			await this.messageService.getRawPrivateMessage(prismaMessage),
-		)
+		return PrismaPrivateMessageMapper.toDomain(raw)
 	}
 
 	async findUniqueGroupMessageByChatIAndWAMessageId({
 		chatId,
 		waMessageId,
 	}: MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams): Promise<GroupMessage | null> {
-		const prismaMessage = await this.prisma.message.findUnique({
+		const raw = await this.prisma.message.findUnique({
 			where: {
 				chatType: 'group',
 				chatId_waMessageId: {
@@ -112,18 +88,16 @@ export class PrismaMessagesRepository implements MessagesRepository {
 			include: MESSAGE_INCLUDES,
 		})
 
-		if (!prismaMessage) return null
+		if (!raw) return null
 
-		return PrismaGroupMessageMapper.toDomain(
-			await this.messageService.getRawGroupMessage(prismaMessage),
-		)
+		return PrismaGroupMessageMapper.toDomain(raw)
 	}
 
 	async findUniqueByWAMessageIdAndInstanceId({
 		instanceId,
 		waMessageId,
 	}: MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams): Promise<Message | null> {
-		const prismaMessage = await this.prisma.message.findUnique({
+		const raw = await this.prisma.message.findUnique({
 			where: {
 				instanceId_waMessageId: {
 					instanceId: instanceId.toString(),
@@ -133,11 +107,9 @@ export class PrismaMessagesRepository implements MessagesRepository {
 			include: MESSAGE_INCLUDES,
 		})
 
-		if (!prismaMessage) return null
+		if (!raw) return null
 
-		return PrismaMessageMapper.toDomain(
-			await this.messageService.getRawMessage(prismaMessage),
-		)
+		return PrismaMessageMapper.toDomain(raw)
 	}
 
 	async findUniqueByCreatedAtAndInstanceIdAndWAChatId({
@@ -145,7 +117,7 @@ export class PrismaMessagesRepository implements MessagesRepository {
 		instanceId,
 		waChatId,
 	}: MessagesRepositoryFindUniqueByCreatedAtAndInstanceIdAndWAChatIdParams): Promise<Message | null> {
-		const prismaMessage = await this.prisma.message.findFirst({
+		const raw = await this.prisma.message.findFirst({
 			where: {
 				waChatId: waChatId.toString(),
 				createdAt: createdAt.toISOString(),
@@ -154,11 +126,9 @@ export class PrismaMessagesRepository implements MessagesRepository {
 			include: MESSAGE_INCLUDES,
 		})
 
-		if (!prismaMessage) return null
+		if (!raw) return null
 
-		return PrismaMessageMapper.toDomain(
-			await this.messageService.getRawMessage(prismaMessage),
-		)
+		return PrismaMessageMapper.toDomain(raw)
 	}
 
 	async findManyPaginatedByInstanceIdAndWAChatId({
@@ -169,7 +139,7 @@ export class PrismaMessagesRepository implements MessagesRepository {
 	}: MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams): Promise<
 		Message[]
 	> {
-		const prismaMessages = await this.prisma.message.findMany({
+		const raw = await this.prisma.message.findMany({
 			where: {
 				waChatId: waChatId.toString(),
 				instanceId: instanceId.toString(),
@@ -178,8 +148,6 @@ export class PrismaMessagesRepository implements MessagesRepository {
 			skip: Pagination.skip({ limit: take, page }),
 			include: MESSAGE_INCLUDES,
 		})
-
-		const raw = await this.messageService.getRawMessages(prismaMessages)
 
 		return raw.map(PrismaMessageMapper.toDomain)
 	}

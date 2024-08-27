@@ -6,7 +6,6 @@ import { GroupMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { Prisma, Message as PrismaMessage } from '@prisma/client'
 import { Except, SetNonNullable, SetRequired } from 'type-fest'
-import { Raw as RawAttendant } from '../prisma-attendant-mapper'
 import { Raw as RawContactInstance } from '../prisma-contact-instance-mapper'
 import { PrismaGroupAudioMessageMapper } from './audio-message-mapper'
 import { PrismaGroupDocumentMessageMapper } from './document-message-mapper'
@@ -21,8 +20,6 @@ import { PrismaGroupVoiceMessageMapper } from './voice-message-mapper'
 
 export type RawGroupMessage = PrismaMessage & {
 	quoted?: Except<RawGroupMessage, 'quoted'> | null
-	sentBy?: RawAttendant | null
-	revokedBy?: RawAttendant | null
 	author: RawContactInstance | null
 	contacts: RawContactInstance[]
 }

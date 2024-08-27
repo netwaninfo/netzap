@@ -3,7 +3,6 @@ import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { Prisma } from '@prisma/client'
-import { PrismaAttendantMapper } from '../prisma-attendant-mapper'
 import { RawPrivateMessage } from './message-mapper'
 import { PrismaPrivateMessageMapper } from './message-mapper'
 
@@ -22,14 +21,10 @@ export class PrismaPrivateRevokedMessageMapper {
 				isFromMe: raw.isFromMe,
 				createdAt: raw.createdAt,
 				revokedAt: raw.revokedAt ?? raw.createdAt,
+				...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
+				...(raw.revokerId && { sentBy: UniqueEntityID.create(raw.revokerId) }),
 				...(raw.quoted && {
 					quoted: PrismaPrivateMessageMapper.toDomain(raw.quoted),
-				}),
-				...(raw.sentBy && {
-					sentBy: PrismaAttendantMapper.toDomain(raw.sentBy),
-				}),
-				...(raw.revokedBy && {
-					revokedBy: PrismaAttendantMapper.toDomain(raw.revokedBy),
 				}),
 			},
 			UniqueEntityID.create(raw.id),
@@ -47,13 +42,13 @@ export class PrismaPrivateRevokedMessageMapper {
 			waMessageId: message.waChatId.toString(),
 			instanceId: message.instanceId.toString(),
 			quotedId: message.quoted?.id.toString(),
-			senderId: message.sentBy?.id.toString(),
+			senderId: message.sentBy?.toString(),
 			type: message.type,
 			status: message.status,
 			isForwarded: message.isForwarded,
 			isFromMe: message.isFromMe,
 			createdAt: message.createdAt,
-			revokerId: message.revokedBy?.id.toString(),
+			revokerId: message.revokedBy?.toString(),
 			revokedAt: message.revokedAt,
 		}
 	}

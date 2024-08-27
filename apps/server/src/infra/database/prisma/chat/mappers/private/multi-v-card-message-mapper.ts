@@ -3,7 +3,6 @@ import { PrivateMultiVCardMessage } from '@/domain/chat/enterprise/entities/priv
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { Prisma } from '@prisma/client'
-import { PrismaAttendantMapper } from '../prisma-attendant-mapper'
 import {
 	PrismaContactInstanceMapper,
 	Raw as RawContactInstance,
@@ -28,11 +27,9 @@ export class PrismaPrivateMultiVCardMessageMapper {
 				isFromMe: raw.isFromMe,
 				createdAt: raw.createdAt,
 				contacts: raw.contacts.map(PrismaContactInstanceMapper.toDomain),
+				...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
 				...(raw.quoted && {
 					quoted: PrismaPrivateMessageMapper.toDomain(raw.quoted),
-				}),
-				...(raw.sentBy && {
-					sentBy: PrismaAttendantMapper.toDomain(raw.sentBy),
 				}),
 			},
 			UniqueEntityID.create(raw.id),
@@ -50,7 +47,7 @@ export class PrismaPrivateMultiVCardMessageMapper {
 			waMessageId: message.waChatId.toString(),
 			instanceId: message.instanceId.toString(),
 			quotedId: message.quoted?.id.toString(),
-			senderId: message.sentBy?.id.toString(),
+			senderId: message.sentBy?.toString(),
 			type: message.type,
 			status: message.status,
 			isForwarded: message.isForwarded,

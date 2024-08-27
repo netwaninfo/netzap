@@ -13,7 +13,6 @@ import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
 import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
-import { InMemoryAttendantsRepository } from '@/test/repositories/chat/in-memory-attendants-repository'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
@@ -52,8 +51,6 @@ describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 
 	let createPrivateMultiVCardMessageFromWAMessageUseCase: CreatePrivateMultiVCardMessageFromWAMessageUseCase
 	let createPrivateRevokedMessageFromWAMessageUseCase: CreatePrivateRevokedMessageFromWAMessageUseCase
-
-	let attendantsRepository: InMemoryAttendantsRepository
 
 	let createPrivateTextMessageFromWAMessageUseCase: CreatePrivateTextMessageFromWAMessageUseCase
 	let createPrivateUnknownMessageFromWAMessageUseCase: CreatePrivateUnknownMessageFromWAMessageUseCase
@@ -121,13 +118,10 @@ describe('CreatePrivateMessageFromWAMessageUseCase', () => {
 				dateService,
 			)
 
-		attendantsRepository = new InMemoryAttendantsRepository()
-
 		createPrivateTextMessageFromWAMessageUseCase =
 			new CreatePrivateTextMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
-				attendantsRepository,
 				dateService,
 			)
 

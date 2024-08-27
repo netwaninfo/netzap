@@ -15,7 +15,6 @@ import { makeContact } from '@/test/factories/chat/make-contact'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
-import { InMemoryAttendantsRepository } from '@/test/repositories/chat/in-memory-attendants-repository'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
@@ -57,8 +56,6 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 
 	let createGroupMultiVCardMessageFromWAMessage: CreateGroupMultiVCardMessageFromWAMessageUseCase
 	let createGroupRevokedMessageFromWAMessage: CreateGroupRevokedMessageFromWAMessageUseCase
-
-	let attendantsRepository: InMemoryAttendantsRepository
 
 	let createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase
 	let createGroupUnknownMessageFromWAMessage: CreateGroupUnknownMessageFromWAMessageUseCase
@@ -137,14 +134,11 @@ describe('CreateGroupMessageFromWAMessageUseCase', () => {
 				dateService,
 			)
 
-		attendantsRepository = new InMemoryAttendantsRepository()
-
 		createGroupTextMessageFromWAMessage =
 			new CreateGroupTextMessageFromWAMessageUseCase(
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
-				attendantsRepository,
 				dateService,
 			)
 

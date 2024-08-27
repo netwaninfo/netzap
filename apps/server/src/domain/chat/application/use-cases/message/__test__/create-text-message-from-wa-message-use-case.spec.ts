@@ -6,7 +6,6 @@ import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
-import { InMemoryAttendantsRepository } from '@/test/repositories/chat/in-memory-attendants-repository'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
@@ -18,7 +17,6 @@ import { CreatePrivateTextMessageFromWAMessageUseCase } from '../private/create-
 describe('CreateTextMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
-	let attendantsRepository: InMemoryAttendantsRepository
 	let dateService: FakeDateService
 
 	let createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessageUseCase
@@ -31,14 +29,12 @@ describe('CreateTextMessageFromWAMessageUseCase', () => {
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
-		attendantsRepository = new InMemoryAttendantsRepository()
 		dateService = new FakeDateService()
 
 		createPrivateTextMessageFromWAMessage =
 			new CreatePrivateTextMessageFromWAMessageUseCase(
 				chatsRepository,
 				messagesRepository,
-				attendantsRepository,
 				dateService,
 			)
 
@@ -48,7 +44,6 @@ describe('CreateTextMessageFromWAMessageUseCase', () => {
 				chatsRepository,
 				contactsRepository,
 				messagesRepository,
-				attendantsRepository,
 				dateService,
 			)
 

@@ -1,12 +1,11 @@
 import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
-import { makeAttendant } from '@/test/factories/chat/make-attendant'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makePrivateTextMessage } from '@/test/factories/chat/private/make-private-text-message'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
 import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { faker } from '@/test/lib/faker'
-import { InMemoryAttendantsRepository } from '@/test/repositories/chat/in-memory-attendants-repository'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
@@ -15,7 +14,6 @@ import { CreatePrivateTextMessageFromWAMessageUseCase } from '../create-private-
 describe('CreatePrivateTextMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let messagesRepository: InMemoryMessagesRepository
-	let attendantsRepository: InMemoryAttendantsRepository
 	let dateService: FakeDateService
 
 	let sut: CreatePrivateTextMessageFromWAMessageUseCase
@@ -25,13 +23,11 @@ describe('CreatePrivateTextMessageFromWAMessageUseCase', () => {
 	beforeEach(() => {
 		chatsRepository = new InMemoryChatsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
-		attendantsRepository = new InMemoryAttendantsRepository()
 		dateService = new FakeDateService()
 
 		sut = new CreatePrivateTextMessageFromWAMessageUseCase(
 			chatsRepository,
 			messagesRepository,
-			attendantsRepository,
 			dateService,
 		)
 
@@ -93,16 +89,13 @@ describe('CreatePrivateTextMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a private text message sent by attendant', async () => {
-		const attendant = makeAttendant({})
-		attendantsRepository.items.push(attendant)
-
 		const response = await sut.execute({
 			waMessage: makeWAPrivateMessage({
 				instanceId: chat.instanceId,
 				waChatId: chat.waChatId,
 				type: 'text',
 			}),
-			attendantId: attendant.id,
+			attendantId: makeUniqueEntityID(),
 		})
 
 		expect(response.isSuccess()).toBe(true)

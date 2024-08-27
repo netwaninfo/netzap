@@ -3,7 +3,6 @@ import { PrivateTextMessage } from '@/domain/chat/enterprise/entities/private/te
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { Prisma } from '@prisma/client'
-import { PrismaAttendantMapper } from '../prisma-attendant-mapper'
 import { RawPrivateMessage } from './message-mapper'
 import { PrismaPrivateMessageMapper } from './message-mapper'
 
@@ -22,11 +21,9 @@ export class PrismaPrivateTextMessageMapper {
 				isFromMe: raw.isFromMe,
 				createdAt: raw.createdAt,
 				body: raw.body ?? '',
+				...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
 				...(raw.quoted && {
 					quoted: PrismaPrivateMessageMapper.toDomain(raw.quoted),
-				}),
-				...(raw.sentBy && {
-					sentBy: PrismaAttendantMapper.toDomain(raw.sentBy),
 				}),
 			},
 			UniqueEntityID.create(raw.id),
@@ -44,7 +41,7 @@ export class PrismaPrivateTextMessageMapper {
 			waMessageId: message.waChatId.toString(),
 			instanceId: message.instanceId.toString(),
 			quotedId: message.quoted?.id.toString(),
-			senderId: message.sentBy?.id.toString(),
+			senderId: message.sentBy?.toString(),
 			type: message.type,
 			status: message.status,
 			isForwarded: message.isForwarded,

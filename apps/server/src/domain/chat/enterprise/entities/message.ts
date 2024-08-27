@@ -1,7 +1,6 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { MessageStatus, MessageType } from '@netzap/contracts/enums'
-import type { Attendant } from './attendant'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 import type { WAMessageID } from './value-objects/wa-message-id'
 
@@ -19,7 +18,7 @@ export interface MessageProps {
 	isForwarded: boolean
 	isFromMe: boolean
 	createdAt: Date
-	sentBy: Attendant | null
+	sentBy: UniqueEntityID | null
 }
 
 export abstract class Message<

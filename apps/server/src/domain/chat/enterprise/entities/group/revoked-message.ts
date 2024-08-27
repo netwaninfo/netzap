@@ -1,12 +1,11 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Except, SetOptional } from 'type-fest'
-import { Attendant } from '../attendant'
+import type { Except, SetNonNullable, SetOptional } from 'type-fest'
 import { GroupMessage, type GroupMessageProps } from './message'
 
 export interface GroupRevokedMessageProps extends GroupMessageProps {
 	type: 'revoked'
 	revokedAt: Date
-	revokedBy: Attendant | null
+	revokedBy: UniqueEntityID | null
 }
 
 export class GroupRevokedMessage extends GroupMessage<GroupRevokedMessageProps> {
@@ -20,6 +19,13 @@ export class GroupRevokedMessage extends GroupMessage<GroupRevokedMessageProps> 
 
 	get revokedBy() {
 		return this.props.revokedBy
+	}
+
+	hasRevokedBy(): this is SetNonNullable<
+		GroupRevokedMessageProps,
+		'revokedBy'
+	> {
+		return !!this.revokedBy
 	}
 
 	static create(

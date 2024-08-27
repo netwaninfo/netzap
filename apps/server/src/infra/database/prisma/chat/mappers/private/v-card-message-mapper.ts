@@ -4,7 +4,6 @@ import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-e
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { Prisma } from '@prisma/client'
-import { PrismaAttendantMapper } from '../prisma-attendant-mapper'
 import {
 	PrismaContactInstanceMapper,
 	Raw as RawContactInstance,
@@ -34,12 +33,10 @@ export class PrismaPrivateVCardMessageMapper {
 				isForwarded: raw.isForwarded,
 				isFromMe: raw.isFromMe,
 				createdAt: raw.createdAt,
+				...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
 				contact: PrismaContactInstanceMapper.toDomain(contactInstance),
 				...(raw.quoted && {
 					quoted: PrismaPrivateMessageMapper.toDomain(raw.quoted),
-				}),
-				...(raw.sentBy && {
-					sentBy: PrismaAttendantMapper.toDomain(raw.sentBy),
 				}),
 			},
 			UniqueEntityID.create(raw.id),
@@ -57,7 +54,7 @@ export class PrismaPrivateVCardMessageMapper {
 			waMessageId: message.waChatId.toString(),
 			instanceId: message.instanceId.toString(),
 			quotedId: message.quoted?.id.toString(),
-			senderId: message.sentBy?.id.toString(),
+			senderId: message.sentBy?.toString(),
 			type: message.type,
 			status: message.status,
 			isForwarded: message.isForwarded,

@@ -3,13 +3,12 @@ import type { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { GroupMessage } from '@/domain/chat/enterprise/entities/group/message'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
 import { makeGroupTextMessage } from '@/test/factories/chat/group/make-group-text-message'
-import { makeAttendant } from '@/test/factories/chat/make-attendant'
 import { makeContact } from '@/test/factories/chat/make-contact'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { faker } from '@/test/lib/faker'
-import { InMemoryAttendantsRepository } from '@/test/repositories/chat/in-memory-attendants-repository'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
@@ -20,7 +19,6 @@ describe('CreateGroupTextMessageFromWAMessageUseCase', () => {
 	let chatsRepository: InMemoryChatsRepository
 	let contactsRepository: InMemoryContactsRepository
 	let messagesRepository: InMemoryMessagesRepository
-	let attendantsRepository: InMemoryAttendantsRepository
 	let dateService: FakeDateService
 
 	let sut: CreateGroupTextMessageFromWAMessageUseCase
@@ -32,14 +30,12 @@ describe('CreateGroupTextMessageFromWAMessageUseCase', () => {
 		chatsRepository = new InMemoryChatsRepository()
 		contactsRepository = new InMemoryContactsRepository()
 		messagesRepository = new InMemoryMessagesRepository()
-		attendantsRepository = new InMemoryAttendantsRepository()
 		dateService = new FakeDateService()
 
 		sut = new CreateGroupTextMessageFromWAMessageUseCase(
 			chatsRepository,
 			contactsRepository,
 			messagesRepository,
-			attendantsRepository,
 			dateService,
 		)
 
@@ -113,9 +109,6 @@ describe('CreateGroupTextMessageFromWAMessageUseCase', () => {
 	})
 
 	it('should be able to create a group text message sent by attendant', async () => {
-		const attendant = makeAttendant()
-		attendantsRepository.items.push(attendant)
-
 		const response = await sut.execute({
 			waMessage: makeWAGroupMessage({
 				instanceId: chat.instanceId,
@@ -126,7 +119,7 @@ describe('CreateGroupTextMessageFromWAMessageUseCase', () => {
 					author.waContactId,
 				),
 			}),
-			attendantId: attendant.id,
+			attendantId: makeUniqueEntityID(),
 		})
 
 		expect(response.isSuccess()).toBe(true)

@@ -5,7 +5,6 @@ import type { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/
 import type { GroupMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { AttendantsRepository } from '../../../repositories/attendants-repository'
 import type { ChatsRepository } from '../../../repositories/chats-repository'
 import type { ContactsRepository } from '../../../repositories/contacts-repository'
 import type { MessagesRepository } from '../../../repositories/messages-repository'
@@ -28,7 +27,6 @@ export class CreateGroupTextMessageFromWAMessageUseCase {
 		private chatsRepository: ChatsRepository,
 		private contactsRepository: ContactsRepository,
 		private messagesRepository: MessagesRepository,
-		private attendantsRepository: AttendantsRepository,
 		private dateService: DateService,
 	) {}
 
@@ -42,7 +40,7 @@ export class CreateGroupTextMessageFromWAMessageUseCase {
 			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
 		}
 
-		const [chat, author, attendant] = await Promise.all([
+		const [chat, author] = await Promise.all([
 			this.chatsRepository.findUniqueGroupChatByWAChatIdAndInstanceId({
 				instanceId: waMessage.instanceId,
 				waChatId: waMessage.waChatId,
@@ -51,11 +49,6 @@ export class CreateGroupTextMessageFromWAMessageUseCase {
 				instanceId: waMessage.instanceId,
 				waContactId: waMessage.author.id,
 			}),
-			attendantId &&
-				this.attendantsRepository.findUniqueByIdAndInstanceId({
-					attendantId,
-					instanceId: waMessage.instanceId,
-				}),
 		])
 
 		if (!chat) {
@@ -68,10 +61,6 @@ export class CreateGroupTextMessageFromWAMessageUseCase {
 
 		if (!author) {
 			return failure(new ResourceNotFoundError({ id: waMessage.author.ref }))
-		}
-
-		if (attendantId && !attendant) {
-			return failure(new ResourceNotFoundError({ id: attendantId.toString() }))
 		}
 
 		let quoted: GroupMessage | null = null
@@ -98,7 +87,7 @@ export class CreateGroupTextMessageFromWAMessageUseCase {
 			createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
 			isFromMe: waMessage.isFromMe,
 			status: waMessage.ack,
-			sentBy: attendant,
+			sentBy: attendantId,
 		})
 
 		await this.messagesRepository.create(message)

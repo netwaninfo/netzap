@@ -4,7 +4,6 @@ import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-e
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { Prisma } from '@prisma/client'
 import { SetNonNullable } from 'type-fest'
-import { PrismaAttendantMapper } from '../prisma-attendant-mapper'
 import {
 	PrismaContactInstanceMapper,
 	Raw as RawContactInstance,
@@ -30,11 +29,9 @@ export class PrismaGroupMultiVCardMessageMapper {
 				isFromMe: raw.isFromMe,
 				createdAt: raw.createdAt,
 				contacts: raw.contacts.map(PrismaContactInstanceMapper.toDomain),
+				...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
 				...(raw.quoted && {
 					quoted: PrismaGroupMessageMapper.toDomain(raw.quoted),
-				}),
-				...(raw.sentBy && {
-					sentBy: PrismaAttendantMapper.toDomain(raw.sentBy),
 				}),
 			},
 			UniqueEntityID.create(raw.id),
@@ -53,7 +50,7 @@ export class PrismaGroupMultiVCardMessageMapper {
 			waMessageId: message.waChatId.toString(),
 			instanceId: message.instanceId.toString(),
 			quotedId: message.quoted?.id.toString(),
-			senderId: message.sentBy?.id.toString(),
+			senderId: message.sentBy?.toString(),
 			type: message.type,
 			status: message.status,
 			isForwarded: message.isForwarded,

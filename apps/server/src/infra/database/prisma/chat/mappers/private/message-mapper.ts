@@ -5,7 +5,6 @@ import {
 import { PrivateMessage } from '@/domain/chat/enterprise/types/message'
 import { Prisma, Message as PrismaMessage } from '@prisma/client'
 import { Except, SetNonNullable, SetRequired } from 'type-fest'
-import { Raw as RawAttendant } from '../prisma-attendant-mapper'
 import { Raw as RawContactInstance } from '../prisma-contact-instance-mapper'
 import { PrismaPrivateAudioMessageMapper } from './audio-message-mapper'
 import { PrismaPrivateDocumentMessageMapper } from './document-message-mapper'
@@ -20,8 +19,6 @@ import { PrismaPrivateVoiceMessageMapper } from './voice-message-mapper'
 
 export type RawPrivateMessage = PrismaMessage & {
 	quoted?: Except<RawPrivateMessage, 'quoted'> | null
-	sentBy?: RawAttendant | null
-	revokedBy?: RawAttendant | null
 	contacts: RawContactInstance[]
 }
 
