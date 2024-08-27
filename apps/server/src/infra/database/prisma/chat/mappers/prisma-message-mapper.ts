@@ -10,7 +10,7 @@ import {
 	RawPrivateMessage,
 } from './private/message-mapper'
 
-export type Raw = RawPrivateMessage | RawGroupMessage
+type Raw = RawPrivateMessage | RawGroupMessage
 
 export class PrismaMessageMapper {
 	static toDomain(raw: Raw): Message {
