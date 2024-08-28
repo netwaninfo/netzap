@@ -1,10 +1,10 @@
 import { EnvService } from '@/infra/env/env.service'
-import { ClerkClient, createClerkClient } from '@clerk/clerk-sdk-node'
+import { createClerkClient } from '@clerk/clerk-sdk-node'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class ClerkService {
-	client: ClerkClient
+	client: ReturnType<typeof createClerkClient>
 
 	constructor(env: EnvService) {
 		this.client = createClerkClient({

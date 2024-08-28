@@ -11,6 +11,6 @@ import { ClerkUsersRepository } from './repositories/clerk-users-repository'
 			useClass: ClerkUsersRepository,
 		},
 	],
-	exports: [UsersRepositories],
+	exports: [ClerkService, UsersRepositories],
 })
 export class ClerkModule {}
