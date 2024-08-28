@@ -29,4 +29,4 @@ import { PrismaMessagesRepository } from './repositories/prisma-messages-reposit
 	],
 	exports: [ContactsRepository, GroupsRepository],
 })
-export class PrismaChatRepositories {}
+export class ChatPrismaRepositories {}

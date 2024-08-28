@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common'
-import { PrismaManagementRepositories } from './management/prisma-management-repositories.module'
+import { ChatPrismaRepositories } from './chat/chat-prisma-repositories.module'
+import { ManagementPrismaRepositories } from './management/management-prisma-repositories.module'
 import { PrismaService } from './prisma.service'
 
 @Module({
 	providers: [PrismaService],
-	imports: [PrismaManagementRepositories],
-	exports: [PrismaService, PrismaManagementRepositories],
+	imports: [ManagementPrismaRepositories, ChatPrismaRepositories],
+	exports: [
+		PrismaService,
+		ManagementPrismaRepositories,
+		ChatPrismaRepositories,
+	],
 })
 export class PrismaModule {}

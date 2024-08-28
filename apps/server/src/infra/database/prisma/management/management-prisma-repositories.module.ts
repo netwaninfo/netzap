@@ -11,4 +11,4 @@ import { PrismaInstancesRepository } from './repositories/prisma-instances-repos
 	],
 	exports: [InstancesRepository],
 })
-export class PrismaManagementRepositories {}
+export class ManagementPrismaRepositories {}
