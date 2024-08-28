@@ -40,7 +40,7 @@ export class Pagination extends ValueObject<PaginationProps> {
 		return pageDecrementOne <= 0 || this.pages <= 0 ? 1 : pageDecrementOne
 	}
 
-	static limit = (limit?: number) => limit ?? 50
+	static limit = (amount?: number) => amount ?? 50
 
 	static skip = ({ limit, page }: PaginationSkipParams) => (page - 1) * limit
 

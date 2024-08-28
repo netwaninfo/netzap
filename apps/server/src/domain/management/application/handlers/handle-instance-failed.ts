@@ -23,7 +23,10 @@ export class HandleInstanceFailed {
 	): Promise<HandleInstanceFailedResponse> {
 		const { instanceId } = request
 
-		const instance = await this.instancesRepository.findUniqueById(instanceId)
+		const instance = await this.instancesRepository.findUniqueByInstanceId({
+			instanceId,
+		})
+
 		if (!instance) {
 			return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
 		}
