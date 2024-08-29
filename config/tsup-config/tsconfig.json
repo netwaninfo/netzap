@@ -1,3 +1,0 @@
-{
-	"extends": ["@netzap/ts-config/node-pkg"]
-}

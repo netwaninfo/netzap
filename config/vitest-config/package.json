@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "tsup --watch",
+		"dev": "rm -rf dist && tsup --watch",
 		"build": "tsup --silent",
 		"lint": "biome check --error-on-warnings",
 		"lint:fix": "biome check --write --error-on-warnings"
@@ -19,7 +19,6 @@
 	},
 	"devDependencies": {
 		"@netzap/ts-config": "workspace:^",
-		"@netzap/tsup-config": "workspace:^",
 		"tsup": "^8.2.4",
 		"typescript": "^5.5.4",
 		"vite-tsconfig-paths": "^4.3.2",

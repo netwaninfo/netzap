@@ -12,8 +12,7 @@
 		"strict": true,
 		"strictNullChecks": true,
 		"noImplicitAny": true,
-		"moduleResolution": "NodeNext",
-		"module": "NodeNext",
+		"module": "Preserve",
 		"outDir": "./dist",
 		"noUncheckedIndexedAccess": true
 	},

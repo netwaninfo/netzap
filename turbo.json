@@ -4,10 +4,7 @@
 	"tasks": {
 		"dev": {
 			"cache": false,
-			"persistent": true,
-			"outputs": [
-				"./dist/**"
-			]
+			"persistent": true
 		},
 		"lint": {},
 		"lint:fix": {}

@@ -1,7 +1,9 @@
-import config from '@netzap/tsup-config/node'
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-	...config,
+	entry: ['src/**/*.ts'],
+	format: ['cjs', 'esm'],
+	dts: true,
+	bundle: false,
 	external: ['lightningcss'],
 })

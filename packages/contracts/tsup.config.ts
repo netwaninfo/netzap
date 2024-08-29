@@ -1,4 +1,8 @@
-import config from '@netzap/tsup-config/node'
 import { defineConfig } from 'tsup'
 
-export default defineConfig(config)
+export default defineConfig({
+	entry: ['src/**/*.ts'],
+	format: ['cjs', 'esm'],
+	dts: true,
+	bundle: false,
+})
