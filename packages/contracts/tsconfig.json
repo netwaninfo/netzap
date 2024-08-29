@@ -1,3 +1,6 @@
 {
-	"extends": ["@netzap/ts-config/node"]
+	"extends": ["@netzap/ts-config/node"],
+	"compilerOptions": {
+		"baseUrl": "./"
+	}
 }

@@ -12,8 +12,8 @@ import { MessageEmitter } from '../emitters/message-emitter'
 import { AttendantsRepository } from '../repositories/attendants-repository'
 import type { ChatsRepository } from '../repositories/chats-repository'
 import type { WhatsAppService } from '../services/whats-app-service'
-import { CreateChatFromWAChatUseCase } from '../use-cases/chat/create-chat-from-wa-chat-use-case'
-import type { CreateTextMessageFromWAMessageUseCase } from '../use-cases/message/create-text-message-from-wa-message-use-case'
+import { CreateChatFromWAChatUseCase } from '../use-cases/chats/create-chat-from-wa-chat-use-case'
+import type { CreateTextMessageFromWAMessageUseCase } from '../use-cases/messages/create-text-message-from-wa-message-use-case'
 
 interface HandleSendTextMessageRequest {
 	instanceId: UniqueEntityID

@@ -9,8 +9,8 @@ import type { WAMessage } from '../../enterprise/types/wa-message'
 import { ChatEmitter } from '../emitters/chat-emitter'
 import { MessageEmitter } from '../emitters/message-emitter'
 import type { ChatsRepository } from '../repositories/chats-repository'
-import type { CreateChatFromWAChatUseCase } from '../use-cases/chat/create-chat-from-wa-chat-use-case'
-import type { CreateMessageFromWAMessageUseCase } from '../use-cases/message/create-message-from-wa-message-use-case'
+import type { CreateChatFromWAChatUseCase } from '../use-cases/chats/create-chat-from-wa-chat-use-case'
+import type { CreateMessageFromWAMessageUseCase } from '../use-cases/messages/create-message-from-wa-message-use-case'
 
 interface HandleReceivedWARequestMessage {
 	waMessage: WAMessage

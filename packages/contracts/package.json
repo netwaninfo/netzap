@@ -21,6 +21,11 @@
 			"import": "./dist/enums/index.mjs",
 			"require": "./dist/enums/index.js",
 			"types": "./dist/enums/index.d.ts"
+		},
+		"./http": {
+			"import": "./dist/http/index.mjs",
+			"require": "./dist/http/index.js",
+			"types": "./dist/http/index.d.ts"
 		}
 	},
 	"devDependencies": {
