@@ -3,6 +3,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Instance } from '@/domain/chat/enterprise/entities/instance'
 import { Pagination } from '@/domain/shared/entities/pagination'
 import { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
+import { Injectable } from '@nestjs/common'
 import { InstancesRepository } from '../../repositories/instances-repository'
 
 interface FetchInstancesByAttendantUseCaseRequest extends PaginationRequest {
@@ -17,6 +18,7 @@ type FetchInstancesByAttendantUseCaseResponse = Either<
 	}
 >
 
+@Injectable()
 export class FetchInstancesByAttendantUseCase {
 	constructor(private instancesRepository: InstancesRepository) {}
 

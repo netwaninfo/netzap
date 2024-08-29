@@ -15,9 +15,7 @@ export class PrismaInstanceMapper {
 		)
 	}
 
-	static toPrismaUpdate(
-		instance: Instance,
-	): Prisma.InstanceUncheckedUpdateInput {
+	static toPrisma(instance: Instance): Prisma.InstanceUncheckedCreateInput {
 		return {
 			name: instance.name,
 			phone: instance.phone,
