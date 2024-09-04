@@ -1,1 +1,1 @@
-export * from './fetch-contacts-by-instance.request'
+export * from './fetch-contacts.request'

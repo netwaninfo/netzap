@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { FetchContactsUseCase } from '@/domain/chat/application/use-cases/contacts/fetch-contacts-use-case'
 import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
-import { ContactPresenter } from '@/infra/presenters/chat/contact-presnter'
+import { ContactPresenter } from '@/infra/presenters/chat/contact-presenter'
 import { PaginationPresenter } from '@/infra/presenters/pagination-presenter'
 import {
 	BadRequestException,
@@ -11,30 +11,30 @@ import {
 	Query,
 } from '@nestjs/common'
 import {
-	type ChatFetchContactsByInstanceRequestQuery,
-	type ChatFetchContactsByInstancesRequestParams,
-	type FetchContactsByInstanceResponseBody,
-	chatFetchContactsByInstanceRequestQuerySchema,
-	chatFetchContactsByInstancesRequestParamsSchema,
+	type ChatFetchContactsRequestParams,
+	type ChatFetchContactsRequestQuery,
+	type ChatFetchContactsResponseBody,
+	chatFetchContactsRequestParamsSchema,
+	chatFetchContactsRequestQuerySchema,
 } from '@netzap/contracts/http'
 
 const paramsSchema = new ZodHttpValidationPipe(
-	chatFetchContactsByInstancesRequestParamsSchema,
+	chatFetchContactsRequestParamsSchema,
 )
 
 const querySchema = new ZodHttpValidationPipe(
-	chatFetchContactsByInstanceRequestQuerySchema,
+	chatFetchContactsRequestQuerySchema,
 )
 
 @Controller('/wa/:instanceId/contacts')
-export class FetchContactsByInstanceController {
+export class FetchContactsController {
 	constructor(private fetchContacts: FetchContactsUseCase) {}
 
 	@Get()
 	async handle(
-		@Param(paramsSchema) params: ChatFetchContactsByInstancesRequestParams,
-		@Query(querySchema) query: ChatFetchContactsByInstanceRequestQuery,
-	): Promise<FetchContactsByInstanceResponseBody> {
+		@Param(paramsSchema) params: ChatFetchContactsRequestParams,
+		@Query(querySchema) query: ChatFetchContactsRequestQuery,
+	): Promise<ChatFetchContactsResponseBody> {
 		const { instanceId } = params
 		const { page, limit, q } = query
 

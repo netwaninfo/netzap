@@ -1,9 +1,9 @@
-import { FetchInstancesByAttendantUseCase } from '@/domain/chat/application/use-cases/instances/fetch-instances-by-attendant-use-case'
+import { FetchInstancesUseCase } from '@/domain/chat/application/use-cases/instances/fetch-instances-use-case'
 import { Module } from '@nestjs/common'
-import { FetchInstancesByAttendantController } from './fetch-instances-by-attendant.controller'
+import { FetchInstancesController } from './fetch-instances.controller'
 
 @Module({
-	controllers: [FetchInstancesByAttendantController],
-	providers: [FetchInstancesByAttendantUseCase],
+	controllers: [FetchInstancesController],
+	providers: [FetchInstancesUseCase],
 })
 export class HttpInstancesModule {}

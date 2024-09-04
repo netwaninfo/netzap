@@ -6,11 +6,11 @@ import { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
 import { Injectable } from '@nestjs/common'
 import { InstancesRepository } from '../../repositories/instances-repository'
 
-interface FetchInstancesByAttendantUseCaseRequest extends PaginationRequest {
+interface FetchInstancesUseCaseRequest extends PaginationRequest {
 	attendantId: UniqueEntityID
 }
 
-type FetchInstancesByAttendantUseCaseResponse = Either<
+type FetchInstancesUseCaseResponse = Either<
 	null,
 	{
 		instances: Instance[]
@@ -19,12 +19,12 @@ type FetchInstancesByAttendantUseCaseResponse = Either<
 >
 
 @Injectable()
-export class FetchInstancesByAttendantUseCase {
+export class FetchInstancesUseCase {
 	constructor(private instancesRepository: InstancesRepository) {}
 
 	async execute(
-		request: FetchInstancesByAttendantUseCaseRequest,
-	): Promise<FetchInstancesByAttendantUseCaseResponse> {
+		request: FetchInstancesUseCaseRequest,
+	): Promise<FetchInstancesUseCaseResponse> {
 		const { attendantId, page, limit } = request
 
 		const take = Pagination.limit(limit)

@@ -1,1 +1,1 @@
-export * from './fetch-instances-by-attendant.request'
+export * from './fetch-instances.request'

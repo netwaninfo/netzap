@@ -2,17 +2,17 @@ import { makeInstance } from '@/test/factories/chat/make-instance'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { InMemoryInstancesRepository } from '@/test/repositories/chat/in-memory-instances-repository'
 import { each } from '@/test/utilities/each'
-import { FetchInstancesByAttendantUseCase } from '../fetch-instances-by-attendant-use-case'
+import { FetchInstancesUseCase } from '../fetch-instances-use-case'
 
-describe('FetchInstancesByAttendantUseCase', () => {
+describe('FetchInstancesUseCase', () => {
 	let instancesRepository: InMemoryInstancesRepository
 
-	let sut: FetchInstancesByAttendantUseCase
+	let sut: FetchInstancesUseCase
 
 	beforeEach(() => {
 		instancesRepository = new InMemoryInstancesRepository()
 
-		sut = new FetchInstancesByAttendantUseCase(instancesRepository)
+		sut = new FetchInstancesUseCase(instancesRepository)
 	})
 
 	it('should be able to fetch instances by attendant', async () => {

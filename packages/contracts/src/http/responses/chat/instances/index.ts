@@ -1,1 +1,1 @@
-export * from './fetch-instances-by-attendant.response'
+export * from './fetch-instances.response'

@@ -3,11 +3,11 @@ import { z } from 'zod'
 import { paginationResponseSchema } from '../../shared'
 import { chatHttpInstanceSchema } from '../entities'
 
-export const fetchInstancesByAttendantResponseBodySchema = z.object({
+export const chatFetchInstancesResponseBodySchema = z.object({
 	data: z.array(chatHttpInstanceSchema),
 	pagination: paginationResponseSchema,
 })
 
-export type FetchInstancesByAttendantResponseBody = z.infer<
-	typeof fetchInstancesByAttendantResponseBodySchema
+export type ChatFetchInstancesResponseBody = z.infer<
+	typeof chatFetchInstancesResponseBodySchema
 >
