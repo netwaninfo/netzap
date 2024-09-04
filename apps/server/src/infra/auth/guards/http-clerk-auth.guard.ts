@@ -5,7 +5,7 @@ import { FastifyRequest } from 'fastify'
 import { ClerkService } from '../sso/clerk/clerk.service'
 
 @Injectable()
-export class ClerkAuthGuard implements CanActivate {
+export class HttpClerkAuthGuard implements CanActivate {
 	constructor(
 		private clerk: ClerkService,
 		private usersRepository: UsersRepositories,
@@ -23,6 +23,7 @@ export class ClerkAuthGuard implements CanActivate {
 			const user = await this.usersRepository.findUniqueByUserId({
 				userId: UniqueEntityID.create(payload.sub),
 			})
+
 			if (!user) return false
 
 			request.userId = user.internalId.toString()

@@ -4,7 +4,7 @@ import { UserId } from '@/infra/auth/decorators/user-id.decorator'
 import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
 import { InstancePresenter } from '@/infra/presenters/chat/instance-presenter'
 import { PaginationPresenter } from '@/infra/presenters/pagination-presenter'
-import { BadGatewayException, Controller, Get, Query } from '@nestjs/common'
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
 import {
 	type ChatFetchInstancesByAttendantRequestQuery,
 	type FetchInstancesByAttendantResponseBody,
@@ -21,19 +21,19 @@ export class FetchInstancesByAttendantController {
 
 	@Get()
 	async handle(
-		@UserId() userId: UniqueEntityID,
+		@UserId() userId: string,
 		@Query(querySchema) query: ChatFetchInstancesByAttendantRequestQuery,
 	): Promise<FetchInstancesByAttendantResponseBody> {
 		const { page, limit } = query
 
 		const response = await this.fetchInstances.execute({
-			attendantId: userId,
+			attendantId: UniqueEntityID.create(userId),
 			page,
 			limit,
 		})
 
 		if (response.isFailure()) {
-			throw new BadGatewayException()
+			throw new BadRequestException()
 		}
 
 		const { instances, pagination } = response.value

@@ -1,6 +1,7 @@
 import type {
 	InstancesRepository,
 	InstancesRepositoryFindUniqueByInstanceIdParams,
+	InstancesRepositoryFindUniqueByPhoneParams,
 } from '@/domain/management/application/repositories/instances-repository'
 import type { Instance } from '@/domain/management/enterprise/entities/instance'
 
@@ -13,6 +14,18 @@ export class InMemoryInstancesRepository implements InstancesRepository {
 		const item = this.items.find((item) => item.id.equals(instanceId))
 
 		return item ?? null
+	}
+
+	async findUniqueByPhone({
+		phone,
+	}: InstancesRepositoryFindUniqueByPhoneParams): Promise<Instance | null> {
+		const item = this.items.find((item) => item.phone === phone)
+
+		return item ?? null
+	}
+
+	async create(instance: Instance): Promise<void> {
+		this.items.push(instance)
 	}
 
 	async save(instance: Instance): Promise<void> {

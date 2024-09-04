@@ -4,6 +4,7 @@ import type { Contact } from '@/domain/chat/enterprise/entities/contact'
 import { Pagination } from '@/domain/shared/entities/pagination'
 import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
 import type { SearchRequest } from '@/domain/shared/use-cases/search-request'
+import { Injectable } from '@nestjs/common'
 import type { ContactsRepository } from '../../repositories/contacts-repository'
 
 interface FetchContactsUseCaseRequest extends PaginationRequest, SearchRequest {
@@ -18,6 +19,7 @@ type FetchContactsUseCaseResponse = Either<
 	}
 >
 
+@Injectable()
 export class FetchContactsUseCase {
 	constructor(private contactsRepository: ContactsRepository) {}
 
