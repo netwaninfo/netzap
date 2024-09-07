@@ -1,5 +1,5 @@
 import { Pagination } from '@/domain/shared/entities/pagination'
-import { PaginationResponseSchema } from '@netzap/contracts/http'
+import { PaginationResponseSchema } from '@netzap/contracts/shared'
 
 export class PaginationPresenter {
 	static toHttp(pagination: Pagination): PaginationResponseSchema {

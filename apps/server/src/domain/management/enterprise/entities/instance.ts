@@ -1,4 +1,4 @@
-import type { InstanceStatus } from '@netzap/contracts/enums'
+import type { InstanceStatus } from '@netzap/contracts/management'
 import type { SetOptional } from 'type-fest'
 
 import { Entity } from '@/core/entities/entity'

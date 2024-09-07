@@ -1,9 +1,9 @@
 import { FetchContactsUseCase } from '@/domain/chat/application/use-cases/contacts/fetch-contacts-use-case'
 import { Module } from '@nestjs/common'
-import { FetchContactsByInstanceController } from './fetch-contacts-by-instance.controller'
+import { FetchContactsController } from './fetch-contacts.controller'
 
 @Module({
-	controllers: [FetchContactsByInstanceController],
+	controllers: [FetchContactsController],
 	providers: [FetchContactsUseCase],
 })
 export class HttpContactsModule {}

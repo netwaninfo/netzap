@@ -147,6 +147,9 @@ export class PrismaMessagesRepository implements MessagesRepository {
 			take,
 			skip: Pagination.skip({ limit: take, page }),
 			include: MESSAGE_INCLUDES,
+			orderBy: {
+				createdAt: 'desc',
+			},
 		})
 
 		return raw.map(PrismaMessageMapper.toDomain)

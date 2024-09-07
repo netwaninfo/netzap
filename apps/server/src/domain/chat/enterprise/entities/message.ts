@@ -1,18 +1,17 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { MessageStatus, MessageType } from '@netzap/contracts/enums'
+import type { MessageStatus, MessageType } from '@netzap/contracts/chat'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 import type { WAMessageID } from './value-objects/wa-message-id'
 
 import type { SetNonNullable } from 'type-fest'
-import type { Message as QuotedMessage } from '../types/message'
 
-export interface MessageProps {
+export interface MessageProps<Quoted = unknown> {
 	waMessageId: WAMessageID
 	waChatId: WAEntityID
 	instanceId: UniqueEntityID
 	chatId: UniqueEntityID
-	quoted: QuotedMessage | null
+	quoted: Quoted | null
 	status: MessageStatus
 	type: MessageType
 	isForwarded: boolean

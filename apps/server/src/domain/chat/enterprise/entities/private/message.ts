@@ -1,13 +1,13 @@
 import { Message, type MessageProps } from '../message'
 
-import type { SetNonNullable } from 'type-fest'
+import type { Except, SetNonNullable } from 'type-fest'
 import type { PrivateMessage as QuotedMessage } from '../../types/message'
 
 export interface PrivateMessageProps extends MessageProps {
-	quoted: QuotedMessage | null
+	quoted: Except<QuotedMessage, 'quoted'> | null
 }
 
-type PrivateMessageWithQuoted = SetNonNullable<MessageProps, 'quoted'>
+type PrivateMessageWithQuoted = SetNonNullable<PrivateMessageProps, 'quoted'>
 
 export abstract class PrivateMessage<
 	Props extends PrivateMessageProps,

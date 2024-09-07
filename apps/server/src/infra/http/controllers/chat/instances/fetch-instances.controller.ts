@@ -6,14 +6,12 @@ import { InstancePresenter } from '@/infra/presenters/chat/instance-presenter'
 import { PaginationPresenter } from '@/infra/presenters/pagination-presenter'
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
 import {
-	type ChatFetchInstancesRequestQuery,
-	type ChatFetchInstancesResponseBody,
-	chatFetchInstancesRequestQuerySchema,
-} from '@netzap/contracts/http'
+	type FetchInstancesRequestQuery,
+	type FetchInstancesResponseBody,
+	fetchInstancesRequestQuerySchema,
+} from '@netzap/contracts/chat'
 
-const querySchema = new ZodHttpValidationPipe(
-	chatFetchInstancesRequestQuerySchema,
-)
+const querySchema = new ZodHttpValidationPipe(fetchInstancesRequestQuerySchema)
 
 @Controller('/wa/instances')
 export class FetchInstancesController {
@@ -22,8 +20,8 @@ export class FetchInstancesController {
 	@Get()
 	async handle(
 		@UserId() userId: string,
-		@Query(querySchema) query: ChatFetchInstancesRequestQuery,
-	): Promise<ChatFetchInstancesResponseBody> {
+		@Query(querySchema) query: FetchInstancesRequestQuery,
+	): Promise<FetchInstancesResponseBody> {
 		const { page, limit } = query
 
 		const response = await this.fetchInstances.execute({

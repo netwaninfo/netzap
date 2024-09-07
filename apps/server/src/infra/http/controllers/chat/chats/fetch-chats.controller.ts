@@ -11,18 +11,15 @@ import {
 	Query,
 } from '@nestjs/common'
 import {
-	type ChatFetchChatsRequestParams,
-	type ChatFetchChatsRequestQuery,
-	type ChatFetchChatsResponseBody,
-	chatFetchChatsRequestParamsSchema,
-	chatFetchChatsRequestQuerySchema,
-} from '@netzap/contracts/http'
+	type FetchChatsRequestParams,
+	type FetchChatsRequestQuery,
+	type FetchChatsResponseBody,
+	fetchChatsRequestParamsSchema,
+	fetchChatsRequestQuerySchema,
+} from '@netzap/contracts/chat'
 
-const paramsSchema = new ZodHttpValidationPipe(
-	chatFetchChatsRequestParamsSchema,
-)
-
-const querySchema = new ZodHttpValidationPipe(chatFetchChatsRequestQuerySchema)
+const paramsSchema = new ZodHttpValidationPipe(fetchChatsRequestParamsSchema)
+const querySchema = new ZodHttpValidationPipe(fetchChatsRequestQuerySchema)
 
 @Controller('/wa/:instanceId/chats')
 export class FetchChatsController {
@@ -30,9 +27,9 @@ export class FetchChatsController {
 
 	@Get()
 	async handle(
-		@Param(paramsSchema) params: ChatFetchChatsRequestParams,
-		@Query(querySchema) query: ChatFetchChatsRequestQuery,
-	): Promise<ChatFetchChatsResponseBody> {
+		@Param(paramsSchema) params: FetchChatsRequestParams,
+		@Query(querySchema) query: FetchChatsRequestQuery,
+	): Promise<FetchChatsResponseBody> {
 		const { instanceId } = params
 		const { page, limit } = query
 

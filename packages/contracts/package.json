@@ -5,28 +5,28 @@
 	"type": "module",
 	"scripts": {
 		"dev": "rm -rf dist && tsup --watch",
-		"build": "tsup --silent",
+		"build": "rm -rf dist && tsup --silent",
 		"lint": "biome check --error-on-warnings",
 		"lint:fix": "biome check --write --error-on-warnings"
 	},
-	"files": ["dist"],
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
 	"exports": {
-		".": {
-			"import": "./dist/index.js",
-			"require": "./dist/index.cjs",
-			"types": "./dist/index.d.ts"
+		"./chat": {
+			"import": "./dist/chat/index.js",
+			"require": "./dist/chat/index.cjs",
+			"types": "./dist/chat/index.d.ts"
 		},
-		"./enums": {
-			"import": "./dist/enums/index.js",
-			"require": "./dist/enums/index.cjs",
-			"types": "./dist/enums/index.d.ts"
+		"./management": {
+			"import": "./dist/management/index.js",
+			"require": "./dist/management/index.cjs",
+			"types": "./dist/management/index.d.ts"
 		},
-		"./http": {
-			"import": "./dist/http/index.js",
-			"require": "./dist/http/index.cjs",
-			"types": "./dist/http/index.d.ts"
+		"./shared": {
+			"import": "./dist/shared/index.js",
+			"require": "./dist/shared/index.cjs",
+			"types": "./dist/shared/index.d.ts"
 		}
 	},
 	"devDependencies": {

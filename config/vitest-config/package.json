@@ -9,7 +9,9 @@
 		"lint": "biome check --error-on-warnings",
 		"lint:fix": "biome check --write --error-on-warnings"
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"exports": {
 		"./node": {
 			"import": "./dist/node.js",

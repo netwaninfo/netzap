@@ -1,7 +1,7 @@
 import { type Either, failure, success } from '@/core/either'
 import type { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { MessageStatus } from '@netzap/contracts/enums'
+import type { MessageStatus } from '@netzap/contracts/chat'
 import type { Message } from '../../enterprise/types/message'
 import type { WAMessage } from '../../enterprise/types/wa-message'
 import { MessageEmitter } from '../emitters/message-emitter'
