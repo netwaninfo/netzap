@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { messageTypeSchema } from '@/chat/enums'
-import { MessageMediaSchema } from '../value-objects'
+import { MessageMediaSchema } from '../message-media'
 import { baseGroupMessage } from './message'
 import { groupQuotedMessageSchema } from './quoted-message'
 

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { messageTypeSchema } from '@/chat/enums'
-import { MessageMediaSchema } from '../value-objects'
+import { MessageMediaSchema } from '../message-media'
 import { basePrivateMessage } from './message'
 import { privateQuotedMessageSchema } from './quoted-message'
 

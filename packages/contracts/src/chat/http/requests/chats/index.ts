@@ -1,1 +1,1 @@
-export * from './fetch-chats.request'
+export * from './fetch-chats-request'

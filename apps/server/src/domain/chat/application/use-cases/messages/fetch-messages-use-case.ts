@@ -4,6 +4,7 @@ import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects
 import type { Message } from '@/domain/chat/enterprise/types/message'
 import { Pagination } from '@/domain/shared/entities/pagination'
 import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
+import { Injectable } from '@nestjs/common'
 import type { MessagesRepository } from '../../repositories/messages-repository'
 
 interface FetchMessagesUseCaseRequest extends PaginationRequest {
@@ -19,6 +20,7 @@ type FetchMessagesUseCaseResponse = Either<
 	}
 >
 
+@Injectable()
 export class FetchMessagesUseCase {
 	constructor(private messagesRepository: MessagesRepository) {}
 

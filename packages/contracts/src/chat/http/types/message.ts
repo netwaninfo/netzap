@@ -1,6 +1,16 @@
 import { z } from 'zod'
 
 import {
+	groupAudioMessageSchema,
+	groupDocumentMessageSchema,
+	groupImageMessageSchema,
+	groupMultiVCardMessageSchema,
+	groupRevokedMessageSchema,
+	groupTextMessageSchema,
+	groupUnknownMessageSchema,
+	groupVCardMessageSchema,
+	groupVideoMessageSchema,
+	groupVoiceMessageSchema,
 	privateAudioMessageSchema,
 	privateDocumentMessageSchema,
 	privateImageMessageSchema,
@@ -26,8 +36,23 @@ export const privateMessageSchema = z.discriminatedUnion('type', [
 	privateVoiceMessageSchema,
 ])
 
-export type PrivateMessageSchema = z.infer<typeof privateMessageSchema>
+export type PrivateMessage = z.infer<typeof privateMessageSchema>
 
-export const messageSchema = privateMessageSchema
+export const groupMessageSchema = z.discriminatedUnion('type', [
+	groupAudioMessageSchema,
+	groupDocumentMessageSchema,
+	groupImageMessageSchema,
+	groupMultiVCardMessageSchema,
+	groupRevokedMessageSchema,
+	groupTextMessageSchema,
+	groupUnknownMessageSchema,
+	groupVCardMessageSchema,
+	groupVideoMessageSchema,
+	groupVoiceMessageSchema,
+])
+
+export type GroupMessage = z.infer<typeof groupMessageSchema>
+
+export const messageSchema = z.union([privateMessageSchema, groupMessageSchema])
 
 export type Message = z.infer<typeof messageSchema>
