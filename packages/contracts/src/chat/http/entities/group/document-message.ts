@@ -1,19 +1,7 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums'
-import { MessageMediaSchema } from '../message-media'
-import { baseGroupMessage } from './message'
-import { groupQuotedMessageSchema } from './quoted-message'
-
-export const groupQuotedDocumentMessageSchema = baseGroupMessage.extend({
-	type: z.literal(messageTypeSchema.Values.document),
-	media: MessageMediaSchema,
-	body: z.string().nullable(),
-})
-
-export type GroupQuotedDocumentMessage = z.infer<
-	typeof groupQuotedDocumentMessageSchema
->
+import { groupQuotedDocumentMessageSchema } from './quoted-document-message.js'
+import { groupQuotedMessageSchema } from './quoted-message.js'
 
 export const groupDocumentMessageSchema =
 	groupQuotedDocumentMessageSchema.extend({

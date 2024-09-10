@@ -5,7 +5,7 @@ import { Pagination } from '@/domain/shared/entities/pagination'
 import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
 import type { SearchRequest } from '@/domain/shared/use-cases/search-request'
 import { Injectable } from '@nestjs/common'
-import type { ContactsRepository } from '../../repositories/contacts-repository'
+import { ContactsRepository } from '../../repositories/contacts-repository'
 
 interface FetchContactsUseCaseRequest extends PaginationRequest, SearchRequest {
 	instanceId: UniqueEntityID

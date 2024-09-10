@@ -3,7 +3,7 @@ import { z } from 'zod'
 import {
 	instanceRequestParamsSchema,
 	paginatedRequestQuerySchema,
-} from '@/shared'
+} from '@/shared/index.js'
 
 export const fetchMessagesRequestParamsSchema =
 	instanceRequestParamsSchema.extend({

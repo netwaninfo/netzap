@@ -4,16 +4,6 @@
 	"extends": "./base.json",
 	"compilerOptions": {
 		"declaration": true,
-		"composite": true,
-		"sourceMap": true,
-		"declarationMap": true,
-		"paths": {
-			"@/*": [
-				"./src/*"
-			],
-			"@/test/*": [
-				"./test/*"
-			]
-		}
+		"declarationMap": true
 	}
 }

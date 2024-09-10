@@ -1,18 +1,7 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums'
-import { contactSchema } from '../contact'
-import { basePrivateMessage } from './message'
-import { privateQuotedMessageSchema } from './quoted-message'
-
-export const privateQuotedMultiVCardMessageSchema = basePrivateMessage.extend({
-	type: z.literal(messageTypeSchema.Values.multi_vcard),
-	contacts: z.array(contactSchema),
-})
-
-export type PrivateQuotedMultiVCardMessage = z.infer<
-	typeof privateQuotedMultiVCardMessageSchema
->
+import { privateQuotedMessageSchema } from './quoted-message.js'
+import { privateQuotedMultiVCardMessageSchema } from './quoted-multi-v-card-message.js'
 
 export const privateMultiVCardMessageSchema =
 	privateQuotedMultiVCardMessageSchema.extend({

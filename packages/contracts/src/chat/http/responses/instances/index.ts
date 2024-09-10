@@ -1,1 +1,1 @@
-export * from './fetch-instances-response'
+export * from './fetch-instances-response.js'

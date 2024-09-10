@@ -17,7 +17,6 @@ export class GroupRevokedMessagePresenter {
 			createdAt: message.createdAt,
 			author: ContactPresenter.toHttp(message.author),
 			sentBy: message.sentBy?.toString() ?? null,
-			quoted: null,
 			revokedAt: message.revokedAt,
 			revokedBy: message.revokedBy?.toString() ?? null,
 		}

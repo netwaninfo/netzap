@@ -15,7 +15,6 @@ export class PrivateRevokedMessagePresenter {
 			isFromMe: message.isFromMe,
 			createdAt: message.createdAt,
 			sentBy: message.sentBy?.toString() ?? null,
-			quoted: null,
 			revokedAt: message.revokedAt,
 			revokedBy: message.revokedBy?.toString() ?? null,
 		}

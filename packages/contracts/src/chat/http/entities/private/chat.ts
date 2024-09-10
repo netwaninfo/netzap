@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-import { privateMessageSchema } from '../../types'
-import { baseChatSchema } from '../chat'
+import { privateMessageSchema } from '../../types/index.js'
+import { baseChatSchema } from '../chat.js'
 
 export const privateChatSchema = baseChatSchema.extend({
 	contactId: z.string(),

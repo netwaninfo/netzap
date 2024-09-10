@@ -5,7 +5,7 @@ import type { Message } from '@/domain/chat/enterprise/types/message'
 import { Pagination } from '@/domain/shared/entities/pagination'
 import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
 import { Injectable } from '@nestjs/common'
-import type { MessagesRepository } from '../../repositories/messages-repository'
+import { MessagesRepository } from '../../repositories/messages-repository'
 
 interface FetchMessagesUseCaseRequest extends PaginationRequest {
 	instanceId: UniqueEntityID

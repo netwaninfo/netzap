@@ -3,6 +3,7 @@ import type { Except, SetNonNullable, SetOptional } from 'type-fest'
 import { GroupMessage, type GroupMessageProps } from './message'
 
 export interface GroupRevokedMessageProps extends GroupMessageProps {
+	quoted: null
 	type: 'revoked'
 	revokedAt: Date
 	revokedBy: UniqueEntityID | null
@@ -32,7 +33,6 @@ export class GroupRevokedMessage extends GroupMessage<GroupRevokedMessageProps> 
 		props: Except<
 			SetOptional<
 				GroupRevokedMessageProps,
-				| 'quoted'
 				| 'status'
 				| 'isForwarded'
 				| 'isFromMe'
@@ -41,7 +41,7 @@ export class GroupRevokedMessage extends GroupMessage<GroupRevokedMessageProps> 
 				| 'revokedAt'
 				| 'revokedBy'
 			>,
-			'type'
+			'type' | 'quoted'
 		>,
 		id?: UniqueEntityID,
 	) {
@@ -49,7 +49,7 @@ export class GroupRevokedMessage extends GroupMessage<GroupRevokedMessageProps> 
 			{
 				...props,
 				type: 'revoked',
-				quoted: props.quoted ?? null,
+				quoted: null,
 				status: props.status ?? 'pending',
 				isForwarded: props.isForwarded ?? false,
 				isFromMe: props.isFromMe ?? true,

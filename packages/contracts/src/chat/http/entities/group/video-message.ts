@@ -1,19 +1,7 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums'
-import { MessageMediaSchema } from '../message-media'
-import { baseGroupMessage } from './message'
-import { groupQuotedMessageSchema } from './quoted-message'
-
-export const groupQuotedVideoMessageSchema = baseGroupMessage.extend({
-	type: z.literal(messageTypeSchema.Values.video),
-	media: MessageMediaSchema,
-	body: z.string().nullable(),
-})
-
-export type GroupQuotedVideoMessage = z.infer<
-	typeof groupQuotedVideoMessageSchema
->
+import { groupQuotedMessageSchema } from './quoted-message.js'
+import { groupQuotedVideoMessageSchema } from './quoted-video-message.js'
 
 export const groupVideoMessageSchema = groupQuotedVideoMessageSchema.extend({
 	quoted: groupQuotedMessageSchema.nullable(),

@@ -1,18 +1,5 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"display": "Node",
-	"extends": "./base.json",
-	"compilerOptions": {
-		"lib": [
-			"es2022"
-		],
-		"paths": {
-			"@/*": [
-				"./src/*"
-			],
-			"@/test/*": [
-				"./test/*"
-			]
-		}
-	}
+	"extends": "./base.json"
 }

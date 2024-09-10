@@ -21,9 +21,9 @@ import {
 	privateVCardMessageSchema,
 	privateVideoMessageSchema,
 	privateVoiceMessageSchema,
-} from '../entities'
+} from '../entities/index.js'
 
-export const privateMessageSchema = z.discriminatedUnion('type', [
+export const privateMessageSchema = z.union([
 	privateAudioMessageSchema,
 	privateDocumentMessageSchema,
 	privateImageMessageSchema,
@@ -38,7 +38,7 @@ export const privateMessageSchema = z.discriminatedUnion('type', [
 
 export type PrivateMessage = z.infer<typeof privateMessageSchema>
 
-export const groupMessageSchema = z.discriminatedUnion('type', [
+export const groupMessageSchema = z.union([
 	groupAudioMessageSchema,
 	groupDocumentMessageSchema,
 	groupImageMessageSchema,

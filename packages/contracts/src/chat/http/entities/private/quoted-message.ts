@@ -1,15 +1,15 @@
 import { z } from 'zod'
 
-import { privateQuotedAudioMessageSchema } from './audio-message'
-import { privateQuotedDocumentMessageSchema } from './document-message'
-import { privateQuotedImageMessageSchema } from './image-message'
-import { privateQuotedMultiVCardMessageSchema } from './multi-v-card-message'
-import { privateQuotedRevokedMessageSchema } from './revoked-message'
-import { privateQuotedTextMessageSchema } from './text-message'
-import { privateQuotedUnknownMessageSchema } from './unknown-message'
-import { privateQuotedVCardMessageSchema } from './v-card-message'
-import { privateQuotedVideoMessageSchema } from './video-message'
-import { privateQuotedVoiceMessageSchema } from './voice-message'
+import { privateQuotedAudioMessageSchema } from './quoted-audio-message.js'
+import { privateQuotedDocumentMessageSchema } from './quoted-document-message.js'
+import { privateQuotedImageMessageSchema } from './quoted-image-message.js'
+import { privateQuotedMultiVCardMessageSchema } from './quoted-multi-v-card-message.js'
+import { privateQuotedRevokedMessageSchema } from './quoted-revoked-message.js'
+import { privateQuotedTextMessageSchema } from './quoted-text-message.js'
+import { privateQuotedUnknownMessageSchema } from './quoted-unknown-message.js'
+import { privateQuotedVCardMessageSchema } from './quoted-v-card-message.js'
+import { privateQuotedVideoMessageSchema } from './quoted-video-message.js'
+import { privateQuotedVoiceMessageSchema } from './quoted-voice-message.js'
 
 export const privateQuotedMessageSchema = z.discriminatedUnion('type', [
 	privateQuotedAudioMessageSchema,

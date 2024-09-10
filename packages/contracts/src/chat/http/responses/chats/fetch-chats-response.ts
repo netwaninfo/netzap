@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-import { paginationResponseSchema } from '@/shared'
-import { chatSchema } from '../../types'
+import { paginationResponseSchema } from '@/shared/index.js'
+import { chatSchema } from '../../types/index.js'
 
 export const fetchChatsResponseBodySchema = z.object({
 	data: z.array(chatSchema),

@@ -4,7 +4,7 @@ import type { Chat } from '@/domain/chat/enterprise/types/chat'
 import { Pagination } from '@/domain/shared/entities/pagination'
 import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
 import { Injectable } from '@nestjs/common'
-import type { ChatsRepository } from '../../repositories/chats-repository'
+import { ChatsRepository } from '../../repositories/chats-repository'
 
 interface FetchChatsUseCaseRequest extends PaginationRequest {
 	instanceId: UniqueEntityID

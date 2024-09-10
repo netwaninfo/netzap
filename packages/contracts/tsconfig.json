@@ -1,7 +1,6 @@
 {
 	"extends": ["@netzap/ts-config/node"],
 	"compilerOptions": {
-		"baseUrl": "./",
-		"module": "Preserve"
+		"baseUrl": "./"
 	}
 }

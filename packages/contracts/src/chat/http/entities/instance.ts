@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { instanceStatusSchema } from '@/management'
+import { instanceStatusSchema } from '@/management/index.js'
 
 export const instanceSchema = z.object({
 	id: z.string(),

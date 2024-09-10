@@ -1,21 +1,8 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums'
-import { basePrivateMessage } from './message'
-
-export const privateQuotedRevokedMessageSchema = basePrivateMessage.extend({
-	type: z.literal(messageTypeSchema.Values.revoked),
-	revokedAt: z.date(),
-	revokedBy: z.string().nullable(),
-})
-
-export type PrivateQuotedRevokedMessage = z.infer<
-	typeof privateQuotedRevokedMessageSchema
->
+import { privateQuotedRevokedMessageSchema } from './quoted-revoked-message.js'
 
 export const privateRevokedMessageSchema =
-	privateQuotedRevokedMessageSchema.extend({
-		quoted: z.null(),
-	})
+	privateQuotedRevokedMessageSchema.extend({})
 
 export type PrivateRevokedMessage = z.infer<typeof privateRevokedMessageSchema>

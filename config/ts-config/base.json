@@ -12,9 +12,19 @@
 		"strict": true,
 		"strictNullChecks": true,
 		"noImplicitAny": true,
-		"module": "Preserve",
+		"noImplicitOverride": true,
+		"noUncheckedIndexedAccess": true,
+		"module": "NodeNext",
 		"outDir": "./dist",
-		"noUncheckedIndexedAccess": true
+		"sourceMap": true,
+		"paths": {
+			"@/*": [
+				"./src/*"
+			],
+			"@/test/*": [
+				"./test/*"
+			]
+		}
 	},
 	"exclude": [
 		"node_modules",

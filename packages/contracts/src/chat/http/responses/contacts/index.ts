@@ -1,1 +1,1 @@
-export * from './fetch-contacts-response'
+export * from './fetch-contacts-response.js'

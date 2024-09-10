@@ -5,5 +5,6 @@ export default defineConfig({
 	format: ['cjs', 'esm'],
 	dts: true,
 	bundle: false,
+	clean: true,
 	external: ['lightningcss'],
 })

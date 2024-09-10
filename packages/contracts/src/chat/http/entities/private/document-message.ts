@@ -1,19 +1,7 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums'
-import { MessageMediaSchema } from '../message-media'
-import { basePrivateMessage } from './message'
-import { privateQuotedMessageSchema } from './quoted-message'
-
-export const privateQuotedDocumentMessageSchema = basePrivateMessage.extend({
-	type: z.literal(messageTypeSchema.Values.document),
-	media: MessageMediaSchema,
-	body: z.string().nullable(),
-})
-
-export type PrivateQuotedDocumentMessage = z.infer<
-	typeof privateQuotedDocumentMessageSchema
->
+import { privateQuotedDocumentMessageSchema } from './quoted-document-message.js'
+import { privateQuotedMessageSchema } from './quoted-message.js'
 
 export const privateDocumentMessageSchema =
 	privateQuotedDocumentMessageSchema.extend({

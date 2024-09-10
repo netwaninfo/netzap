@@ -1,5 +1,6 @@
-import { messageStatusSchema } from '@/chat/enums'
 import { z } from 'zod'
+
+import { messageStatusSchema } from '@/chat/enums/index.js'
 
 export const baseMessageSchema = z.object({
 	id: z.string(),

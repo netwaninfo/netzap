@@ -1,18 +1,7 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums'
-import { MessageMediaSchema } from '../message-media'
-import { baseGroupMessage } from './message'
-import { groupQuotedMessageSchema } from './quoted-message'
-
-export const groupQuotedAudioMessageSchema = baseGroupMessage.extend({
-	type: z.literal(messageTypeSchema.Values.audio),
-	media: MessageMediaSchema,
-})
-
-export type GroupQuotedAudioMessage = z.infer<
-	typeof groupQuotedAudioMessageSchema
->
+import { groupQuotedAudioMessageSchema } from './quoted-audio-message.js'
+import { groupQuotedMessageSchema } from './quoted-message.js'
 
 export const groupAudioMessageSchema = groupQuotedAudioMessageSchema.extend({
 	quoted: groupQuotedMessageSchema.nullable(),

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-import { groupMessageSchema } from '../../types'
-import { baseChatSchema } from '../chat'
+import { groupMessageSchema } from '../../types/index.js'
+import { baseChatSchema } from '../chat.js'
 
 export const groupChatSchema = baseChatSchema.extend({
 	groupId: z.string(),

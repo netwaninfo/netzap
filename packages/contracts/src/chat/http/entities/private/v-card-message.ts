@@ -1,18 +1,7 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums'
-import { contactSchema } from '../contact'
-import { basePrivateMessage } from './message'
-import { privateQuotedMessageSchema } from './quoted-message'
-
-export const privateQuotedVCardMessageSchema = basePrivateMessage.extend({
-	type: z.literal(messageTypeSchema.Values.vcard),
-	contact: contactSchema,
-})
-
-export type PrivateQuotedVCardMessage = z.infer<
-	typeof privateQuotedVCardMessageSchema
->
+import { privateQuotedMessageSchema } from './quoted-message.js'
+import { privateQuotedVCardMessageSchema } from './quoted-v-card-message.js'
 
 export const privateVCardMessageSchema = privateQuotedVCardMessageSchema.extend(
 	{

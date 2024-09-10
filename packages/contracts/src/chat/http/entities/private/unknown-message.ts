@@ -1,16 +1,7 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums'
-import { basePrivateMessage } from './message'
-import { privateQuotedMessageSchema } from './quoted-message'
-
-export const privateQuotedUnknownMessageSchema = basePrivateMessage.extend({
-	type: z.literal(messageTypeSchema.Values.unknown),
-})
-
-export type PrivateQuotedUnknownMessage = z.infer<
-	typeof privateQuotedUnknownMessageSchema
->
+import { privateQuotedMessageSchema } from './quoted-message.js'
+import { privateQuotedUnknownMessageSchema } from './quoted-unknown-message.js'
 
 export const privateUnknownMessageSchema =
 	privateQuotedUnknownMessageSchema.extend({
