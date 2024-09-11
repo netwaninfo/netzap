@@ -1,9 +1,9 @@
 interface ResourceNotFoundErrorProps {
-	id: string
+  id: string
 }
 
 export class ResourceNotFoundError extends Error {
-	constructor({ id }: ResourceNotFoundErrorProps) {
-		super(`Resource "${id}" not found`)
-	}
+  constructor({ id }: ResourceNotFoundErrorProps) {
+    super(`Resource "${id}" not found`)
+  }
 }

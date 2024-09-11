@@ -12,53 +12,53 @@ import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { CreateGroupRevokedMessageFromWAMessageUseCase } from '../create-group-revoked-message-from-wa-message-use-case'
 
 describe('CreateGroupRevokedMessageFromWAMessageUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let contactsRepository: InMemoryContactsRepository
-	let messagesRepository: InMemoryMessagesRepository
-	let dateService: FakeDateService
+  let chatsRepository: InMemoryChatsRepository
+  let contactsRepository: InMemoryContactsRepository
+  let messagesRepository: InMemoryMessagesRepository
+  let dateService: FakeDateService
 
-	let sut: CreateGroupRevokedMessageFromWAMessageUseCase
+  let sut: CreateGroupRevokedMessageFromWAMessageUseCase
 
-	let chat: GroupChat
-	let author: Contact
+  let chat: GroupChat
+  let author: Contact
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		contactsRepository = new InMemoryContactsRepository()
-		messagesRepository = new InMemoryMessagesRepository()
-		dateService = new FakeDateService()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    contactsRepository = new InMemoryContactsRepository()
+    messagesRepository = new InMemoryMessagesRepository()
+    dateService = new FakeDateService()
 
-		sut = new CreateGroupRevokedMessageFromWAMessageUseCase(
-			chatsRepository,
-			contactsRepository,
-			messagesRepository,
-			dateService,
-		)
+    sut = new CreateGroupRevokedMessageFromWAMessageUseCase(
+      chatsRepository,
+      contactsRepository,
+      messagesRepository,
+      dateService
+    )
 
-		chat = makeGroupChat()
-		chatsRepository.items.push(chat)
+    chat = makeGroupChat()
+    chatsRepository.items.push(chat)
 
-		author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-	})
+    author = makeContact({ instanceId: chat.instanceId })
+    contactsRepository.items.push(author)
+  })
 
-	it('should be able to create a group revoked message', async () => {
-		const response = await sut.execute({
-			waMessage: makeWAGroupMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'revoked',
-				body: faker.lorem.paragraph(),
-				author: makeWAPrivateContact(
-					{ instanceId: author.instanceId },
-					author.waContactId,
-				),
-			}),
-		})
+  it('should be able to create a group revoked message', async () => {
+    const response = await sut.execute({
+      waMessage: makeWAGroupMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'revoked',
+        body: faker.lorem.paragraph(),
+        author: makeWAPrivateContact(
+          { instanceId: author.instanceId },
+          author.waContactId
+        ),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		expect(messagesRepository.items).toHaveLength(1)
-	})
+    expect(messagesRepository.items).toHaveLength(1)
+  })
 })

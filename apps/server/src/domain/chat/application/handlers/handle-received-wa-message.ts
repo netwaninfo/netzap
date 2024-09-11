@@ -13,60 +13,60 @@ import type { CreateChatFromWAChatUseCase } from '../use-cases/chats/create-chat
 import type { CreateMessageFromWAMessageUseCase } from '../use-cases/messages/create-message-from-wa-message-use-case'
 
 interface HandleReceivedWARequestMessage {
-	waMessage: WAMessage
-	waChat: WAChat
+  waMessage: WAMessage
+  waChat: WAChat
 }
 
 type HandleReceivedWAResponseMessage = Either<
-	| ResourceNotFoundError
-	| InvalidResourceFormatError
-	| ResourceAlreadyExistsError
-	| null,
-	{
-		message: Message
-		chat: Chat
-	}
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError
+  | null,
+  {
+    message: Message
+    chat: Chat
+  }
 >
 
 export class HandleReceivedWAMessage {
-	constructor(
-		private chatsRepository: ChatsRepository,
-		private createChatFromWAChat: CreateChatFromWAChatUseCase,
-		private createMessageFromWAMessage: CreateMessageFromWAMessageUseCase,
-		private messageEmitter: MessageEmitter,
-		private chatEmitter: ChatEmitter,
-	) {}
+  constructor(
+    private chatsRepository: ChatsRepository,
+    private createChatFromWAChat: CreateChatFromWAChatUseCase,
+    private createMessageFromWAMessage: CreateMessageFromWAMessageUseCase,
+    private messageEmitter: MessageEmitter,
+    private chatEmitter: ChatEmitter
+  ) {}
 
-	async execute(
-		request: HandleReceivedWARequestMessage,
-	): Promise<HandleReceivedWAResponseMessage> {
-		const { waChat, waMessage } = request
+  async execute(
+    request: HandleReceivedWARequestMessage
+  ): Promise<HandleReceivedWAResponseMessage> {
+    const { waChat, waMessage } = request
 
-		let chat = await this.chatsRepository.findUniqueByWAChatIdAndInstanceId({
-			instanceId: waChat.instanceId,
-			waChatId: waChat.id,
-		})
+    let chat = await this.chatsRepository.findUniqueByWAChatIdAndInstanceId({
+      instanceId: waChat.instanceId,
+      waChatId: waChat.id,
+    })
 
-		if (!chat) {
-			const response = await this.createChatFromWAChat.execute({ waChat })
+    if (!chat) {
+      const response = await this.createChatFromWAChat.execute({ waChat })
 
-			if (response.isFailure()) return failure(response.value)
-			chat = response.value.chat
-		}
+      if (response.isFailure()) return failure(response.value)
+      chat = response.value.chat
+    }
 
-		const response = await this.createMessageFromWAMessage.execute({
-			waMessage,
-		})
+    const response = await this.createMessageFromWAMessage.execute({
+      waMessage,
+    })
 
-		if (response.isFailure()) return failure(response.value)
+    if (response.isFailure()) return failure(response.value)
 
-		const { message } = response.value
-		this.messageEmitter.emitCreate({ message })
+    const { message } = response.value
+    this.messageEmitter.emitCreate({ message })
 
-		chat.interact(message)
-		await this.chatsRepository.save(chat)
-		this.chatEmitter.emitChange({ chat })
+    chat.interact(message)
+    await this.chatsRepository.save(chat)
+    this.chatEmitter.emitChange({ chat })
 
-		return success({ message, chat })
-	}
+    return success({ message, chat })
+  }
 }

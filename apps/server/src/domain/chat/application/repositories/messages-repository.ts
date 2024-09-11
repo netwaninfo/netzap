@@ -3,69 +3,69 @@ import type { PaginationParams } from '@/domain/shared/repositories/pagination-p
 import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
 import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id'
 import type {
-	GroupMessage,
-	Message,
-	PrivateMessage,
+  GroupMessage,
+  Message,
+  PrivateMessage,
 } from '../../enterprise/types/message'
 
 export interface MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams {
-	chatId: UniqueEntityID
-	waMessageId: WAMessageID
+  chatId: UniqueEntityID
+  waMessageId: WAMessageID
 }
 
 export interface MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams {
-	chatId: UniqueEntityID
-	waMessageId: WAMessageID
+  chatId: UniqueEntityID
+  waMessageId: WAMessageID
 }
 
 export interface MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams
-	extends PaginationParams {
-	instanceId: UniqueEntityID
-	waChatId: WAEntityID
+  extends PaginationParams {
+  instanceId: UniqueEntityID
+  waChatId: WAEntityID
 }
 
 export interface MessagesRepositoryCountByInstanceIdAndWAChatIdParams {
-	instanceId: UniqueEntityID
-	waChatId: WAEntityID
+  instanceId: UniqueEntityID
+  waChatId: WAEntityID
 }
 
 export interface MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams {
-	instanceId: UniqueEntityID
-	waMessageId: WAMessageID
+  instanceId: UniqueEntityID
+  waMessageId: WAMessageID
 }
 
 export interface MessagesRepositoryFindUniqueByCreatedAtAndInstanceIdAndWAChatIdParams {
-	instanceId: UniqueEntityID
-	waChatId: WAEntityID
-	createdAt: Date
+  instanceId: UniqueEntityID
+  waChatId: WAEntityID
+  createdAt: Date
 }
 
 export abstract class MessagesRepository {
-	abstract findUniquePrivateMessageByChatIAndWAMessageId(
-		params: MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams,
-	): Promise<PrivateMessage | null>
+  abstract findUniquePrivateMessageByChatIAndWAMessageId(
+    params: MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams
+  ): Promise<PrivateMessage | null>
 
-	abstract findUniqueGroupMessageByChatIAndWAMessageId(
-		params: MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams,
-	): Promise<GroupMessage | null>
+  abstract findUniqueGroupMessageByChatIAndWAMessageId(
+    params: MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams
+  ): Promise<GroupMessage | null>
 
-	abstract findUniqueByWAMessageIdAndInstanceId(
-		params: MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams,
-	): Promise<Message | null>
+  abstract findUniqueByWAMessageIdAndInstanceId(
+    params: MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams
+  ): Promise<Message | null>
 
-	abstract findUniqueByCreatedAtAndInstanceIdAndWAChatId(
-		params: MessagesRepositoryFindUniqueByCreatedAtAndInstanceIdAndWAChatIdParams,
-	): Promise<Message | null>
+  abstract findUniqueByCreatedAtAndInstanceIdAndWAChatId(
+    params: MessagesRepositoryFindUniqueByCreatedAtAndInstanceIdAndWAChatIdParams
+  ): Promise<Message | null>
 
-	abstract findManyPaginatedByInstanceIdAndWAChatId(
-		params: MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams,
-	): Promise<Message[]>
+  abstract findManyPaginatedByInstanceIdAndWAChatId(
+    params: MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams
+  ): Promise<Message[]>
 
-	abstract countByInstanceIdAndWAChatId(
-		params: MessagesRepositoryCountByInstanceIdAndWAChatIdParams,
-	): Promise<number>
+  abstract countByInstanceIdAndWAChatId(
+    params: MessagesRepositoryCountByInstanceIdAndWAChatIdParams
+  ): Promise<number>
 
-	abstract create(message: Message): Promise<void>
+  abstract create(message: Message): Promise<void>
 
-	abstract save(message: Message): Promise<void>
+  abstract save(message: Message): Promise<void>
 }

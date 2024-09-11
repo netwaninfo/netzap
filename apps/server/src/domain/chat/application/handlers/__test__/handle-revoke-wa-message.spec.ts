@@ -21,127 +21,127 @@ import dayjs from 'dayjs'
 import { HandleRevokeWAMessage } from '../handle-revoke-wa-message'
 
 describe('HandleRevokeWAMessage', () => {
-	let messagesRepository: InMemoryMessagesRepository
-	let dateService: FakeDateService
-	let storageService: FakeStorageService
-	let messageEmitter: FakeMessageEmitter
+  let messagesRepository: InMemoryMessagesRepository
+  let dateService: FakeDateService
+  let storageService: FakeStorageService
+  let messageEmitter: FakeMessageEmitter
 
-	let sut: HandleRevokeWAMessage
+  let sut: HandleRevokeWAMessage
 
-	let instanceId: UniqueEntityID
-	let waChatId: WAEntityID
+  let instanceId: UniqueEntityID
+  let waChatId: WAEntityID
 
-	beforeEach(() => {
-		vi.useFakeTimers()
+  beforeEach(() => {
+    vi.useFakeTimers()
 
-		messagesRepository = new InMemoryMessagesRepository()
-		dateService = new FakeDateService()
-		storageService = new FakeStorageService()
-		messageEmitter = new FakeMessageEmitter()
+    messagesRepository = new InMemoryMessagesRepository()
+    dateService = new FakeDateService()
+    storageService = new FakeStorageService()
+    messageEmitter = new FakeMessageEmitter()
 
-		sut = new HandleRevokeWAMessage(
-			messagesRepository,
-			dateService,
-			storageService,
-			messageEmitter,
-		)
+    sut = new HandleRevokeWAMessage(
+      messagesRepository,
+      dateService,
+      storageService,
+      messageEmitter
+    )
 
-		instanceId = makeUniqueEntityID()
-		waChatId = makeWAEntityID()
-	})
+    instanceId = makeUniqueEntityID()
+    waChatId = makeWAEntityID()
+  })
 
-	afterEach(() => {
-		vi.useRealTimers()
-	})
+  afterEach(() => {
+    vi.useRealTimers()
+  })
 
-	it('should be able to revoke a private message from wa message revoked', async () => {
-		const messageRef = makePrivateTextMessage({
-			instanceId,
-			waChatId,
-		})
-		messagesRepository.items.push(messageRef)
+  it('should be able to revoke a private message from wa message revoked', async () => {
+    const messageRef = makePrivateTextMessage({
+      instanceId,
+      waChatId,
+    })
+    messagesRepository.items.push(messageRef)
 
-		const waChat = makeWAPrivateChat({ instanceId }, waChatId)
-		const waRevokedMessage = makeWAPrivateMessage({
-			instanceId,
-			waChatId: waChat.id,
-			type: 'text',
-			timestamp: dayjs(messageRef.createdAt).unix(),
-		})
+    const waChat = makeWAPrivateChat({ instanceId }, waChatId)
+    const waRevokedMessage = makeWAPrivateMessage({
+      instanceId,
+      waChatId: waChat.id,
+      type: 'text',
+      timestamp: dayjs(messageRef.createdAt).unix(),
+    })
 
-		const response = await sut.execute({
-			waRevokedMessage,
-			waChat,
-		})
+    const response = await sut.execute({
+      waRevokedMessage,
+      waChat,
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(messagesRepository.items[0]).toBeInstanceOf(PrivateRevokedMessage)
-		expect(message).toBeInstanceOf(PrivateRevokedMessage)
-	})
+    expect(messagesRepository.items[0]).toBeInstanceOf(PrivateRevokedMessage)
+    expect(message).toBeInstanceOf(PrivateRevokedMessage)
+  })
 
-	it('should be able to revoke a group message from wa message revoked', async () => {
-		const messageRef = makeGroupTextMessage({
-			instanceId,
-			waChatId,
-		})
-		messagesRepository.items.push(messageRef)
+  it('should be able to revoke a group message from wa message revoked', async () => {
+    const messageRef = makeGroupTextMessage({
+      instanceId,
+      waChatId,
+    })
+    messagesRepository.items.push(messageRef)
 
-		const waChat = makeWAGroupChat({ instanceId }, waChatId)
-		const waRevokedMessage = makeWAGroupMessage({
-			instanceId,
-			waChatId: waChat.id,
-			type: 'text',
-			timestamp: dayjs(messageRef.createdAt).unix(),
-		})
+    const waChat = makeWAGroupChat({ instanceId }, waChatId)
+    const waRevokedMessage = makeWAGroupMessage({
+      instanceId,
+      waChatId: waChat.id,
+      type: 'text',
+      timestamp: dayjs(messageRef.createdAt).unix(),
+    })
 
-		const response = await sut.execute({
-			waRevokedMessage,
-			waChat,
-		})
+    const response = await sut.execute({
+      waRevokedMessage,
+      waChat,
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(messagesRepository.items[0]).toBeInstanceOf(GroupRevokedMessage)
-		expect(message).toBeInstanceOf(GroupRevokedMessage)
-	})
+    expect(messagesRepository.items[0]).toBeInstanceOf(GroupRevokedMessage)
+    expect(message).toBeInstanceOf(GroupRevokedMessage)
+  })
 
-	it('should be able to revoke a message with media from wa message revoked', async () => {
-		const messageRef = makePrivateAudioMessage({
-			instanceId,
-			waChatId,
-		})
-		messagesRepository.items.push(messageRef)
+  it('should be able to revoke a message with media from wa message revoked', async () => {
+    const messageRef = makePrivateAudioMessage({
+      instanceId,
+      waChatId,
+    })
+    messagesRepository.items.push(messageRef)
 
-		const storageObject = makeStorageObject({ path: messageRef.media.key })
-		storageService.items.push(storageObject)
+    const storageObject = makeStorageObject({ path: messageRef.media.key })
+    storageService.items.push(storageObject)
 
-		const waChat = makeWAPrivateChat({ instanceId }, waChatId)
-		const waRevokedMessage = makeWAPrivateMessage({
-			instanceId,
-			waChatId: waChat.id,
-			type: 'audio',
-			timestamp: dayjs(messageRef.createdAt).unix(),
-			media: makeWAMessageMedia(),
-		})
+    const waChat = makeWAPrivateChat({ instanceId }, waChatId)
+    const waRevokedMessage = makeWAPrivateMessage({
+      instanceId,
+      waChatId: waChat.id,
+      type: 'audio',
+      timestamp: dayjs(messageRef.createdAt).unix(),
+      media: makeWAMessageMedia(),
+    })
 
-		const storageServiceMock = vi.spyOn(storageService, 'delete')
+    const storageServiceMock = vi.spyOn(storageService, 'delete')
 
-		const response = await sut.execute({
-			waRevokedMessage,
-			waChat,
-		})
+    const response = await sut.execute({
+      waRevokedMessage,
+      waChat,
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		expect(storageService.items).toHaveLength(0)
-		expect(storageServiceMock).toHaveBeenCalled()
-	})
+    expect(storageService.items).toHaveLength(0)
+    expect(storageServiceMock).toHaveBeenCalled()
+  })
 })

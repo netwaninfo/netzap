@@ -34,304 +34,304 @@ import { CreatePrivateVideoMessageFromWAMessageUseCase } from '../create-private
 import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '../create-private-voice-message-from-wa-message-use-case'
 
 describe('CreatePrivateMessageFromWAMessageUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let messagesRepository: InMemoryMessagesRepository
+  let chatsRepository: InMemoryChatsRepository
+  let messagesRepository: InMemoryMessagesRepository
 
-	let storageService: FakeStorageService
-	let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
+  let storageService: FakeStorageService
+  let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
 
-	let dateService: FakeDateService
+  let dateService: FakeDateService
 
-	let createPrivateAudioMessageFromWAMessageUseCase: CreatePrivateAudioMessageFromWAMessageUseCase
-	let createPrivateDocumentMessageFromWAMessageUseCase: CreatePrivateDocumentMessageFromWAMessageUseCase
-	let createPrivateImageMessageFromWAMessageUseCase: CreatePrivateImageMessageFromWAMessageUseCase
+  let createPrivateAudioMessageFromWAMessageUseCase: CreatePrivateAudioMessageFromWAMessageUseCase
+  let createPrivateDocumentMessageFromWAMessageUseCase: CreatePrivateDocumentMessageFromWAMessageUseCase
+  let createPrivateImageMessageFromWAMessageUseCase: CreatePrivateImageMessageFromWAMessageUseCase
 
-	let contactsRepository: InMemoryContactsRepository
-	let createContactsFromWAContactsUseCase: CreateContactsFromWAContactsUseCase
+  let contactsRepository: InMemoryContactsRepository
+  let createContactsFromWAContactsUseCase: CreateContactsFromWAContactsUseCase
 
-	let createPrivateMultiVCardMessageFromWAMessageUseCase: CreatePrivateMultiVCardMessageFromWAMessageUseCase
-	let createPrivateRevokedMessageFromWAMessageUseCase: CreatePrivateRevokedMessageFromWAMessageUseCase
+  let createPrivateMultiVCardMessageFromWAMessageUseCase: CreatePrivateMultiVCardMessageFromWAMessageUseCase
+  let createPrivateRevokedMessageFromWAMessageUseCase: CreatePrivateRevokedMessageFromWAMessageUseCase
 
-	let createPrivateTextMessageFromWAMessageUseCase: CreatePrivateTextMessageFromWAMessageUseCase
-	let createPrivateUnknownMessageFromWAMessageUseCase: CreatePrivateUnknownMessageFromWAMessageUseCase
+  let createPrivateTextMessageFromWAMessageUseCase: CreatePrivateTextMessageFromWAMessageUseCase
+  let createPrivateUnknownMessageFromWAMessageUseCase: CreatePrivateUnknownMessageFromWAMessageUseCase
 
-	let createContactFromWAContact: CreateContactFromWAContactUseCase
-	let createPrivateVCardMessageFromWAMessageUseCase: CreatePrivateVCardMessageFromWAMessageUseCase
+  let createContactFromWAContact: CreateContactFromWAContactUseCase
+  let createPrivateVCardMessageFromWAMessageUseCase: CreatePrivateVCardMessageFromWAMessageUseCase
 
-	let createPrivateVideoMessageFromWAMessageUseCase: CreatePrivateVideoMessageFromWAMessageUseCase
-	let createPrivateVoiceMessageFromWAMessageUseCase: CreatePrivateVoiceMessageFromWAMessageUseCase
+  let createPrivateVideoMessageFromWAMessageUseCase: CreatePrivateVideoMessageFromWAMessageUseCase
+  let createPrivateVoiceMessageFromWAMessageUseCase: CreatePrivateVoiceMessageFromWAMessageUseCase
 
-	let sut: CreatePrivateMessageFromWAMessageUseCase
+  let sut: CreatePrivateMessageFromWAMessageUseCase
 
-	let chat: PrivateChat
+  let chat: PrivateChat
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		messagesRepository = new InMemoryMessagesRepository()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    messagesRepository = new InMemoryMessagesRepository()
 
-		storageService = new FakeStorageService()
-		createMessageMediaFromWAMessage =
-			new CreateMessageMediaFromWAMessageUseCase(storageService)
+    storageService = new FakeStorageService()
+    createMessageMediaFromWAMessage =
+      new CreateMessageMediaFromWAMessageUseCase(storageService)
 
-		dateService = new FakeDateService()
+    dateService = new FakeDateService()
 
-		createPrivateAudioMessageFromWAMessageUseCase =
-			new CreatePrivateAudioMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
+    createPrivateAudioMessageFromWAMessageUseCase =
+      new CreatePrivateAudioMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
 
-		createPrivateDocumentMessageFromWAMessageUseCase =
-			new CreatePrivateDocumentMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
+    createPrivateDocumentMessageFromWAMessageUseCase =
+      new CreatePrivateDocumentMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
 
-		createPrivateImageMessageFromWAMessageUseCase =
-			new CreatePrivateImageMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
+    createPrivateImageMessageFromWAMessageUseCase =
+      new CreatePrivateImageMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
 
-		contactsRepository = new InMemoryContactsRepository()
-		createContactsFromWAContactsUseCase =
-			new CreateContactsFromWAContactsUseCase(contactsRepository)
+    contactsRepository = new InMemoryContactsRepository()
+    createContactsFromWAContactsUseCase =
+      new CreateContactsFromWAContactsUseCase(contactsRepository)
 
-		createPrivateMultiVCardMessageFromWAMessageUseCase =
-			new CreatePrivateMultiVCardMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createContactsFromWAContactsUseCase,
-				dateService,
-			)
+    createPrivateMultiVCardMessageFromWAMessageUseCase =
+      new CreatePrivateMultiVCardMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createContactsFromWAContactsUseCase,
+        dateService
+      )
 
-		createPrivateRevokedMessageFromWAMessageUseCase =
-			new CreatePrivateRevokedMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				dateService,
-			)
+    createPrivateRevokedMessageFromWAMessageUseCase =
+      new CreatePrivateRevokedMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        dateService
+      )
 
-		createPrivateTextMessageFromWAMessageUseCase =
-			new CreatePrivateTextMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				dateService,
-			)
+    createPrivateTextMessageFromWAMessageUseCase =
+      new CreatePrivateTextMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        dateService
+      )
 
-		createPrivateUnknownMessageFromWAMessageUseCase =
-			new CreatePrivateUnknownMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				dateService,
-			)
+    createPrivateUnknownMessageFromWAMessageUseCase =
+      new CreatePrivateUnknownMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        dateService
+      )
 
-		createContactFromWAContact = new CreateContactFromWAContactUseCase(
-			contactsRepository,
-		)
+    createContactFromWAContact = new CreateContactFromWAContactUseCase(
+      contactsRepository
+    )
 
-		createPrivateVCardMessageFromWAMessageUseCase =
-			new CreatePrivateVCardMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				contactsRepository,
-				createContactFromWAContact,
-				dateService,
-			)
+    createPrivateVCardMessageFromWAMessageUseCase =
+      new CreatePrivateVCardMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        contactsRepository,
+        createContactFromWAContact,
+        dateService
+      )
 
-		createPrivateVideoMessageFromWAMessageUseCase =
-			new CreatePrivateVideoMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
+    createPrivateVideoMessageFromWAMessageUseCase =
+      new CreatePrivateVideoMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
 
-		createPrivateVoiceMessageFromWAMessageUseCase =
-			new CreatePrivateVoiceMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
+    createPrivateVoiceMessageFromWAMessageUseCase =
+      new CreatePrivateVoiceMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
 
-		sut = new CreatePrivateMessageFromWAMessageUseCase(
-			createPrivateAudioMessageFromWAMessageUseCase,
-			createPrivateDocumentMessageFromWAMessageUseCase,
-			createPrivateImageMessageFromWAMessageUseCase,
-			createPrivateMultiVCardMessageFromWAMessageUseCase,
-			createPrivateRevokedMessageFromWAMessageUseCase,
-			createPrivateTextMessageFromWAMessageUseCase,
-			createPrivateUnknownMessageFromWAMessageUseCase,
-			createPrivateVCardMessageFromWAMessageUseCase,
-			createPrivateVideoMessageFromWAMessageUseCase,
-			createPrivateVoiceMessageFromWAMessageUseCase,
-		)
+    sut = new CreatePrivateMessageFromWAMessageUseCase(
+      createPrivateAudioMessageFromWAMessageUseCase,
+      createPrivateDocumentMessageFromWAMessageUseCase,
+      createPrivateImageMessageFromWAMessageUseCase,
+      createPrivateMultiVCardMessageFromWAMessageUseCase,
+      createPrivateRevokedMessageFromWAMessageUseCase,
+      createPrivateTextMessageFromWAMessageUseCase,
+      createPrivateUnknownMessageFromWAMessageUseCase,
+      createPrivateVCardMessageFromWAMessageUseCase,
+      createPrivateVideoMessageFromWAMessageUseCase,
+      createPrivateVoiceMessageFromWAMessageUseCase
+    )
 
-		chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-	})
+    chat = makePrivateChat()
+    chatsRepository.items.push(chat)
+  })
 
-	it('should be able to create a private audio message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'audio',
-			media: makeWAMessageMedia(),
-		})
+  it('should be able to create a private audio message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'audio',
+      media: makeWAMessageMedia(),
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateAudioMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateAudioMessage)
+  })
 
-	it('should be able to create a private document message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'document',
-			media: makeWAMessageMedia(),
-		})
+  it('should be able to create a private document message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'document',
+      media: makeWAMessageMedia(),
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateDocumentMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateDocumentMessage)
+  })
 
-	it('should be able to create a private image message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'image',
-			media: makeWAMessageMedia(),
-		})
+  it('should be able to create a private image message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'image',
+      media: makeWAMessageMedia(),
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateImageMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateImageMessage)
+  })
 
-	it('should be able to create a private multi vcard message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'multi_vcard',
-			contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
-		})
+  it('should be able to create a private multi vcard message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'multi_vcard',
+      contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateMultiVCardMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateMultiVCardMessage)
+  })
 
-	it('should be able to create a private vcard message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'vcard',
-			contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
-		})
+  it('should be able to create a private vcard message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'vcard',
+      contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateVCardMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateVCardMessage)
+  })
 
-	it('should be able to create a private revoked message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'revoked',
-		})
+  it('should be able to create a private revoked message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'revoked',
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateRevokedMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateRevokedMessage)
+  })
 
-	it('should be able to create a private video message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'video',
-			media: makeWAMessageMedia(),
-		})
+  it('should be able to create a private video message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'video',
+      media: makeWAMessageMedia(),
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateVideoMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateVideoMessage)
+  })
 
-	it('should be able to create a private voice message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'voice',
-			media: makeWAMessageMedia(),
-		})
+  it('should be able to create a private voice message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'voice',
+      media: makeWAMessageMedia(),
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateVoiceMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateVoiceMessage)
+  })
 
-	it('should be able to create a private text message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'text',
-		})
+  it('should be able to create a private text message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'text',
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateTextMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateTextMessage)
+  })
 
-	it('should be able to create a private unknown message', async () => {
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'unknown',
-		})
+  it('should be able to create a private unknown message', async () => {
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'unknown',
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateUnknownMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateUnknownMessage)
+  })
 })

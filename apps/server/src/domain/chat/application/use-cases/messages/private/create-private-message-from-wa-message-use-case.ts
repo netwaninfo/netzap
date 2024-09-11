@@ -16,158 +16,158 @@ import type { CreatePrivateVideoMessageFromWAMessageUseCase } from './create-pri
 import type { CreatePrivateVoiceMessageFromWAMessageUseCase } from './create-private-voice-message-from-wa-message-use-case'
 
 interface CreatePrivateMessageFromWAMessageUseCaseRequest {
-	waMessage: WAPrivateMessage
+  waMessage: WAPrivateMessage
 }
 
 type CreatePrivateMessageFromWAMessageUseCaseResponse = Either<
-	| ResourceNotFoundError
-	| InvalidResourceFormatError
-	| ResourceAlreadyExistsError
-	| null,
-	{
-		message: PrivateMessage
-	}
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError
+  | null,
+  {
+    message: PrivateMessage
+  }
 >
 
 export class CreatePrivateMessageFromWAMessageUseCase {
-	constructor(
-		private createPrivateAudioMessageFromWAMessage: CreatePrivateAudioMessageFromWAMessageUseCase,
-		private createPrivateDocumentMessageFromWAMessage: CreatePrivateDocumentMessageFromWAMessageUseCase,
-		private createPrivateImageMessageFromWAMessage: CreatePrivateImageMessageFromWAMessageUseCase,
-		private createPrivateMultiVCardMessageFromWAMessage: CreatePrivateMultiVCardMessageFromWAMessageUseCase,
-		private createPrivateRevokedMessageFromWAMessage: CreatePrivateRevokedMessageFromWAMessageUseCase,
-		private createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessageUseCase,
-		private createPrivateUnknownMessageFromWAMessage: CreatePrivateUnknownMessageFromWAMessageUseCase,
-		private createPrivateVCardMessageFromWAMessage: CreatePrivateVCardMessageFromWAMessageUseCase,
-		private createPrivateVideoMessageFromWAMessage: CreatePrivateVideoMessageFromWAMessageUseCase,
-		private createPrivateVoiceMessageFromWAMessage: CreatePrivateVoiceMessageFromWAMessageUseCase,
-	) {}
+  constructor(
+    private createPrivateAudioMessageFromWAMessage: CreatePrivateAudioMessageFromWAMessageUseCase,
+    private createPrivateDocumentMessageFromWAMessage: CreatePrivateDocumentMessageFromWAMessageUseCase,
+    private createPrivateImageMessageFromWAMessage: CreatePrivateImageMessageFromWAMessageUseCase,
+    private createPrivateMultiVCardMessageFromWAMessage: CreatePrivateMultiVCardMessageFromWAMessageUseCase,
+    private createPrivateRevokedMessageFromWAMessage: CreatePrivateRevokedMessageFromWAMessageUseCase,
+    private createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessageUseCase,
+    private createPrivateUnknownMessageFromWAMessage: CreatePrivateUnknownMessageFromWAMessageUseCase,
+    private createPrivateVCardMessageFromWAMessage: CreatePrivateVCardMessageFromWAMessageUseCase,
+    private createPrivateVideoMessageFromWAMessage: CreatePrivateVideoMessageFromWAMessageUseCase,
+    private createPrivateVoiceMessageFromWAMessage: CreatePrivateVoiceMessageFromWAMessageUseCase
+  ) {}
 
-	async execute(
-		request: CreatePrivateMessageFromWAMessageUseCaseRequest,
-	): Promise<CreatePrivateMessageFromWAMessageUseCaseResponse> {
-		const { waMessage } = request
+  async execute(
+    request: CreatePrivateMessageFromWAMessageUseCaseRequest
+  ): Promise<CreatePrivateMessageFromWAMessageUseCaseResponse> {
+    const { waMessage } = request
 
-		switch (waMessage.type) {
-			case 'audio': {
-				const response =
-					await this.createPrivateAudioMessageFromWAMessage.execute({
-						waMessage,
-					})
+    switch (waMessage.type) {
+      case 'audio': {
+        const response =
+          await this.createPrivateAudioMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'document': {
-				const response =
-					await this.createPrivateDocumentMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'document': {
+        const response =
+          await this.createPrivateDocumentMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'image': {
-				const response =
-					await this.createPrivateImageMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'image': {
+        const response =
+          await this.createPrivateImageMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'multi_vcard': {
-				const response =
-					await this.createPrivateMultiVCardMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'multi_vcard': {
+        const response =
+          await this.createPrivateMultiVCardMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'vcard': {
-				const response =
-					await this.createPrivateVCardMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'vcard': {
+        const response =
+          await this.createPrivateVCardMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'revoked': {
-				const response =
-					await this.createPrivateRevokedMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'revoked': {
+        const response =
+          await this.createPrivateRevokedMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'video': {
-				const response =
-					await this.createPrivateVideoMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'video': {
+        const response =
+          await this.createPrivateVideoMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'voice': {
-				const response =
-					await this.createPrivateVoiceMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'voice': {
+        const response =
+          await this.createPrivateVoiceMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'text': {
-				const response =
-					await this.createPrivateTextMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'text': {
+        const response =
+          await this.createPrivateTextMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			default: {
-				const response =
-					await this.createPrivateUnknownMessageFromWAMessage.execute({
-						waMessage,
-					})
+      default: {
+        const response =
+          await this.createPrivateUnknownMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
-		}
-	}
+        return success({ message })
+      }
+    }
+  }
 }

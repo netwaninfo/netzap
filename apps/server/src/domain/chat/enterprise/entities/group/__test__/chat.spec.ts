@@ -5,14 +5,14 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { GroupChat } from '../chat'
 
 describe('GroupChat', () => {
-	it('should be able to create', () => {
-		const chat = GroupChat.create({
-			unreadCount: faker.number.int({ max: 99 }),
-			groupId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-		})
+  it('should be able to create', () => {
+    const chat = GroupChat.create({
+      unreadCount: faker.number.int({ max: 99 }),
+      groupId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+    })
 
-		expect(chat).toBeTruthy()
-	})
+    expect(chat).toBeTruthy()
+  })
 })

@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common'
 import { FetchInstancesController } from './fetch-instances.controller'
 
 @Module({
-	controllers: [FetchInstancesController],
-	providers: [FetchInstancesUseCase],
+  controllers: [FetchInstancesController],
+  providers: [FetchInstancesUseCase],
 })
 export class HttpInstancesModule {}

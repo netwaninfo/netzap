@@ -8,42 +8,42 @@ import { MessageEmitter } from '../emitters/message-emitter'
 import type { MessagesRepository } from '../repositories/messages-repository'
 
 interface HandleChangeWAMessageACKRequest {
-	waMessage: WAMessage
-	ack: MessageStatus
+  waMessage: WAMessage
+  ack: MessageStatus
 }
 
 type HandleChangeWAMessageACKResponse = Either<
-	ResourceNotFoundError | InvalidResourceFormatError,
-	{
-		message: Message
-	}
+  ResourceNotFoundError | InvalidResourceFormatError,
+  {
+    message: Message
+  }
 >
 
 export class HandleChangeWAMessageACK {
-	constructor(
-		private messagesRepository: MessagesRepository,
-		private messageEmitter: MessageEmitter,
-	) {}
+  constructor(
+    private messagesRepository: MessagesRepository,
+    private messageEmitter: MessageEmitter
+  ) {}
 
-	async execute(
-		request: HandleChangeWAMessageACKRequest,
-	): Promise<HandleChangeWAMessageACKResponse> {
-		const { ack, waMessage } = request
+  async execute(
+    request: HandleChangeWAMessageACKRequest
+  ): Promise<HandleChangeWAMessageACKResponse> {
+    const { ack, waMessage } = request
 
-		const message =
-			await this.messagesRepository.findUniqueByWAMessageIdAndInstanceId({
-				instanceId: waMessage.instanceId,
-				waMessageId: waMessage.id,
-			})
+    const message =
+      await this.messagesRepository.findUniqueByWAMessageIdAndInstanceId({
+        instanceId: waMessage.instanceId,
+        waMessageId: waMessage.id,
+      })
 
-		if (!message) {
-			return failure(new ResourceNotFoundError({ id: waMessage.ref }))
-		}
+    if (!message) {
+      return failure(new ResourceNotFoundError({ id: waMessage.ref }))
+    }
 
-		message.setStatus(ack)
-		await this.messagesRepository.save(message)
-		this.messageEmitter.emitChange({ message })
+    message.setStatus(ack)
+    await this.messagesRepository.save(message)
+    this.messageEmitter.emitChange({ message })
 
-		return success({ message })
-	}
+    return success({ message })
+  }
 }

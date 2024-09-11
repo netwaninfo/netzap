@@ -6,34 +6,34 @@ import { Except } from 'type-fest'
 import { PrismaGroupMessageMapper, RawGroupMessage } from './message-mapper'
 
 export type RawGroupChat = PrismaChat & {
-	message?: Except<RawGroupMessage, 'quoted'> | null
+  message?: Except<RawGroupMessage, 'quoted'> | null
 }
 
 export class PrismaGroupChatMapper {
-	static toDomain(raw: RawGroupChat): GroupChat {
-		return GroupChat.create(
-			{
-				groupId: UniqueEntityID.create(raw.recipientId),
-				instanceId: UniqueEntityID.create(raw.instanceId),
-				unreadCount: raw.unreadCount,
-				waChatId: WAEntityID.createFromString(raw.waChatId),
-				...(raw.message && {
-					lastMessage: PrismaGroupMessageMapper.toDomain(raw.message),
-				}),
-			},
-			UniqueEntityID.create(raw.id),
-		)
-	}
+  static toDomain(raw: RawGroupChat): GroupChat {
+    return GroupChat.create(
+      {
+        groupId: UniqueEntityID.create(raw.recipientId),
+        instanceId: UniqueEntityID.create(raw.instanceId),
+        unreadCount: raw.unreadCount,
+        waChatId: WAEntityID.createFromString(raw.waChatId),
+        ...(raw.message && {
+          lastMessage: PrismaGroupMessageMapper.toDomain(raw.message),
+        }),
+      },
+      UniqueEntityID.create(raw.id)
+    )
+  }
 
-	static toPrisma(chat: GroupChat): Prisma.ChatUncheckedCreateInput {
-		return {
-			id: chat.id.toString(),
-			instanceId: chat.instanceId.toString(),
-			waChatId: chat.waChatId.toString(),
-			recipientId: chat.groupId.toString(),
-			type: 'group',
-			unreadCount: chat.unreadCount,
-			lastMessageId: chat.lastMessage?.id.toString(),
-		}
-	}
+  static toPrisma(chat: GroupChat): Prisma.ChatUncheckedCreateInput {
+    return {
+      id: chat.id.toString(),
+      instanceId: chat.instanceId.toString(),
+      waChatId: chat.waChatId.toString(),
+      recipientId: chat.groupId.toString(),
+      type: 'group',
+      unreadCount: chat.unreadCount,
+      lastMessageId: chat.lastMessage?.id.toString(),
+    }
+  }
 }

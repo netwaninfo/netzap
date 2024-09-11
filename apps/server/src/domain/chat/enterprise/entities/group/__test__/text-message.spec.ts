@@ -6,16 +6,16 @@ import { faker } from '@/test/lib/faker'
 import { GroupTextMessage } from '../text-message'
 
 describe('GroupTextMessage', () => {
-	it('should be able to create', () => {
-		const message = GroupTextMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-			author: makeContact(),
-			body: faker.lorem.paragraph(),
-		})
+  it('should be able to create', () => {
+    const message = GroupTextMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+      author: makeContact(),
+      body: faker.lorem.paragraph(),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

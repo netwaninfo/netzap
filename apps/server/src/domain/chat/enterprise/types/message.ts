@@ -21,40 +21,40 @@ import type { GroupVideoMessage } from '../entities/group/video-message'
 import type { GroupVoiceMessage } from '../entities/group/voice-message'
 
 export type PrivateMessageWithMedia =
-	| PrivateAudioMessage
-	| PrivateImageMessage
-	| PrivateVideoMessage
-	| PrivateVoiceMessage
-	| PrivateDocumentMessage
+  | PrivateAudioMessage
+  | PrivateImageMessage
+  | PrivateVideoMessage
+  | PrivateVoiceMessage
+  | PrivateDocumentMessage
 
 export type PrivateMessageWithContacts =
-	| PrivateMultiVCardMessage
-	| PrivateVCardMessage
+  | PrivateMultiVCardMessage
+  | PrivateVCardMessage
 
 export type PrivateMessageCanRevoke =
-	| PrivateMessageWithMedia
-	| PrivateMessageWithContacts
-	| PrivateTextMessage
-	| PrivateUnknownMessage
+  | PrivateMessageWithMedia
+  | PrivateMessageWithContacts
+  | PrivateTextMessage
+  | PrivateUnknownMessage
 
 export type PrivateMessage = PrivateMessageCanRevoke | PrivateRevokedMessage
 
 export type GroupMessageWithMedia =
-	| GroupAudioMessage
-	| GroupImageMessage
-	| GroupVideoMessage
-	| GroupVoiceMessage
-	| GroupDocumentMessage
+  | GroupAudioMessage
+  | GroupImageMessage
+  | GroupVideoMessage
+  | GroupVoiceMessage
+  | GroupDocumentMessage
 
 export type GroupMessageWithContacts =
-	| GroupMultiVCardMessage
-	| GroupVCardMessage
+  | GroupMultiVCardMessage
+  | GroupVCardMessage
 
 export type GroupMessageCanRevoke =
-	| GroupMessageWithMedia
-	| GroupMessageWithContacts
-	| GroupTextMessage
-	| GroupUnknownMessage
+  | GroupMessageWithMedia
+  | GroupMessageWithContacts
+  | GroupTextMessage
+  | GroupUnknownMessage
 
 export type GroupMessage = GroupMessageCanRevoke | GroupRevokedMessage
 

@@ -6,19 +6,19 @@ import type { Instance as PrismaInstance } from '@prisma/client'
 type Raw = PrismaInstance
 
 export class PrismaInstanceMapper {
-	static toDomain(raw: Raw): Instance {
-		const attendantId = raw.attendantIds[0]
+  static toDomain(raw: Raw): Instance {
+    const attendantId = raw.attendantIds[0]
 
-		if (!attendantId) throw new InvalidResourceFormatError({ id: raw.id })
+    if (!attendantId) throw new InvalidResourceFormatError({ id: raw.id })
 
-		return Instance.create(
-			{
-				name: raw.name,
-				phone: raw.phone,
-				status: raw.status,
-				attendantId: UniqueEntityID.create(attendantId),
-			},
-			UniqueEntityID.create(raw.id),
-		)
-	}
+    return Instance.create(
+      {
+        name: raw.name,
+        phone: raw.phone,
+        status: raw.status,
+        attendantId: UniqueEntityID.create(attendantId),
+      },
+      UniqueEntityID.create(raw.id)
+    )
+  }
 }

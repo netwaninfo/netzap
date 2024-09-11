@@ -5,16 +5,16 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { GroupVCardMessage } from '../v-card-message'
 
 describe('GroupVCardMessage', () => {
-	it('should be able to create', () => {
-		const message = GroupVCardMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-			contact: makeContact(),
-			author: makeContact(),
-		})
+  it('should be able to create', () => {
+    const message = GroupVCardMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+      contact: makeContact(),
+      author: makeContact(),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

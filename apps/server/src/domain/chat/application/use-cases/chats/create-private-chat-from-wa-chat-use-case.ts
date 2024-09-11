@@ -8,64 +8,64 @@ import type { ContactsRepository } from '../../repositories/contacts-repository'
 import type { CreateContactFromWAContactUseCase } from '../contacts/create-contact-from-wa-contact-use-case'
 
 interface CreatePrivateChatFromWAChatUseCaseRequest {
-	waChat: WAPrivateChat
+  waChat: WAPrivateChat
 }
 
 type CreatePrivateChatFromWAChatUseCaseResponse = Either<
-	ResourceAlreadyExistsError,
-	{
-		chat: Chat
-	}
+  ResourceAlreadyExistsError,
+  {
+    chat: Chat
+  }
 >
 
 export class CreatePrivateChatFromWAChatUseCase {
-	constructor(
-		private chatsRepository: ChatsRepository,
-		private contactsRepository: ContactsRepository,
-		private createContactFromWAContact: CreateContactFromWAContactUseCase,
-	) {}
+  constructor(
+    private chatsRepository: ChatsRepository,
+    private contactsRepository: ContactsRepository,
+    private createContactFromWAContact: CreateContactFromWAContactUseCase
+  ) {}
 
-	async execute(
-		request: CreatePrivateChatFromWAChatUseCaseRequest,
-	): Promise<CreatePrivateChatFromWAChatUseCaseResponse> {
-		const { waChat } = request
+  async execute(
+    request: CreatePrivateChatFromWAChatUseCaseRequest
+  ): Promise<CreatePrivateChatFromWAChatUseCaseResponse> {
+    const { waChat } = request
 
-		const someChat =
-			await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
-				instanceId: waChat.instanceId,
-				waChatId: waChat.id,
-			})
+    const someChat =
+      await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
+        instanceId: waChat.instanceId,
+        waChatId: waChat.id,
+      })
 
-		if (someChat) {
-			return failure(new ResourceAlreadyExistsError({ id: waChat.ref }))
-		}
+    if (someChat) {
+      return failure(new ResourceAlreadyExistsError({ id: waChat.ref }))
+    }
 
-		let contact =
-			await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
-				instanceId: waChat.contact.instanceId,
-				waContactId: waChat.contact.id,
-			})
+    let contact =
+      await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
+        instanceId: waChat.contact.instanceId,
+        waContactId: waChat.contact.id,
+      })
 
-		if (!contact) {
-			const response = await this.createContactFromWAContact.execute({
-				waContact: waChat.contact,
-			})
+    if (!contact) {
+      const response = await this.createContactFromWAContact.execute({
+        waContact: waChat.contact,
+      })
 
-			if (response.isFailure()) return failure(response.value)
-			contact = response.value.contact
-		}
+      if (response.isFailure()) return failure(response.value)
+      contact = response.value.contact
+    }
 
-		const chat = PrivateChat.create({
-			contactId: contact.id,
-			instanceId: waChat.instanceId,
-			unreadCount: waChat.unreadCount,
-			waChatId: waChat.id,
-		})
+    const chat = PrivateChat.create({
+      contactId: contact.id,
+      instanceId: waChat.instanceId,
+      unreadCount: waChat.unreadCount,
+      waChatId: waChat.id,
+    })
 
-		await this.chatsRepository.create(chat)
+    await this.chatsRepository.create(chat)
 
-		return success({
-			chat,
-		})
-	}
+    return success({
+      chat,
+    })
+  }
 }

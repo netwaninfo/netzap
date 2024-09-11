@@ -3,22 +3,22 @@ import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-c
 import { CreateContactFromWAContactUseCase } from '../create-contact-from-wa-contact-use-case'
 
 describe('CreateContactFromWAContactUseCase', () => {
-	let contactsRepository: InMemoryContactsRepository
+  let contactsRepository: InMemoryContactsRepository
 
-	let sut: CreateContactFromWAContactUseCase
+  let sut: CreateContactFromWAContactUseCase
 
-	beforeEach(() => {
-		contactsRepository = new InMemoryContactsRepository()
+  beforeEach(() => {
+    contactsRepository = new InMemoryContactsRepository()
 
-		sut = new CreateContactFromWAContactUseCase(contactsRepository)
-	})
+    sut = new CreateContactFromWAContactUseCase(contactsRepository)
+  })
 
-	it('should be able to create contact from wa contact', async () => {
-		const waContact = makeWAPrivateContact()
+  it('should be able to create contact from wa contact', async () => {
+    const waContact = makeWAPrivateContact()
 
-		const response = await sut.execute({ waContact })
+    const response = await sut.execute({ waContact })
 
-		expect(response.isSuccess()).toBe(true)
-		expect(contactsRepository.items).toHaveLength(1)
-	})
+    expect(response.isSuccess()).toBe(true)
+    expect(contactsRepository.items).toHaveLength(1)
+  })
 })

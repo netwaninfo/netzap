@@ -5,44 +5,44 @@ import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-alre
 import type { GroupsRepository } from '../../repositories/groups-repository'
 
 interface CreateGroupFromWAContactUseCaseRequest {
-	waContact: WAGroupContact
+  waContact: WAGroupContact
 }
 
 type CreateGroupFromWAContactUseCaseResponse = Either<
-	ResourceAlreadyExistsError,
-	{
-		group: Group
-	}
+  ResourceAlreadyExistsError,
+  {
+    group: Group
+  }
 >
 
 export class CreateGroupFromWAContactUseCase {
-	constructor(private groupsRepository: GroupsRepository) {}
+  constructor(private groupsRepository: GroupsRepository) {}
 
-	async execute(
-		request: CreateGroupFromWAContactUseCaseRequest,
-	): Promise<CreateGroupFromWAContactUseCaseResponse> {
-		const { waContact } = request
+  async execute(
+    request: CreateGroupFromWAContactUseCaseRequest
+  ): Promise<CreateGroupFromWAContactUseCaseResponse> {
+    const { waContact } = request
 
-		const someGroup =
-			await this.groupsRepository.findUniqueByWAGroupIdAndInstanceId({
-				instanceId: waContact.instanceId,
-				waGroupId: waContact.id,
-			})
+    const someGroup =
+      await this.groupsRepository.findUniqueByWAGroupIdAndInstanceId({
+        instanceId: waContact.instanceId,
+        waGroupId: waContact.id,
+      })
 
-		const hasSomeGroup = !!someGroup
-		if (hasSomeGroup) {
-			return failure(new ResourceAlreadyExistsError({ id: waContact.ref }))
-		}
+    const hasSomeGroup = !!someGroup
+    if (hasSomeGroup) {
+      return failure(new ResourceAlreadyExistsError({ id: waContact.ref }))
+    }
 
-		const group = Group.create({
-			instanceId: waContact.instanceId,
-			name: waContact.defaultName,
-			waGroupId: waContact.id,
-			imageUrl: waContact.imageUrl,
-		})
+    const group = Group.create({
+      instanceId: waContact.instanceId,
+      name: waContact.defaultName,
+      waGroupId: waContact.id,
+      imageUrl: waContact.imageUrl,
+    })
 
-		await this.groupsRepository.create(group)
+    await this.groupsRepository.create(group)
 
-		return success({ group })
-	}
+    return success({ group })
+  }
 }

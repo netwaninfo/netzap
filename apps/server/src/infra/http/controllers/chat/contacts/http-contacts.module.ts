@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common'
 import { FetchContactsController } from './fetch-contacts.controller'
 
 @Module({
-	controllers: [FetchContactsController],
-	providers: [FetchContactsUseCase],
+  controllers: [FetchContactsController],
+  providers: [FetchContactsUseCase],
 })
 export class HttpContactsModule {}

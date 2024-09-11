@@ -6,31 +6,31 @@ import { ClerkService } from '../sso/clerk/clerk.service'
 
 @Injectable()
 export class HttpClerkAuthGuard implements CanActivate {
-	constructor(
-		private clerk: ClerkService,
-		private usersRepository: UsersRepositories,
-	) {}
+  constructor(
+    private clerk: ClerkService,
+    private usersRepository: UsersRepositories
+  ) {}
 
-	async canActivate(context: ExecutionContext) {
-		const request = context.switchToHttp().getRequest() as FastifyRequest
+  async canActivate(context: ExecutionContext) {
+    const request = context.switchToHttp().getRequest() as FastifyRequest
 
-		const sessionToken = request.cookies.__session
-		if (!sessionToken) return false
+    const sessionToken = request.cookies.__session
+    if (!sessionToken) return false
 
-		try {
-			const payload = await this.clerk.client.verifyToken(sessionToken)
+    try {
+      const payload = await this.clerk.client.verifyToken(sessionToken)
 
-			const user = await this.usersRepository.findUniqueByUserId({
-				userId: UniqueEntityID.create(payload.sub),
-			})
+      const user = await this.usersRepository.findUniqueByUserId({
+        userId: UniqueEntityID.create(payload.sub),
+      })
 
-			if (!user) return false
+      if (!user) return false
 
-			request.userId = user.internalId.toString()
-		} catch (error) {
-			return false
-		}
+      request.userId = user.internalId.toString()
+    } catch (error) {
+      return false
+    }
 
-		return true
-	}
+    return true
+  }
 }

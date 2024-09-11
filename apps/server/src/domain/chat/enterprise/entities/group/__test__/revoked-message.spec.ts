@@ -5,15 +5,15 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { GroupRevokedMessage } from '../revoked-message'
 
 describe('GroupRevokedMessage', () => {
-	it('should be able to create', () => {
-		const message = GroupRevokedMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-			author: makeContact(),
-		})
+  it('should be able to create', () => {
+    const message = GroupRevokedMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+      author: makeContact(),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

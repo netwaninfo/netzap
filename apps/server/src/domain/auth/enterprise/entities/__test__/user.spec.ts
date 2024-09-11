@@ -3,16 +3,16 @@ import { faker } from '@/test/lib/faker'
 import { User } from '../user'
 
 describe('User', () => {
-	it('should be able to create', () => {
-		const user = User.create(
-			{
-				name: faker.person.firstName(),
-				email: faker.internet.email(),
-				internalId: makeUniqueEntityID(),
-			},
-			makeUniqueEntityID(faker.string.uuid()),
-		)
+  it('should be able to create', () => {
+    const user = User.create(
+      {
+        name: faker.person.firstName(),
+        email: faker.internet.email(),
+        internalId: makeUniqueEntityID(),
+      },
+      makeUniqueEntityID(faker.string.uuid())
+    )
 
-		expect(user).toBeTruthy()
-	})
+    expect(user).toBeTruthy()
+  })
 })

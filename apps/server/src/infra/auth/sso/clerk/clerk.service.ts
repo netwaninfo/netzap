@@ -4,12 +4,12 @@ import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class ClerkService {
-	client: ReturnType<typeof createClerkClient>
+  client: ReturnType<typeof createClerkClient>
 
-	constructor(env: EnvService) {
-		this.client = createClerkClient({
-			publishableKey: env.get('CLERK_PUBLISHABLE_KEY'),
-			secretKey: env.get('CLERK_SECRET_KEY'),
-		})
-	}
+  constructor(env: EnvService) {
+    this.client = createClerkClient({
+      publishableKey: env.get('CLERK_PUBLISHABLE_KEY'),
+      secretKey: env.get('CLERK_SECRET_KEY'),
+    })
+  }
 }

@@ -5,15 +5,15 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { PrivateDocumentMessage } from '../document-message'
 
 describe('PrivateDocumentMessage', () => {
-	it('should be able to create', () => {
-		const message = PrivateDocumentMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-			media: makeMessageMedia(),
-		})
+  it('should be able to create', () => {
+    const message = PrivateDocumentMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+      media: makeMessageMedia(),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

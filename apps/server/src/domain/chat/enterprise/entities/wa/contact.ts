@@ -3,58 +3,58 @@ import { WAEntity } from '@/core/entities/wa-entity'
 import type { WAEntityID } from '../value-objects/wa-entity-id'
 
 export interface WAContactProps {
-	instanceId: UniqueEntityID
-	name: string | null
-	pushName: string | null
-	shortName: string | null
-	number: string
-	formattedNumber: string
-	isGroup: boolean
-	imageUrl: string | null
+  instanceId: UniqueEntityID
+  name: string | null
+  pushName: string | null
+  shortName: string | null
+  number: string
+  formattedNumber: string
+  isGroup: boolean
+  imageUrl: string | null
 }
 
 export abstract class WAContact<Props extends WAContactProps> extends WAEntity<
-	Props,
-	WAEntityID
+  Props,
+  WAEntityID
 > {
-	get instanceId() {
-		return this.props.instanceId
-	}
+  get instanceId() {
+    return this.props.instanceId
+  }
 
-	get name() {
-		return this.props.name
-	}
+  get name() {
+    return this.props.name
+  }
 
-	get pushName() {
-		return this.props.pushName
-	}
+  get pushName() {
+    return this.props.pushName
+  }
 
-	get shortName() {
-		return this.props.shortName
-	}
+  get shortName() {
+    return this.props.shortName
+  }
 
-	get defaultName() {
-		const checkNames = [this.name, this.shortName, this.pushName]
+  get defaultName() {
+    const checkNames = [this.name, this.shortName, this.pushName]
 
-		const validName = checkNames.find((name) => !!name?.trim())
-		if (validName) return validName
+    const validName = checkNames.find(name => !!name?.trim())
+    if (validName) return validName
 
-		return this.formattedNumber
-	}
+    return this.formattedNumber
+  }
 
-	get number() {
-		return this.props.number
-	}
+  get number() {
+    return this.props.number
+  }
 
-	get formattedNumber() {
-		return this.props.formattedNumber
-	}
+  get formattedNumber() {
+    return this.props.formattedNumber
+  }
 
-	get imageUrl() {
-		return this.props.imageUrl
-	}
+  get imageUrl() {
+    return this.props.imageUrl
+  }
 
-	get isMe() {
-		return this.instanceId.equals(UniqueEntityID.create(this.id.toString()))
-	}
+  get isMe() {
+    return this.instanceId.equals(UniqueEntityID.create(this.id.toString()))
+  }
 }

@@ -1,18 +1,18 @@
 import z from 'zod'
 
 import {
-	instanceRequestParamsSchema,
-	paginatedRequestQuerySchema,
+  instanceRequestParamsSchema,
+  paginatedRequestQuerySchema,
 } from '@/shared/index.js'
 
 export const fetchChatsRequestParamsSchema = instanceRequestParamsSchema
 
 export type FetchChatsRequestParams = z.infer<
-	typeof fetchChatsRequestParamsSchema
+  typeof fetchChatsRequestParamsSchema
 >
 
 export const fetchChatsRequestQuerySchema = paginatedRequestQuerySchema
 
 export type FetchChatsRequestQuery = z.infer<
-	typeof fetchChatsRequestQuerySchema
+  typeof fetchChatsRequestQuerySchema
 >

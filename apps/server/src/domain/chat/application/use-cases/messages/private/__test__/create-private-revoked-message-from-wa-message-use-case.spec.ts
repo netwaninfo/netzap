@@ -8,42 +8,42 @@ import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { CreatePrivateRevokedMessageFromWAMessageUseCase } from '../create-private-revoked-message-from-wa-message-use-case'
 
 describe('CreatePrivateRevokedMessageFromWAMessageUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let messagesRepository: InMemoryMessagesRepository
-	let dateService: FakeDateService
+  let chatsRepository: InMemoryChatsRepository
+  let messagesRepository: InMemoryMessagesRepository
+  let dateService: FakeDateService
 
-	let sut: CreatePrivateRevokedMessageFromWAMessageUseCase
+  let sut: CreatePrivateRevokedMessageFromWAMessageUseCase
 
-	let chat: PrivateChat
+  let chat: PrivateChat
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		messagesRepository = new InMemoryMessagesRepository()
-		dateService = new FakeDateService()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    messagesRepository = new InMemoryMessagesRepository()
+    dateService = new FakeDateService()
 
-		sut = new CreatePrivateRevokedMessageFromWAMessageUseCase(
-			chatsRepository,
-			messagesRepository,
-			dateService,
-		)
+    sut = new CreatePrivateRevokedMessageFromWAMessageUseCase(
+      chatsRepository,
+      messagesRepository,
+      dateService
+    )
 
-		chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-	})
+    chat = makePrivateChat()
+    chatsRepository.items.push(chat)
+  })
 
-	it('should be able to create a private revoked message', async () => {
-		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'revoked',
-				body: faker.lorem.paragraph(),
-			}),
-		})
+  it('should be able to create a private revoked message', async () => {
+    const response = await sut.execute({
+      waMessage: makeWAPrivateMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'revoked',
+        body: faker.lorem.paragraph(),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		expect(messagesRepository.items).toHaveLength(1)
-	})
+    expect(messagesRepository.items).toHaveLength(1)
+  })
 })

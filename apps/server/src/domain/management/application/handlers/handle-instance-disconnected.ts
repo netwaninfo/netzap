@@ -5,35 +5,35 @@ import type { Instance } from '../../enterprise/entities/instance'
 import type { InstancesRepository } from '../repositories/instances-repository'
 
 interface HandleInstanceDisconnectedRequest {
-	instanceId: UniqueEntityID
+  instanceId: UniqueEntityID
 }
 
 type HandleInstanceDisconnectedResponse = Either<
-	ResourceNotFoundError,
-	{
-		instance: Instance
-	}
+  ResourceNotFoundError,
+  {
+    instance: Instance
+  }
 >
 
 export class HandleInstanceDisconnected {
-	constructor(private instancesRepository: InstancesRepository) {}
+  constructor(private instancesRepository: InstancesRepository) {}
 
-	async execute(
-		request: HandleInstanceDisconnectedRequest,
-	): Promise<HandleInstanceDisconnectedResponse> {
-		const { instanceId } = request
+  async execute(
+    request: HandleInstanceDisconnectedRequest
+  ): Promise<HandleInstanceDisconnectedResponse> {
+    const { instanceId } = request
 
-		const instance = await this.instancesRepository.findUniqueByInstanceId({
-			instanceId,
-		})
+    const instance = await this.instancesRepository.findUniqueByInstanceId({
+      instanceId,
+    })
 
-		if (!instance) {
-			return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
-		}
+    if (!instance) {
+      return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
+    }
 
-		instance.disconnected()
-		await this.instancesRepository.save(instance)
+    instance.disconnected()
+    await this.instancesRepository.save(instance)
 
-		return success({ instance })
-	}
+    return success({ instance })
+  }
 }

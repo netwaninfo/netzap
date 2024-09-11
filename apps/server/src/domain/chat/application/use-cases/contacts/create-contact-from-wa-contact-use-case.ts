@@ -6,51 +6,51 @@ import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-alre
 import type { ContactsRepository } from '../../repositories/contacts-repository'
 
 interface CreateContactFromWAContactUseCaseRequest {
-	waContact: WAPrivateContact
+  waContact: WAPrivateContact
 }
 
 type CreateContactFromWAContactUseCaseResponse = Either<
-	ResourceAlreadyExistsError,
-	{
-		contact: Contact
-	}
+  ResourceAlreadyExistsError,
+  {
+    contact: Contact
+  }
 >
 
 export class CreateContactFromWAContactUseCase {
-	constructor(private contactsRepository: ContactsRepository) {}
+  constructor(private contactsRepository: ContactsRepository) {}
 
-	async execute(
-		request: CreateContactFromWAContactUseCaseRequest,
-	): Promise<CreateContactFromWAContactUseCaseResponse> {
-		const { waContact } = request
+  async execute(
+    request: CreateContactFromWAContactUseCaseRequest
+  ): Promise<CreateContactFromWAContactUseCaseResponse> {
+    const { waContact } = request
 
-		const someContact =
-			await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
-				instanceId: waContact.instanceId,
-				waContactId: waContact.id,
-			})
+    const someContact =
+      await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
+        instanceId: waContact.instanceId,
+        waContactId: waContact.id,
+      })
 
-		const hasSomeContact = !!someContact
-		if (hasSomeContact) {
-			return failure(new ResourceAlreadyExistsError({ id: waContact.ref }))
-		}
+    const hasSomeContact = !!someContact
+    if (hasSomeContact) {
+      return failure(new ResourceAlreadyExistsError({ id: waContact.ref }))
+    }
 
-		const contact = Contact.create({
-			instanceId: waContact.instanceId,
-			name: waContact.defaultName,
-			phone: ContactPhone.create({
-				formattedNumber: waContact.formattedNumber,
-				number: waContact.number,
-			}),
-			waContactId: waContact.id,
-			imageUrl: waContact.imageUrl,
-			isInstance: waContact.isInstance,
-			isMe: waContact.isMe,
-			isMyContact: waContact.isMyContact,
-		})
+    const contact = Contact.create({
+      instanceId: waContact.instanceId,
+      name: waContact.defaultName,
+      phone: ContactPhone.create({
+        formattedNumber: waContact.formattedNumber,
+        number: waContact.number,
+      }),
+      waContactId: waContact.id,
+      imageUrl: waContact.imageUrl,
+      isInstance: waContact.isInstance,
+      isMe: waContact.isMe,
+      isMyContact: waContact.isMyContact,
+    })
 
-		await this.contactsRepository.create(contact)
+    await this.contactsRepository.create(contact)
 
-		return success({ contact })
-	}
+    return success({ contact })
+  }
 }

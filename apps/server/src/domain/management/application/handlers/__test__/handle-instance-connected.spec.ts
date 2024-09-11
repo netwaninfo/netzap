@@ -4,27 +4,27 @@ import { InMemoryInstancesRepository } from '@/test/repositories/management/in-m
 import { HandleInstanceConnected } from '../handle-instance-connected'
 
 describe('HandleInstanceConnected', () => {
-	let instancesRepository: InMemoryInstancesRepository
+  let instancesRepository: InMemoryInstancesRepository
 
-	let sut: HandleInstanceConnected
+  let sut: HandleInstanceConnected
 
-	beforeEach(() => {
-		instancesRepository = new InMemoryInstancesRepository()
+  beforeEach(() => {
+    instancesRepository = new InMemoryInstancesRepository()
 
-		sut = new HandleInstanceConnected(instancesRepository)
-	})
+    sut = new HandleInstanceConnected(instancesRepository)
+  })
 
-	it('should be able to update instance to connected', async () => {
-		const instanceId = makeUniqueEntityID()
-		instancesRepository.items.push(makeInstance({}, instanceId))
+  it('should be able to update instance to connected', async () => {
+    const instanceId = makeUniqueEntityID()
+    instancesRepository.items.push(makeInstance({}, instanceId))
 
-		const response = await sut.execute({ instanceId })
+    const response = await sut.execute({ instanceId })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { instance } = response.value
-		expect(instance.status).toBe('connected')
-		expect(instance.qrCode).toBe(null)
-	})
+    const { instance } = response.value
+    expect(instance.status).toBe('connected')
+    expect(instance.qrCode).toBe(null)
+  })
 })

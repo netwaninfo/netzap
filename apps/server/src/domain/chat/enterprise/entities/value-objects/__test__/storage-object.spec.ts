@@ -3,13 +3,13 @@ import { faker } from '@/test/lib/faker'
 import { StorageObject } from '../storage-object'
 
 describe('StorageObject', () => {
-	it('should be able to create', () => {
-		const storageObject = StorageObject.create({
-			mimeType: makeMimeType(),
-			path: faker.system.directoryPath(),
-			url: faker.image.url(),
-		})
+  it('should be able to create', () => {
+    const storageObject = StorageObject.create({
+      mimeType: makeMimeType(),
+      path: faker.system.directoryPath(),
+      url: faker.image.url(),
+    })
 
-		expect(storageObject).toBeTruthy()
-	})
+    expect(storageObject).toBeTruthy()
+  })
 })

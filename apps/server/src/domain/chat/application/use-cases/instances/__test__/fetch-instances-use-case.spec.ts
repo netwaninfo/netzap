@@ -5,31 +5,31 @@ import { each } from '@/test/utilities/each'
 import { FetchInstancesUseCase } from '../fetch-instances-use-case'
 
 describe('FetchInstancesUseCase', () => {
-	let instancesRepository: InMemoryInstancesRepository
+  let instancesRepository: InMemoryInstancesRepository
 
-	let sut: FetchInstancesUseCase
+  let sut: FetchInstancesUseCase
 
-	beforeEach(() => {
-		instancesRepository = new InMemoryInstancesRepository()
+  beforeEach(() => {
+    instancesRepository = new InMemoryInstancesRepository()
 
-		sut = new FetchInstancesUseCase(instancesRepository)
-	})
+    sut = new FetchInstancesUseCase(instancesRepository)
+  })
 
-	it('should be able to fetch instances by attendant', async () => {
-		const attendantId = makeUniqueEntityID()
-		instancesRepository.items.push(
-			...each(2).map(() => makeInstance({ attendantId })),
-		)
+  it('should be able to fetch instances by attendant', async () => {
+    const attendantId = makeUniqueEntityID()
+    instancesRepository.items.push(
+      ...each(2).map(() => makeInstance({ attendantId }))
+    )
 
-		const response = await sut.execute({
-			page: 1,
-			attendantId,
-		})
+    const response = await sut.execute({
+      page: 1,
+      attendantId,
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { instances } = response.value
-		expect(instances).toHaveLength(2)
-	})
+    const { instances } = response.value
+    expect(instances).toHaveLength(2)
+  })
 })

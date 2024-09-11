@@ -4,22 +4,22 @@ import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-e
 import { Prisma, Group as Raw } from '@prisma/client'
 
 export class PrismaGroupMapper {
-	static toDomain(raw: Raw): Group {
-		return Group.create({
-			instanceId: UniqueEntityID.create(raw.instanceId),
-			name: raw.name,
-			waGroupId: WAEntityID.createFromString(raw.waGroupId),
-			imageUrl: raw.imageUrl,
-		})
-	}
+  static toDomain(raw: Raw): Group {
+    return Group.create({
+      instanceId: UniqueEntityID.create(raw.instanceId),
+      name: raw.name,
+      waGroupId: WAEntityID.createFromString(raw.waGroupId),
+      imageUrl: raw.imageUrl,
+    })
+  }
 
-	static toPrisma(group: Group): Prisma.GroupUncheckedCreateInput {
-		return {
-			id: group.id.toString(),
-			instanceId: group.instanceId.toString(),
-			name: group.name,
-			waGroupId: group.waGroupId.toString(),
-			imageUrl: group.imageUrl,
-		}
-	}
+  static toPrisma(group: Group): Prisma.GroupUncheckedCreateInput {
+    return {
+      id: group.id.toString(),
+      instanceId: group.instanceId.toString(),
+      name: group.name,
+      waGroupId: group.waGroupId.toString(),
+      imageUrl: group.imageUrl,
+    }
+  }
 }

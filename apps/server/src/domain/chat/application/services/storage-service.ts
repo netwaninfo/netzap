@@ -3,12 +3,12 @@ import type { MimeType } from '../../enterprise/entities/value-objects/mime-type
 import type { StorageObject } from '../../enterprise/entities/value-objects/storage-object'
 
 export interface StorageServicePutParams {
-	filename: string
-	mimeType: MimeType
-	data: Readable
+  filename: string
+  mimeType: MimeType
+  data: Readable
 }
 
 export abstract class StorageService {
-	abstract put(params: StorageServicePutParams): Promise<StorageObject>
-	abstract delete(path: string): Promise<void>
+  abstract put(params: StorageServicePutParams): Promise<StorageObject>
+  abstract delete(path: string): Promise<void>
 }

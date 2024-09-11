@@ -5,11 +5,11 @@ import { messageMediaSchema } from '../message-media.js'
 import { baseGroupMessage } from './message.js'
 
 export const groupQuotedVideoMessageSchema = baseGroupMessage.extend({
-	type: z.literal(messageTypeSchema.Values.video),
-	media: messageMediaSchema,
-	body: z.string().nullable(),
+  type: z.literal(messageTypeSchema.Values.video),
+  media: messageMediaSchema,
+  body: z.string().nullable(),
 })
 
 export type GroupQuotedVideoMessage = z.infer<
-	typeof groupQuotedVideoMessageSchema
+  typeof groupQuotedVideoMessageSchema
 >

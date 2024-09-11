@@ -5,16 +5,16 @@ import { makeUniqueEntityID } from '../make-unique-entity-id'
 import { makeWAEntityID } from './value-objects/make-wa-entity-id'
 
 export function makeGroup(
-	override: Partial<GroupProps> = {},
-	id?: UniqueEntityID,
+  override: Partial<GroupProps> = {},
+  id?: UniqueEntityID
 ) {
-	return Group.create(
-		{
-			name: faker.person.firstName(),
-			waGroupId: makeWAEntityID(),
-			instanceId: makeUniqueEntityID(),
-			...override,
-		},
-		id,
-	)
+  return Group.create(
+    {
+      name: faker.person.firstName(),
+      waGroupId: makeWAEntityID(),
+      instanceId: makeUniqueEntityID(),
+      ...override,
+    },
+    id
+  )
 }

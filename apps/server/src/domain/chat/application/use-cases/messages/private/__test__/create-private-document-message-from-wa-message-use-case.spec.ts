@@ -13,94 +13,94 @@ import { CreateMessageMediaFromWAMessageUseCase } from '../../create-message-med
 import { CreatePrivateDocumentMessageFromWAMessageUseCase } from '../create-private-document-message-from-wa-message-use-case'
 
 describe('CreatePrivateDocumentMessageFromWAMessageUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let messagesRepository: InMemoryMessagesRepository
+  let chatsRepository: InMemoryChatsRepository
+  let messagesRepository: InMemoryMessagesRepository
 
-	let storageService: FakeStorageService
-	let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
+  let storageService: FakeStorageService
+  let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
 
-	let dateService: FakeDateService
+  let dateService: FakeDateService
 
-	let sut: CreatePrivateDocumentMessageFromWAMessageUseCase
+  let sut: CreatePrivateDocumentMessageFromWAMessageUseCase
 
-	let chat: PrivateChat
+  let chat: PrivateChat
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		messagesRepository = new InMemoryMessagesRepository()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    messagesRepository = new InMemoryMessagesRepository()
 
-		storageService = new FakeStorageService()
-		createMessageMediaFromWAMessage =
-			new CreateMessageMediaFromWAMessageUseCase(storageService)
+    storageService = new FakeStorageService()
+    createMessageMediaFromWAMessage =
+      new CreateMessageMediaFromWAMessageUseCase(storageService)
 
-		dateService = new FakeDateService()
+    dateService = new FakeDateService()
 
-		sut = new CreatePrivateDocumentMessageFromWAMessageUseCase(
-			chatsRepository,
-			messagesRepository,
-			createMessageMediaFromWAMessage,
-			dateService,
-		)
+    sut = new CreatePrivateDocumentMessageFromWAMessageUseCase(
+      chatsRepository,
+      messagesRepository,
+      createMessageMediaFromWAMessage,
+      dateService
+    )
 
-		chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-	})
+    chat = makePrivateChat()
+    chatsRepository.items.push(chat)
+  })
 
-	it('should be able to create a private document message', async () => {
-		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'document',
-				media: makeWAMessageMedia(),
-				body: faker.lorem.paragraph(),
-			}),
-		})
+  it('should be able to create a private document message', async () => {
+    const response = await sut.execute({
+      waMessage: makeWAPrivateMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'document',
+        media: makeWAMessageMedia(),
+        body: faker.lorem.paragraph(),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(message.media).toBeTruthy()
-		expect(message.body).toBeTruthy()
-		expect(messagesRepository.items).toHaveLength(1)
-		expect(storageService.items).toHaveLength(1)
-	})
+    expect(message.media).toBeTruthy()
+    expect(message.body).toBeTruthy()
+    expect(messagesRepository.items).toHaveLength(1)
+    expect(storageService.items).toHaveLength(1)
+  })
 
-	it('should be able to create a private document message quoting other message', async () => {
-		const quotedMessage = makePrivateDocumentMessage({
-			chatId: chat.id,
-			instanceId: chat.instanceId,
-		})
-		messagesRepository.items.push(quotedMessage)
+  it('should be able to create a private document message quoting other message', async () => {
+    const quotedMessage = makePrivateDocumentMessage({
+      chatId: chat.id,
+      instanceId: chat.instanceId,
+    })
+    messagesRepository.items.push(quotedMessage)
 
-		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'document',
-				media: makeWAMessageMedia(),
-				quoted: makeWAPrivateMessage(
-					{
-						type: 'document',
-						media: makeWAMessageMedia(),
-						instanceId: chat.instanceId,
-						waChatId: chat.waChatId,
-					},
-					quotedMessage.waMessageId,
-				),
-			}),
-		})
+    const response = await sut.execute({
+      waMessage: makeWAPrivateMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'document',
+        media: makeWAMessageMedia(),
+        quoted: makeWAPrivateMessage(
+          {
+            type: 'document',
+            media: makeWAMessageMedia(),
+            instanceId: chat.instanceId,
+            waChatId: chat.waChatId,
+          },
+          quotedMessage.waMessageId
+        ),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(message.media).toBeTruthy()
-		expect(message.quoted).toBeInstanceOf(PrivateMessage)
-		expect(messagesRepository.items).toHaveLength(2)
-		expect(storageService.items).toHaveLength(1)
-	})
+    expect(message.media).toBeTruthy()
+    expect(message.quoted).toBeInstanceOf(PrivateMessage)
+    expect(messagesRepository.items).toHaveLength(2)
+    expect(storageService.items).toHaveLength(1)
+  })
 })

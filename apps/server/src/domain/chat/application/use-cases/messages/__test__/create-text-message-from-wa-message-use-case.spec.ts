@@ -15,84 +15,84 @@ import { CreateGroupTextMessageFromWAMessageUseCase } from '../group/create-grou
 import { CreatePrivateTextMessageFromWAMessageUseCase } from '../private/create-private-text-message-from-wa-message-use-case'
 
 describe('CreateTextMessageFromWAMessageUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let messagesRepository: InMemoryMessagesRepository
-	let dateService: FakeDateService
+  let chatsRepository: InMemoryChatsRepository
+  let messagesRepository: InMemoryMessagesRepository
+  let dateService: FakeDateService
 
-	let createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessageUseCase
+  let createPrivateTextMessageFromWAMessage: CreatePrivateTextMessageFromWAMessageUseCase
 
-	let contactsRepository: InMemoryContactsRepository
-	let createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase
+  let contactsRepository: InMemoryContactsRepository
+  let createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase
 
-	let sut: CreateTextMessageFromWAMessageUseCase
+  let sut: CreateTextMessageFromWAMessageUseCase
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		messagesRepository = new InMemoryMessagesRepository()
-		dateService = new FakeDateService()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    messagesRepository = new InMemoryMessagesRepository()
+    dateService = new FakeDateService()
 
-		createPrivateTextMessageFromWAMessage =
-			new CreatePrivateTextMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				dateService,
-			)
+    createPrivateTextMessageFromWAMessage =
+      new CreatePrivateTextMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        dateService
+      )
 
-		contactsRepository = new InMemoryContactsRepository()
-		createGroupTextMessageFromWAMessage =
-			new CreateGroupTextMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				dateService,
-			)
+    contactsRepository = new InMemoryContactsRepository()
+    createGroupTextMessageFromWAMessage =
+      new CreateGroupTextMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        dateService
+      )
 
-		sut = new CreateTextMessageFromWAMessageUseCase(
-			createPrivateTextMessageFromWAMessage,
-			createGroupTextMessageFromWAMessage,
-		)
-	})
+    sut = new CreateTextMessageFromWAMessageUseCase(
+      createPrivateTextMessageFromWAMessage,
+      createGroupTextMessageFromWAMessage
+    )
+  })
 
-	it('should be able to create a private text message', async () => {
-		const chat = makePrivateChat()
-		chatsRepository.items.push(chat)
+  it('should be able to create a private text message', async () => {
+    const chat = makePrivateChat()
+    chatsRepository.items.push(chat)
 
-		const waMessage = makeWAPrivateMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'text',
-		})
+    const waMessage = makeWAPrivateMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'text',
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(PrivateMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(PrivateMessage)
+  })
 
-	it('should be able to create a group text message', async () => {
-		const chat = makeGroupChat()
-		chatsRepository.items.push(chat)
+  it('should be able to create a group text message', async () => {
+    const chat = makeGroupChat()
+    chatsRepository.items.push(chat)
 
-		const author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
+    const author = makeContact({ instanceId: chat.instanceId })
+    contactsRepository.items.push(author)
 
-		const waMessage = makeWAGroupMessage({
-			waChatId: chat.waChatId,
-			instanceId: chat.instanceId,
-			type: 'text',
-			author: makeWAPrivateContact(
-				{ instanceId: chat.instanceId },
-				author.waContactId,
-			),
-		})
+    const waMessage = makeWAGroupMessage({
+      waChatId: chat.waChatId,
+      instanceId: chat.instanceId,
+      type: 'text',
+      author: makeWAPrivateContact(
+        { instanceId: chat.instanceId },
+        author.waContactId
+      ),
+    })
 
-		const response = await sut.execute({ waMessage })
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    const response = await sut.execute({ waMessage })
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
-		expect(message).instanceOf(GroupMessage)
-	})
+    const { message } = response.value
+    expect(message).instanceOf(GroupMessage)
+  })
 })

@@ -6,16 +6,16 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { GroupDocumentMessage } from '../document-message'
 
 describe('GroupDocumentMessage', () => {
-	it('should be able to create', () => {
-		const message = GroupDocumentMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-			media: makeMessageMedia(),
-			author: makeContact(),
-		})
+  it('should be able to create', () => {
+    const message = GroupDocumentMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+      media: makeMessageMedia(),
+      author: makeContact(),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

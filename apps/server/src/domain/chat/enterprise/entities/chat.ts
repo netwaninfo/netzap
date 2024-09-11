@@ -4,38 +4,38 @@ import type { Message } from '../types/message'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 
 export interface ChatProps {
-	waChatId: WAEntityID
-	instanceId: UniqueEntityID
-	unreadCount: number
-	lastMessage: Message | null
+  waChatId: WAEntityID
+  instanceId: UniqueEntityID
+  unreadCount: number
+  lastMessage: Message | null
 }
 
 export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
-	get waChatId() {
-		return this.props.waChatId
-	}
+  get waChatId() {
+    return this.props.waChatId
+  }
 
-	get instanceId() {
-		return this.props.instanceId
-	}
+  get instanceId() {
+    return this.props.instanceId
+  }
 
-	get unreadCount() {
-		return this.props.unreadCount
-	}
+  get unreadCount() {
+    return this.props.unreadCount
+  }
 
-	read() {
-		this.set({ unreadCount: 0 })
-	}
+  read() {
+    this.set({ unreadCount: 0 })
+  }
 
-	unread() {
-		this.set({ unreadCount: -1 })
-	}
+  unread() {
+    this.set({ unreadCount: -1 })
+  }
 
-	interact(message: Message): void {
-		this.set({ lastMessage: message })
-	}
+  interact(message: Message): void {
+    this.set({ lastMessage: message })
+  }
 
-	protected override set<T extends Partial<ChatProps>>(newProps: T) {
-		this.props = Object.assign({}, this.props, newProps)
-	}
+  protected override set<T extends Partial<ChatProps>>(newProps: T) {
+    this.props = Object.assign({}, this.props, newProps)
+  }
 }

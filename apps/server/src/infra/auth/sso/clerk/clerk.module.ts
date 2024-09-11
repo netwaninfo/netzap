@@ -4,13 +4,13 @@ import { ClerkService } from './clerk.service'
 import { ClerkUsersRepository } from './repositories/clerk-users-repository'
 
 @Module({
-	providers: [
-		ClerkService,
-		{
-			provide: UsersRepositories,
-			useClass: ClerkUsersRepository,
-		},
-	],
-	exports: [ClerkService, UsersRepositories],
+  providers: [
+    ClerkService,
+    {
+      provide: UsersRepositories,
+      useClass: ClerkUsersRepository,
+    },
+  ],
+  exports: [ClerkService, UsersRepositories],
 })
 export class ClerkModule {}

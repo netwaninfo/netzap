@@ -11,34 +11,34 @@ import { PrismaInstancesRepository } from './repositories/prisma-instances-repos
 import { PrismaMessagesRepository } from './repositories/prisma-messages-repository'
 
 @Module({
-	providers: [
-		{
-			provide: ContactsRepository,
-			useClass: PrismaContactsRepository,
-		},
-		{
-			provide: GroupsRepository,
-			useClass: PrismaGroupsRepository,
-		},
-		{
-			provide: MessagesRepository,
-			useClass: PrismaMessagesRepository,
-		},
-		{
-			provide: ChatsRepository,
-			useClass: PrismaChatsRepository,
-		},
-		{
-			provide: InstancesRepository,
-			useClass: PrismaInstancesRepository,
-		},
-	],
-	exports: [
-		ContactsRepository,
-		GroupsRepository,
-		MessagesRepository,
-		ChatsRepository,
-		InstancesRepository,
-	],
+  providers: [
+    {
+      provide: ContactsRepository,
+      useClass: PrismaContactsRepository,
+    },
+    {
+      provide: GroupsRepository,
+      useClass: PrismaGroupsRepository,
+    },
+    {
+      provide: MessagesRepository,
+      useClass: PrismaMessagesRepository,
+    },
+    {
+      provide: ChatsRepository,
+      useClass: PrismaChatsRepository,
+    },
+    {
+      provide: InstancesRepository,
+      useClass: PrismaInstancesRepository,
+    },
+  ],
+  exports: [
+    ContactsRepository,
+    GroupsRepository,
+    MessagesRepository,
+    ChatsRepository,
+    InstancesRepository,
+  ],
 })
 export class PrismaChatRepositories {}

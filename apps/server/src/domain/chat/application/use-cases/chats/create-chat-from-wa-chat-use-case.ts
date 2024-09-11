@@ -7,44 +7,44 @@ import type { CreateGroupChatFromWAChatUseCase } from './create-group-chat-from-
 import type { CreatePrivateChatFromWAChatUseCase } from './create-private-chat-from-wa-chat-use-case'
 
 interface CreateChatFromWAChatUseCaseRequest {
-	waChat: WAChat
+  waChat: WAChat
 }
 
 type CreateChatFromWAChatUseCaseResponse = Either<
-	ResourceAlreadyExistsError | null,
-	{
-		chat: Chat
-	}
+  ResourceAlreadyExistsError | null,
+  {
+    chat: Chat
+  }
 >
 
 export class CreateChatFromWAChatUseCase {
-	constructor(
-		private createGroupChatFromWAChat: CreateGroupChatFromWAChatUseCase,
-		private createPrivateChatFromWAChat: CreatePrivateChatFromWAChatUseCase,
-	) {}
+  constructor(
+    private createGroupChatFromWAChat: CreateGroupChatFromWAChatUseCase,
+    private createPrivateChatFromWAChat: CreatePrivateChatFromWAChatUseCase
+  ) {}
 
-	async execute(
-		request: CreateChatFromWAChatUseCaseRequest,
-	): Promise<CreateChatFromWAChatUseCaseResponse> {
-		const { waChat } = request
-		let chat: Chat
+  async execute(
+    request: CreateChatFromWAChatUseCaseRequest
+  ): Promise<CreateChatFromWAChatUseCaseResponse> {
+    const { waChat } = request
+    let chat: Chat
 
-		if (isWAGroupChat(waChat)) {
-			const response = await this.createGroupChatFromWAChat.execute({ waChat })
+    if (isWAGroupChat(waChat)) {
+      const response = await this.createGroupChatFromWAChat.execute({ waChat })
 
-			if (response.isFailure()) return failure(response.value)
-			chat = response.value.chat
-		} else {
-			const response = await this.createPrivateChatFromWAChat.execute({
-				waChat,
-			})
+      if (response.isFailure()) return failure(response.value)
+      chat = response.value.chat
+    } else {
+      const response = await this.createPrivateChatFromWAChat.execute({
+        waChat,
+      })
 
-			if (response.isFailure()) return failure(response.value)
-			chat = response.value.chat
-		}
+      if (response.isFailure()) return failure(response.value)
+      chat = response.value.chat
+    }
 
-		return success({
-			chat,
-		})
-	}
+    return success({
+      chat,
+    })
+  }
 }

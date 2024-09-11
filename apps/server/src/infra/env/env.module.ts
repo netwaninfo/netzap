@@ -5,13 +5,13 @@ import { envSchema } from './schema'
 
 @Global()
 @Module({
-	imports: [
-		ConfigModule.forRoot({
-			validate: (env) => envSchema.parse(env),
-			isGlobal: true,
-		}),
-	],
-	providers: [EnvService],
-	exports: [EnvService],
+  imports: [
+    ConfigModule.forRoot({
+      validate: env => envSchema.parse(env),
+      isGlobal: true,
+    }),
+  ],
+  providers: [EnvService],
+  exports: [EnvService],
 })
 export class EnvModule {}

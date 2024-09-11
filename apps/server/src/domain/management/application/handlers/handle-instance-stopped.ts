@@ -5,35 +5,35 @@ import type { Instance } from '../../enterprise/entities/instance'
 import type { InstancesRepository } from '../repositories/instances-repository'
 
 interface HandleInstanceStoppedRequest {
-	instanceId: UniqueEntityID
+  instanceId: UniqueEntityID
 }
 
 type HandleInstanceStoppedResponse = Either<
-	ResourceNotFoundError,
-	{
-		instance: Instance
-	}
+  ResourceNotFoundError,
+  {
+    instance: Instance
+  }
 >
 
 export class HandleInstanceStopped {
-	constructor(private instancesRepository: InstancesRepository) {}
+  constructor(private instancesRepository: InstancesRepository) {}
 
-	async execute(
-		request: HandleInstanceStoppedRequest,
-	): Promise<HandleInstanceStoppedResponse> {
-		const { instanceId } = request
+  async execute(
+    request: HandleInstanceStoppedRequest
+  ): Promise<HandleInstanceStoppedResponse> {
+    const { instanceId } = request
 
-		const instance = await this.instancesRepository.findUniqueByInstanceId({
-			instanceId,
-		})
+    const instance = await this.instancesRepository.findUniqueByInstanceId({
+      instanceId,
+    })
 
-		if (!instance) {
-			return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
-		}
+    if (!instance) {
+      return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
+    }
 
-		instance.stopped()
-		await this.instancesRepository.save(instance)
+    instance.stopped()
+    await this.instancesRepository.save(instance)
 
-		return success({ instance })
-	}
+    return success({ instance })
+  }
 }

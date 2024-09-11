@@ -1,21 +1,6 @@
 {
 	"editor.formatOnSave": true,
-	"editor.codeActionsOnSave": {
-		"quickfix.biome": "explicit",
-		"source.organizeImports.biome": "explicit"
-	},
 	"editor.defaultFormatter": "biomejs.biome",
 	"typescript.preferences.preferTypeOnlyAutoImports": false,
-	"biome.enabled": true,
-	"biome.lspBin": "./node_modules/@biomejs/bin/biome",
-	"[javascript]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[typescript]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
 	"cSpell.words": ["vcard", "netzap"]
 }

@@ -12,37 +12,37 @@ import { PrivateVideoMessagePresenter } from './video-message'
 import { PrivateVoiceMessagePresenter } from './voice-message'
 
 export class PrivateMessagePresenter {
-	static toHttp(message: PrivateMessage): HttpPrivateMessage {
-		switch (message.type) {
-			case 'audio':
-				return PrivateAudioMessagePresenter.toHttp(message)
+  static toHttp(message: PrivateMessage): HttpPrivateMessage {
+    switch (message.type) {
+      case 'audio':
+        return PrivateAudioMessagePresenter.toHttp(message)
 
-			case 'document':
-				return PrivateDocumentMessagePresenter.toHttp(message)
+      case 'document':
+        return PrivateDocumentMessagePresenter.toHttp(message)
 
-			case 'image':
-				return PrivateImageMessagePresenter.toHttp(message)
+      case 'image':
+        return PrivateImageMessagePresenter.toHttp(message)
 
-			case 'multi_vcard':
-				return PrivateMultiVCardMessagePresenter.toHttp(message)
+      case 'multi_vcard':
+        return PrivateMultiVCardMessagePresenter.toHttp(message)
 
-			case 'revoked':
-				return PrivateRevokedMessagePresenter.toHttp(message)
+      case 'revoked':
+        return PrivateRevokedMessagePresenter.toHttp(message)
 
-			case 'text':
-				return PrivateTextMessagePresenter.toHttp(message)
+      case 'text':
+        return PrivateTextMessagePresenter.toHttp(message)
 
-			case 'vcard':
-				return PrivateVCardMessagePresenter.toHttp(message)
+      case 'vcard':
+        return PrivateVCardMessagePresenter.toHttp(message)
 
-			case 'video':
-				return PrivateVideoMessagePresenter.toHttp(message)
+      case 'video':
+        return PrivateVideoMessagePresenter.toHttp(message)
 
-			case 'voice':
-				return PrivateVoiceMessagePresenter.toHttp(message)
+      case 'voice':
+        return PrivateVoiceMessagePresenter.toHttp(message)
 
-			default:
-				return PrivateUnknownMessagePresenter.toHttp(message)
-		}
-	}
+      default:
+        return PrivateUnknownMessagePresenter.toHttp(message)
+    }
+  }
 }

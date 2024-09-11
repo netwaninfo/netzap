@@ -5,11 +5,11 @@ import { GroupChatPresenter } from './group/chat-presenter'
 import { PrivateChatPresenter } from './private/chat-presenter'
 
 export class ChatPresenter {
-	static toHttp(chat: Chat): HttpChat {
-		if (isPrivateChat(chat)) {
-			return PrivateChatPresenter.toHttp(chat)
-		}
+  static toHttp(chat: Chat): HttpChat {
+    if (isPrivateChat(chat)) {
+      return PrivateChatPresenter.toHttp(chat)
+    }
 
-		return GroupChatPresenter.toHttp(chat)
-	}
+    return GroupChatPresenter.toHttp(chat)
+  }
 }

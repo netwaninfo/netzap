@@ -11,49 +11,49 @@ import { PrismaGroupMessageMapper } from './message-mapper'
 type Raw = SetNonNullable<RawGroupMessage, 'author'>
 
 export class PrismaGroupRevokedMessageMapper {
-	static toDomain(raw: Raw): GroupRevokedMessage {
-		return GroupRevokedMessage.create(
-			{
-				status: raw.status,
-				chatId: UniqueEntityID.create(raw.chatId),
-				instanceId: UniqueEntityID.create(raw.instanceId),
-				waChatId: WAEntityID.createFromString(raw.waChatId),
-				waMessageId: WAMessageID.createFromString(raw.waMessageId),
-				author: PrismaContactInstanceMapper.toDomain(raw.author),
-				isForwarded: raw.isForwarded,
-				isFromMe: raw.isFromMe,
-				createdAt: raw.createdAt,
-				revokedAt: raw.revokedAt ?? raw.createdAt,
-				...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
-				...(raw.revokerId && { sentBy: UniqueEntityID.create(raw.revokerId) }),
-				...(raw.quoted && {
-					quoted: PrismaGroupMessageMapper.toDomain(raw.quoted),
-				}),
-			},
-			UniqueEntityID.create(raw.id),
-		)
-	}
+  static toDomain(raw: Raw): GroupRevokedMessage {
+    return GroupRevokedMessage.create(
+      {
+        status: raw.status,
+        chatId: UniqueEntityID.create(raw.chatId),
+        instanceId: UniqueEntityID.create(raw.instanceId),
+        waChatId: WAEntityID.createFromString(raw.waChatId),
+        waMessageId: WAMessageID.createFromString(raw.waMessageId),
+        author: PrismaContactInstanceMapper.toDomain(raw.author),
+        isForwarded: raw.isForwarded,
+        isFromMe: raw.isFromMe,
+        createdAt: raw.createdAt,
+        revokedAt: raw.revokedAt ?? raw.createdAt,
+        ...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
+        ...(raw.revokerId && { sentBy: UniqueEntityID.create(raw.revokerId) }),
+        ...(raw.quoted && {
+          quoted: PrismaGroupMessageMapper.toDomain(raw.quoted),
+        }),
+      },
+      UniqueEntityID.create(raw.id)
+    )
+  }
 
-	static toPrisma(
-		message: GroupRevokedMessage,
-	): Prisma.MessageUncheckedCreateInput {
-		return {
-			id: message.id.toString(),
-			chatType: 'group',
-			authorId: message.author.id.toString(),
-			chatId: message.chatId.toString(),
-			waChatId: message.waChatId.toString(),
-			waMessageId: message.waChatId.toString(),
-			instanceId: message.instanceId.toString(),
-			quotedId: message.quoted?.id.toString(),
-			senderId: message.sentBy?.toString(),
-			type: message.type,
-			status: message.status,
-			isForwarded: message.isForwarded,
-			isFromMe: message.isFromMe,
-			createdAt: message.createdAt,
-			revokerId: message.revokedBy?.toString(),
-			revokedAt: message.revokedAt,
-		}
-	}
+  static toPrisma(
+    message: GroupRevokedMessage
+  ): Prisma.MessageUncheckedCreateInput {
+    return {
+      id: message.id.toString(),
+      chatType: 'group',
+      authorId: message.author.id.toString(),
+      chatId: message.chatId.toString(),
+      waChatId: message.waChatId.toString(),
+      waMessageId: message.waChatId.toString(),
+      instanceId: message.instanceId.toString(),
+      quotedId: message.quoted?.id.toString(),
+      senderId: message.sentBy?.toString(),
+      type: message.type,
+      status: message.status,
+      isForwarded: message.isForwarded,
+      isFromMe: message.isFromMe,
+      createdAt: message.createdAt,
+      revokerId: message.revokedBy?.toString(),
+      revokedAt: message.revokedAt,
+    }
+  }
 }

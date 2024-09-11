@@ -13,37 +13,37 @@ import { GroupQuotedVideoMessagePresenter } from './quoted-video-message'
 import { GroupQuotedVoiceMessagePresenter } from './quoted-voice-message'
 
 export class GroupQuotedMessagePresenter {
-	static toHttp(message: Except<GroupMessage, 'quoted'>): GroupQuotedMessage {
-		switch (message.type) {
-			case 'audio':
-				return GroupQuotedAudioMessagePresenter.toHttp(message)
+  static toHttp(message: Except<GroupMessage, 'quoted'>): GroupQuotedMessage {
+    switch (message.type) {
+      case 'audio':
+        return GroupQuotedAudioMessagePresenter.toHttp(message)
 
-			case 'document':
-				return GroupQuotedDocumentMessagePresenter.toHttp(message)
+      case 'document':
+        return GroupQuotedDocumentMessagePresenter.toHttp(message)
 
-			case 'image':
-				return GroupQuotedImageMessagePresenter.toHttp(message)
+      case 'image':
+        return GroupQuotedImageMessagePresenter.toHttp(message)
 
-			case 'multi_vcard':
-				return GroupQuotedMultiVCardMessagePresenter.toHttp(message)
+      case 'multi_vcard':
+        return GroupQuotedMultiVCardMessagePresenter.toHttp(message)
 
-			case 'revoked':
-				return GroupQuotedRevokedMessagePresenter.toHttp(message)
+      case 'revoked':
+        return GroupQuotedRevokedMessagePresenter.toHttp(message)
 
-			case 'text':
-				return GroupQuotedTextMessagePresenter.toHttp(message)
+      case 'text':
+        return GroupQuotedTextMessagePresenter.toHttp(message)
 
-			case 'vcard':
-				return GroupQuotedVCardMessagePresenter.toHttp(message)
+      case 'vcard':
+        return GroupQuotedVCardMessagePresenter.toHttp(message)
 
-			case 'video':
-				return GroupQuotedVideoMessagePresenter.toHttp(message)
+      case 'video':
+        return GroupQuotedVideoMessagePresenter.toHttp(message)
 
-			case 'voice':
-				return GroupQuotedVoiceMessagePresenter.toHttp(message)
+      case 'voice':
+        return GroupQuotedVoiceMessagePresenter.toHttp(message)
 
-			default:
-				return GroupQuotedUnknownMessagePresenter.toHttp(message)
-		}
-	}
+      default:
+        return GroupQuotedUnknownMessagePresenter.toHttp(message)
+    }
+  }
 }

@@ -4,22 +4,22 @@ import { Except } from 'type-fest'
 import { ContactPresenter } from '../contact-presenter'
 
 export class PrivateQuotedVCardMessagePresenter {
-	static toHttp(
-		message: Except<PrivateVCardMessage, 'quoted'>,
-	): PrivateQuotedVCardMessage {
-		return {
-			id: message.id.toString(),
-			chatId: message.chatId.toString(),
-			waChatId: message.waChatId.toString(),
-			instanceId: message.instanceId.toString(),
-			waMessageId: message.waMessageId.toString(),
-			type: message.type,
-			status: message.status,
-			isForwarded: message.isForwarded,
-			isFromMe: message.isFromMe,
-			createdAt: message.createdAt,
-			sentBy: message.sentBy?.toString() ?? null,
-			contact: ContactPresenter.toHttp(message.contact),
-		}
-	}
+  static toHttp(
+    message: Except<PrivateVCardMessage, 'quoted'>
+  ): PrivateQuotedVCardMessage {
+    return {
+      id: message.id.toString(),
+      chatId: message.chatId.toString(),
+      waChatId: message.waChatId.toString(),
+      instanceId: message.instanceId.toString(),
+      waMessageId: message.waMessageId.toString(),
+      type: message.type,
+      status: message.status,
+      isForwarded: message.isForwarded,
+      isFromMe: message.isFromMe,
+      createdAt: message.createdAt,
+      sentBy: message.sentBy?.toString() ?? null,
+      contact: ContactPresenter.toHttp(message.contact),
+    }
+  }
 }

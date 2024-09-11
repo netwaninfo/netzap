@@ -5,32 +5,32 @@ import { each } from '@/test/utilities/each'
 import { FetchContactsUseCase } from '../fetch-contacts-use-case'
 
 describe('FetchContactsUseCase', () => {
-	let contactsRepository: InMemoryContactsRepository
+  let contactsRepository: InMemoryContactsRepository
 
-	let sut: FetchContactsUseCase
+  let sut: FetchContactsUseCase
 
-	beforeEach(() => {
-		contactsRepository = new InMemoryContactsRepository()
+  beforeEach(() => {
+    contactsRepository = new InMemoryContactsRepository()
 
-		sut = new FetchContactsUseCase(contactsRepository)
-	})
+    sut = new FetchContactsUseCase(contactsRepository)
+  })
 
-	it('should be able to fetch contacts', async () => {
-		const instanceId = makeUniqueEntityID()
+  it('should be able to fetch contacts', async () => {
+    const instanceId = makeUniqueEntityID()
 
-		contactsRepository.items.push(
-			...each(2).map(() => makeContact({ instanceId })),
-		)
+    contactsRepository.items.push(
+      ...each(2).map(() => makeContact({ instanceId }))
+    )
 
-		const response = await sut.execute({
-			instanceId,
-			page: 1,
-		})
+    const response = await sut.execute({
+      instanceId,
+      page: 1,
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { contacts } = response.value
-		expect(contacts).toHaveLength(2)
-	})
+    const { contacts } = response.value
+    expect(contacts).toHaveLength(2)
+  })
 })

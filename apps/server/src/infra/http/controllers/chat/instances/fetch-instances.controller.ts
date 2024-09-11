@@ -6,39 +6,39 @@ import { InstancePresenter } from '@/infra/presenters/chat/instance-presenter'
 import { PaginationPresenter } from '@/infra/presenters/pagination-presenter'
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
 import {
-	type FetchInstancesRequestQuery,
-	type FetchInstancesResponseBody,
-	fetchInstancesRequestQuerySchema,
+  type FetchInstancesRequestQuery,
+  type FetchInstancesResponseBody,
+  fetchInstancesRequestQuerySchema,
 } from '@netzap/contracts/chat'
 
 const querySchema = new ZodHttpValidationPipe(fetchInstancesRequestQuerySchema)
 
 @Controller('/wa/instances')
 export class FetchInstancesController {
-	constructor(private fetchInstances: FetchInstancesUseCase) {}
+  constructor(private fetchInstances: FetchInstancesUseCase) {}
 
-	@Get()
-	async handle(
-		@UserId() userId: string,
-		@Query(querySchema) query: FetchInstancesRequestQuery,
-	): Promise<FetchInstancesResponseBody> {
-		const { page, limit } = query
+  @Get()
+  async handle(
+    @UserId() userId: string,
+    @Query(querySchema) query: FetchInstancesRequestQuery
+  ): Promise<FetchInstancesResponseBody> {
+    const { page, limit } = query
 
-		const response = await this.fetchInstances.execute({
-			attendantId: UniqueEntityID.create(userId),
-			page,
-			limit,
-		})
+    const response = await this.fetchInstances.execute({
+      attendantId: UniqueEntityID.create(userId),
+      page,
+      limit,
+    })
 
-		if (response.isFailure()) {
-			throw new BadRequestException()
-		}
+    if (response.isFailure()) {
+      throw new BadRequestException()
+    }
 
-		const { instances, pagination } = response.value
+    const { instances, pagination } = response.value
 
-		return {
-			data: instances.map(InstancePresenter.toHttp),
-			pagination: PaginationPresenter.toHttp(pagination),
-		}
-	}
+    return {
+      data: instances.map(InstancePresenter.toHttp),
+      pagination: PaginationPresenter.toHttp(pagination),
+    }
+  }
 }

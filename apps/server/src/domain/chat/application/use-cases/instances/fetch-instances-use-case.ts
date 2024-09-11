@@ -7,42 +7,42 @@ import { Injectable } from '@nestjs/common'
 import { InstancesRepository } from '../../repositories/instances-repository'
 
 interface FetchInstancesUseCaseRequest extends PaginationRequest {
-	attendantId: UniqueEntityID
+  attendantId: UniqueEntityID
 }
 
 type FetchInstancesUseCaseResponse = Either<
-	null,
-	{
-		instances: Instance[]
-		pagination: Pagination
-	}
+  null,
+  {
+    instances: Instance[]
+    pagination: Pagination
+  }
 >
 
 @Injectable()
 export class FetchInstancesUseCase {
-	constructor(private instancesRepository: InstancesRepository) {}
+  constructor(private instancesRepository: InstancesRepository) {}
 
-	async execute(
-		request: FetchInstancesUseCaseRequest,
-	): Promise<FetchInstancesUseCaseResponse> {
-		const { attendantId, page, limit } = request
+  async execute(
+    request: FetchInstancesUseCaseRequest
+  ): Promise<FetchInstancesUseCaseResponse> {
+    const { attendantId, page, limit } = request
 
-		const take = Pagination.limit(limit)
+    const take = Pagination.limit(limit)
 
-		const [rows, instances] = await Promise.all([
-			this.instancesRepository.countByAttendantId({ attendantId }),
-			this.instancesRepository.findManyByAttendantId({
-				attendantId,
-				page,
-				take,
-			}),
-		])
+    const [rows, instances] = await Promise.all([
+      this.instancesRepository.countByAttendantId({ attendantId }),
+      this.instancesRepository.findManyByAttendantId({
+        attendantId,
+        page,
+        take,
+      }),
+    ])
 
-		const pagination = Pagination.create({ limit: take, page, rows })
+    const pagination = Pagination.create({ limit: take, page, rows })
 
-		return success({
-			instances,
-			pagination,
-		})
-	}
+    return success({
+      instances,
+      pagination,
+    })
+  }
 }

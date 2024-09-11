@@ -6,40 +6,40 @@ import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-m
 import { HandleChangeWAMessageACK } from '../handle-change-wa-message-ack'
 
 describe('HandleChangeWAMessageACK', () => {
-	let messagesRepository: InMemoryMessagesRepository
-	let messageEmitter: FakeMessageEmitter
+  let messagesRepository: InMemoryMessagesRepository
+  let messageEmitter: FakeMessageEmitter
 
-	let sut: HandleChangeWAMessageACK
+  let sut: HandleChangeWAMessageACK
 
-	beforeEach(() => {
-		messagesRepository = new InMemoryMessagesRepository()
-		messageEmitter = new FakeMessageEmitter()
+  beforeEach(() => {
+    messagesRepository = new InMemoryMessagesRepository()
+    messageEmitter = new FakeMessageEmitter()
 
-		sut = new HandleChangeWAMessageACK(messagesRepository, messageEmitter)
-	})
+    sut = new HandleChangeWAMessageACK(messagesRepository, messageEmitter)
+  })
 
-	it('should be able to update message from wa message ack', async () => {
-		const instanceId = makeUniqueEntityID()
-		const messageRef = makePrivateTextMessage({ instanceId })
-		messagesRepository.items.push(messageRef)
+  it('should be able to update message from wa message ack', async () => {
+    const instanceId = makeUniqueEntityID()
+    const messageRef = makePrivateTextMessage({ instanceId })
+    messagesRepository.items.push(messageRef)
 
-		const waMessage = makeWAPrivateMessage(
-			{ instanceId, ack: 'pending' },
-			messageRef.waMessageId,
-		)
+    const waMessage = makeWAPrivateMessage(
+      { instanceId, ack: 'pending' },
+      messageRef.waMessageId
+    )
 
-		const response = await sut.execute({
-			waMessage,
-			ack: 'read',
-		})
+    const response = await sut.execute({
+      waMessage,
+      ack: 'read',
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(messagesRepository.items).toHaveLength(1)
-		expect(message.status).toBe('read')
-		expect(messageEmitter.items).toHaveLength(1)
-	})
+    expect(messagesRepository.items).toHaveLength(1)
+    expect(message.status).toBe('read')
+    expect(messageEmitter.items).toHaveLength(1)
+  })
 })

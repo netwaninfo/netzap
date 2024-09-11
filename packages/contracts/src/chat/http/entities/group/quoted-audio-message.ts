@@ -5,10 +5,10 @@ import { messageMediaSchema } from '../message-media.js'
 import { baseGroupMessage } from './message.js'
 
 export const groupQuotedAudioMessageSchema = baseGroupMessage.extend({
-	type: z.literal(messageTypeSchema.Values.audio),
-	media: messageMediaSchema,
+  type: z.literal(messageTypeSchema.Values.audio),
+  media: messageMediaSchema,
 })
 
 export type GroupQuotedAudioMessage = z.infer<
-	typeof groupQuotedAudioMessageSchema
+  typeof groupQuotedAudioMessageSchema
 >

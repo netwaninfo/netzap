@@ -5,15 +5,15 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { PrivateAudioMessage } from '../audio-message'
 
 describe('PrivateAudioMessage', () => {
-	it('should be able to create', () => {
-		const message = PrivateAudioMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-			media: makeMessageMedia(),
-		})
+  it('should be able to create', () => {
+    const message = PrivateAudioMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+      media: makeMessageMedia(),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

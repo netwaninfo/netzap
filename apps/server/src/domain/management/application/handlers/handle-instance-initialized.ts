@@ -5,36 +5,36 @@ import type { Instance } from '../../enterprise/entities/instance'
 import type { InstancesRepository } from '../repositories/instances-repository'
 
 interface HandleInstanceInitializedRequest {
-	instanceId: UniqueEntityID
-	qrCode: string
+  instanceId: UniqueEntityID
+  qrCode: string
 }
 
 type HandleInstanceInitializedResponse = Either<
-	ResourceNotFoundError,
-	{
-		instance: Instance
-	}
+  ResourceNotFoundError,
+  {
+    instance: Instance
+  }
 >
 
 export class HandleInstanceInitialized {
-	constructor(private instancesRepository: InstancesRepository) {}
+  constructor(private instancesRepository: InstancesRepository) {}
 
-	async execute(
-		request: HandleInstanceInitializedRequest,
-	): Promise<HandleInstanceInitializedResponse> {
-		const { instanceId, qrCode } = request
+  async execute(
+    request: HandleInstanceInitializedRequest
+  ): Promise<HandleInstanceInitializedResponse> {
+    const { instanceId, qrCode } = request
 
-		const instance = await this.instancesRepository.findUniqueByInstanceId({
-			instanceId,
-		})
+    const instance = await this.instancesRepository.findUniqueByInstanceId({
+      instanceId,
+    })
 
-		if (!instance) {
-			return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
-		}
+    if (!instance) {
+      return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
+    }
 
-		instance.initialized(qrCode)
-		await this.instancesRepository.save(instance)
+    instance.initialized(qrCode)
+    await this.instancesRepository.save(instance)
 
-		return success({ instance })
-	}
+    return success({ instance })
+  }
 }

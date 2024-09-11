@@ -12,92 +12,92 @@ import { CreateMessageMediaFromWAMessageUseCase } from '../../create-message-med
 import { CreatePrivateAudioMessageFromWAMessageUseCase } from '../create-private-audio-message-from-wa-message-use-case'
 
 describe('CreatePrivateAudioMessageFromWAMessageUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let messagesRepository: InMemoryMessagesRepository
+  let chatsRepository: InMemoryChatsRepository
+  let messagesRepository: InMemoryMessagesRepository
 
-	let storageService: FakeStorageService
-	let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
+  let storageService: FakeStorageService
+  let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
 
-	let dateService: FakeDateService
+  let dateService: FakeDateService
 
-	let sut: CreatePrivateAudioMessageFromWAMessageUseCase
+  let sut: CreatePrivateAudioMessageFromWAMessageUseCase
 
-	let chat: PrivateChat
+  let chat: PrivateChat
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		messagesRepository = new InMemoryMessagesRepository()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    messagesRepository = new InMemoryMessagesRepository()
 
-		storageService = new FakeStorageService()
-		createMessageMediaFromWAMessage =
-			new CreateMessageMediaFromWAMessageUseCase(storageService)
+    storageService = new FakeStorageService()
+    createMessageMediaFromWAMessage =
+      new CreateMessageMediaFromWAMessageUseCase(storageService)
 
-		dateService = new FakeDateService()
+    dateService = new FakeDateService()
 
-		sut = new CreatePrivateAudioMessageFromWAMessageUseCase(
-			chatsRepository,
-			messagesRepository,
-			createMessageMediaFromWAMessage,
-			dateService,
-		)
+    sut = new CreatePrivateAudioMessageFromWAMessageUseCase(
+      chatsRepository,
+      messagesRepository,
+      createMessageMediaFromWAMessage,
+      dateService
+    )
 
-		chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-	})
+    chat = makePrivateChat()
+    chatsRepository.items.push(chat)
+  })
 
-	it('should be able to create a private audio message', async () => {
-		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'audio',
-				media: makeWAMessageMedia(),
-			}),
-		})
+  it('should be able to create a private audio message', async () => {
+    const response = await sut.execute({
+      waMessage: makeWAPrivateMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'audio',
+        media: makeWAMessageMedia(),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(message.media).toBeTruthy()
-		expect(messagesRepository.items).toHaveLength(1)
-		expect(storageService.items).toHaveLength(1)
-	})
+    expect(message.media).toBeTruthy()
+    expect(messagesRepository.items).toHaveLength(1)
+    expect(storageService.items).toHaveLength(1)
+  })
 
-	it('should be able to create a private audio message quoting other message', async () => {
-		const quotedMessage = makePrivateAudioMessage({
-			chatId: chat.id,
-			instanceId: chat.instanceId,
-		})
-		messagesRepository.items.push(quotedMessage)
+  it('should be able to create a private audio message quoting other message', async () => {
+    const quotedMessage = makePrivateAudioMessage({
+      chatId: chat.id,
+      instanceId: chat.instanceId,
+    })
+    messagesRepository.items.push(quotedMessage)
 
-		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'audio',
-				media: makeWAMessageMedia(),
-				quoted: makeWAPrivateMessage(
-					{
-						type: 'audio',
-						media: makeWAMessageMedia(),
-						instanceId: chat.instanceId,
-						waChatId: chat.waChatId,
-					},
-					quotedMessage.waMessageId,
-				),
-			}),
-		})
+    const response = await sut.execute({
+      waMessage: makeWAPrivateMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'audio',
+        media: makeWAMessageMedia(),
+        quoted: makeWAPrivateMessage(
+          {
+            type: 'audio',
+            media: makeWAMessageMedia(),
+            instanceId: chat.instanceId,
+            waChatId: chat.waChatId,
+          },
+          quotedMessage.waMessageId
+        ),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(message.media).toBeTruthy()
-		expect(message.quoted).toBeInstanceOf(PrivateMessage)
-		expect(messagesRepository.items).toHaveLength(2)
-		expect(storageService.items).toHaveLength(1)
-	})
+    expect(message.media).toBeTruthy()
+    expect(message.quoted).toBeInstanceOf(PrivateMessage)
+    expect(messagesRepository.items).toHaveLength(2)
+    expect(storageService.items).toHaveLength(1)
+  })
 })

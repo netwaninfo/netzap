@@ -6,16 +6,16 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { GroupImageMessage } from '../image-message'
 
 describe('GroupImageMessage', () => {
-	it('should be able to create', () => {
-		const message = GroupImageMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-			media: makeMessageMedia(),
-			author: makeContact(),
-		})
+  it('should be able to create', () => {
+    const message = GroupImageMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+      media: makeMessageMedia(),
+      author: makeContact(),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

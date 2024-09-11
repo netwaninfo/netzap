@@ -18,175 +18,175 @@ import type { CreateGroupVideoMessageFromWAMessageUseCase } from './create-group
 import type { CreateGroupVoiceMessageFromWAMessageUseCase } from './create-group-voice-message-from-wa-message-use-case'
 
 interface CreateGroupMessageFromWAMessageUseCaseRequest {
-	waMessage: WAGroupMessage
+  waMessage: WAGroupMessage
 }
 
 type CreateGroupMessageFromWAMessageUseCaseResponse = Either<
-	| ResourceNotFoundError
-	| InvalidResourceFormatError
-	| ResourceAlreadyExistsError
-	| null,
-	{
-		message: GroupMessage
-	}
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError
+  | null,
+  {
+    message: GroupMessage
+  }
 >
 
 export class CreateGroupMessageFromWAMessageUseCase {
-	constructor(
-		private contactsRepository: ContactsRepository,
-		private createContactFromWAContact: CreateContactFromWAContactUseCase,
-		private createGroupAudioMessageFromWAMessage: CreateGroupAudioMessageFromWAMessageUseCase,
-		private createGroupDocumentMessageFromWAMessage: CreateGroupDocumentMessageFromWAMessageUseCase,
-		private createGroupImageMessageFromWAMessage: CreateGroupImageMessageFromWAMessageUseCase,
-		private createGroupMultiVCardMessageFromWAMessage: CreateGroupMultiVCardMessageFromWAMessageUseCase,
-		private createGroupRevokedMessageFromWAMessage: CreateGroupRevokedMessageFromWAMessageUseCase,
-		private createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase,
-		private createGroupUnknownMessageFromWAMessage: CreateGroupUnknownMessageFromWAMessageUseCase,
-		private createGroupVCardMessageFromWAMessage: CreateGroupVCardMessageFromWAMessageUseCase,
-		private createGroupVideoMessageFromWAMessage: CreateGroupVideoMessageFromWAMessageUseCase,
-		private createGroupVoiceMessageFromWAMessage: CreateGroupVoiceMessageFromWAMessageUseCase,
-	) {}
+  constructor(
+    private contactsRepository: ContactsRepository,
+    private createContactFromWAContact: CreateContactFromWAContactUseCase,
+    private createGroupAudioMessageFromWAMessage: CreateGroupAudioMessageFromWAMessageUseCase,
+    private createGroupDocumentMessageFromWAMessage: CreateGroupDocumentMessageFromWAMessageUseCase,
+    private createGroupImageMessageFromWAMessage: CreateGroupImageMessageFromWAMessageUseCase,
+    private createGroupMultiVCardMessageFromWAMessage: CreateGroupMultiVCardMessageFromWAMessageUseCase,
+    private createGroupRevokedMessageFromWAMessage: CreateGroupRevokedMessageFromWAMessageUseCase,
+    private createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase,
+    private createGroupUnknownMessageFromWAMessage: CreateGroupUnknownMessageFromWAMessageUseCase,
+    private createGroupVCardMessageFromWAMessage: CreateGroupVCardMessageFromWAMessageUseCase,
+    private createGroupVideoMessageFromWAMessage: CreateGroupVideoMessageFromWAMessageUseCase,
+    private createGroupVoiceMessageFromWAMessage: CreateGroupVoiceMessageFromWAMessageUseCase
+  ) {}
 
-	async execute(
-		request: CreateGroupMessageFromWAMessageUseCaseRequest,
-	): Promise<CreateGroupMessageFromWAMessageUseCaseResponse> {
-		const { waMessage } = request
+  async execute(
+    request: CreateGroupMessageFromWAMessageUseCaseRequest
+  ): Promise<CreateGroupMessageFromWAMessageUseCaseResponse> {
+    const { waMessage } = request
 
-		const author =
-			await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
-				instanceId: waMessage.instanceId,
-				waContactId: waMessage.author.id,
-			})
+    const author =
+      await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
+        instanceId: waMessage.instanceId,
+        waContactId: waMessage.author.id,
+      })
 
-		if (!author) {
-			const response = await this.createContactFromWAContact.execute({
-				waContact: waMessage.author,
-			})
+    if (!author) {
+      const response = await this.createContactFromWAContact.execute({
+        waContact: waMessage.author,
+      })
 
-			if (response.isFailure()) return failure(response.value)
-		}
+      if (response.isFailure()) return failure(response.value)
+    }
 
-		switch (waMessage.type) {
-			case 'audio': {
-				const response =
-					await this.createGroupAudioMessageFromWAMessage.execute({
-						waMessage,
-					})
+    switch (waMessage.type) {
+      case 'audio': {
+        const response =
+          await this.createGroupAudioMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'document': {
-				const response =
-					await this.createGroupDocumentMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'document': {
+        const response =
+          await this.createGroupDocumentMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'image': {
-				const response =
-					await this.createGroupImageMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'image': {
+        const response =
+          await this.createGroupImageMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'multi_vcard': {
-				const response =
-					await this.createGroupMultiVCardMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'multi_vcard': {
+        const response =
+          await this.createGroupMultiVCardMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'vcard': {
-				const response =
-					await this.createGroupVCardMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'vcard': {
+        const response =
+          await this.createGroupVCardMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'revoked': {
-				const response =
-					await this.createGroupRevokedMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'revoked': {
+        const response =
+          await this.createGroupRevokedMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'video': {
-				const response =
-					await this.createGroupVideoMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'video': {
+        const response =
+          await this.createGroupVideoMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'voice': {
-				const response =
-					await this.createGroupVoiceMessageFromWAMessage.execute({
-						waMessage,
-					})
+      case 'voice': {
+        const response =
+          await this.createGroupVoiceMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			case 'text': {
-				const response = await this.createGroupTextMessageFromWAMessage.execute(
-					{
-						waMessage,
-					},
-				)
+      case 'text': {
+        const response = await this.createGroupTextMessageFromWAMessage.execute(
+          {
+            waMessage,
+          }
+        )
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
+        return success({ message })
+      }
 
-			default: {
-				const response =
-					await this.createGroupUnknownMessageFromWAMessage.execute({
-						waMessage,
-					})
+      default: {
+        const response =
+          await this.createGroupUnknownMessageFromWAMessage.execute({
+            waMessage,
+          })
 
-				if (response.isFailure()) return failure(response.value)
-				const { message } = response.value
+        if (response.isFailure()) return failure(response.value)
+        const { message } = response.value
 
-				return success({ message })
-			}
-		}
-	}
+        return success({ message })
+      }
+    }
+  }
 }

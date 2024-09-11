@@ -17,78 +17,78 @@ import { PrivateVCardMessage } from '../entities/private/v-card-message'
 import { PrivateVideoMessage } from '../entities/private/video-message'
 import { PrivateVoiceMessage } from '../entities/private/voice-message'
 import type {
-	GroupMessage,
-	GroupMessageWithContacts,
-	GroupMessageWithMedia,
-	Message,
-	MessageCanRevoke,
-	MessageWithMedia,
-	PrivateMessage,
-	PrivateMessageWithContacts,
-	PrivateMessageWithMedia,
+  GroupMessage,
+  GroupMessageWithContacts,
+  GroupMessageWithMedia,
+  Message,
+  MessageCanRevoke,
+  MessageWithMedia,
+  PrivateMessage,
+  PrivateMessageWithContacts,
+  PrivateMessageWithMedia,
 } from '../types/message'
 
 export function isPrivateMessage(message: Message): message is PrivateMessage {
-	return message instanceof BasePrivateMessage
+  return message instanceof BasePrivateMessage
 }
 
 export function isGroupMessage(message: Message): message is GroupMessage {
-	return message instanceof BaseGroupMessage
+  return message instanceof BaseGroupMessage
 }
 
 export function isPrivateMessageWithMedia(
-	message: Message,
+  message: Message
 ): message is PrivateMessageWithMedia {
-	return (
-		message instanceof PrivateAudioMessage ||
-		message instanceof PrivateImageMessage ||
-		message instanceof PrivateVideoMessage ||
-		message instanceof PrivateVoiceMessage ||
-		message instanceof PrivateDocumentMessage
-	)
+  return (
+    message instanceof PrivateAudioMessage ||
+    message instanceof PrivateImageMessage ||
+    message instanceof PrivateVideoMessage ||
+    message instanceof PrivateVoiceMessage ||
+    message instanceof PrivateDocumentMessage
+  )
 }
 
 export function isGroupMessageWithMedia(
-	message: Message,
+  message: Message
 ): message is GroupMessageWithMedia {
-	return (
-		message instanceof GroupAudioMessage ||
-		message instanceof GroupImageMessage ||
-		message instanceof GroupVideoMessage ||
-		message instanceof GroupVoiceMessage ||
-		message instanceof GroupDocumentMessage
-	)
+  return (
+    message instanceof GroupAudioMessage ||
+    message instanceof GroupImageMessage ||
+    message instanceof GroupVideoMessage ||
+    message instanceof GroupVoiceMessage ||
+    message instanceof GroupDocumentMessage
+  )
 }
 
 export function isPrivateMessageWithContacts(
-	message: Message,
+  message: Message
 ): message is PrivateMessageWithContacts {
-	return (
-		message instanceof PrivateVCardMessage ||
-		message instanceof PrivateMultiVCardMessage
-	)
+  return (
+    message instanceof PrivateVCardMessage ||
+    message instanceof PrivateMultiVCardMessage
+  )
 }
 
 export function isGroupMessageWithContacts(
-	message: Message,
+  message: Message
 ): message is GroupMessageWithContacts {
-	return (
-		message instanceof GroupVCardMessage ||
-		message instanceof GroupMultiVCardMessage
-	)
+  return (
+    message instanceof GroupVCardMessage ||
+    message instanceof GroupMultiVCardMessage
+  )
 }
 
 export function isMessageWithMedia(
-	message: Message,
+  message: Message
 ): message is MessageWithMedia {
-	return isPrivateMessageWithMedia(message) || isGroupMessageWithMedia(message)
+  return isPrivateMessageWithMedia(message) || isGroupMessageWithMedia(message)
 }
 
 export function isMessageCanRevoke(
-	message: Message,
+  message: Message
 ): message is MessageCanRevoke {
-	return (
-		!(message instanceof PrivateRevokedMessage) ||
-		!(message instanceof GroupRevokedMessage)
-	)
+  return (
+    !(message instanceof PrivateRevokedMessage) ||
+    !(message instanceof GroupRevokedMessage)
+  )
 }

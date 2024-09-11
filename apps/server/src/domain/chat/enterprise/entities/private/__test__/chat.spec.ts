@@ -5,14 +5,14 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { PrivateChat } from '../chat'
 
 describe('PrivateChat', () => {
-	it('should be able to create', () => {
-		const chat = PrivateChat.create({
-			unreadCount: faker.number.int({ max: 99 }),
-			contactId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-		})
+  it('should be able to create', () => {
+    const chat = PrivateChat.create({
+      unreadCount: faker.number.int({ max: 99 }),
+      contactId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+    })
 
-		expect(chat).toBeTruthy()
-	})
+    expect(chat).toBeTruthy()
+  })
 })

@@ -10,83 +10,83 @@ import type { DateService } from '../../../services/date-service'
 import type { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-from-wa-message-use-case'
 
 interface CreatePrivateVideoMessageFromWAMessageUseCaseRequest {
-	waMessage: WAPrivateMessage
+  waMessage: WAPrivateMessage
 }
 
 type CreatePrivateVideoMessageFromWAMessageUseCaseResponse = Either<
-	ResourceNotFoundError | InvalidResourceFormatError,
-	{
-		message: PrivateVideoMessage
-	}
+  ResourceNotFoundError | InvalidResourceFormatError,
+  {
+    message: PrivateVideoMessage
+  }
 >
 
 export class CreatePrivateVideoMessageFromWAMessageUseCase {
-	constructor(
-		private chatsRepository: ChatsRepository,
-		private messagesRepository: MessagesRepository,
-		private createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase,
-		private dateService: DateService,
-	) {}
+  constructor(
+    private chatsRepository: ChatsRepository,
+    private messagesRepository: MessagesRepository,
+    private createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase,
+    private dateService: DateService
+  ) {}
 
-	async execute(
-		request: CreatePrivateVideoMessageFromWAMessageUseCaseRequest,
-	): Promise<CreatePrivateVideoMessageFromWAMessageUseCaseResponse> {
-		const { waMessage } = request
+  async execute(
+    request: CreatePrivateVideoMessageFromWAMessageUseCaseRequest
+  ): Promise<CreatePrivateVideoMessageFromWAMessageUseCaseResponse> {
+    const { waMessage } = request
 
-		const hasInvalidFormat = waMessage.type !== 'video' || !waMessage.hasMedia()
-		if (hasInvalidFormat) {
-			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
-		}
+    const hasInvalidFormat = waMessage.type !== 'video' || !waMessage.hasMedia()
+    if (hasInvalidFormat) {
+      return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
+    }
 
-		const chat =
-			await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
-				instanceId: waMessage.instanceId,
-				waChatId: waMessage.waChatId,
-			})
+    const chat =
+      await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
+        instanceId: waMessage.instanceId,
+        waChatId: waMessage.waChatId,
+      })
 
-		if (!chat) {
-			return failure(
-				new ResourceNotFoundError({
-					id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
-				}),
-			)
-		}
+    if (!chat) {
+      return failure(
+        new ResourceNotFoundError({
+          id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
+        })
+      )
+    }
 
-		let quoted: PrivateMessage | null = null
+    let quoted: PrivateMessage | null = null
 
-		if (waMessage.hasQuoted()) {
-			quoted =
-				await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
-					{
-						chatId: chat.id,
-						waMessageId: waMessage.quoted.id,
-					},
-				)
-		}
+    if (waMessage.hasQuoted()) {
+      quoted =
+        await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
+          {
+            chatId: chat.id,
+            waMessageId: waMessage.quoted.id,
+          }
+        )
+    }
 
-		const response = await this.createMessageMediaFromWAMessage.execute({
-			waMessage,
-		})
+    const response = await this.createMessageMediaFromWAMessage.execute({
+      waMessage,
+    })
 
-		if (response.isFailure()) return failure(response.value)
-		const { media } = response.value
+    if (response.isFailure()) return failure(response.value)
+    const { media } = response.value
 
-		const message = PrivateVideoMessage.create({
-			media,
-			quoted,
-			chatId: chat.id,
-			instanceId: chat.instanceId,
-			body: waMessage.body,
-			waChatId: chat.waChatId,
-			waMessageId: waMessage.id,
-			isForwarded: waMessage.isForwarded,
-			createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
-			isFromMe: waMessage.isFromMe,
-			status: waMessage.ack,
-		})
+    const message = PrivateVideoMessage.create({
+      media,
+      quoted,
+      chatId: chat.id,
+      instanceId: chat.instanceId,
+      body: waMessage.body,
+      waChatId: chat.waChatId,
+      waMessageId: waMessage.id,
+      isForwarded: waMessage.isForwarded,
+      createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
+      isFromMe: waMessage.isFromMe,
+      status: waMessage.ack,
+    })
 
-		await this.messagesRepository.create(message)
+    await this.messagesRepository.create(message)
 
-		return success({ message })
-	}
+    return success({ message })
+  }
 }

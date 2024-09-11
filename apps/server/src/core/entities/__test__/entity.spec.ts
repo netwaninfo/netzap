@@ -2,29 +2,29 @@ import { Entity } from '../entity'
 import { UniqueEntityID } from '../unique-entity-id'
 
 interface RawEntityProps {
-	isTrue?: boolean
+  isTrue?: boolean
 }
 
 class RawEntity extends Entity<RawEntityProps> {
-	get isTrue() {
-		return this.props.isTrue
-	}
+  get isTrue() {
+    return this.props.isTrue
+  }
 
-	static create(props: RawEntityProps, id?: UniqueEntityID) {
-		return new RawEntity(props, id)
-	}
+  static create(props: RawEntityProps, id?: UniqueEntityID) {
+    return new RawEntity(props, id)
+  }
 }
 
 describe('Entity', () => {
-	it('should be able to get id', () => {
-		const entity = RawEntity.create({})
+  it('should be able to get id', () => {
+    const entity = RawEntity.create({})
 
-		expect(entity.id).toBeInstanceOf(UniqueEntityID)
-	})
+    expect(entity.id).toBeInstanceOf(UniqueEntityID)
+  })
 
-	it('should be able to entity equals it self', () => {
-		const entity = RawEntity.create({})
+  it('should be able to entity equals it self', () => {
+    const entity = RawEntity.create({})
 
-		expect(entity.equals(entity)).toBe(true)
-	})
+    expect(entity.equals(entity)).toBe(true)
+  })
 })

@@ -15,30 +15,30 @@ const env = envSchema.parse(process.env)
 let mongod: MongoClient
 
 function generateUniqueDatabaseURL(databaseId: string) {
-	if (!env.DATABASE_URL) {
-		throw new Error('Please provider a DATABASE_URL environment variable')
-	}
+  if (!env.DATABASE_URL) {
+    throw new Error('Please provider a DATABASE_URL environment variable')
+  }
 
-	const url = new URL(env.DATABASE_URL)
+  const url = new URL(env.DATABASE_URL)
 
-	url.pathname = `/${databaseId}`
+  url.pathname = `/${databaseId}`
 
-	return url.toString()
+  return url.toString()
 }
 
 const databaseId = randomUUID()
 
 beforeAll(async () => {
-	const databaseURL = generateUniqueDatabaseURL(databaseId)
-	process.env.DATABASE_URL = databaseURL
+  const databaseURL = generateUniqueDatabaseURL(databaseId)
+  process.env.DATABASE_URL = databaseURL
 
-	await execAsync('pnpm prisma db push')
+  await execAsync('pnpm prisma db push')
 
-	mongod = new MongoClient(databaseURL)
-	await mongod.connect()
+  mongod = new MongoClient(databaseURL)
+  await mongod.connect()
 })
 
 afterAll(async () => {
-	await mongod.db(databaseId).dropDatabase()
-	await mongod.close()
+  await mongod.db(databaseId).dropDatabase()
+  await mongod.close()
 })

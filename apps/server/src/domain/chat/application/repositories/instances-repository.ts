@@ -3,20 +3,20 @@ import { PaginationParams } from '@/domain/shared/repositories/pagination-params
 import type { Instance } from '../../enterprise/entities/instance'
 
 export interface InstancesRepositoryFindManyByAttendantIdParams
-	extends PaginationParams {
-	attendantId: UniqueEntityID
+  extends PaginationParams {
+  attendantId: UniqueEntityID
 }
 
 export interface InstancesRepositoryCountByAttendantIdParams {
-	attendantId: UniqueEntityID
+  attendantId: UniqueEntityID
 }
 
 export abstract class InstancesRepository {
-	abstract findManyByAttendantId(
-		params: InstancesRepositoryFindManyByAttendantIdParams,
-	): Promise<Instance[]>
+  abstract findManyByAttendantId(
+    params: InstancesRepositoryFindManyByAttendantIdParams
+  ): Promise<Instance[]>
 
-	abstract countByAttendantId(
-		params: InstancesRepositoryCountByAttendantIdParams,
-	): Promise<number>
+  abstract countByAttendantId(
+    params: InstancesRepositoryCountByAttendantIdParams
+  ): Promise<number>
 }

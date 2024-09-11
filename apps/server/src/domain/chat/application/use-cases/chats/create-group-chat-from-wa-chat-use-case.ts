@@ -9,71 +9,71 @@ import type { CreateContactsFromWAContactsUseCase } from '../contacts/create-con
 import type { CreateGroupFromWAContactUseCase } from '../groups/create-group-from-wa-contact-use-case'
 
 interface CreateGroupChatFromWAChatUseCaseRequest {
-	waChat: WAGroupChat
+  waChat: WAGroupChat
 }
 
 type CreateGroupChatFromWAChatUseCaseResponse = Either<
-	ResourceAlreadyExistsError | null,
-	{
-		chat: Chat
-	}
+  ResourceAlreadyExistsError | null,
+  {
+    chat: Chat
+  }
 >
 
 export class CreateGroupChatFromWAChatUseCase {
-	constructor(
-		private chatsRepository: ChatsRepository,
-		private groupsRepository: GroupsRepository,
-		private createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase,
-		private createContactsFromWAContacts: CreateContactsFromWAContactsUseCase,
-	) {}
+  constructor(
+    private chatsRepository: ChatsRepository,
+    private groupsRepository: GroupsRepository,
+    private createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase,
+    private createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
+  ) {}
 
-	async execute(
-		request: CreateGroupChatFromWAChatUseCaseRequest,
-	): Promise<CreateGroupChatFromWAChatUseCaseResponse> {
-		const { waChat } = request
+  async execute(
+    request: CreateGroupChatFromWAChatUseCaseRequest
+  ): Promise<CreateGroupChatFromWAChatUseCaseResponse> {
+    const { waChat } = request
 
-		const someChat =
-			await this.chatsRepository.findUniqueGroupChatByWAChatIdAndInstanceId({
-				instanceId: waChat.instanceId,
-				waChatId: waChat.id,
-			})
+    const someChat =
+      await this.chatsRepository.findUniqueGroupChatByWAChatIdAndInstanceId({
+        instanceId: waChat.instanceId,
+        waChatId: waChat.id,
+      })
 
-		if (someChat) {
-			return failure(new ResourceAlreadyExistsError({ id: waChat.ref }))
-		}
+    if (someChat) {
+      return failure(new ResourceAlreadyExistsError({ id: waChat.ref }))
+    }
 
-		let group = await this.groupsRepository.findUniqueByWAGroupIdAndInstanceId({
-			instanceId: waChat.contact.instanceId,
-			waGroupId: waChat.contact.id,
-		})
+    let group = await this.groupsRepository.findUniqueByWAGroupIdAndInstanceId({
+      instanceId: waChat.contact.instanceId,
+      waGroupId: waChat.contact.id,
+    })
 
-		if (!group) {
-			const response = await this.createGroupFromWAContactUseCase.execute({
-				waContact: waChat.contact,
-			})
+    if (!group) {
+      const response = await this.createGroupFromWAContactUseCase.execute({
+        waContact: waChat.contact,
+      })
 
-			if (response.isFailure()) return failure(response.value)
-			group = response.value.group
-		}
+      if (response.isFailure()) return failure(response.value)
+      group = response.value.group
+    }
 
-		const response = await this.createContactsFromWAContacts.execute({
-			waContacts: waChat.participants,
-			instanceId: waChat.instanceId,
-		})
+    const response = await this.createContactsFromWAContacts.execute({
+      waContacts: waChat.participants,
+      instanceId: waChat.instanceId,
+    })
 
-		if (response.isFailure()) return failure(response.value)
+    if (response.isFailure()) return failure(response.value)
 
-		const chat = GroupChat.create({
-			groupId: group.id,
-			instanceId: waChat.instanceId,
-			unreadCount: waChat.unreadCount,
-			waChatId: waChat.id,
-		})
+    const chat = GroupChat.create({
+      groupId: group.id,
+      instanceId: waChat.instanceId,
+      unreadCount: waChat.unreadCount,
+      waChatId: waChat.id,
+    })
 
-		await this.chatsRepository.create(chat)
+    await this.chatsRepository.create(chat)
 
-		return success({
-			chat,
-		})
-	}
+    return success({
+      chat,
+    })
+  }
 }

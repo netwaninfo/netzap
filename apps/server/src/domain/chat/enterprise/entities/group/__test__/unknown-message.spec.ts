@@ -5,18 +5,18 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { GroupUnknownMessage } from '../unknown-message'
 
 describe('GroupUnknownMessage', () => {
-	it('should be able to create', () => {
-		const message = GroupUnknownMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-			payload: {
-				data: true,
-			},
-			author: makeContact(),
-		})
+  it('should be able to create', () => {
+    const message = GroupUnknownMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+      payload: {
+        data: true,
+      },
+      author: makeContact(),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

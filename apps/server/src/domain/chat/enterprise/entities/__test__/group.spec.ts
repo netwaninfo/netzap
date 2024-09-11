@@ -5,13 +5,13 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { Group } from '../group'
 
 describe('Group', () => {
-	it('should be able to create', () => {
-		const group = Group.create({
-			name: faker.person.firstName(),
-			waGroupId: makeWAEntityID(),
-			instanceId: makeUniqueEntityID(),
-		})
+  it('should be able to create', () => {
+    const group = Group.create({
+      name: faker.person.firstName(),
+      waGroupId: makeWAEntityID(),
+      instanceId: makeUniqueEntityID(),
+    })
 
-		expect(group).toBeTruthy()
-	})
+    expect(group).toBeTruthy()
+  })
 })

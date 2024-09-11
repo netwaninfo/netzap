@@ -12,96 +12,96 @@ import type { DateService } from '../../../services/date-service'
 import type { CreateContactFromWAContactUseCase } from '../../contacts/create-contact-from-wa-contact-use-case'
 
 interface CreatePrivateVCardMessageFromWAMessageUseCaseRequest {
-	waMessage: WAPrivateMessage
+  waMessage: WAPrivateMessage
 }
 
 type CreatePrivateVCardMessageFromWAMessageUseCaseResponse = Either<
-	| ResourceNotFoundError
-	| InvalidResourceFormatError
-	| ResourceAlreadyExistsError,
-	{
-		message: PrivateVCardMessage
-	}
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError,
+  {
+    message: PrivateVCardMessage
+  }
 >
 
 export class CreatePrivateVCardMessageFromWAMessageUseCase {
-	constructor(
-		private chatsRepository: ChatsRepository,
-		private messagesRepository: MessagesRepository,
-		private contactsRepository: ContactsRepository,
-		private createContactFromWAContact: CreateContactFromWAContactUseCase,
-		private dateService: DateService,
-	) {}
+  constructor(
+    private chatsRepository: ChatsRepository,
+    private messagesRepository: MessagesRepository,
+    private contactsRepository: ContactsRepository,
+    private createContactFromWAContact: CreateContactFromWAContactUseCase,
+    private dateService: DateService
+  ) {}
 
-	async execute(
-		request: CreatePrivateVCardMessageFromWAMessageUseCaseRequest,
-	): Promise<CreatePrivateVCardMessageFromWAMessageUseCaseResponse> {
-		const { waMessage } = request
+  async execute(
+    request: CreatePrivateVCardMessageFromWAMessageUseCaseRequest
+  ): Promise<CreatePrivateVCardMessageFromWAMessageUseCaseResponse> {
+    const { waMessage } = request
 
-		const waContact = waMessage.contacts?.at(0)
-		const hasInvalidFormat =
-			waMessage.type !== 'vcard' || !waMessage.hasContacts() || !waContact
+    const waContact = waMessage.contacts?.at(0)
+    const hasInvalidFormat =
+      waMessage.type !== 'vcard' || !waMessage.hasContacts() || !waContact
 
-		if (hasInvalidFormat) {
-			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
-		}
+    if (hasInvalidFormat) {
+      return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
+    }
 
-		const chat =
-			await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
-				instanceId: waMessage.instanceId,
-				waChatId: waMessage.waChatId,
-			})
+    const chat =
+      await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
+        instanceId: waMessage.instanceId,
+        waChatId: waMessage.waChatId,
+      })
 
-		if (!chat) {
-			return failure(
-				new ResourceNotFoundError({
-					id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
-				}),
-			)
-		}
+    if (!chat) {
+      return failure(
+        new ResourceNotFoundError({
+          id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
+        })
+      )
+    }
 
-		let quoted: PrivateMessage | null = null
+    let quoted: PrivateMessage | null = null
 
-		if (waMessage.hasQuoted()) {
-			quoted =
-				await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
-					{
-						chatId: chat.id,
-						waMessageId: waMessage.quoted.id,
-					},
-				)
-		}
+    if (waMessage.hasQuoted()) {
+      quoted =
+        await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
+          {
+            chatId: chat.id,
+            waMessageId: waMessage.quoted.id,
+          }
+        )
+    }
 
-		let contact =
-			await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
-				instanceId: waMessage.instanceId,
-				waContactId: waContact.id,
-			})
+    let contact =
+      await this.contactsRepository.findUniqueByWAContactIdAndInstanceId({
+        instanceId: waMessage.instanceId,
+        waContactId: waContact.id,
+      })
 
-		if (!contact) {
-			const response = await this.createContactFromWAContact.execute({
-				waContact,
-			})
+    if (!contact) {
+      const response = await this.createContactFromWAContact.execute({
+        waContact,
+      })
 
-			if (response.isFailure()) return failure(response.value)
-			contact = response.value.contact
-		}
+      if (response.isFailure()) return failure(response.value)
+      contact = response.value.contact
+    }
 
-		const message = PrivateVCardMessage.create({
-			quoted,
-			contact,
-			chatId: chat.id,
-			instanceId: chat.instanceId,
-			waChatId: chat.waChatId,
-			waMessageId: waMessage.id,
-			isForwarded: waMessage.isForwarded,
-			createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
-			isFromMe: waMessage.isFromMe,
-			status: waMessage.ack,
-		})
+    const message = PrivateVCardMessage.create({
+      quoted,
+      contact,
+      chatId: chat.id,
+      instanceId: chat.instanceId,
+      waChatId: chat.waChatId,
+      waMessageId: waMessage.id,
+      isForwarded: waMessage.isForwarded,
+      createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
+      isFromMe: waMessage.isFromMe,
+      status: waMessage.ack,
+    })
 
-		await this.messagesRepository.create(message)
+    await this.messagesRepository.create(message)
 
-		return success({ message })
-	}
+    return success({ message })
+  }
 }

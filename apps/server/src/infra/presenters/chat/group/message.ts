@@ -12,37 +12,37 @@ import { GroupVideoMessagePresenter } from './video-message'
 import { GroupVoiceMessagePresenter } from './voice-message'
 
 export class GroupMessagePresenter {
-	static toHttp(message: GroupMessage): HttpGroupMessage {
-		switch (message.type) {
-			case 'audio':
-				return GroupAudioMessagePresenter.toHttp(message)
+  static toHttp(message: GroupMessage): HttpGroupMessage {
+    switch (message.type) {
+      case 'audio':
+        return GroupAudioMessagePresenter.toHttp(message)
 
-			case 'document':
-				return GroupDocumentMessagePresenter.toHttp(message)
+      case 'document':
+        return GroupDocumentMessagePresenter.toHttp(message)
 
-			case 'image':
-				return GroupImageMessagePresenter.toHttp(message)
+      case 'image':
+        return GroupImageMessagePresenter.toHttp(message)
 
-			case 'multi_vcard':
-				return GroupMultiVCardMessagePresenter.toHttp(message)
+      case 'multi_vcard':
+        return GroupMultiVCardMessagePresenter.toHttp(message)
 
-			case 'revoked':
-				return GroupRevokedMessagePresenter.toHttp(message)
+      case 'revoked':
+        return GroupRevokedMessagePresenter.toHttp(message)
 
-			case 'text':
-				return GroupTextMessagePresenter.toHttp(message)
+      case 'text':
+        return GroupTextMessagePresenter.toHttp(message)
 
-			case 'vcard':
-				return GroupVCardMessagePresenter.toHttp(message)
+      case 'vcard':
+        return GroupVCardMessagePresenter.toHttp(message)
 
-			case 'video':
-				return GroupVideoMessagePresenter.toHttp(message)
+      case 'video':
+        return GroupVideoMessagePresenter.toHttp(message)
 
-			case 'voice':
-				return GroupVoiceMessagePresenter.toHttp(message)
+      case 'voice':
+        return GroupVoiceMessagePresenter.toHttp(message)
 
-			default:
-				return GroupUnknownMessagePresenter.toHttp(message)
-		}
-	}
+      default:
+        return GroupUnknownMessagePresenter.toHttp(message)
+    }
+  }
 }

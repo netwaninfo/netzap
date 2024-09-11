@@ -6,51 +6,51 @@ import { CreateContactFromWAContactUseCase } from '../../contacts/create-contact
 import { CreatePrivateChatFromWAChatUseCase } from '../create-private-chat-from-wa-chat-use-case'
 
 describe('CreatePrivateChatFromWAChatUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let contactsRepository: InMemoryContactsRepository
+  let chatsRepository: InMemoryChatsRepository
+  let contactsRepository: InMemoryContactsRepository
 
-	let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
+  let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
 
-	let sut: CreatePrivateChatFromWAChatUseCase
+  let sut: CreatePrivateChatFromWAChatUseCase
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		contactsRepository = new InMemoryContactsRepository()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    contactsRepository = new InMemoryContactsRepository()
 
-		createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
-			contactsRepository,
-		)
+    createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
+      contactsRepository
+    )
 
-		sut = new CreatePrivateChatFromWAChatUseCase(
-			chatsRepository,
-			contactsRepository,
-			createContactFromWAContactUseCase,
-		)
-	})
+    sut = new CreatePrivateChatFromWAChatUseCase(
+      chatsRepository,
+      contactsRepository,
+      createContactFromWAContactUseCase
+    )
+  })
 
-	it('should be able to create chat from wa chat', async () => {
-		const waChat = makeWAPrivateChat()
+  it('should be able to create chat from wa chat', async () => {
+    const waChat = makeWAPrivateChat()
 
-		const response = await sut.execute({ waChat })
+    const response = await sut.execute({ waChat })
 
-		expect(response.isSuccess()).toBe(true)
-		expect(chatsRepository.items).toHaveLength(1)
-		expect(contactsRepository.items).toHaveLength(1)
-	})
+    expect(response.isSuccess()).toBe(true)
+    expect(chatsRepository.items).toHaveLength(1)
+    expect(contactsRepository.items).toHaveLength(1)
+  })
 
-	it('should be able to create chat from wa chat with an existing contact', async () => {
-		const waChat = makeWAPrivateChat()
-		const contact = makeContact({
-			instanceId: waChat.contact.instanceId,
-			waContactId: waChat.contact.id,
-		})
+  it('should be able to create chat from wa chat with an existing contact', async () => {
+    const waChat = makeWAPrivateChat()
+    const contact = makeContact({
+      instanceId: waChat.contact.instanceId,
+      waContactId: waChat.contact.id,
+    })
 
-		contactsRepository.items.push(contact)
+    contactsRepository.items.push(contact)
 
-		const response = await sut.execute({ waChat })
+    const response = await sut.execute({ waChat })
 
-		expect(response.isSuccess()).toBe(true)
-		expect(chatsRepository.items).toHaveLength(1)
-		expect(contactsRepository.items).toHaveLength(1)
-	})
+    expect(response.isSuccess()).toBe(true)
+    expect(chatsRepository.items).toHaveLength(1)
+    expect(contactsRepository.items).toHaveLength(1)
+  })
 })

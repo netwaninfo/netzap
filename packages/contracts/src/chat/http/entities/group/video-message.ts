@@ -4,7 +4,7 @@ import { groupQuotedMessageSchema } from './quoted-message.js'
 import { groupQuotedVideoMessageSchema } from './quoted-video-message.js'
 
 export const groupVideoMessageSchema = groupQuotedVideoMessageSchema.extend({
-	quoted: groupQuotedMessageSchema.nullable(),
+  quoted: groupQuotedMessageSchema.nullable(),
 })
 
 export type GroupVideoMessage = z.infer<typeof groupVideoMessageSchema>

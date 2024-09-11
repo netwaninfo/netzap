@@ -17,109 +17,109 @@ import { CreateMessageMediaFromWAMessageUseCase } from '../../create-message-med
 import { CreateGroupVideoMessageFromWAMessageUseCase } from '../create-group-video-message-from-wa-message-use-case'
 
 describe('CreateGroupVideoMessageFromWAMessageUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let contactsRepository: InMemoryContactsRepository
-	let messagesRepository: InMemoryMessagesRepository
+  let chatsRepository: InMemoryChatsRepository
+  let contactsRepository: InMemoryContactsRepository
+  let messagesRepository: InMemoryMessagesRepository
 
-	let storageService: FakeStorageService
-	let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
+  let storageService: FakeStorageService
+  let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
 
-	let dateService: FakeDateService
+  let dateService: FakeDateService
 
-	let sut: CreateGroupVideoMessageFromWAMessageUseCase
+  let sut: CreateGroupVideoMessageFromWAMessageUseCase
 
-	let chat: GroupChat
-	let author: Contact
+  let chat: GroupChat
+  let author: Contact
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		contactsRepository = new InMemoryContactsRepository()
-		messagesRepository = new InMemoryMessagesRepository()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    contactsRepository = new InMemoryContactsRepository()
+    messagesRepository = new InMemoryMessagesRepository()
 
-		storageService = new FakeStorageService()
-		createMessageMediaFromWAMessage =
-			new CreateMessageMediaFromWAMessageUseCase(storageService)
+    storageService = new FakeStorageService()
+    createMessageMediaFromWAMessage =
+      new CreateMessageMediaFromWAMessageUseCase(storageService)
 
-		dateService = new FakeDateService()
+    dateService = new FakeDateService()
 
-		sut = new CreateGroupVideoMessageFromWAMessageUseCase(
-			chatsRepository,
-			contactsRepository,
-			messagesRepository,
-			createMessageMediaFromWAMessage,
-			dateService,
-		)
+    sut = new CreateGroupVideoMessageFromWAMessageUseCase(
+      chatsRepository,
+      contactsRepository,
+      messagesRepository,
+      createMessageMediaFromWAMessage,
+      dateService
+    )
 
-		chat = makeGroupChat()
-		chatsRepository.items.push(chat)
+    chat = makeGroupChat()
+    chatsRepository.items.push(chat)
 
-		author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-	})
+    author = makeContact({ instanceId: chat.instanceId })
+    contactsRepository.items.push(author)
+  })
 
-	it('should be able to create a group video message', async () => {
-		const response = await sut.execute({
-			waMessage: makeWAGroupMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'video',
-				media: makeWAMessageMedia(),
-				body: faker.lorem.paragraph(),
-				author: makeWAPrivateContact(
-					{ instanceId: author.instanceId },
-					author.waContactId,
-				),
-			}),
-		})
+  it('should be able to create a group video message', async () => {
+    const response = await sut.execute({
+      waMessage: makeWAGroupMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'video',
+        media: makeWAMessageMedia(),
+        body: faker.lorem.paragraph(),
+        author: makeWAPrivateContact(
+          { instanceId: author.instanceId },
+          author.waContactId
+        ),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(message.media).toBeTruthy()
-		expect(message.body).toBeTruthy()
-		expect(messagesRepository.items).toHaveLength(1)
-		expect(storageService.items).toHaveLength(1)
-	})
+    expect(message.media).toBeTruthy()
+    expect(message.body).toBeTruthy()
+    expect(messagesRepository.items).toHaveLength(1)
+    expect(storageService.items).toHaveLength(1)
+  })
 
-	it('should be able to create a group video message quoting other message', async () => {
-		const quotedMessage = makeGroupVideoMessage({
-			chatId: chat.id,
-			instanceId: chat.instanceId,
-		})
-		messagesRepository.items.push(quotedMessage)
+  it('should be able to create a group video message quoting other message', async () => {
+    const quotedMessage = makeGroupVideoMessage({
+      chatId: chat.id,
+      instanceId: chat.instanceId,
+    })
+    messagesRepository.items.push(quotedMessage)
 
-		const response = await sut.execute({
-			waMessage: makeWAGroupMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'video',
-				media: makeWAMessageMedia(),
-				author: makeWAPrivateContact(
-					{ instanceId: author.instanceId },
-					author.waContactId,
-				),
-				quoted: makeWAGroupMessage(
-					{
-						type: 'video',
-						media: makeWAMessageMedia(),
-						instanceId: chat.instanceId,
-						waChatId: chat.waChatId,
-					},
-					quotedMessage.waMessageId,
-				),
-			}),
-		})
+    const response = await sut.execute({
+      waMessage: makeWAGroupMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'video',
+        media: makeWAMessageMedia(),
+        author: makeWAPrivateContact(
+          { instanceId: author.instanceId },
+          author.waContactId
+        ),
+        quoted: makeWAGroupMessage(
+          {
+            type: 'video',
+            media: makeWAMessageMedia(),
+            instanceId: chat.instanceId,
+            waChatId: chat.waChatId,
+          },
+          quotedMessage.waMessageId
+        ),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(message.media).toBeTruthy()
-		expect(message.quoted).toBeInstanceOf(GroupMessage)
-		expect(messagesRepository.items).toHaveLength(2)
-		expect(storageService.items).toHaveLength(1)
-	})
+    expect(message.media).toBeTruthy()
+    expect(message.quoted).toBeInstanceOf(GroupMessage)
+    expect(messagesRepository.items).toHaveLength(2)
+    expect(storageService.items).toHaveLength(1)
+  })
 })

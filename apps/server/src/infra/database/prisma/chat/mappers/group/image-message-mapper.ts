@@ -12,49 +12,49 @@ import { PrismaGroupMessageMapper } from './message-mapper'
 type Raw = SetNonNullable<RawGroupMessage, 'media' | 'author'>
 
 export class PrismaGroupImageMessageMapper {
-	static toDomain(raw: Raw): GroupImageMessage {
-		return GroupImageMessage.create(
-			{
-				status: raw.status,
-				chatId: UniqueEntityID.create(raw.chatId),
-				instanceId: UniqueEntityID.create(raw.instanceId),
-				waChatId: WAEntityID.createFromString(raw.waChatId),
-				waMessageId: WAMessageID.createFromString(raw.waMessageId),
-				author: PrismaContactInstanceMapper.toDomain(raw.author),
-				body: raw.body,
-				isForwarded: raw.isForwarded,
-				isFromMe: raw.isFromMe,
-				createdAt: raw.createdAt,
-				media: PrismaMessageMediaMapper.toDomain(raw.media),
-				...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
-				...(raw.quoted && {
-					quoted: PrismaGroupMessageMapper.toDomain(raw.quoted),
-				}),
-			},
-			UniqueEntityID.create(raw.id),
-		)
-	}
+  static toDomain(raw: Raw): GroupImageMessage {
+    return GroupImageMessage.create(
+      {
+        status: raw.status,
+        chatId: UniqueEntityID.create(raw.chatId),
+        instanceId: UniqueEntityID.create(raw.instanceId),
+        waChatId: WAEntityID.createFromString(raw.waChatId),
+        waMessageId: WAMessageID.createFromString(raw.waMessageId),
+        author: PrismaContactInstanceMapper.toDomain(raw.author),
+        body: raw.body,
+        isForwarded: raw.isForwarded,
+        isFromMe: raw.isFromMe,
+        createdAt: raw.createdAt,
+        media: PrismaMessageMediaMapper.toDomain(raw.media),
+        ...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
+        ...(raw.quoted && {
+          quoted: PrismaGroupMessageMapper.toDomain(raw.quoted),
+        }),
+      },
+      UniqueEntityID.create(raw.id)
+    )
+  }
 
-	static toPrisma(
-		message: GroupImageMessage,
-	): Prisma.MessageUncheckedCreateInput {
-		return {
-			id: message.id.toString(),
-			chatType: 'group',
-			authorId: message.author.id.toString(),
-			chatId: message.chatId.toString(),
-			waChatId: message.waChatId.toString(),
-			waMessageId: message.waChatId.toString(),
-			instanceId: message.instanceId.toString(),
-			quotedId: message.quoted?.id.toString(),
-			senderId: message.sentBy?.toString(),
-			type: message.type,
-			status: message.status,
-			isForwarded: message.isForwarded,
-			isFromMe: message.isFromMe,
-			createdAt: message.createdAt,
-			media: PrismaMessageMediaMapper.toPrisma(message.media),
-			body: message.body,
-		}
-	}
+  static toPrisma(
+    message: GroupImageMessage
+  ): Prisma.MessageUncheckedCreateInput {
+    return {
+      id: message.id.toString(),
+      chatType: 'group',
+      authorId: message.author.id.toString(),
+      chatId: message.chatId.toString(),
+      waChatId: message.waChatId.toString(),
+      waMessageId: message.waChatId.toString(),
+      instanceId: message.instanceId.toString(),
+      quotedId: message.quoted?.id.toString(),
+      senderId: message.sentBy?.toString(),
+      type: message.type,
+      status: message.status,
+      isForwarded: message.isForwarded,
+      isFromMe: message.isFromMe,
+      createdAt: message.createdAt,
+      media: PrismaMessageMediaMapper.toPrisma(message.media),
+      body: message.body,
+    }
+  }
 }

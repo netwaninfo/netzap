@@ -9,48 +9,48 @@ import type { CreateGroupMessageFromWAMessageUseCase } from './group/create-grou
 import type { CreatePrivateMessageFromWAMessageUseCase } from './private/create-private-message-from-wa-message-use-case'
 
 interface CreateMessageFromWAMessageUseCaseRequest {
-	waMessage: WAMessage
+  waMessage: WAMessage
 }
 
 type CreateMessageFromWAMessageUseCaseResponse = Either<
-	| ResourceNotFoundError
-	| InvalidResourceFormatError
-	| ResourceAlreadyExistsError
-	| null,
-	{
-		message: Message
-	}
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError
+  | null,
+  {
+    message: Message
+  }
 >
 
 export class CreateMessageFromWAMessageUseCase {
-	constructor(
-		private createPrivateMessageFromWAMessage: CreatePrivateMessageFromWAMessageUseCase,
-		private createGroupMessageFromWAMessage: CreateGroupMessageFromWAMessageUseCase,
-	) {}
+  constructor(
+    private createPrivateMessageFromWAMessage: CreatePrivateMessageFromWAMessageUseCase,
+    private createGroupMessageFromWAMessage: CreateGroupMessageFromWAMessageUseCase
+  ) {}
 
-	async execute(
-		request: CreateMessageFromWAMessageUseCaseRequest,
-	): Promise<CreateMessageFromWAMessageUseCaseResponse> {
-		const { waMessage } = request
+  async execute(
+    request: CreateMessageFromWAMessageUseCaseRequest
+  ): Promise<CreateMessageFromWAMessageUseCaseResponse> {
+    const { waMessage } = request
 
-		if (isWAPrivateMessage(waMessage)) {
-			const response = await this.createPrivateMessageFromWAMessage.execute({
-				waMessage,
-			})
+    if (isWAPrivateMessage(waMessage)) {
+      const response = await this.createPrivateMessageFromWAMessage.execute({
+        waMessage,
+      })
 
-			if (response.isFailure()) return failure(response.value)
-			const { message } = response.value
+      if (response.isFailure()) return failure(response.value)
+      const { message } = response.value
 
-			return success({ message })
-		}
+      return success({ message })
+    }
 
-		const response = await this.createGroupMessageFromWAMessage.execute({
-			waMessage,
-		})
+    const response = await this.createGroupMessageFromWAMessage.execute({
+      waMessage,
+    })
 
-		if (response.isFailure()) return failure(response.value)
-		const { message } = response.value
+    if (response.isFailure()) return failure(response.value)
+    const { message } = response.value
 
-		return success({ message })
-	}
+    return success({ message })
+  }
 }

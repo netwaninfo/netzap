@@ -6,64 +6,64 @@ import type { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/priv
 import type { ContactsRepository } from '../../repositories/contacts-repository'
 
 interface CreateContactsFromWAContactsUseCaseRequest {
-	waContacts: WAPrivateContact[]
-	instanceId: UniqueEntityID
+  waContacts: WAPrivateContact[]
+  instanceId: UniqueEntityID
 }
 
 type CreateContactsFromWAContactsUseCaseResponse = Either<
-	null,
-	{
-		contacts: Contact[]
-	}
+  null,
+  {
+    contacts: Contact[]
+  }
 >
 
 export class CreateContactsFromWAContactsUseCase {
-	constructor(private contactsRepository: ContactsRepository) {}
+  constructor(private contactsRepository: ContactsRepository) {}
 
-	async execute(
-		request: CreateContactsFromWAContactsUseCaseRequest,
-	): Promise<CreateContactsFromWAContactsUseCaseResponse> {
-		const { waContacts, instanceId } = request
+  async execute(
+    request: CreateContactsFromWAContactsUseCaseRequest
+  ): Promise<CreateContactsFromWAContactsUseCaseResponse> {
+    const { waContacts, instanceId } = request
 
-		const [myWAContacts, othersWAContacts] = [
-			waContacts.filter((waContact) => waContact.isMyContact),
-			waContacts.filter((waContact) => !waContact.isMyContact),
-		]
+    const [myWAContacts, othersWAContacts] = [
+      waContacts.filter(waContact => waContact.isMyContact),
+      waContacts.filter(waContact => !waContact.isMyContact),
+    ]
 
-		const myContactsAreCreated =
-			await this.contactsRepository.findManyByWAContactIdsAndInstanceId({
-				instanceId,
-				waContactIds: myWAContacts.map((waContact) => waContact.id),
-			})
+    const myContactsAreCreated =
+      await this.contactsRepository.findManyByWAContactIdsAndInstanceId({
+        instanceId,
+        waContactIds: myWAContacts.map(waContact => waContact.id),
+      })
 
-		const myContactsAreNotCreated = myWAContacts.filter(
-			(waContact) =>
-				!myContactsAreCreated.some((contact) =>
-					contact.waContactId.equals(waContact.id),
-				),
-		)
+    const myContactsAreNotCreated = myWAContacts.filter(
+      waContact =>
+        !myContactsAreCreated.some(contact =>
+          contact.waContactId.equals(waContact.id)
+        )
+    )
 
-		const othersContacts = myContactsAreNotCreated
-			.concat(othersWAContacts)
-			.map((waContact) => {
-				return Contact.create({
-					instanceId,
-					name: waContact.defaultName,
-					phone: ContactPhone.create({
-						formattedNumber: waContact.formattedNumber,
-						number: waContact.number,
-					}),
-					waContactId: waContact.id,
-					imageUrl: waContact.imageUrl,
-					isInstance: waContact.isInstance,
-					isMe: waContact.isMe,
-					isMyContact: waContact.isMyContact,
-				})
-			})
+    const othersContacts = myContactsAreNotCreated
+      .concat(othersWAContacts)
+      .map(waContact => {
+        return Contact.create({
+          instanceId,
+          name: waContact.defaultName,
+          phone: ContactPhone.create({
+            formattedNumber: waContact.formattedNumber,
+            number: waContact.number,
+          }),
+          waContactId: waContact.id,
+          imageUrl: waContact.imageUrl,
+          isInstance: waContact.isInstance,
+          isMe: waContact.isMe,
+          isMyContact: waContact.isMyContact,
+        })
+      })
 
-		await this.contactsRepository.createMany(othersContacts)
-		const contacts = myContactsAreCreated.concat(othersContacts)
+    await this.contactsRepository.createMany(othersContacts)
+    const contacts = myContactsAreCreated.concat(othersContacts)
 
-		return success({ contacts })
-	}
+    return success({ contacts })
+  }
 }

@@ -3,22 +3,22 @@ import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-gro
 import { CreateGroupFromWAContactUseCase } from '../create-group-from-wa-contact-use-case'
 
 describe('CreateGroupFromWAContactUseCase', () => {
-	let groupsRepository: InMemoryGroupsRepository
+  let groupsRepository: InMemoryGroupsRepository
 
-	let sut: CreateGroupFromWAContactUseCase
+  let sut: CreateGroupFromWAContactUseCase
 
-	beforeEach(() => {
-		groupsRepository = new InMemoryGroupsRepository()
+  beforeEach(() => {
+    groupsRepository = new InMemoryGroupsRepository()
 
-		sut = new CreateGroupFromWAContactUseCase(groupsRepository)
-	})
+    sut = new CreateGroupFromWAContactUseCase(groupsRepository)
+  })
 
-	it('should be able to create group from wa contact', async () => {
-		const waContact = makeWAPrivateContact()
+  it('should be able to create group from wa contact', async () => {
+    const waContact = makeWAPrivateContact()
 
-		const response = await sut.execute({ waContact })
+    const response = await sut.execute({ waContact })
 
-		expect(response.isSuccess()).toBe(true)
-		expect(groupsRepository.items).toHaveLength(1)
-	})
+    expect(response.isSuccess()).toBe(true)
+    expect(groupsRepository.items).toHaveLength(1)
+  })
 })

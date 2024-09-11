@@ -13,120 +13,120 @@ import { CreateContactFromWAContactUseCase } from '../../../contacts/create-cont
 import { CreatePrivateVCardMessageFromWAMessageUseCase } from '../create-private-v-card-message-from-wa-message-use-case'
 
 describe('CreatePrivateVCardMessageFromWAMessageUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let messagesRepository: InMemoryMessagesRepository
-	let contactsRepository: InMemoryContactsRepository
+  let chatsRepository: InMemoryChatsRepository
+  let messagesRepository: InMemoryMessagesRepository
+  let contactsRepository: InMemoryContactsRepository
 
-	let createContactFromWAContact: CreateContactFromWAContactUseCase
+  let createContactFromWAContact: CreateContactFromWAContactUseCase
 
-	let dateService: FakeDateService
+  let dateService: FakeDateService
 
-	let sut: CreatePrivateVCardMessageFromWAMessageUseCase
+  let sut: CreatePrivateVCardMessageFromWAMessageUseCase
 
-	let chat: PrivateChat
+  let chat: PrivateChat
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		messagesRepository = new InMemoryMessagesRepository()
-		contactsRepository = new InMemoryContactsRepository()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    messagesRepository = new InMemoryMessagesRepository()
+    contactsRepository = new InMemoryContactsRepository()
 
-		createContactFromWAContact = new CreateContactFromWAContactUseCase(
-			contactsRepository,
-		)
+    createContactFromWAContact = new CreateContactFromWAContactUseCase(
+      contactsRepository
+    )
 
-		dateService = new FakeDateService()
+    dateService = new FakeDateService()
 
-		sut = new CreatePrivateVCardMessageFromWAMessageUseCase(
-			chatsRepository,
-			messagesRepository,
-			contactsRepository,
-			createContactFromWAContact,
-			dateService,
-		)
+    sut = new CreatePrivateVCardMessageFromWAMessageUseCase(
+      chatsRepository,
+      messagesRepository,
+      contactsRepository,
+      createContactFromWAContact,
+      dateService
+    )
 
-		chat = makePrivateChat()
-		chatsRepository.items.push(chat)
-	})
+    chat = makePrivateChat()
+    chatsRepository.items.push(chat)
+  })
 
-	it('should be able to create a private vcard message', async () => {
-		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'vcard',
-				contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
-			}),
-		})
+  it('should be able to create a private vcard message', async () => {
+    const response = await sut.execute({
+      waMessage: makeWAPrivateMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'vcard',
+        contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		expect(messagesRepository.items).toHaveLength(1)
-		expect(contactsRepository.items).toHaveLength(1)
-	})
+    expect(messagesRepository.items).toHaveLength(1)
+    expect(contactsRepository.items).toHaveLength(1)
+  })
 
-	it('should be able to create a private vcard message with existing contact', async () => {
-		const contact = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(contact)
+  it('should be able to create a private vcard message with existing contact', async () => {
+    const contact = makeContact({ instanceId: chat.instanceId })
+    contactsRepository.items.push(contact)
 
-		const createContactFromWAContactMock = vi.spyOn(
-			createContactFromWAContact,
-			'execute',
-		)
+    const createContactFromWAContactMock = vi.spyOn(
+      createContactFromWAContact,
+      'execute'
+    )
 
-		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'vcard',
-				contacts: [
-					makeWAPrivateContact(
-						{ instanceId: contact.instanceId },
-						contact.waContactId,
-					),
-				],
-			}),
-		})
+    const response = await sut.execute({
+      waMessage: makeWAPrivateMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'vcard',
+        contacts: [
+          makeWAPrivateContact(
+            { instanceId: contact.instanceId },
+            contact.waContactId
+          ),
+        ],
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		expect(messagesRepository.items).toHaveLength(1)
-		expect(contactsRepository.items).toHaveLength(1)
-		expect(createContactFromWAContactMock).not.toHaveBeenCalled()
-	})
+    expect(messagesRepository.items).toHaveLength(1)
+    expect(contactsRepository.items).toHaveLength(1)
+    expect(createContactFromWAContactMock).not.toHaveBeenCalled()
+  })
 
-	it('should be able to create a private vcard message quoting other message', async () => {
-		const quotedMessage = makePrivateVCardMessage({
-			chatId: chat.id,
-			instanceId: chat.instanceId,
-		})
-		messagesRepository.items.push(quotedMessage)
+  it('should be able to create a private vcard message quoting other message', async () => {
+    const quotedMessage = makePrivateVCardMessage({
+      chatId: chat.id,
+      instanceId: chat.instanceId,
+    })
+    messagesRepository.items.push(quotedMessage)
 
-		const response = await sut.execute({
-			waMessage: makeWAPrivateMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'vcard',
-				contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
-				quoted: makeWAPrivateMessage(
-					{
-						type: 'vcard',
-						contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
-						instanceId: chat.instanceId,
-						waChatId: chat.waChatId,
-					},
-					quotedMessage.waMessageId,
-				),
-			}),
-		})
+    const response = await sut.execute({
+      waMessage: makeWAPrivateMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'vcard',
+        contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+        quoted: makeWAPrivateMessage(
+          {
+            type: 'vcard',
+            contacts: [makeWAPrivateContact({ instanceId: chat.instanceId })],
+            instanceId: chat.instanceId,
+            waChatId: chat.waChatId,
+          },
+          quotedMessage.waMessageId
+        ),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(message.quoted).toBeInstanceOf(PrivateMessage)
-		expect(messagesRepository.items).toHaveLength(2)
-	})
+    expect(message.quoted).toBeInstanceOf(PrivateMessage)
+    expect(messagesRepository.items).toHaveLength(2)
+  })
 })

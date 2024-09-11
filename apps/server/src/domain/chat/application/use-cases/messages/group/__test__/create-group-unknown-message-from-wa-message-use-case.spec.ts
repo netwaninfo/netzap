@@ -15,90 +15,90 @@ import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { CreateGroupUnknownMessageFromWAMessageUseCase } from '../create-group-unknown-message-from-wa-message-use-case'
 
 describe('CreateGroupUnknownMessageFromWAMessageUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let contactsRepository: InMemoryContactsRepository
-	let messagesRepository: InMemoryMessagesRepository
-	let dateService: FakeDateService
+  let chatsRepository: InMemoryChatsRepository
+  let contactsRepository: InMemoryContactsRepository
+  let messagesRepository: InMemoryMessagesRepository
+  let dateService: FakeDateService
 
-	let sut: CreateGroupUnknownMessageFromWAMessageUseCase
+  let sut: CreateGroupUnknownMessageFromWAMessageUseCase
 
-	let chat: GroupChat
-	let author: Contact
+  let chat: GroupChat
+  let author: Contact
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		contactsRepository = new InMemoryContactsRepository()
-		messagesRepository = new InMemoryMessagesRepository()
-		dateService = new FakeDateService()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    contactsRepository = new InMemoryContactsRepository()
+    messagesRepository = new InMemoryMessagesRepository()
+    dateService = new FakeDateService()
 
-		sut = new CreateGroupUnknownMessageFromWAMessageUseCase(
-			chatsRepository,
-			contactsRepository,
-			messagesRepository,
-			dateService,
-		)
+    sut = new CreateGroupUnknownMessageFromWAMessageUseCase(
+      chatsRepository,
+      contactsRepository,
+      messagesRepository,
+      dateService
+    )
 
-		chat = makeGroupChat()
-		chatsRepository.items.push(chat)
+    chat = makeGroupChat()
+    chatsRepository.items.push(chat)
 
-		author = makeContact({ instanceId: chat.instanceId })
-		contactsRepository.items.push(author)
-	})
+    author = makeContact({ instanceId: chat.instanceId })
+    contactsRepository.items.push(author)
+  })
 
-	it('should be able to create a group unknown message', async () => {
-		const response = await sut.execute({
-			waMessage: makeWAGroupMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'unknown',
-				body: faker.lorem.paragraph(),
-				author: makeWAPrivateContact(
-					{ instanceId: author.instanceId },
-					author.waContactId,
-				),
-			}),
-		})
+  it('should be able to create a group unknown message', async () => {
+    const response = await sut.execute({
+      waMessage: makeWAGroupMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'unknown',
+        body: faker.lorem.paragraph(),
+        author: makeWAPrivateContact(
+          { instanceId: author.instanceId },
+          author.waContactId
+        ),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		expect(messagesRepository.items).toHaveLength(1)
-	})
+    expect(messagesRepository.items).toHaveLength(1)
+  })
 
-	it('should be able to create a group unknown message quoting other message', async () => {
-		const quotedMessage = makeGroupUnknownMessage({
-			chatId: chat.id,
-			instanceId: chat.instanceId,
-		})
-		messagesRepository.items.push(quotedMessage)
+  it('should be able to create a group unknown message quoting other message', async () => {
+    const quotedMessage = makeGroupUnknownMessage({
+      chatId: chat.id,
+      instanceId: chat.instanceId,
+    })
+    messagesRepository.items.push(quotedMessage)
 
-		const response = await sut.execute({
-			waMessage: makeWAGroupMessage({
-				instanceId: chat.instanceId,
-				waChatId: chat.waChatId,
-				type: 'unknown',
-				author: makeWAPrivateContact(
-					{ instanceId: author.instanceId },
-					author.waContactId,
-				),
-				quoted: makeWAGroupMessage(
-					{
-						type: 'unknown',
-						media: makeWAMessageMedia(),
-						instanceId: chat.instanceId,
-						waChatId: chat.waChatId,
-					},
-					quotedMessage.waMessageId,
-				),
-			}),
-		})
+    const response = await sut.execute({
+      waMessage: makeWAGroupMessage({
+        instanceId: chat.instanceId,
+        waChatId: chat.waChatId,
+        type: 'unknown',
+        author: makeWAPrivateContact(
+          { instanceId: author.instanceId },
+          author.waContactId
+        ),
+        quoted: makeWAGroupMessage(
+          {
+            type: 'unknown',
+            media: makeWAMessageMedia(),
+            instanceId: chat.instanceId,
+            waChatId: chat.waChatId,
+          },
+          quotedMessage.waMessageId
+        ),
+      }),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { message } = response.value
+    const { message } = response.value
 
-		expect(message.quoted).toBeInstanceOf(GroupMessage)
-		expect(messagesRepository.items).toHaveLength(2)
-	})
+    expect(message.quoted).toBeInstanceOf(GroupMessage)
+    expect(messagesRepository.items).toHaveLength(2)
+  })
 })

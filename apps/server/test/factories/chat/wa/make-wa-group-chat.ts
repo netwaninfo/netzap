@@ -1,7 +1,7 @@
 import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import {
-	WAGroupChat,
-	type WAGroupChatProps,
+  WAGroupChat,
+  type WAGroupChatProps,
 } from '@/domain/chat/enterprise/entities/wa/group/chat'
 import { faker } from '@/test/lib/faker'
 import { makeUniqueEntityID } from '../../make-unique-entity-id'
@@ -10,22 +10,22 @@ import { makeWAGroupContact } from './make-wa-group-contact'
 import { makeWAPrivateContact } from './make-wa-private-contact'
 
 export const makeWAGroupChat = (
-	override: Partial<WAGroupChatProps> = {},
-	id: WAEntityID = makeWAEntityID(),
+  override: Partial<WAGroupChatProps> = {},
+  id: WAEntityID = makeWAEntityID()
 ) => {
-	const instanceId = makeUniqueEntityID()
+  const instanceId = makeUniqueEntityID()
 
-	return WAGroupChat.create(
-		{
-			instanceId,
-			name: faker.person.firstName(),
-			timestamp: Date.now(),
-			unreadCount: faker.number.int({ max: 99 }),
-			imageUrl: faker.internet.url(),
-			contact: makeWAGroupContact({ instanceId }, id),
-			participants: [makeWAPrivateContact({ instanceId })],
-			...override,
-		},
-		id,
-	)
+  return WAGroupChat.create(
+    {
+      instanceId,
+      name: faker.person.firstName(),
+      timestamp: Date.now(),
+      unreadCount: faker.number.int({ max: 99 }),
+      imageUrl: faker.internet.url(),
+      contact: makeWAGroupContact({ instanceId }, id),
+      participants: [makeWAPrivateContact({ instanceId })],
+      ...override,
+    },
+    id
+  )
 }

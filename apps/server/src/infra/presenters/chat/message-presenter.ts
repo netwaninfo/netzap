@@ -5,11 +5,11 @@ import { GroupMessagePresenter } from './group/message'
 import { PrivateMessagePresenter } from './private/message'
 
 export class MessagePresenter {
-	static toHttp(message: Message): HttpMessage {
-		if (isPrivateMessage(message)) {
-			return PrivateMessagePresenter.toHttp(message)
-		}
+  static toHttp(message: Message): HttpMessage {
+    if (isPrivateMessage(message)) {
+      return PrivateMessagePresenter.toHttp(message)
+    }
 
-		return GroupMessagePresenter.toHttp(message)
-	}
+    return GroupMessagePresenter.toHttp(message)
+  }
 }

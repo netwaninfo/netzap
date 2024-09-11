@@ -3,7 +3,7 @@ import { SSOModule } from './sso/sso.module'
 
 @Global()
 @Module({
-	imports: [SSOModule],
-	exports: [SSOModule],
+  imports: [SSOModule],
+  exports: [SSOModule],
 })
 export class AuthModule {}

@@ -6,48 +6,48 @@ import type { WAGroupContact } from './contact'
 import type { WAGroupMessage } from './message'
 
 export interface WAGroupChatProps extends WAChatProps {
-	isGroup: true
-	contact: WAGroupContact
-	participants: WAPrivateContact[]
-	lastMessage: WAGroupMessage | null
+  isGroup: true
+  contact: WAGroupContact
+  participants: WAPrivateContact[]
+  lastMessage: WAGroupMessage | null
 }
 
 export class WAGroupChat extends WAChat<WAGroupChatProps> {
-	get isGroup() {
-		return this.props.isGroup
-	}
+  get isGroup() {
+    return this.props.isGroup
+  }
 
-	get contact() {
-		return this.props.contact
-	}
+  get contact() {
+    return this.props.contact
+  }
 
-	get lastMessage() {
-		return this.props.lastMessage
-	}
+  get lastMessage() {
+    return this.props.lastMessage
+  }
 
-	hasLastMessage(): this is SetNonNullable<WAGroupChatProps, 'lastMessage'> {
-		return !!this.lastMessage
-	}
+  hasLastMessage(): this is SetNonNullable<WAGroupChatProps, 'lastMessage'> {
+    return !!this.lastMessage
+  }
 
-	get participants() {
-		return this.props.participants
-	}
+  get participants() {
+    return this.props.participants
+  }
 
-	static create(
-		props: Except<
-			SetOptional<WAGroupChatProps, 'imageUrl' | 'lastMessage'>,
-			'isGroup'
-		>,
-		id: WAEntityID,
-	) {
-		return new WAGroupChat(
-			{
-				...props,
-				isGroup: true,
-				imageUrl: props.imageUrl ?? null,
-				lastMessage: props.lastMessage ?? null,
-			},
-			id,
-		)
-	}
+  static create(
+    props: Except<
+      SetOptional<WAGroupChatProps, 'imageUrl' | 'lastMessage'>,
+      'isGroup'
+    >,
+    id: WAEntityID
+  ) {
+    return new WAGroupChat(
+      {
+        ...props,
+        isGroup: true,
+        imageUrl: props.imageUrl ?? null,
+        lastMessage: props.lastMessage ?? null,
+      },
+      id
+    )
+  }
 }

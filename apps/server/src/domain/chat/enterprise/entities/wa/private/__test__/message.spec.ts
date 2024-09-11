@@ -9,25 +9,25 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { WAPrivateMessage } from '../message'
 
 describe('WAPrivateMessage', () => {
-	it('should be able to create', () => {
-		const waMessage = WAPrivateMessage.create(
-			{
-				ack: 'pending',
-				body: faker.lorem.paragraph(),
-				waChatId: makeWAEntityID(),
-				instanceId: makeUniqueEntityID(),
-				isForwarded: faker.datatype.boolean(),
-				isFromMe: faker.datatype.boolean(),
-				timestamp: Date.now(),
-				type: 'text',
-				contacts: [makeWAPrivateContact()],
-				media: makeWAMessageMedia(),
-				quoted: makeWAPrivateMessage(),
-				raw: {},
-			},
-			makeWAMessageID(),
-		)
+  it('should be able to create', () => {
+    const waMessage = WAPrivateMessage.create(
+      {
+        ack: 'pending',
+        body: faker.lorem.paragraph(),
+        waChatId: makeWAEntityID(),
+        instanceId: makeUniqueEntityID(),
+        isForwarded: faker.datatype.boolean(),
+        isFromMe: faker.datatype.boolean(),
+        timestamp: Date.now(),
+        type: 'text',
+        contacts: [makeWAPrivateContact()],
+        media: makeWAMessageMedia(),
+        quoted: makeWAPrivateMessage(),
+        raw: {},
+      },
+      makeWAMessageID()
+    )
 
-		expect(waMessage).toBeTruthy()
-	})
+    expect(waMessage).toBeTruthy()
+  })
 })

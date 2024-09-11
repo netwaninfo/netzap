@@ -4,14 +4,14 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { PrivateRevokedMessage } from '../revoked-message'
 
 describe('PrivateRevokedMessage', () => {
-	it('should be able to create', () => {
-		const message = PrivateRevokedMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-		})
+  it('should be able to create', () => {
+    const message = PrivateRevokedMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

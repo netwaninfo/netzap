@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common'
 import { FetchMessagesController } from './fetch-messages.controller'
 
 @Module({
-	controllers: [FetchMessagesController],
-	providers: [FetchMessagesUseCase],
+  controllers: [FetchMessagesController],
+  providers: [FetchMessagesUseCase],
 })
 export class HttpMessagesModule {}

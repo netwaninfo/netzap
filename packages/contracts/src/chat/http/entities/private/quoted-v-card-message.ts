@@ -5,10 +5,10 @@ import { contactSchema } from '../contact.js'
 import { basePrivateMessage } from './message.js'
 
 export const privateQuotedVCardMessageSchema = basePrivateMessage.extend({
-	type: z.literal(messageTypeSchema.Values.vcard),
-	contact: contactSchema,
+  type: z.literal(messageTypeSchema.Values.vcard),
+  contact: contactSchema,
 })
 
 export type PrivateQuotedVCardMessage = z.infer<
-	typeof privateQuotedVCardMessageSchema
+  typeof privateQuotedVCardMessageSchema
 >

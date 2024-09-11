@@ -10,87 +10,87 @@ import type { DateService } from '../../../services/date-service'
 import type { CreateContactsFromWAContactsUseCase } from '../../contacts/create-contacts-from-wa-contacts-use-case'
 
 interface CreatePrivateMultiVCardMessageFromWAMessageUseCaseRequest {
-	waMessage: WAPrivateMessage
+  waMessage: WAPrivateMessage
 }
 
 type CreatePrivateMultiVCardMessageFromWAMessageUseCaseResponse = Either<
-	ResourceNotFoundError | InvalidResourceFormatError | null,
-	{
-		message: PrivateMultiVCardMessage
-	}
+  ResourceNotFoundError | InvalidResourceFormatError | null,
+  {
+    message: PrivateMultiVCardMessage
+  }
 >
 
 export class CreatePrivateMultiVCardMessageFromWAMessageUseCase {
-	constructor(
-		private chatsRepository: ChatsRepository,
-		private messagesRepository: MessagesRepository,
-		private createContactsFromWAContacts: CreateContactsFromWAContactsUseCase,
-		private dateService: DateService,
-	) {}
+  constructor(
+    private chatsRepository: ChatsRepository,
+    private messagesRepository: MessagesRepository,
+    private createContactsFromWAContacts: CreateContactsFromWAContactsUseCase,
+    private dateService: DateService
+  ) {}
 
-	async execute(
-		request: CreatePrivateMultiVCardMessageFromWAMessageUseCaseRequest,
-	): Promise<CreatePrivateMultiVCardMessageFromWAMessageUseCaseResponse> {
-		const { waMessage } = request
+  async execute(
+    request: CreatePrivateMultiVCardMessageFromWAMessageUseCaseRequest
+  ): Promise<CreatePrivateMultiVCardMessageFromWAMessageUseCaseResponse> {
+    const { waMessage } = request
 
-		const hasInvalidFormat =
-			waMessage.type !== 'multi_vcard' || !waMessage.hasContacts()
+    const hasInvalidFormat =
+      waMessage.type !== 'multi_vcard' || !waMessage.hasContacts()
 
-		if (hasInvalidFormat) {
-			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
-		}
+    if (hasInvalidFormat) {
+      return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
+    }
 
-		const chat =
-			await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
-				instanceId: waMessage.instanceId,
-				waChatId: waMessage.waChatId,
-			})
+    const chat =
+      await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
+        instanceId: waMessage.instanceId,
+        waChatId: waMessage.waChatId,
+      })
 
-		if (!chat) {
-			return failure(
-				new ResourceNotFoundError({
-					id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
-				}),
-			)
-		}
+    if (!chat) {
+      return failure(
+        new ResourceNotFoundError({
+          id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
+        })
+      )
+    }
 
-		let quoted: PrivateMessage | null = null
+    let quoted: PrivateMessage | null = null
 
-		if (waMessage.hasQuoted()) {
-			quoted =
-				await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
-					{
-						chatId: chat.id,
-						waMessageId: waMessage.quoted.id,
-					},
-				)
-		}
+    if (waMessage.hasQuoted()) {
+      quoted =
+        await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
+          {
+            chatId: chat.id,
+            waMessageId: waMessage.quoted.id,
+          }
+        )
+    }
 
-		const response = await this.createContactsFromWAContacts.execute({
-			instanceId: waMessage.instanceId,
-			waContacts: waMessage.contacts,
-		})
+    const response = await this.createContactsFromWAContacts.execute({
+      instanceId: waMessage.instanceId,
+      waContacts: waMessage.contacts,
+    })
 
-		if (response.isFailure()) {
-			return failure(response.value)
-		}
+    if (response.isFailure()) {
+      return failure(response.value)
+    }
 
-		const { contacts } = response.value
-		const message = PrivateMultiVCardMessage.create({
-			quoted,
-			contacts,
-			chatId: chat.id,
-			instanceId: chat.instanceId,
-			waChatId: chat.waChatId,
-			waMessageId: waMessage.id,
-			isForwarded: waMessage.isForwarded,
-			createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
-			isFromMe: waMessage.isFromMe,
-			status: waMessage.ack,
-		})
+    const { contacts } = response.value
+    const message = PrivateMultiVCardMessage.create({
+      quoted,
+      contacts,
+      chatId: chat.id,
+      instanceId: chat.instanceId,
+      waChatId: chat.waChatId,
+      waMessageId: waMessage.id,
+      isForwarded: waMessage.isForwarded,
+      createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
+      isFromMe: waMessage.isFromMe,
+      status: waMessage.ack,
+    })
 
-		await this.messagesRepository.create(message)
+    await this.messagesRepository.create(message)
 
-		return success({ message })
-	}
+    return success({ message })
+  }
 }

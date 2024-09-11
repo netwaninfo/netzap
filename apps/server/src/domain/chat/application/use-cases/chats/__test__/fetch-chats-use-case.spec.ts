@@ -6,33 +6,33 @@ import { each } from '@/test/utilities/each'
 import { FetchChatsUseCase } from '../fetch-chats-use-case'
 
 describe('FetchChatsUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
+  let chatsRepository: InMemoryChatsRepository
 
-	let sut: FetchChatsUseCase
+  let sut: FetchChatsUseCase
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
 
-		sut = new FetchChatsUseCase(chatsRepository)
-	})
+    sut = new FetchChatsUseCase(chatsRepository)
+  })
 
-	it('should be able to fetch chats', async () => {
-		const instanceId = makeUniqueEntityID()
+  it('should be able to fetch chats', async () => {
+    const instanceId = makeUniqueEntityID()
 
-		chatsRepository.items.push(
-			...each(2).map(() => makePrivateChat({ instanceId })),
-			makeGroupChat({ instanceId }),
-		)
+    chatsRepository.items.push(
+      ...each(2).map(() => makePrivateChat({ instanceId })),
+      makeGroupChat({ instanceId })
+    )
 
-		const response = await sut.execute({
-			instanceId,
-			page: 1,
-		})
+    const response = await sut.execute({
+      instanceId,
+      page: 1,
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { chats } = response.value
-		expect(chats).toHaveLength(3)
-	})
+    const { chats } = response.value
+    expect(chats).toHaveLength(3)
+  })
 })

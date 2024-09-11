@@ -5,6 +5,6 @@ import { EnvModule } from './env/env.module'
 import { HttpModule } from './http/http.module'
 
 @Module({
-	imports: [EnvModule, DatabaseModule, AuthModule, HttpModule],
+  imports: [EnvModule, DatabaseModule, AuthModule, HttpModule],
 })
 export class AppModule {}

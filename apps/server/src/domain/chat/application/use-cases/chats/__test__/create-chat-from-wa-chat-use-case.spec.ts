@@ -13,77 +13,77 @@ import { CreateGroupChatFromWAChatUseCase } from '../create-group-chat-from-wa-c
 import { CreatePrivateChatFromWAChatUseCase } from '../create-private-chat-from-wa-chat-use-case'
 
 describe('CreateChatFromWAChatUseCase', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let groupsRepository: InMemoryGroupsRepository
+  let chatsRepository: InMemoryChatsRepository
+  let groupsRepository: InMemoryGroupsRepository
 
-	let createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase
+  let createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase
 
-	let contactsRepository: InMemoryContactsRepository
+  let contactsRepository: InMemoryContactsRepository
 
-	let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
+  let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
 
-	let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
+  let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
 
-	let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
+  let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
 
-	let createPrivateChatFromWAChatUseCase: CreatePrivateChatFromWAChatUseCase
+  let createPrivateChatFromWAChatUseCase: CreatePrivateChatFromWAChatUseCase
 
-	let sut: CreateChatFromWAChatUseCase
+  let sut: CreateChatFromWAChatUseCase
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		groupsRepository = new InMemoryGroupsRepository()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    groupsRepository = new InMemoryGroupsRepository()
 
-		createGroupFromWAContactUseCase = new CreateGroupFromWAContactUseCase(
-			groupsRepository,
-		)
+    createGroupFromWAContactUseCase = new CreateGroupFromWAContactUseCase(
+      groupsRepository
+    )
 
-		contactsRepository = new InMemoryContactsRepository()
+    contactsRepository = new InMemoryContactsRepository()
 
-		createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
-			contactsRepository,
-		)
+    createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
+      contactsRepository
+    )
 
-		createGroupChatFromWAChatUseCase = new CreateGroupChatFromWAChatUseCase(
-			chatsRepository,
-			groupsRepository,
-			createGroupFromWAContactUseCase,
-			createContactsFromWAContacts,
-		)
+    createGroupChatFromWAChatUseCase = new CreateGroupChatFromWAChatUseCase(
+      chatsRepository,
+      groupsRepository,
+      createGroupFromWAContactUseCase,
+      createContactsFromWAContacts
+    )
 
-		createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
-			contactsRepository,
-		)
+    createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
+      contactsRepository
+    )
 
-		createPrivateChatFromWAChatUseCase = new CreatePrivateChatFromWAChatUseCase(
-			chatsRepository,
-			contactsRepository,
-			createContactFromWAContactUseCase,
-		)
+    createPrivateChatFromWAChatUseCase = new CreatePrivateChatFromWAChatUseCase(
+      chatsRepository,
+      contactsRepository,
+      createContactFromWAContactUseCase
+    )
 
-		sut = new CreateChatFromWAChatUseCase(
-			createGroupChatFromWAChatUseCase,
-			createPrivateChatFromWAChatUseCase,
-		)
-	})
+    sut = new CreateChatFromWAChatUseCase(
+      createGroupChatFromWAChatUseCase,
+      createPrivateChatFromWAChatUseCase
+    )
+  })
 
-	it('should be able to create private chat from wa chat', async () => {
-		const response = await sut.execute({
-			waChat: makeWAPrivateChat(),
-		})
+  it('should be able to create private chat from wa chat', async () => {
+    const response = await sut.execute({
+      waChat: makeWAPrivateChat(),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		expect(chatsRepository.items).toHaveLength(1)
-		expect(chatsRepository.items[0]).toBeInstanceOf(PrivateChat)
-	})
+    expect(response.isSuccess()).toBe(true)
+    expect(chatsRepository.items).toHaveLength(1)
+    expect(chatsRepository.items[0]).toBeInstanceOf(PrivateChat)
+  })
 
-	it('should be able to create group chat from wa chat', async () => {
-		const response = await sut.execute({
-			waChat: makeWAGroupChat(),
-		})
+  it('should be able to create group chat from wa chat', async () => {
+    const response = await sut.execute({
+      waChat: makeWAGroupChat(),
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		expect(chatsRepository.items).toHaveLength(1)
-		expect(chatsRepository.items[0]).toBeInstanceOf(GroupChat)
-	})
+    expect(response.isSuccess()).toBe(true)
+    expect(chatsRepository.items).toHaveLength(1)
+    expect(chatsRepository.items[0]).toBeInstanceOf(GroupChat)
+  })
 })

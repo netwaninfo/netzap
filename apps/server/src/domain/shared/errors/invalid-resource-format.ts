@@ -1,9 +1,9 @@
 interface InvalidResourceFormatErrorProps {
-	id: string
+  id: string
 }
 
 export class InvalidResourceFormatError extends Error {
-	constructor({ id }: InvalidResourceFormatErrorProps) {
-		super(`Resource "${id}" has invalid format`)
-	}
+  constructor({ id }: InvalidResourceFormatErrorProps) {
+    super(`Resource "${id}" has invalid format`)
+  }
 }

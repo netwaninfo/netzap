@@ -50,387 +50,387 @@ import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '../../use-cases/m
 import { HandleReceivedWAMessage } from '../handle-received-wa-message'
 
 describe('HandleReceivedWAMessage', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let groupsRepository: InMemoryGroupsRepository
+  let chatsRepository: InMemoryChatsRepository
+  let groupsRepository: InMemoryGroupsRepository
 
-	let createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase
+  let createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase
 
-	let contactsRepository: InMemoryContactsRepository
+  let contactsRepository: InMemoryContactsRepository
 
-	let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
+  let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
 
-	let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
+  let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
 
-	let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
+  let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
 
-	let createPrivateChatFromWAChatUseCase: CreatePrivateChatFromWAChatUseCase
+  let createPrivateChatFromWAChatUseCase: CreatePrivateChatFromWAChatUseCase
 
-	let createChatFromWAChat: CreateChatFromWAChatUseCase
+  let createChatFromWAChat: CreateChatFromWAChatUseCase
 
-	let messagesRepository: InMemoryMessagesRepository
+  let messagesRepository: InMemoryMessagesRepository
 
-	let storageService: FakeStorageService
-	let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
+  let storageService: FakeStorageService
+  let createMessageMediaFromWAMessage: CreateMessageMediaFromWAMessageUseCase
 
-	let dateService: FakeDateService
+  let dateService: FakeDateService
 
-	let createPrivateAudioMessageFromWAMessageUseCase: CreatePrivateAudioMessageFromWAMessageUseCase
-	let createPrivateDocumentMessageFromWAMessageUseCase: CreatePrivateDocumentMessageFromWAMessageUseCase
-	let createPrivateImageMessageFromWAMessageUseCase: CreatePrivateImageMessageFromWAMessageUseCase
+  let createPrivateAudioMessageFromWAMessageUseCase: CreatePrivateAudioMessageFromWAMessageUseCase
+  let createPrivateDocumentMessageFromWAMessageUseCase: CreatePrivateDocumentMessageFromWAMessageUseCase
+  let createPrivateImageMessageFromWAMessageUseCase: CreatePrivateImageMessageFromWAMessageUseCase
 
-	let createContactsFromWAContactsUseCase: CreateContactsFromWAContactsUseCase
+  let createContactsFromWAContactsUseCase: CreateContactsFromWAContactsUseCase
 
-	let createPrivateMultiVCardMessageFromWAMessageUseCase: CreatePrivateMultiVCardMessageFromWAMessageUseCase
-	let createPrivateRevokedMessageFromWAMessageUseCase: CreatePrivateRevokedMessageFromWAMessageUseCase
+  let createPrivateMultiVCardMessageFromWAMessageUseCase: CreatePrivateMultiVCardMessageFromWAMessageUseCase
+  let createPrivateRevokedMessageFromWAMessageUseCase: CreatePrivateRevokedMessageFromWAMessageUseCase
 
-	let createPrivateTextMessageFromWAMessageUseCase: CreatePrivateTextMessageFromWAMessageUseCase
-	let createPrivateUnknownMessageFromWAMessageUseCase: CreatePrivateUnknownMessageFromWAMessageUseCase
+  let createPrivateTextMessageFromWAMessageUseCase: CreatePrivateTextMessageFromWAMessageUseCase
+  let createPrivateUnknownMessageFromWAMessageUseCase: CreatePrivateUnknownMessageFromWAMessageUseCase
 
-	let createContactFromWAContact: CreateContactFromWAContactUseCase
-	let createPrivateVCardMessageFromWAMessageUseCase: CreatePrivateVCardMessageFromWAMessageUseCase
+  let createContactFromWAContact: CreateContactFromWAContactUseCase
+  let createPrivateVCardMessageFromWAMessageUseCase: CreatePrivateVCardMessageFromWAMessageUseCase
 
-	let createPrivateVideoMessageFromWAMessageUseCase: CreatePrivateVideoMessageFromWAMessageUseCase
-	let createPrivateVoiceMessageFromWAMessageUseCase: CreatePrivateVoiceMessageFromWAMessageUseCase
+  let createPrivateVideoMessageFromWAMessageUseCase: CreatePrivateVideoMessageFromWAMessageUseCase
+  let createPrivateVoiceMessageFromWAMessageUseCase: CreatePrivateVoiceMessageFromWAMessageUseCase
 
-	let createGroupAudioMessageFromWAMessage: CreateGroupAudioMessageFromWAMessageUseCase
-	let createGroupDocumentMessageFromWAMessage: CreateGroupDocumentMessageFromWAMessageUseCase
-	let createGroupImageMessageFromWAMessage: CreateGroupImageMessageFromWAMessageUseCase
+  let createGroupAudioMessageFromWAMessage: CreateGroupAudioMessageFromWAMessageUseCase
+  let createGroupDocumentMessageFromWAMessage: CreateGroupDocumentMessageFromWAMessageUseCase
+  let createGroupImageMessageFromWAMessage: CreateGroupImageMessageFromWAMessageUseCase
 
-	let createGroupMultiVCardMessageFromWAMessage: CreateGroupMultiVCardMessageFromWAMessageUseCase
-	let createGroupRevokedMessageFromWAMessage: CreateGroupRevokedMessageFromWAMessageUseCase
-	let createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase
-	let createGroupUnknownMessageFromWAMessage: CreateGroupUnknownMessageFromWAMessageUseCase
+  let createGroupMultiVCardMessageFromWAMessage: CreateGroupMultiVCardMessageFromWAMessageUseCase
+  let createGroupRevokedMessageFromWAMessage: CreateGroupRevokedMessageFromWAMessageUseCase
+  let createGroupTextMessageFromWAMessage: CreateGroupTextMessageFromWAMessageUseCase
+  let createGroupUnknownMessageFromWAMessage: CreateGroupUnknownMessageFromWAMessageUseCase
 
-	let createGroupVCardMessageFromWAMessage: CreateGroupVCardMessageFromWAMessageUseCase
+  let createGroupVCardMessageFromWAMessage: CreateGroupVCardMessageFromWAMessageUseCase
 
-	let createGroupVideoMessageFromWAMessage: CreateGroupVideoMessageFromWAMessageUseCase
-	let createGroupVoiceMessageFromWAMessage: CreateGroupVoiceMessageFromWAMessageUseCase
+  let createGroupVideoMessageFromWAMessage: CreateGroupVideoMessageFromWAMessageUseCase
+  let createGroupVoiceMessageFromWAMessage: CreateGroupVoiceMessageFromWAMessageUseCase
 
-	let createGroupMessageFromWAMessage: CreateGroupMessageFromWAMessageUseCase
-	let createPrivateMessageFromWAMessage: CreatePrivateMessageFromWAMessageUseCase
+  let createGroupMessageFromWAMessage: CreateGroupMessageFromWAMessageUseCase
+  let createPrivateMessageFromWAMessage: CreatePrivateMessageFromWAMessageUseCase
 
-	let createMessageFromWAMessage: CreateMessageFromWAMessageUseCase
+  let createMessageFromWAMessage: CreateMessageFromWAMessageUseCase
 
-	let messageEmitter: FakeMessageEmitter
-	let chatEmitter: FakeChatEmitter
+  let messageEmitter: FakeMessageEmitter
+  let chatEmitter: FakeChatEmitter
 
-	let sut: HandleReceivedWAMessage
+  let sut: HandleReceivedWAMessage
 
-	let instanceId: UniqueEntityID
+  let instanceId: UniqueEntityID
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		groupsRepository = new InMemoryGroupsRepository()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    groupsRepository = new InMemoryGroupsRepository()
 
-		createGroupFromWAContactUseCase = new CreateGroupFromWAContactUseCase(
-			groupsRepository,
-		)
+    createGroupFromWAContactUseCase = new CreateGroupFromWAContactUseCase(
+      groupsRepository
+    )
 
-		contactsRepository = new InMemoryContactsRepository()
+    contactsRepository = new InMemoryContactsRepository()
 
-		createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
-			contactsRepository,
-		)
+    createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
+      contactsRepository
+    )
 
-		createGroupChatFromWAChatUseCase = new CreateGroupChatFromWAChatUseCase(
-			chatsRepository,
-			groupsRepository,
-			createGroupFromWAContactUseCase,
-			createContactsFromWAContacts,
-		)
+    createGroupChatFromWAChatUseCase = new CreateGroupChatFromWAChatUseCase(
+      chatsRepository,
+      groupsRepository,
+      createGroupFromWAContactUseCase,
+      createContactsFromWAContacts
+    )
 
-		createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
-			contactsRepository,
-		)
+    createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
+      contactsRepository
+    )
 
-		createPrivateChatFromWAChatUseCase = new CreatePrivateChatFromWAChatUseCase(
-			chatsRepository,
-			contactsRepository,
-			createContactFromWAContactUseCase,
-		)
-
-		createChatFromWAChat = new CreateChatFromWAChatUseCase(
-			createGroupChatFromWAChatUseCase,
-			createPrivateChatFromWAChatUseCase,
-		)
-
-		messagesRepository = new InMemoryMessagesRepository()
-
-		storageService = new FakeStorageService()
-		createMessageMediaFromWAMessage =
-			new CreateMessageMediaFromWAMessageUseCase(storageService)
-
-		dateService = new FakeDateService()
-
-		createPrivateAudioMessageFromWAMessageUseCase =
-			new CreatePrivateAudioMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createPrivateDocumentMessageFromWAMessageUseCase =
-			new CreatePrivateDocumentMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createPrivateImageMessageFromWAMessageUseCase =
-			new CreatePrivateImageMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createContactsFromWAContactsUseCase =
-			new CreateContactsFromWAContactsUseCase(contactsRepository)
-
-		createPrivateMultiVCardMessageFromWAMessageUseCase =
-			new CreatePrivateMultiVCardMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createContactsFromWAContactsUseCase,
-				dateService,
-			)
-
-		createPrivateRevokedMessageFromWAMessageUseCase =
-			new CreatePrivateRevokedMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				dateService,
-			)
-
-		createPrivateTextMessageFromWAMessageUseCase =
-			new CreatePrivateTextMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				dateService,
-			)
-
-		createPrivateUnknownMessageFromWAMessageUseCase =
-			new CreatePrivateUnknownMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				dateService,
-			)
-
-		createContactFromWAContact = new CreateContactFromWAContactUseCase(
-			contactsRepository,
-		)
-
-		createPrivateVCardMessageFromWAMessageUseCase =
-			new CreatePrivateVCardMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				contactsRepository,
-				createContactFromWAContact,
-				dateService,
-			)
-
-		createPrivateVideoMessageFromWAMessageUseCase =
-			new CreatePrivateVideoMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createPrivateVoiceMessageFromWAMessageUseCase =
-			new CreatePrivateVoiceMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createPrivateMessageFromWAMessage =
-			new CreatePrivateMessageFromWAMessageUseCase(
-				createPrivateAudioMessageFromWAMessageUseCase,
-				createPrivateDocumentMessageFromWAMessageUseCase,
-				createPrivateImageMessageFromWAMessageUseCase,
-				createPrivateMultiVCardMessageFromWAMessageUseCase,
-				createPrivateRevokedMessageFromWAMessageUseCase,
-				createPrivateTextMessageFromWAMessageUseCase,
-				createPrivateUnknownMessageFromWAMessageUseCase,
-				createPrivateVCardMessageFromWAMessageUseCase,
-				createPrivateVideoMessageFromWAMessageUseCase,
-				createPrivateVoiceMessageFromWAMessageUseCase,
-			)
-
-		createGroupAudioMessageFromWAMessage =
-			new CreateGroupAudioMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createGroupDocumentMessageFromWAMessage =
-			new CreateGroupDocumentMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createGroupImageMessageFromWAMessage =
-			new CreateGroupImageMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createContactsFromWAContactsUseCase =
-			new CreateContactsFromWAContactsUseCase(contactsRepository)
-
-		createGroupMultiVCardMessageFromWAMessage =
-			new CreateGroupMultiVCardMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				createContactsFromWAContactsUseCase,
-				dateService,
-			)
-
-		createGroupRevokedMessageFromWAMessage =
-			new CreateGroupRevokedMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				dateService,
-			)
-
-		createGroupTextMessageFromWAMessage =
-			new CreateGroupTextMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				dateService,
-			)
-
-		createGroupUnknownMessageFromWAMessage =
-			new CreateGroupUnknownMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				dateService,
-			)
-
-		createGroupVCardMessageFromWAMessage =
-			new CreateGroupVCardMessageFromWAMessageUseCase(
-				chatsRepository,
-				messagesRepository,
-				contactsRepository,
-				createContactFromWAContact,
-				dateService,
-			)
-
-		createGroupVideoMessageFromWAMessage =
-			new CreateGroupVideoMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createGroupVoiceMessageFromWAMessage =
-			new CreateGroupVoiceMessageFromWAMessageUseCase(
-				chatsRepository,
-				contactsRepository,
-				messagesRepository,
-				createMessageMediaFromWAMessage,
-				dateService,
-			)
-
-		createGroupMessageFromWAMessage =
-			new CreateGroupMessageFromWAMessageUseCase(
-				contactsRepository,
-				createContactFromWAContact,
-				createGroupAudioMessageFromWAMessage,
-				createGroupDocumentMessageFromWAMessage,
-				createGroupImageMessageFromWAMessage,
-				createGroupMultiVCardMessageFromWAMessage,
-				createGroupRevokedMessageFromWAMessage,
-				createGroupTextMessageFromWAMessage,
-				createGroupUnknownMessageFromWAMessage,
-				createGroupVCardMessageFromWAMessage,
-				createGroupVideoMessageFromWAMessage,
-				createGroupVoiceMessageFromWAMessage,
-			)
-
-		createMessageFromWAMessage = new CreateMessageFromWAMessageUseCase(
-			createPrivateMessageFromWAMessage,
-			createGroupMessageFromWAMessage,
-		)
-
-		messageEmitter = new FakeMessageEmitter()
-		chatEmitter = new FakeChatEmitter()
-
-		sut = new HandleReceivedWAMessage(
-			chatsRepository,
-			createChatFromWAChat,
-			createMessageFromWAMessage,
-			messageEmitter,
-			chatEmitter,
-		)
-
-		instanceId = makeUniqueEntityID()
-	})
-
-	it('should be able to create a private chat and message', async () => {
-		const waChat = makeWAPrivateChat({ instanceId })
-		const waMessage = makeWAPrivateMessage({ instanceId, waChatId: waChat.id })
-
-		const response = await sut.execute({
-			waChat,
-			waMessage,
-		})
-
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
-
-		const { chat, message } = response.value
-
-		expect(message).toBeInstanceOf(PrivateMessage)
-
-		expect(chat).toBeInstanceOf(PrivateChat)
-		expect(chat.lastMessage).toBeInstanceOf(PrivateMessage)
-		expect(messageEmitter.items).toHaveLength(1)
-		expect(chatEmitter.items).toHaveLength(1)
-	})
-
-	it('should be able to create a group chat and message', async () => {
-		const waChat = makeWAGroupChat({ instanceId })
-		const waMessage = makeWAGroupMessage({
-			instanceId,
-			waChatId: waChat.id,
-			author: makeWAPrivateContact({ instanceId }),
-		})
-
-		const response = await sut.execute({
-			waChat,
-			waMessage,
-		})
-
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
-
-		const { chat, message } = response.value
-
-		expect(message).toBeInstanceOf(GroupMessage)
-
-		expect(chat).toBeInstanceOf(GroupChat)
-		expect(chat.lastMessage).toBeInstanceOf(GroupMessage)
-		expect(messageEmitter.items).toHaveLength(1)
-		expect(chatEmitter.items).toHaveLength(1)
-	})
+    createPrivateChatFromWAChatUseCase = new CreatePrivateChatFromWAChatUseCase(
+      chatsRepository,
+      contactsRepository,
+      createContactFromWAContactUseCase
+    )
+
+    createChatFromWAChat = new CreateChatFromWAChatUseCase(
+      createGroupChatFromWAChatUseCase,
+      createPrivateChatFromWAChatUseCase
+    )
+
+    messagesRepository = new InMemoryMessagesRepository()
+
+    storageService = new FakeStorageService()
+    createMessageMediaFromWAMessage =
+      new CreateMessageMediaFromWAMessageUseCase(storageService)
+
+    dateService = new FakeDateService()
+
+    createPrivateAudioMessageFromWAMessageUseCase =
+      new CreatePrivateAudioMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createPrivateDocumentMessageFromWAMessageUseCase =
+      new CreatePrivateDocumentMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createPrivateImageMessageFromWAMessageUseCase =
+      new CreatePrivateImageMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createContactsFromWAContactsUseCase =
+      new CreateContactsFromWAContactsUseCase(contactsRepository)
+
+    createPrivateMultiVCardMessageFromWAMessageUseCase =
+      new CreatePrivateMultiVCardMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createContactsFromWAContactsUseCase,
+        dateService
+      )
+
+    createPrivateRevokedMessageFromWAMessageUseCase =
+      new CreatePrivateRevokedMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        dateService
+      )
+
+    createPrivateTextMessageFromWAMessageUseCase =
+      new CreatePrivateTextMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        dateService
+      )
+
+    createPrivateUnknownMessageFromWAMessageUseCase =
+      new CreatePrivateUnknownMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        dateService
+      )
+
+    createContactFromWAContact = new CreateContactFromWAContactUseCase(
+      contactsRepository
+    )
+
+    createPrivateVCardMessageFromWAMessageUseCase =
+      new CreatePrivateVCardMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        contactsRepository,
+        createContactFromWAContact,
+        dateService
+      )
+
+    createPrivateVideoMessageFromWAMessageUseCase =
+      new CreatePrivateVideoMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createPrivateVoiceMessageFromWAMessageUseCase =
+      new CreatePrivateVoiceMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createPrivateMessageFromWAMessage =
+      new CreatePrivateMessageFromWAMessageUseCase(
+        createPrivateAudioMessageFromWAMessageUseCase,
+        createPrivateDocumentMessageFromWAMessageUseCase,
+        createPrivateImageMessageFromWAMessageUseCase,
+        createPrivateMultiVCardMessageFromWAMessageUseCase,
+        createPrivateRevokedMessageFromWAMessageUseCase,
+        createPrivateTextMessageFromWAMessageUseCase,
+        createPrivateUnknownMessageFromWAMessageUseCase,
+        createPrivateVCardMessageFromWAMessageUseCase,
+        createPrivateVideoMessageFromWAMessageUseCase,
+        createPrivateVoiceMessageFromWAMessageUseCase
+      )
+
+    createGroupAudioMessageFromWAMessage =
+      new CreateGroupAudioMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createGroupDocumentMessageFromWAMessage =
+      new CreateGroupDocumentMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createGroupImageMessageFromWAMessage =
+      new CreateGroupImageMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createContactsFromWAContactsUseCase =
+      new CreateContactsFromWAContactsUseCase(contactsRepository)
+
+    createGroupMultiVCardMessageFromWAMessage =
+      new CreateGroupMultiVCardMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        createContactsFromWAContactsUseCase,
+        dateService
+      )
+
+    createGroupRevokedMessageFromWAMessage =
+      new CreateGroupRevokedMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        dateService
+      )
+
+    createGroupTextMessageFromWAMessage =
+      new CreateGroupTextMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        dateService
+      )
+
+    createGroupUnknownMessageFromWAMessage =
+      new CreateGroupUnknownMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        dateService
+      )
+
+    createGroupVCardMessageFromWAMessage =
+      new CreateGroupVCardMessageFromWAMessageUseCase(
+        chatsRepository,
+        messagesRepository,
+        contactsRepository,
+        createContactFromWAContact,
+        dateService
+      )
+
+    createGroupVideoMessageFromWAMessage =
+      new CreateGroupVideoMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createGroupVoiceMessageFromWAMessage =
+      new CreateGroupVoiceMessageFromWAMessageUseCase(
+        chatsRepository,
+        contactsRepository,
+        messagesRepository,
+        createMessageMediaFromWAMessage,
+        dateService
+      )
+
+    createGroupMessageFromWAMessage =
+      new CreateGroupMessageFromWAMessageUseCase(
+        contactsRepository,
+        createContactFromWAContact,
+        createGroupAudioMessageFromWAMessage,
+        createGroupDocumentMessageFromWAMessage,
+        createGroupImageMessageFromWAMessage,
+        createGroupMultiVCardMessageFromWAMessage,
+        createGroupRevokedMessageFromWAMessage,
+        createGroupTextMessageFromWAMessage,
+        createGroupUnknownMessageFromWAMessage,
+        createGroupVCardMessageFromWAMessage,
+        createGroupVideoMessageFromWAMessage,
+        createGroupVoiceMessageFromWAMessage
+      )
+
+    createMessageFromWAMessage = new CreateMessageFromWAMessageUseCase(
+      createPrivateMessageFromWAMessage,
+      createGroupMessageFromWAMessage
+    )
+
+    messageEmitter = new FakeMessageEmitter()
+    chatEmitter = new FakeChatEmitter()
+
+    sut = new HandleReceivedWAMessage(
+      chatsRepository,
+      createChatFromWAChat,
+      createMessageFromWAMessage,
+      messageEmitter,
+      chatEmitter
+    )
+
+    instanceId = makeUniqueEntityID()
+  })
+
+  it('should be able to create a private chat and message', async () => {
+    const waChat = makeWAPrivateChat({ instanceId })
+    const waMessage = makeWAPrivateMessage({ instanceId, waChatId: waChat.id })
+
+    const response = await sut.execute({
+      waChat,
+      waMessage,
+    })
+
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
+
+    const { chat, message } = response.value
+
+    expect(message).toBeInstanceOf(PrivateMessage)
+
+    expect(chat).toBeInstanceOf(PrivateChat)
+    expect(chat.lastMessage).toBeInstanceOf(PrivateMessage)
+    expect(messageEmitter.items).toHaveLength(1)
+    expect(chatEmitter.items).toHaveLength(1)
+  })
+
+  it('should be able to create a group chat and message', async () => {
+    const waChat = makeWAGroupChat({ instanceId })
+    const waMessage = makeWAGroupMessage({
+      instanceId,
+      waChatId: waChat.id,
+      author: makeWAPrivateContact({ instanceId }),
+    })
+
+    const response = await sut.execute({
+      waChat,
+      waMessage,
+    })
+
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
+
+    const { chat, message } = response.value
+
+    expect(message).toBeInstanceOf(GroupMessage)
+
+    expect(chat).toBeInstanceOf(GroupChat)
+    expect(chat.lastMessage).toBeInstanceOf(GroupMessage)
+    expect(messageEmitter.items).toHaveLength(1)
+    expect(chatEmitter.items).toHaveLength(1)
+  })
 })

@@ -6,15 +6,15 @@ import { each } from '@/test/utilities/each'
 import { PrivateMultiVCardMessage } from '../multi-v-card-message'
 
 describe('PrivateMultiVCardMessage', () => {
-	it('should be able to create', () => {
-		const message = PrivateMultiVCardMessage.create({
-			chatId: makeUniqueEntityID(),
-			instanceId: makeUniqueEntityID(),
-			waChatId: makeWAEntityID(),
-			waMessageId: makeWAMessageID(),
-			contacts: each().map(() => makeContact()),
-		})
+  it('should be able to create', () => {
+    const message = PrivateMultiVCardMessage.create({
+      chatId: makeUniqueEntityID(),
+      instanceId: makeUniqueEntityID(),
+      waChatId: makeWAEntityID(),
+      waMessageId: makeWAMessageID(),
+      contacts: each().map(() => makeContact()),
+    })
 
-		expect(message).toBeTruthy()
-	})
+    expect(message).toBeTruthy()
+  })
 })

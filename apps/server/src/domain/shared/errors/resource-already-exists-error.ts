@@ -1,9 +1,9 @@
 interface ResourceAlreadyExistsErrorProps {
-	id: string
+  id: string
 }
 
 export class ResourceAlreadyExistsError extends Error {
-	constructor({ id }: ResourceAlreadyExistsErrorProps) {
-		super(`Resource "${id}" already exists`)
-	}
+  constructor({ id }: ResourceAlreadyExistsErrorProps) {
+    super(`Resource "${id}" already exists`)
+  }
 }

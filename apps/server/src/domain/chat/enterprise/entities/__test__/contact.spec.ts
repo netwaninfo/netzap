@@ -6,14 +6,14 @@ import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { Contact } from '../contact'
 
 describe('Contact', () => {
-	it('should be able to create', () => {
-		const contact = Contact.create({
-			name: faker.person.firstName(),
-			instanceId: makeUniqueEntityID(),
-			waContactId: makeWAEntityID(),
-			phone: makeContactPhone(),
-		})
+  it('should be able to create', () => {
+    const contact = Contact.create({
+      name: faker.person.firstName(),
+      instanceId: makeUniqueEntityID(),
+      waContactId: makeWAEntityID(),
+      phone: makeContactPhone(),
+    })
 
-		expect(contact).toBeTruthy()
-	})
+    expect(contact).toBeTruthy()
+  })
 })

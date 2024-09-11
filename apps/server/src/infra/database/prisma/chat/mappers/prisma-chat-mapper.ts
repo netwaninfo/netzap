@@ -7,23 +7,23 @@ import { PrismaPrivateChatMapper, RawPrivateChat } from './private/chat-mapper'
 type Raw = RawPrivateChat | RawGroupChat
 
 export class PrismaChatMapper {
-	static toDomain(raw: Raw): Chat {
-		if (PrismaChatMapper.isRawPrivateChat(raw)) {
-			return PrismaPrivateChatMapper.toDomain(raw)
-		}
+  static toDomain(raw: Raw): Chat {
+    if (PrismaChatMapper.isRawPrivateChat(raw)) {
+      return PrismaPrivateChatMapper.toDomain(raw)
+    }
 
-		return PrismaGroupChatMapper.toDomain(raw)
-	}
+    return PrismaGroupChatMapper.toDomain(raw)
+  }
 
-	static toPrisma(chat: Chat): Prisma.ChatUncheckedCreateInput {
-		if (isPrivateChat(chat)) {
-			return PrismaPrivateChatMapper.toPrisma(chat)
-		}
+  static toPrisma(chat: Chat): Prisma.ChatUncheckedCreateInput {
+    if (isPrivateChat(chat)) {
+      return PrismaPrivateChatMapper.toPrisma(chat)
+    }
 
-		return PrismaGroupChatMapper.toPrisma(chat)
-	}
+    return PrismaGroupChatMapper.toPrisma(chat)
+  }
 
-	private static isRawPrivateChat(raw: Raw): raw is RawPrivateChat {
-		return raw.type === 'private'
-	}
+  private static isRawPrivateChat(raw: Raw): raw is RawPrivateChat {
+    return raw.type === 'private'
+  }
 }

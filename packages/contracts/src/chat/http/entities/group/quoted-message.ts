@@ -12,16 +12,16 @@ import { groupQuotedVideoMessageSchema } from './quoted-video-message.js'
 import { groupQuotedVoiceMessageSchema } from './quoted-voice-message.js'
 
 export const groupQuotedMessageSchema = z.discriminatedUnion('type', [
-	groupQuotedAudioMessageSchema,
-	groupQuotedDocumentMessageSchema,
-	groupQuotedImageMessageSchema,
-	groupQuotedMultiVCardMessageSchema,
-	groupQuotedRevokedMessageSchema,
-	groupQuotedTextMessageSchema,
-	groupQuotedUnknownMessageSchema,
-	groupQuotedVCardMessageSchema,
-	groupQuotedVideoMessageSchema,
-	groupQuotedVoiceMessageSchema,
+  groupQuotedAudioMessageSchema,
+  groupQuotedDocumentMessageSchema,
+  groupQuotedImageMessageSchema,
+  groupQuotedMultiVCardMessageSchema,
+  groupQuotedRevokedMessageSchema,
+  groupQuotedTextMessageSchema,
+  groupQuotedUnknownMessageSchema,
+  groupQuotedVCardMessageSchema,
+  groupQuotedVideoMessageSchema,
+  groupQuotedVoiceMessageSchema,
 ])
 
 export type GroupQuotedMessage = z.infer<typeof groupQuotedMessageSchema>

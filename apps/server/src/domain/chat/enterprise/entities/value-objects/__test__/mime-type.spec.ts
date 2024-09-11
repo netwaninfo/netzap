@@ -3,28 +3,28 @@ import { faker } from '@/test/lib/faker'
 import { MimeType } from '../mime-type'
 
 describe('MimeType', () => {
-	it('should be able to create', () => {
-		const mimetype = MimeType.create(faker.system.mimeType())
+  it('should be able to create', () => {
+    const mimetype = MimeType.create(faker.system.mimeType())
 
-		expect(mimetype).toBeTruthy()
-	})
+    expect(mimetype).toBeTruthy()
+  })
 
-	it('should be able to createFromFilename', () => {
-		const mimetype = MimeType.createFromFilename(faker.system.fileName())
+  it('should be able to createFromFilename', () => {
+    const mimetype = MimeType.createFromFilename(faker.system.fileName())
 
-		expect(mimetype).toBeTruthy()
-	})
+    expect(mimetype).toBeTruthy()
+  })
 
-	it('should be able to get extension', () => {
-		const mimetype = MimeType.create('text/plain')
+  it('should be able to get extension', () => {
+    const mimetype = MimeType.create('text/plain')
 
-		expect(mimetype.extension()).toBe('txt')
-	})
+    expect(mimetype.extension()).toBe('txt')
+  })
 
-	it('should be able to format to string', () => {
-		const mime = faker.system.mimeType()
-		const mimetype = MimeType.create(mime)
+  it('should be able to format to string', () => {
+    const mime = faker.system.mimeType()
+    const mimetype = MimeType.create(mime)
 
-		expect(mimetype.toString()).toBe(mime)
-	})
+    expect(mimetype.toString()).toBe(mime)
+  })
 })

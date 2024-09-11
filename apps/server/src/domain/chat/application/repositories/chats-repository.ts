@@ -6,51 +6,51 @@ import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-enti
 import type { Chat } from '../../enterprise/types/chat'
 
 export interface ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams {
-	waChatId: WAEntityID
-	instanceId: UniqueEntityID
+  waChatId: WAEntityID
+  instanceId: UniqueEntityID
 }
 
 export interface ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceIdParams {
-	waChatId: WAEntityID
-	instanceId: UniqueEntityID
+  waChatId: WAEntityID
+  instanceId: UniqueEntityID
 }
 
 export interface ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceIdParams {
-	waChatId: WAEntityID
-	instanceId: UniqueEntityID
+  waChatId: WAEntityID
+  instanceId: UniqueEntityID
 }
 
 export interface ChatsRepositoryFindManyPaginatedByInstanceIdParams
-	extends PaginationParams {
-	instanceId: UniqueEntityID
+  extends PaginationParams {
+  instanceId: UniqueEntityID
 }
 
 export interface ChatsRepositoryCountByInstanceIdParams {
-	instanceId: UniqueEntityID
+  instanceId: UniqueEntityID
 }
 
 export abstract class ChatsRepository {
-	abstract findUniqueByWAChatIdAndInstanceId(
-		params: ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams,
-	): Promise<Chat | null>
+  abstract findUniqueByWAChatIdAndInstanceId(
+    params: ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams
+  ): Promise<Chat | null>
 
-	abstract findUniquePrivateChatByWAChatIdAndInstanceId(
-		params: ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceIdParams,
-	): Promise<PrivateChat | null>
+  abstract findUniquePrivateChatByWAChatIdAndInstanceId(
+    params: ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceIdParams
+  ): Promise<PrivateChat | null>
 
-	abstract findUniqueGroupChatByWAChatIdAndInstanceId(
-		params: ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceIdParams,
-	): Promise<GroupChat | null>
+  abstract findUniqueGroupChatByWAChatIdAndInstanceId(
+    params: ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceIdParams
+  ): Promise<GroupChat | null>
 
-	abstract findManyPaginatedByInstanceId(
-		params: ChatsRepositoryFindManyPaginatedByInstanceIdParams,
-	): Promise<Chat[]>
+  abstract findManyPaginatedByInstanceId(
+    params: ChatsRepositoryFindManyPaginatedByInstanceIdParams
+  ): Promise<Chat[]>
 
-	abstract countByInstanceId(
-		params: ChatsRepositoryCountByInstanceIdParams,
-	): Promise<number>
+  abstract countByInstanceId(
+    params: ChatsRepositoryCountByInstanceIdParams
+  ): Promise<number>
 
-	abstract create(chat: Chat): Promise<void>
+  abstract create(chat: Chat): Promise<void>
 
-	abstract save(chat: Chat): Promise<void>
+  abstract save(chat: Chat): Promise<void>
 }

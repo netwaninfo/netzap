@@ -9,74 +9,74 @@ import type { MessagesRepository } from '../../../repositories/messages-reposito
 import type { DateService } from '../../../services/date-service'
 
 interface CreatePrivateUnknownMessageFromWAMessageUseCaseRequest {
-	waMessage: WAPrivateMessage
+  waMessage: WAPrivateMessage
 }
 
 type CreatePrivateUnknownMessageFromWAMessageUseCaseResponse = Either<
-	ResourceNotFoundError | InvalidResourceFormatError,
-	{
-		message: PrivateUnknownMessage
-	}
+  ResourceNotFoundError | InvalidResourceFormatError,
+  {
+    message: PrivateUnknownMessage
+  }
 >
 
 export class CreatePrivateUnknownMessageFromWAMessageUseCase {
-	constructor(
-		private chatsRepository: ChatsRepository,
-		private messagesRepository: MessagesRepository,
-		private dateService: DateService,
-	) {}
+  constructor(
+    private chatsRepository: ChatsRepository,
+    private messagesRepository: MessagesRepository,
+    private dateService: DateService
+  ) {}
 
-	async execute(
-		request: CreatePrivateUnknownMessageFromWAMessageUseCaseRequest,
-	): Promise<CreatePrivateUnknownMessageFromWAMessageUseCaseResponse> {
-		const { waMessage } = request
+  async execute(
+    request: CreatePrivateUnknownMessageFromWAMessageUseCaseRequest
+  ): Promise<CreatePrivateUnknownMessageFromWAMessageUseCaseResponse> {
+    const { waMessage } = request
 
-		const hasInvalidFormat = waMessage.type !== 'unknown'
-		if (hasInvalidFormat) {
-			return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
-		}
+    const hasInvalidFormat = waMessage.type !== 'unknown'
+    if (hasInvalidFormat) {
+      return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
+    }
 
-		const chat =
-			await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
-				instanceId: waMessage.instanceId,
-				waChatId: waMessage.waChatId,
-			})
+    const chat =
+      await this.chatsRepository.findUniquePrivateChatByWAChatIdAndInstanceId({
+        instanceId: waMessage.instanceId,
+        waChatId: waMessage.waChatId,
+      })
 
-		if (!chat) {
-			return failure(
-				new ResourceNotFoundError({
-					id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
-				}),
-			)
-		}
+    if (!chat) {
+      return failure(
+        new ResourceNotFoundError({
+          id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
+        })
+      )
+    }
 
-		let quoted: PrivateMessage | null = null
+    let quoted: PrivateMessage | null = null
 
-		if (waMessage.hasQuoted()) {
-			quoted =
-				await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
-					{
-						chatId: chat.id,
-						waMessageId: waMessage.quoted.id,
-					},
-				)
-		}
+    if (waMessage.hasQuoted()) {
+      quoted =
+        await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
+          {
+            chatId: chat.id,
+            waMessageId: waMessage.quoted.id,
+          }
+        )
+    }
 
-		const message = PrivateUnknownMessage.create({
-			quoted,
-			chatId: chat.id,
-			instanceId: chat.instanceId,
-			waChatId: chat.waChatId,
-			waMessageId: waMessage.id,
-			isForwarded: waMessage.isForwarded,
-			createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
-			isFromMe: waMessage.isFromMe,
-			status: waMessage.ack,
-			payload: waMessage.raw,
-		})
+    const message = PrivateUnknownMessage.create({
+      quoted,
+      chatId: chat.id,
+      instanceId: chat.instanceId,
+      waChatId: chat.waChatId,
+      waMessageId: waMessage.id,
+      isForwarded: waMessage.isForwarded,
+      createdAt: this.dateService.fromUnix(waMessage.timestamp).toDate(),
+      isFromMe: waMessage.isFromMe,
+      status: waMessage.ack,
+      payload: waMessage.raw,
+    })
 
-		await this.messagesRepository.create(message)
+    await this.messagesRepository.create(message)
 
-		return success({ message })
-	}
+    return success({ message })
+  }
 }

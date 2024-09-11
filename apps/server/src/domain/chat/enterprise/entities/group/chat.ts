@@ -5,33 +5,33 @@ import type { GroupMessage } from '../../types/message'
 import { Chat, type ChatProps } from '../chat'
 
 export interface GroupChatProps extends ChatProps {
-	groupId: UniqueEntityID
-	lastMessage: GroupMessage | null
+  groupId: UniqueEntityID
+  lastMessage: GroupMessage | null
 }
 
 export class GroupChat extends Chat<GroupChatProps> {
-	get groupId() {
-		return this.props.groupId
-	}
+  get groupId() {
+    return this.props.groupId
+  }
 
-	get lastMessage() {
-		return this.props.lastMessage
-	}
+  get lastMessage() {
+    return this.props.lastMessage
+  }
 
-	hasLastMessage(): this is SetNonNullable<GroupChatProps, 'lastMessage'> {
-		return !!this.lastMessage
-	}
+  hasLastMessage(): this is SetNonNullable<GroupChatProps, 'lastMessage'> {
+    return !!this.lastMessage
+  }
 
-	static create(
-		props: SetOptional<GroupChatProps, 'lastMessage'>,
-		id?: UniqueEntityID,
-	) {
-		return new GroupChat(
-			{
-				...props,
-				lastMessage: props.lastMessage ?? null,
-			},
-			id,
-		)
-	}
+  static create(
+    props: SetOptional<GroupChatProps, 'lastMessage'>,
+    id?: UniqueEntityID
+  ) {
+    return new GroupChat(
+      {
+        ...props,
+        lastMessage: props.lastMessage ?? null,
+      },
+      id
+    )
+  }
 }

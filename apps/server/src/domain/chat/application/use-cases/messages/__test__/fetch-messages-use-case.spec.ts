@@ -7,35 +7,35 @@ import { each } from '@/test/utilities/each'
 import { FetchMessagesUseCase } from '../fetch-messages-use-case'
 
 describe('FetchMessagesUseCase', () => {
-	let messagesRepository: InMemoryMessagesRepository
+  let messagesRepository: InMemoryMessagesRepository
 
-	let sut: FetchMessagesUseCase
+  let sut: FetchMessagesUseCase
 
-	beforeEach(() => {
-		messagesRepository = new InMemoryMessagesRepository()
+  beforeEach(() => {
+    messagesRepository = new InMemoryMessagesRepository()
 
-		sut = new FetchMessagesUseCase(messagesRepository)
-	})
+    sut = new FetchMessagesUseCase(messagesRepository)
+  })
 
-	it('should be able to fetch messages', async () => {
-		const instanceId = makeUniqueEntityID()
-		const waChatId = makeWAEntityID()
+  it('should be able to fetch messages', async () => {
+    const instanceId = makeUniqueEntityID()
+    const waChatId = makeWAEntityID()
 
-		messagesRepository.items.push(
-			...each(2).map(() => makePrivateTextMessage({ instanceId, waChatId })),
-			...each(2).map(() => makeGroupTextMessage({ instanceId, waChatId })),
-		)
+    messagesRepository.items.push(
+      ...each(2).map(() => makePrivateTextMessage({ instanceId, waChatId })),
+      ...each(2).map(() => makeGroupTextMessage({ instanceId, waChatId }))
+    )
 
-		const response = await sut.execute({
-			instanceId,
-			waChatId,
-			page: 1,
-		})
+    const response = await sut.execute({
+      instanceId,
+      waChatId,
+      page: 1,
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { messages } = response.value
-		expect(messages).toHaveLength(4)
-	})
+    const { messages } = response.value
+    expect(messages).toHaveLength(4)
+  })
 })

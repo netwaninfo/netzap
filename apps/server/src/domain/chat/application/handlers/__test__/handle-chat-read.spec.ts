@@ -4,32 +4,32 @@ import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chat
 import { HandleChatRead } from '../handle-chat-read'
 
 describe('HandleChatRead', () => {
-	let chatsRepository: InMemoryChatsRepository
-	let chatEmitter: FakeChatEmitter
+  let chatsRepository: InMemoryChatsRepository
+  let chatEmitter: FakeChatEmitter
 
-	let sut: HandleChatRead
+  let sut: HandleChatRead
 
-	beforeEach(() => {
-		chatsRepository = new InMemoryChatsRepository()
-		chatEmitter = new FakeChatEmitter()
+  beforeEach(() => {
+    chatsRepository = new InMemoryChatsRepository()
+    chatEmitter = new FakeChatEmitter()
 
-		sut = new HandleChatRead(chatsRepository, chatEmitter)
-	})
+    sut = new HandleChatRead(chatsRepository, chatEmitter)
+  })
 
-	it('should be able to set chat read', async () => {
-		const privateChat = makePrivateChat()
-		chatsRepository.items.push(privateChat)
+  it('should be able to set chat read', async () => {
+    const privateChat = makePrivateChat()
+    chatsRepository.items.push(privateChat)
 
-		const response = await sut.execute({
-			instanceId: privateChat.instanceId,
-			waChatId: privateChat.waChatId,
-		})
+    const response = await sut.execute({
+      instanceId: privateChat.instanceId,
+      waChatId: privateChat.waChatId,
+    })
 
-		expect(response.isSuccess()).toBe(true)
-		if (response.isFailure()) return
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
 
-		const { chat } = response.value
-		expect(chat.unreadCount).toBe(0)
-		expect(chatEmitter.items).toHaveLength(1)
-	})
+    const { chat } = response.value
+    expect(chat.unreadCount).toBe(0)
+    expect(chatEmitter.items).toHaveLength(1)
+  })
 })
