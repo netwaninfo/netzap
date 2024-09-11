@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import z from 'zod'
 
 import { privateMessageSchema } from '../../types/index.js'
 import { baseChatSchema } from '../chat.js'

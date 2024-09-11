@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import z from 'zod'
 
 import { messageTypeSchema } from '@/chat/enums/index.js'
 import { baseGroupMessage } from './message.js'

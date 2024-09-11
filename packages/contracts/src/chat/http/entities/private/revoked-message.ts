@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import z from 'zod'
 
 import { privateQuotedRevokedMessageSchema } from './quoted-revoked-message.js'
 

@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import z from 'zod'
 
 import { groupQuotedMessageSchema } from './quoted-message.js'
 import { groupQuotedTextMessageSchema } from './quoted-text-message.js'

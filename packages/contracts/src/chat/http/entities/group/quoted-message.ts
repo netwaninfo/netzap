@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import z from 'zod'
 
 import { groupQuotedAudioMessageSchema } from './quoted-audio-message.js'
 import { groupQuotedDocumentMessageSchema } from './quoted-document-message.js'

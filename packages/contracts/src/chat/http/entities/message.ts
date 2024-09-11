@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import z from 'zod'
 
 import { messageStatusSchema } from '@/chat/enums/index.js'
 

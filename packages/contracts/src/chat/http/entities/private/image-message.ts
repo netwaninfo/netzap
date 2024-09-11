@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import z from 'zod'
 
 import { privateQuotedImageMessageSchema } from './quoted-image-message.js'
 import { privateQuotedMessageSchema } from './quoted-message.js'
