@@ -1,6 +1,7 @@
 name: netzap-server
 services:
-  database:
+  mongo:
+    container_name: database
     image: bitnami/mongodb:7.0.12
     user: root
     environment:
