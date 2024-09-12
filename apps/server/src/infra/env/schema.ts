@@ -14,6 +14,9 @@ export const envSchema = z.object({
   // Clerk (SSO)
   CLERK_PUBLISHABLE_KEY: z.string(),
   CLERK_SECRET_KEY: z.string(),
+
+  // WWJS
+  WWJS_EXECUTABLE_PATH: z.string(),
 })
 
 export type Env = z.infer<typeof envSchema>

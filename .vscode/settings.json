@@ -1,6 +1,10 @@
 {
-	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "biomejs.biome",
-	"typescript.preferences.preferTypeOnlyAutoImports": false,
-	"cSpell.words": ["vcard", "netzap"]
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "typescript.preferences.preferTypeOnlyAutoImports": false,
+  "cSpell.words": ["vcard", "netzap", "wwjs"]
 }

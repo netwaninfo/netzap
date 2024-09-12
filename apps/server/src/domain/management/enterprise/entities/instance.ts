@@ -1,4 +1,7 @@
-import type { InstanceStatus } from '@netzap/contracts/management'
+import type {
+  InstanceState,
+  InstanceStatus,
+} from '@netzap/contracts/management'
 import type { SetOptional } from 'type-fest'
 
 import { Entity } from '@/core/entities/entity'
@@ -9,6 +12,7 @@ export interface InstanceProps {
   phone: string
   qrCode: string | null
   status: InstanceStatus
+  state: InstanceState
 }
 
 export class Instance extends Entity<InstanceProps> {
@@ -28,20 +32,24 @@ export class Instance extends Entity<InstanceProps> {
     return this.props.status
   }
 
+  get state() {
+    return this.props.state
+  }
+
   stopped() {
-    this.set({ status: 'stopped', qrCode: null })
+    this.set({ state: 'stopped', qrCode: null })
   }
 
   starting() {
-    this.set({ status: 'starting', qrCode: null })
+    this.set({ state: 'starting', qrCode: null })
   }
 
   initialized(qrCode: string) {
-    this.set({ status: 'initialized', qrCode })
+    this.set({ state: 'initialized', qrCode })
   }
 
   failed() {
-    this.set({ status: 'failed', qrCode: null })
+    this.set({ state: 'failed', qrCode: null })
   }
 
   connected() {
@@ -53,14 +61,15 @@ export class Instance extends Entity<InstanceProps> {
   }
 
   static create(
-    props: SetOptional<InstanceProps, 'qrCode' | 'status'>,
+    props: SetOptional<InstanceProps, 'qrCode' | 'status' | 'state'>,
     id?: UniqueEntityID
   ) {
     return new Instance(
       {
         ...props,
         qrCode: props.qrCode ?? null,
-        status: props.status ?? 'stopped',
+        status: props.status ?? 'disconnected',
+        state: props.state ?? 'stopped',
       },
       id
     )

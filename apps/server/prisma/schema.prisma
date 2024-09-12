@@ -8,12 +8,15 @@ datasource db {
 }
 
 enum InstanceStatus {
+  connected
+  disconnected
+}
+
+enum InstanceState {
   stopped
   starting
   initialized
   failed
-  connected
-  disconnected
 }
 
 model Instance {
@@ -23,6 +26,7 @@ model Instance {
   phone  String         @unique
   qrCode String?        @map("qr_code")
   status InstanceStatus @default(disconnected)
+  state  InstanceState  @default(stopped)
 
   attendantIds String[]    @map("attendant_ids") @db.ObjectId
   attendants   Attendant[] @relation(fields: [attendantIds], references: [id])

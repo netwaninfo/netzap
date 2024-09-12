@@ -10,6 +10,7 @@ export class PrismaInstanceMapper {
         phone: raw.phone,
         qrCode: raw.qrCode,
         status: raw.status,
+        state: raw.state,
       },
       UniqueEntityID.create(raw.id)
     )
@@ -21,6 +22,7 @@ export class PrismaInstanceMapper {
       phone: instance.phone,
       qrCode: instance.qrCode,
       status: instance.status,
+      state: instance.state,
     }
   }
 }

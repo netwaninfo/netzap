@@ -34,12 +34,9 @@ export abstract class WAContact<Props extends WAContactProps> extends WAEntity<
   }
 
   get defaultName() {
-    const checkNames = [this.name, this.shortName, this.pushName]
+    const names = [this.name, this.shortName, this.pushName]
 
-    const validName = checkNames.find(name => !!name?.trim())
-    if (validName) return validName
-
-    return this.formattedNumber
+    return names.find(name => !!name?.trim()) ?? this.formattedNumber
   }
 
   get number() {
