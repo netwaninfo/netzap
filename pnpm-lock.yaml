@@ -60,8 +60,8 @@ importers:
         specifier: ^7.8.1
         version: 7.8.1
       whatsapp-web.js:
-        specifier: ^1.25.0
-        version: 1.25.0
+        specifier: ^1.26.0
+        version: 1.26.0
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -3525,8 +3525,8 @@ packages:
       webpack-cli:
         optional: true
 
-  whatsapp-web.js@1.25.0:
-    resolution: {integrity: sha512-gVFPosQ5u38pNCX9HC6UiQ0o2vnqlxg+v3qDOfYeWg+M0UUExAvnc86BpItjJ3gYTxTs102i5v6uLzyP1mM7vA==}
+  whatsapp-web.js@1.26.0:
+    resolution: {integrity: sha512-JUbpwVmJE427KgYIXju+ycHq65SNnXkAsoWwnEUpyI4E0O45S5aG1stRML7aGJxVb6aycTR+hLrTlEiygsNJug==}
     engines: {node: '>=18.0.0'}
 
   whatwg-url@13.0.0:
@@ -5301,7 +5301,7 @@ snapshots:
 
   extract-zip@2.0.1:
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.7
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -6948,7 +6948,7 @@ snapshots:
       - esbuild
       - uglify-js
 
-  whatsapp-web.js@1.25.0:
+  whatsapp-web.js@1.26.0:
     dependencies:
       '@pedroslopez/moduleraid': 5.0.2
       fluent-ffmpeg: 2.1.2
