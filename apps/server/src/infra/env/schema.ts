@@ -17,6 +17,7 @@ export const envSchema = z.object({
 
   // WWJS
   WWJS_EXECUTABLE_PATH: z.string(),
+  WWJS_INSTANCE_DELAY_IN_MS: z.coerce.number().int().default(150),
 })
 
 export type Env = z.infer<typeof envSchema>

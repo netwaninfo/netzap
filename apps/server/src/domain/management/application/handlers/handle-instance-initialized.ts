@@ -1,12 +1,12 @@
 import { type Either, failure, success } from '@/core/either'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 import type { Instance } from '../../enterprise/entities/instance'
-import type { InstancesRepository } from '../repositories/instances-repository'
+import { InstancesRepository } from '../repositories/instances-repository'
 
 interface HandleInstanceInitializedRequest {
   instanceId: UniqueEntityID
-  qrCode: string
 }
 
 type HandleInstanceInitializedResponse = Either<
@@ -16,13 +16,14 @@ type HandleInstanceInitializedResponse = Either<
   }
 >
 
+@Injectable()
 export class HandleInstanceInitialized {
   constructor(private instancesRepository: InstancesRepository) {}
 
   async execute(
     request: HandleInstanceInitializedRequest
   ): Promise<HandleInstanceInitializedResponse> {
-    const { instanceId, qrCode } = request
+    const { instanceId } = request
 
     const instance = await this.instancesRepository.findUniqueByInstanceId({
       instanceId,
@@ -32,7 +33,7 @@ export class HandleInstanceInitialized {
       return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
     }
 
-    instance.initialized(qrCode)
+    instance.initialized()
     await this.instancesRepository.save(instance)
 
     return success({ instance })

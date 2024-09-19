@@ -6,3 +6,7 @@ coverage
 
 # Docker
 .docker
+
+# WWJS
+.wwebjs_auth
+.wwebjs_cache

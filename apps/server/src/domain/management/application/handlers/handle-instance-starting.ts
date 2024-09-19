@@ -5,11 +5,11 @@ import { Injectable } from '@nestjs/common'
 import type { Instance } from '../../enterprise/entities/instance'
 import { InstancesRepository } from '../repositories/instances-repository'
 
-interface HandleInstanceConnectedRequest {
+interface HandleInstanceStartingRequest {
   instanceId: UniqueEntityID
 }
 
-type HandleInstanceConnectedResponse = Either<
+type HandleInstanceStartingResponse = Either<
   ResourceNotFoundError,
   {
     instance: Instance
@@ -17,12 +17,12 @@ type HandleInstanceConnectedResponse = Either<
 >
 
 @Injectable()
-export class HandleInstanceConnected {
+export class HandleInstanceStarting {
   constructor(private instancesRepository: InstancesRepository) {}
 
   async execute(
-    request: HandleInstanceConnectedRequest
-  ): Promise<HandleInstanceConnectedResponse> {
+    request: HandleInstanceStartingRequest
+  ): Promise<HandleInstanceStartingResponse> {
     const { instanceId } = request
 
     const instance = await this.instancesRepository.findUniqueByInstanceId({
@@ -33,7 +33,7 @@ export class HandleInstanceConnected {
       return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
     }
 
-    instance.connected()
+    instance.starting()
     await this.instancesRepository.save(instance)
 
     return success({ instance })

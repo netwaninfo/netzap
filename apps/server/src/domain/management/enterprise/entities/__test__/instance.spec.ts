@@ -11,6 +11,18 @@ describe('Instance', () => {
     expect(instance).toBeTruthy()
   })
 
+  it('should be able to change QR code', () => {
+    const instance = Instance.create({
+      name: faker.company.name(),
+      phone: faker.phone.number(),
+    })
+
+    const qrCode = faker.string.hexadecimal()
+    instance.changeQRCode(qrCode)
+
+    expect(instance.qrCode).toBe(qrCode)
+  })
+
   it('should be able to set is stopped', () => {
     const instance = Instance.create({
       name: faker.company.name(),
@@ -18,7 +30,7 @@ describe('Instance', () => {
     })
 
     instance.stopped()
-    expect(instance.status).toBe('stopped')
+    expect(instance.state).toBe('stopped')
   })
 
   it('should be able to set is starting', () => {
@@ -28,7 +40,7 @@ describe('Instance', () => {
     })
 
     instance.starting()
-    expect(instance.status).toBe('starting')
+    expect(instance.state).toBe('starting')
   })
 
   it('should be able to set is initialized', () => {
@@ -37,11 +49,8 @@ describe('Instance', () => {
       phone: faker.phone.number(),
     })
 
-    const qrCode = faker.string.hexadecimal()
-    instance.initialized(qrCode)
-
-    expect(instance.status).toBe('initialized')
-    expect(instance.qrCode).toBe(qrCode)
+    instance.initialized()
+    expect(instance.state).toBe('initialized')
   })
 
   it('should be able to set is failed', () => {
@@ -51,7 +60,7 @@ describe('Instance', () => {
     })
 
     instance.failed()
-    expect(instance.status).toBe('failed')
+    expect(instance.state).toBe('failed')
   })
 
   it('should be able to set is connected', () => {

@@ -1,14 +1,17 @@
+import timers from 'node:timers/promises'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
+import { EnvService } from '@/infra/env/env.service'
+import { Injectable, OnApplicationShutdown, OnModuleInit } from '@nestjs/common'
 import { WWJSClient } from './wwjs-client'
 import { WWJSFactory } from './wwjs-factory.service'
 
 @Injectable()
-export class WWJSService implements OnModuleInit, OnModuleDestroy {
+export class WWJSService implements OnModuleInit, OnApplicationShutdown {
   constructor(
     private factory: WWJSFactory,
-    private prisma: PrismaService
+    private prisma: PrismaService,
+    private env: EnvService
   ) {}
 
   private clients: Map<string, WWJSClient> = new Map()
@@ -33,10 +36,15 @@ export class WWJSService implements OnModuleInit, OnModuleDestroy {
     Promise.all(clients.map(client => client.init()))
   }
 
-  async onModuleDestroy() {
+  async onApplicationShutdown() {
     const clients = Array.from(this.clients.values())
+    await Promise.all(clients.map(client => client.logout()))
 
-    await Promise.all(clients.map(client => client.close()))
+    // const clients = Array.from(this.clients.values())
+    // await Promise.all(clients.map(client => client.close()))
+
+    const timeout = this.env.get('WWJS_INSTANCE_DELAY_IN_MS') * clients.length
+    await timers.setTimeout(timeout)
   }
 
   getAvailableClient(instanceId: UniqueEntityID) {

@@ -4,8 +4,8 @@ import { PrismaManagementRepositories } from './management/prisma-management-rep
 import { PrismaService } from './prisma.service'
 
 @Module({
-  providers: [PrismaService],
   imports: [PrismaManagementRepositories, PrismaChatRepositories],
+  providers: [PrismaService],
   exports: [
     PrismaService,
     PrismaManagementRepositories,

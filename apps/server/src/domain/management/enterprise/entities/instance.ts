@@ -36,6 +36,10 @@ export class Instance extends Entity<InstanceProps> {
     return this.props.state
   }
 
+  changeQRCode(qrCode: string) {
+    this.set({ qrCode })
+  }
+
   stopped() {
     this.set({ state: 'stopped', qrCode: null })
   }
@@ -44,8 +48,8 @@ export class Instance extends Entity<InstanceProps> {
     this.set({ state: 'starting', qrCode: null })
   }
 
-  initialized(qrCode: string) {
-    this.set({ state: 'initialized', qrCode })
+  initialized() {
+    this.set({ state: 'initialized' })
   }
 
   failed() {

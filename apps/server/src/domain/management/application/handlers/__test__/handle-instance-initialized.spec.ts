@@ -1,6 +1,5 @@
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { makeInstance } from '@/test/factories/management/make-instance'
-import { faker } from '@/test/lib/faker'
 import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository'
 import { HandleInstanceInitialized } from '../handle-instance-initialized'
 
@@ -19,13 +18,12 @@ describe('HandleInstanceInitialized', () => {
     const instanceId = makeUniqueEntityID()
     instancesRepository.items.push(makeInstance({ qrCode: null }, instanceId))
 
-    const qrCode = faker.string.hexadecimal()
-    const response = await sut.execute({ instanceId, qrCode })
+    const response = await sut.execute({ instanceId })
 
     expect(response.isSuccess()).toBe(true)
     if (response.isFailure()) return
 
     const { instance } = response.value
-    expect(instance.qrCode).toBe(qrCode)
+    expect(instance.state).toBe('initialized')
   })
 })

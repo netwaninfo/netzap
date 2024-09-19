@@ -24,7 +24,7 @@ describe('HandleInstanceFailed', () => {
     if (response.isFailure()) return
 
     const { instance } = response.value
-    expect(instance.status).toBe('failed')
+    expect(instance.state).toBe('failed')
     expect(instance.qrCode).toBe(null)
   })
 })

@@ -14,6 +14,8 @@ async function bootstrap() {
     new FastifyAdapter()
   )
 
+  app.enableShutdownHooks()
+
   await app.register(fastifyCookie)
 
   const envService = app.get<EnvService>(EnvService)

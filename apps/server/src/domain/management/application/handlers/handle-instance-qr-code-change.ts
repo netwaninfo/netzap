@@ -5,11 +5,12 @@ import { Injectable } from '@nestjs/common'
 import type { Instance } from '../../enterprise/entities/instance'
 import { InstancesRepository } from '../repositories/instances-repository'
 
-interface HandleInstanceConnectedRequest {
+interface HandleInstanceQRCodeChangeRequest {
   instanceId: UniqueEntityID
+  qrCode: string
 }
 
-type HandleInstanceConnectedResponse = Either<
+type HandleInstanceQRCodeChangeResponse = Either<
   ResourceNotFoundError,
   {
     instance: Instance
@@ -17,13 +18,13 @@ type HandleInstanceConnectedResponse = Either<
 >
 
 @Injectable()
-export class HandleInstanceConnected {
+export class HandleInstanceQRCodeChange {
   constructor(private instancesRepository: InstancesRepository) {}
 
   async execute(
-    request: HandleInstanceConnectedRequest
-  ): Promise<HandleInstanceConnectedResponse> {
-    const { instanceId } = request
+    request: HandleInstanceQRCodeChangeRequest
+  ): Promise<HandleInstanceQRCodeChangeResponse> {
+    const { instanceId, qrCode } = request
 
     const instance = await this.instancesRepository.findUniqueByInstanceId({
       instanceId,
@@ -33,7 +34,7 @@ export class HandleInstanceConnected {
       return failure(new ResourceNotFoundError({ id: instanceId.toString() }))
     }
 
-    instance.connected()
+    instance.changeQRCode(qrCode)
     await this.instancesRepository.save(instance)
 
     return success({ instance })

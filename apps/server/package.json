@@ -23,35 +23,35 @@
 		"seed": "tsx prisma/seed.ts"
 	},
 	"devDependencies": {
-		"@faker-js/faker": "^9.0.0",
+		"@faker-js/faker": "^8.4.1",
 		"@nestjs/cli": "^10.4.5",
 		"@nestjs/schematics": "^10.1.4",
-		"@nestjs/testing": "^10.4.1",
+		"@nestjs/testing": "^10.4.3",
 		"@netzap/ts-config": "workspace:^",
 		"@netzap/vitest-config": "workspace:^",
-		"@swc/core": "^1.7.24",
+		"@swc/core": "^1.7.26",
 		"@types/mime-types": "^2.1.4",
-		"@types/node": "^22.5.4",
-		"@vitest/coverage-v8": "^2.0.5",
-		"@vitest/ui": "^2.0.5",
+		"@types/node": "^22.5.5",
+		"@vitest/coverage-v8": "^2.1.1",
+		"@vitest/ui": "^2.1.1",
 		"dotenv": "^16.4.5",
 		"fastify": "^4.28.1",
-		"mongodb": "^6.8.1",
+		"mongodb": "^6.9.0",
 		"prisma": "^5.19.1",
 		"supertest": "^7.0.0",
-		"tsx": "^4.19.0",
+		"tsx": "^4.19.1",
 		"type-fest": "^4.26.1",
 		"typescript": "^5.6.2",
 		"unplugin-swc": "^1.5.1",
-		"vitest": "^2.0.5"
+		"vitest": "^2.1.1"
 	},
 	"dependencies": {
-		"@clerk/clerk-sdk-node": "^5.0.35",
+		"@clerk/clerk-sdk-node": "^5.0.41",
 		"@fastify/cookie": "^9.4.0",
-		"@nestjs/common": "^10.4.1",
+		"@nestjs/common": "^10.4.3",
 		"@nestjs/config": "^3.2.3",
-		"@nestjs/core": "^10.4.1",
-		"@nestjs/platform-fastify": "^10.4.1",
+		"@nestjs/core": "^10.4.3",
+		"@nestjs/platform-fastify": "^10.4.3",
 		"@netzap/contracts": "workspace:^",
 		"@prisma/client": "^5.19.1",
 		"bson-objectid": "^2.0.4",
@@ -61,6 +61,6 @@
 		"rxjs": "^7.8.1",
 		"whatsapp-web.js": "^1.25.0",
 		"zod": "^3.23.8",
-		"zod-validation-error": "^3.3.1"
+		"zod-validation-error": "^3.4.0"
 	}
 }

@@ -1,5 +1,4 @@
 import { Client } from 'whatsapp-web.js'
-
 import { WWJSInternalStates, WWJSInternalStatus } from '../types/wwjs-enums'
 
 type RequestFunction<T> = () => T | Promise<T>
@@ -19,6 +18,12 @@ export class WWJSInternalClient extends Client {
       this.emit(WWJSInternalStates.STARTING)
       await this.wrap(() => super.initialize())
       this.emit(WWJSInternalStates.INITIALIZED)
+
+      // const state = await this.getState()
+      // if (!state) {
+      //   await timers.setTimeout(500)
+      //   this.emit(WWJSInternalStatus.DISCONNECTED, 'UNKNOWN')
+      // }
     })
   }
 

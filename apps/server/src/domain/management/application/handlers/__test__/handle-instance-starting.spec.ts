@@ -1,20 +1,20 @@
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { makeInstance } from '@/test/factories/management/make-instance'
 import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository'
-import { HandleInstanceStopped } from '../handle-instance-stopped'
+import { HandleInstanceStarting } from '../handle-instance-starting'
 
-describe('HandleInstanceStopped', () => {
+describe('HandleInstanceStarting', () => {
   let instancesRepository: InMemoryInstancesRepository
 
-  let sut: HandleInstanceStopped
+  let sut: HandleInstanceStarting
 
   beforeEach(() => {
     instancesRepository = new InMemoryInstancesRepository()
 
-    sut = new HandleInstanceStopped(instancesRepository)
+    sut = new HandleInstanceStarting(instancesRepository)
   })
 
-  it('should be able to update instance to stopped', async () => {
+  it('should be able to update instance to starting', async () => {
     const instanceId = makeUniqueEntityID()
     instancesRepository.items.push(makeInstance({}, instanceId))
 
@@ -24,7 +24,7 @@ describe('HandleInstanceStopped', () => {
     if (response.isFailure()) return
 
     const { instance } = response.value
-    expect(instance.state).toBe('stopped')
+    expect(instance.state).toBe('starting')
     expect(instance.qrCode).toBe(null)
   })
 })

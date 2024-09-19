@@ -1,8 +1,9 @@
 import { type Either, failure, success } from '@/core/either'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 import type { Instance } from '../../enterprise/entities/instance'
-import type { InstancesRepository } from '../repositories/instances-repository'
+import { InstancesRepository } from '../repositories/instances-repository'
 
 interface HandleInstanceFailedRequest {
   instanceId: UniqueEntityID
@@ -15,6 +16,7 @@ type HandleInstanceFailedResponse = Either<
   }
 >
 
+@Injectable()
 export class HandleInstanceFailed {
   constructor(private instancesRepository: InstancesRepository) {}
 

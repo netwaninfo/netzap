@@ -29,6 +29,9 @@ export class WWJSFactory {
         args: BROWSER_ARGS,
         executablePath: this.env.get('WWJS_EXECUTABLE_PATH'),
         headless: isProduction,
+        handleSIGHUP: false,
+        handleSIGINT: false,
+        handleSIGTERM: false,
       },
     })
   }
