@@ -38,10 +38,7 @@ export class WWJSService implements OnModuleInit, OnApplicationShutdown {
 
   async onApplicationShutdown() {
     const clients = Array.from(this.clients.values())
-    await Promise.all(clients.map(client => client.logout()))
-
-    // const clients = Array.from(this.clients.values())
-    // await Promise.all(clients.map(client => client.close()))
+    await Promise.all(clients.map(client => client.close()))
 
     const timeout = this.env.get('WWJS_INSTANCE_DELAY_IN_MS') * clients.length
     await timers.setTimeout(timeout)

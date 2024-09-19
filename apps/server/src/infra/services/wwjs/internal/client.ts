@@ -1,5 +1,11 @@
+import timers from 'node:timers/promises'
 import { Client } from 'whatsapp-web.js'
-import { WWJSInternalStates, WWJSInternalStatus } from '../types/wwjs-enums'
+
+import {
+  WWJSInternalEvents,
+  WWJSInternalStates,
+  WWJSInternalStatus,
+} from '../types/wwjs-enums'
 
 type RequestFunction<T> = () => T | Promise<T>
 
@@ -14,16 +20,26 @@ export class WWJSInternalClient extends Client {
   }
 
   override initialize(): Promise<void> {
+    this.on('disconnected', reason => {
+      this.emit(WWJSInternalStatus.DISCONNECTED, reason)
+    })
+
+    this.on('qr', async code => {
+      const state = await this.getState()
+
+      if (!state) {
+        this.emit(WWJSInternalStatus.DISCONNECTED, 'UNKNOWN')
+        await timers.setTimeout(300)
+      }
+
+      if (code.startsWith('undefined')) return
+      this.emit(WWJSInternalEvents.QR_CODE, code)
+    })
+
     return this.wrap(async () => {
       this.emit(WWJSInternalStates.STARTING)
-      await this.wrap(() => super.initialize())
+      await super.initialize()
       this.emit(WWJSInternalStates.INITIALIZED)
-
-      // const state = await this.getState()
-      // if (!state) {
-      //   await timers.setTimeout(500)
-      //   this.emit(WWJSInternalStatus.DISCONNECTED, 'UNKNOWN')
-      // }
     })
   }
 
