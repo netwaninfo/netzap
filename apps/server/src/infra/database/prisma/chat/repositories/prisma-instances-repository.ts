@@ -19,6 +19,14 @@ export class PrismaInstancesRepository implements InstancesRepository {
     take,
   }: InstancesRepositoryFindManyByAttendantIdParams): Promise<Instance[]> {
     const raw = await this.prisma.instance.findMany({
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+        status: true,
+        state: true,
+        attendantIds: true,
+      },
       where: {
         attendantIds: {
           hasSome: [attendantId.toString()],
@@ -29,9 +37,7 @@ export class PrismaInstancesRepository implements InstancesRepository {
     })
 
     for (const item of raw) {
-      item.attendantIds = item.attendantIds.filter(
-        id => id === attendantId.toString()
-      )
+      item.attendantIds = [attendantId.toString()]
     }
 
     return raw.map(PrismaInstanceMapper.toDomain)

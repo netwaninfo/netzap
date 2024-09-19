@@ -9,6 +9,7 @@ export class InstancePresenter {
       name: instance.name,
       phone: instance.phone,
       status: instance.status,
+      state: instance.state,
     }
   }
 }

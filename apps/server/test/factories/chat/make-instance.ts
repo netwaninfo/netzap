@@ -15,13 +15,12 @@ export function makeInstance(
       name: faker.company.name(),
       phone: faker.phone.number(),
       attendantId: makeUniqueEntityID(),
-      status: faker.helpers.arrayElement([
+      status: faker.helpers.arrayElement(['connected', 'disconnected']),
+      state: faker.helpers.arrayElement([
         'stopped',
         'starting',
         'initialized',
         'failed',
-        'connected',
-        'disconnected',
       ]),
       ...override,
     },

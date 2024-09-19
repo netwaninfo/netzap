@@ -7,7 +7,8 @@ describe('Instance', () => {
     const instance = Instance.create({
       name: faker.company.name(),
       phone: faker.phone.number(),
-      status: 'stopped',
+      status: 'disconnected',
+      state: 'stopped',
       attendantId: makeUniqueEntityID(),
     })
 
