@@ -3,9 +3,10 @@ import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import type { WAPrivateChat } from '@/domain/chat/enterprise/entities/wa/private/chat'
 import type { Chat } from '@/domain/chat/enterprise/types/chat'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import type { ChatsRepository } from '../../repositories/chats-repository'
-import type { ContactsRepository } from '../../repositories/contacts-repository'
-import type { CreateContactFromWAContactUseCase } from '../contacts/create-contact-from-wa-contact-use-case'
+import { Injectable } from '@nestjs/common'
+import { ChatsRepository } from '../../repositories/chats-repository'
+import { ContactsRepository } from '../../repositories/contacts-repository'
+import { CreateContactFromWAContactUseCase } from '../contacts/create-contact-from-wa-contact-use-case'
 
 interface CreatePrivateChatFromWAChatUseCaseRequest {
   waChat: WAPrivateChat
@@ -18,6 +19,7 @@ type CreatePrivateChatFromWAChatUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreatePrivateChatFromWAChatUseCase {
   constructor(
     private chatsRepository: ChatsRepository,

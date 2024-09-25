@@ -1,3 +1,4 @@
+import { success } from '@/core/either'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Attendant } from '@/domain/chat/enterprise/entities/attendant'
 import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
@@ -151,12 +152,12 @@ describe('HandleSendTextMessage', () => {
 
   it('should be able to send text message to private chat', async () => {
     whatsAppService.sendTextMessage = async params => {
-      return whatsAppService.sendPrivateTextMessage(params)
+      return success(await whatsAppService.sendPrivateTextMessage(params))
     }
 
     const privateChat = makePrivateChat({ instanceId })
     whatsAppService.getChatByWAChatId = async params => {
-      return whatsAppService.getPrivateChatByWAChatId(params)
+      return success(await whatsAppService.getPrivateChatByWAChatId(params))
     }
 
     const response = await sut.execute({
@@ -186,15 +187,17 @@ describe('HandleSendTextMessage', () => {
     contactsRepository.items.push(author)
 
     whatsAppService.sendTextMessage = async params => {
-      return makeWAGroupMessage({
-        ...params,
-        author: makeWAPrivateContact({}, author.waContactId),
-      })
+      return success(
+        makeWAGroupMessage({
+          ...params,
+          author: makeWAPrivateContact({}, author.waContactId),
+        })
+      )
     }
 
     const groupChat = makeGroupChat({ instanceId })
     whatsAppService.getChatByWAChatId = async params => {
-      return whatsAppService.getGroupChatByWAChatId(params)
+      return success(await whatsAppService.getGroupChatByWAChatId(params))
     }
 
     const response = await sut.execute({

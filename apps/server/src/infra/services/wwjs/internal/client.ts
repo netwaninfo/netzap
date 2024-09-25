@@ -1,13 +1,12 @@
 import timers from 'node:timers/promises'
 import { Client } from 'whatsapp-web.js'
 
+import { RequestFunction } from '../types/internals'
 import {
   WWJSInternalEvents,
   WWJSInternalStates,
   WWJSInternalStatus,
 } from '../types/wwjs-enums'
-
-type RequestFunction<T> = () => T | Promise<T>
 
 export class WWJSInternalClient extends Client {
   private async wrap<T>(request: RequestFunction<T>) {

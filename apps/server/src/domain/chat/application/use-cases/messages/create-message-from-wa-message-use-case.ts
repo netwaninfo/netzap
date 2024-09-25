@@ -5,8 +5,9 @@ import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message'
 import type { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { CreateGroupMessageFromWAMessageUseCase } from './group/create-group-message-from-wa-message-use-case'
-import type { CreatePrivateMessageFromWAMessageUseCase } from './private/create-private-message-from-wa-message-use-case'
+import { Injectable } from '@nestjs/common'
+import { CreateGroupMessageFromWAMessageUseCase } from './group/create-group-message-from-wa-message-use-case'
+import { CreatePrivateMessageFromWAMessageUseCase } from './private/create-private-message-from-wa-message-use-case'
 
 interface CreateMessageFromWAMessageUseCaseRequest {
   waMessage: WAMessage
@@ -22,6 +23,7 @@ type CreateMessageFromWAMessageUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateMessageFromWAMessageUseCase {
   constructor(
     private createPrivateMessageFromWAMessage: CreatePrivateMessageFromWAMessageUseCase,

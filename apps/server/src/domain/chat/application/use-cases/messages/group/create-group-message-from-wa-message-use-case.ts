@@ -4,18 +4,19 @@ import type { GroupMessage } from '@/domain/chat/enterprise/types/message'
 import type { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { ContactsRepository } from '../../../repositories/contacts-repository'
-import type { CreateContactFromWAContactUseCase } from '../../contacts/create-contact-from-wa-contact-use-case'
-import type { CreateGroupAudioMessageFromWAMessageUseCase } from './create-group-audio-message-from-wa-message-use-case'
-import type { CreateGroupDocumentMessageFromWAMessageUseCase } from './create-group-document-message-from-wa-message-use-case'
-import type { CreateGroupImageMessageFromWAMessageUseCase } from './create-group-image-message-from-wa-message-use-case'
-import type { CreateGroupMultiVCardMessageFromWAMessageUseCase } from './create-group-multi-card-message-from-wa-message-use-case'
-import type { CreateGroupRevokedMessageFromWAMessageUseCase } from './create-group-revoked-message-from-wa-message-use-case'
-import type { CreateGroupTextMessageFromWAMessageUseCase } from './create-group-text-message-from-wa-message-use-case'
-import type { CreateGroupUnknownMessageFromWAMessageUseCase } from './create-group-unknown-message-from-wa-message-use-case'
-import type { CreateGroupVCardMessageFromWAMessageUseCase } from './create-group-v-card-message-from-wa-message-use-case'
-import type { CreateGroupVideoMessageFromWAMessageUseCase } from './create-group-video-message-from-wa-message-use-case'
-import type { CreateGroupVoiceMessageFromWAMessageUseCase } from './create-group-voice-message-from-wa-message-use-case'
+import { Injectable } from '@nestjs/common'
+import { ContactsRepository } from '../../../repositories/contacts-repository'
+import { CreateContactFromWAContactUseCase } from '../../contacts/create-contact-from-wa-contact-use-case'
+import { CreateGroupAudioMessageFromWAMessageUseCase } from './create-group-audio-message-from-wa-message-use-case'
+import { CreateGroupDocumentMessageFromWAMessageUseCase } from './create-group-document-message-from-wa-message-use-case'
+import { CreateGroupImageMessageFromWAMessageUseCase } from './create-group-image-message-from-wa-message-use-case'
+import { CreateGroupMultiVCardMessageFromWAMessageUseCase } from './create-group-multi-card-message-from-wa-message-use-case'
+import { CreateGroupRevokedMessageFromWAMessageUseCase } from './create-group-revoked-message-from-wa-message-use-case'
+import { CreateGroupTextMessageFromWAMessageUseCase } from './create-group-text-message-from-wa-message-use-case'
+import { CreateGroupUnknownMessageFromWAMessageUseCase } from './create-group-unknown-message-from-wa-message-use-case'
+import { CreateGroupVCardMessageFromWAMessageUseCase } from './create-group-v-card-message-from-wa-message-use-case'
+import { CreateGroupVideoMessageFromWAMessageUseCase } from './create-group-video-message-from-wa-message-use-case'
+import { CreateGroupVoiceMessageFromWAMessageUseCase } from './create-group-voice-message-from-wa-message-use-case'
 
 interface CreateGroupMessageFromWAMessageUseCaseRequest {
   waMessage: WAGroupMessage
@@ -31,6 +32,7 @@ type CreateGroupMessageFromWAMessageUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateGroupMessageFromWAMessageUseCase {
   constructor(
     private contactsRepository: ContactsRepository,

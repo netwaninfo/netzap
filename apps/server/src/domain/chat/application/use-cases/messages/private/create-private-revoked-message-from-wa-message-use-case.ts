@@ -3,9 +3,10 @@ import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private
 import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { ChatsRepository } from '../../../repositories/chats-repository'
-import type { MessagesRepository } from '../../../repositories/messages-repository'
-import type { DateService } from '../../../services/date-service'
+import { Injectable } from '@nestjs/common'
+import { ChatsRepository } from '../../../repositories/chats-repository'
+import { MessagesRepository } from '../../../repositories/messages-repository'
+import { DateService } from '../../../services/date-service'
 
 interface CreatePrivateRevokedMessageFromWAMessageUseCaseRequest {
   waMessage: WAPrivateMessage
@@ -18,6 +19,7 @@ type CreatePrivateRevokedMessageFromWAMessageUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreatePrivateRevokedMessageFromWAMessageUseCase {
   constructor(
     private chatsRepository: ChatsRepository,

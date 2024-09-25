@@ -3,8 +3,9 @@ import { isWAGroupChat } from '@/domain/chat/enterprise/type-guards/wa-chat'
 import type { Chat } from '@/domain/chat/enterprise/types/chat'
 import type { WAChat } from '@/domain/chat/enterprise/types/wa-chat'
 import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import type { CreateGroupChatFromWAChatUseCase } from './create-group-chat-from-wa-chat-use-case'
-import type { CreatePrivateChatFromWAChatUseCase } from './create-private-chat-from-wa-chat-use-case'
+import { Injectable } from '@nestjs/common'
+import { CreateGroupChatFromWAChatUseCase } from './create-group-chat-from-wa-chat-use-case'
+import { CreatePrivateChatFromWAChatUseCase } from './create-private-chat-from-wa-chat-use-case'
 
 interface CreateChatFromWAChatUseCaseRequest {
   waChat: WAChat
@@ -17,6 +18,7 @@ type CreateChatFromWAChatUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateChatFromWAChatUseCase {
   constructor(
     private createGroupChatFromWAChat: CreateGroupChatFromWAChatUseCase,

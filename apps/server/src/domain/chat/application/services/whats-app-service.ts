@@ -1,4 +1,7 @@
+import { Either } from '@/core/either'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
 import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id'
 import { WAChat } from '../../enterprise/types/wa-chat'
@@ -19,9 +22,9 @@ export interface WhatsAppServiceGetChatByWAChatId {
 export abstract class WhatsAppService {
   abstract getChatByWAChatId(
     params: WhatsAppServiceGetChatByWAChatId
-  ): Promise<WAChat | null>
+  ): Promise<Either<UnhandledError | ServiceUnavailableError, WAChat>>
 
   abstract sendTextMessage(
     params: WhatsAppServiceSendTextMessageParams
-  ): Promise<WAMessage>
+  ): Promise<Either<UnhandledError | ServiceUnavailableError, WAMessage>>
 }

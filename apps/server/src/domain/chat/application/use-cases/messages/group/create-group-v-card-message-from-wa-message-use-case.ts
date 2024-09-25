@@ -5,11 +5,12 @@ import type { GroupMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { ChatsRepository } from '../../../repositories/chats-repository'
-import type { ContactsRepository } from '../../../repositories/contacts-repository'
-import type { MessagesRepository } from '../../../repositories/messages-repository'
-import type { DateService } from '../../../services/date-service'
-import type { CreateContactFromWAContactUseCase } from '../../contacts/create-contact-from-wa-contact-use-case'
+import { Injectable } from '@nestjs/common'
+import { ChatsRepository } from '../../../repositories/chats-repository'
+import { ContactsRepository } from '../../../repositories/contacts-repository'
+import { MessagesRepository } from '../../../repositories/messages-repository'
+import { DateService } from '../../../services/date-service'
+import { CreateContactFromWAContactUseCase } from '../../contacts/create-contact-from-wa-contact-use-case'
 
 interface CreateGroupVCardMessageFromWAMessageUseCaseRequest {
   waMessage: WAGroupMessage
@@ -24,6 +25,7 @@ type CreateGroupVCardMessageFromWAMessageUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateGroupVCardMessageFromWAMessageUseCase {
   constructor(
     private chatsRepository: ChatsRepository,

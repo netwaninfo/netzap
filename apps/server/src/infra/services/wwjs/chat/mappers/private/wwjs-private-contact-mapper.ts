@@ -2,7 +2,7 @@ import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-e
 import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
-import { Contact as WWJSContact } from 'whatsapp-web.js'
+import { WWJSContact } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
 
 interface WWJSPrivateContactMapperToDomainParams {

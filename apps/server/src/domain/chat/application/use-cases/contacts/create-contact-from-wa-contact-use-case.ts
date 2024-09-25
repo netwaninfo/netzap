@@ -3,7 +3,8 @@ import { Contact } from '@/domain/chat/enterprise/entities/contact'
 import { ContactPhone } from '@/domain/chat/enterprise/entities/value-objects/contact-phone'
 import type { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import type { ContactsRepository } from '../../repositories/contacts-repository'
+import { Injectable } from '@nestjs/common'
+import { ContactsRepository } from '../../repositories/contacts-repository'
 
 interface CreateContactFromWAContactUseCaseRequest {
   waContact: WAPrivateContact
@@ -16,6 +17,7 @@ type CreateContactFromWAContactUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateContactFromWAContactUseCase {
   constructor(private contactsRepository: ContactsRepository) {}
 

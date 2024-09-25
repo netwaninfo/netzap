@@ -4,11 +4,12 @@ import type { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/
 import type { GroupMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { ChatsRepository } from '../../../repositories/chats-repository'
-import type { ContactsRepository } from '../../../repositories/contacts-repository'
-import type { MessagesRepository } from '../../../repositories/messages-repository'
-import type { DateService } from '../../../services/date-service'
-import type { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-from-wa-message-use-case'
+import { Injectable } from '@nestjs/common'
+import { ChatsRepository } from '../../../repositories/chats-repository'
+import { ContactsRepository } from '../../../repositories/contacts-repository'
+import { MessagesRepository } from '../../../repositories/messages-repository'
+import { DateService } from '../../../services/date-service'
+import { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-from-wa-message-use-case'
 
 interface CreateGroupAudioMessageFromWAMessageUseCaseRequest {
   waMessage: WAGroupMessage
@@ -21,6 +22,7 @@ type CreateGroupAudioMessageFromWAMessageUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateGroupAudioMessageFromWAMessageUseCase {
   constructor(
     private chatsRepository: ChatsRepository,

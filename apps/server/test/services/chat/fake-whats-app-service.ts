@@ -1,3 +1,4 @@
+import { Either } from '@/core/either'
 import type {
   WhatsAppService,
   WhatsAppServiceGetChatByWAChatId,
@@ -6,6 +7,8 @@ import type {
 import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAChat } from '@/domain/chat/enterprise/types/wa-chat'
 import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import { makeWAGroupChat } from '@/test/factories/chat/wa/make-wa-group-chat'
 import { makeWAGroupContact } from '@/test/factories/chat/wa/make-wa-group-contact'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
@@ -22,10 +25,9 @@ interface WhatsAppServiceSendGroupTextMessageParams
 }
 
 export class FakeWhatsAppService implements WhatsAppService {
-  async getChatByWAChatId({
-    instanceId,
-    waChatId,
-  }: WhatsAppServiceGetChatByWAChatId): Promise<WAChat | null> {
+  async getChatByWAChatId(
+    _: WhatsAppServiceGetChatByWAChatId
+  ): Promise<Either<UnhandledError | ServiceUnavailableError, WAChat>> {
     throw new Error(
       `Override this method retuning the "sendGroupTextMessage" or "sendGroupTextMessage"`
     )
@@ -34,7 +36,7 @@ export class FakeWhatsAppService implements WhatsAppService {
   async getPrivateChatByWAChatId({
     instanceId,
     waChatId,
-  }: WhatsAppServiceGetChatByWAChatId): Promise<WAChat | null> {
+  }: WhatsAppServiceGetChatByWAChatId): Promise<WAChat> {
     return makeWAPrivateChat(
       {
         instanceId,
@@ -47,7 +49,7 @@ export class FakeWhatsAppService implements WhatsAppService {
   async getGroupChatByWAChatId({
     instanceId,
     waChatId,
-  }: WhatsAppServiceGetChatByWAChatId): Promise<WAChat | null> {
+  }: WhatsAppServiceGetChatByWAChatId): Promise<WAChat> {
     return makeWAGroupChat(
       {
         instanceId,
@@ -59,7 +61,7 @@ export class FakeWhatsAppService implements WhatsAppService {
 
   async sendTextMessage(
     _: WhatsAppServiceSendTextMessageParams
-  ): Promise<WAMessage> {
+  ): Promise<Either<UnhandledError | ServiceUnavailableError, WAMessage>> {
     throw new Error(
       `Override this method retuning the "sendGroupTextMessage" or "sendGroupTextMessage"`
     )

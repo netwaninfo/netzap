@@ -3,10 +3,11 @@ import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import type { WAGroupChat } from '@/domain/chat/enterprise/entities/wa/group/chat'
 import type { Chat } from '@/domain/chat/enterprise/types/chat'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import type { ChatsRepository } from '../../repositories/chats-repository'
-import type { GroupsRepository } from '../../repositories/groups-repository'
-import type { CreateContactsFromWAContactsUseCase } from '../contacts/create-contacts-from-wa-contacts-use-case'
-import type { CreateGroupFromWAContactUseCase } from '../groups/create-group-from-wa-contact-use-case'
+import { Injectable } from '@nestjs/common'
+import { ChatsRepository } from '../../repositories/chats-repository'
+import { GroupsRepository } from '../../repositories/groups-repository'
+import { CreateContactsFromWAContactsUseCase } from '../contacts/create-contacts-from-wa-contacts-use-case'
+import { CreateGroupFromWAContactUseCase } from '../groups/create-group-from-wa-contact-use-case'
 
 interface CreateGroupChatFromWAChatUseCaseRequest {
   waChat: WAGroupChat
@@ -19,6 +20,7 @@ type CreateGroupChatFromWAChatUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateGroupChatFromWAChatUseCase {
   constructor(
     private chatsRepository: ChatsRepository,

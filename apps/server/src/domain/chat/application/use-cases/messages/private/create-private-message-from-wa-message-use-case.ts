@@ -4,16 +4,17 @@ import type { PrivateMessage } from '@/domain/chat/enterprise/types/message'
 import type { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { CreatePrivateAudioMessageFromWAMessageUseCase } from './create-private-audio-message-from-wa-message-use-case'
-import type { CreatePrivateDocumentMessageFromWAMessageUseCase } from './create-private-document-message-from-wa-message-use-case'
-import type { CreatePrivateImageMessageFromWAMessageUseCase } from './create-private-image-message-from-wa-message-use-case'
-import type { CreatePrivateMultiVCardMessageFromWAMessageUseCase } from './create-private-multi-card-message-from-wa-message-use-case'
-import type { CreatePrivateRevokedMessageFromWAMessageUseCase } from './create-private-revoked-message-from-wa-message-use-case'
-import type { CreatePrivateTextMessageFromWAMessageUseCase } from './create-private-text-message-from-wa-message-use-case'
-import type { CreatePrivateUnknownMessageFromWAMessageUseCase } from './create-private-unknown-message-from-wa-message-use-case'
-import type { CreatePrivateVCardMessageFromWAMessageUseCase } from './create-private-v-card-message-from-wa-message-use-case'
-import type { CreatePrivateVideoMessageFromWAMessageUseCase } from './create-private-video-message-from-wa-message-use-case'
-import type { CreatePrivateVoiceMessageFromWAMessageUseCase } from './create-private-voice-message-from-wa-message-use-case'
+import { Injectable } from '@nestjs/common'
+import { CreatePrivateAudioMessageFromWAMessageUseCase } from './create-private-audio-message-from-wa-message-use-case'
+import { CreatePrivateDocumentMessageFromWAMessageUseCase } from './create-private-document-message-from-wa-message-use-case'
+import { CreatePrivateImageMessageFromWAMessageUseCase } from './create-private-image-message-from-wa-message-use-case'
+import { CreatePrivateMultiVCardMessageFromWAMessageUseCase } from './create-private-multi-card-message-from-wa-message-use-case'
+import { CreatePrivateRevokedMessageFromWAMessageUseCase } from './create-private-revoked-message-from-wa-message-use-case'
+import { CreatePrivateTextMessageFromWAMessageUseCase } from './create-private-text-message-from-wa-message-use-case'
+import { CreatePrivateUnknownMessageFromWAMessageUseCase } from './create-private-unknown-message-from-wa-message-use-case'
+import { CreatePrivateVCardMessageFromWAMessageUseCase } from './create-private-v-card-message-from-wa-message-use-case'
+import { CreatePrivateVideoMessageFromWAMessageUseCase } from './create-private-video-message-from-wa-message-use-case'
+import { CreatePrivateVoiceMessageFromWAMessageUseCase } from './create-private-voice-message-from-wa-message-use-case'
 
 interface CreatePrivateMessageFromWAMessageUseCaseRequest {
   waMessage: WAPrivateMessage
@@ -29,6 +30,7 @@ type CreatePrivateMessageFromWAMessageUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreatePrivateMessageFromWAMessageUseCase {
   constructor(
     private createPrivateAudioMessageFromWAMessage: CreatePrivateAudioMessageFromWAMessageUseCase,

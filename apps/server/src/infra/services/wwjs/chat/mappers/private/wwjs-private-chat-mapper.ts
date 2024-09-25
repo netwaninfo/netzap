@@ -1,9 +1,9 @@
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAPrivateChat } from '@/domain/chat/enterprise/entities/wa/private/chat'
 import { Injectable } from '@nestjs/common'
-import { Chat as WWJSChat } from 'whatsapp-web.js'
+import { WWJSChat } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
-import { WWJSPrivateContactMapper } from './wwjs-private-contact'
+import { WWJSPrivateContactMapper } from './wwjs-private-contact-mapper'
 
 interface WWJSPrivateChatMapperToDomainParams {
   chat: WWJSChat

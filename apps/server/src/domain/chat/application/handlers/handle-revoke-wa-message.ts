@@ -1,6 +1,8 @@
 import { type Either, failure, success } from '@/core/either'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import {
   isMessageCanRevoke,
   isMessageWithMedia,
@@ -19,7 +21,10 @@ interface HandleRevokeWAMessageRequest {
 }
 
 type HandleRevokeWAMessageResponse = Either<
-  ResourceNotFoundError | InvalidResourceFormatError,
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | UnhandledError
+  | ServiceUnavailableError,
   {
     message: Message
   }
@@ -60,7 +65,8 @@ export class HandleRevokeWAMessage {
     }
 
     if (isMessageWithMedia(prevMessage)) {
-      await this.storageService.delete(prevMessage.media.key)
+      const response = await this.storageService.delete(prevMessage.media.key)
+      if (response.isFailure()) return failure(response.value)
     }
 
     if (!isMessageCanRevoke(prevMessage)) {

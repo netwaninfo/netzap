@@ -2,15 +2,16 @@ import { type Either, failure, success } from '@/core/either'
 import type { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import type { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 import type { Chat } from '../../enterprise/types/chat'
 import type { Message } from '../../enterprise/types/message'
 import type { WAChat } from '../../enterprise/types/wa-chat'
 import type { WAMessage } from '../../enterprise/types/wa-message'
 import { ChatEmitter } from '../emitters/chat-emitter'
 import { MessageEmitter } from '../emitters/message-emitter'
-import type { ChatsRepository } from '../repositories/chats-repository'
-import type { CreateChatFromWAChatUseCase } from '../use-cases/chats/create-chat-from-wa-chat-use-case'
-import type { CreateMessageFromWAMessageUseCase } from '../use-cases/messages/create-message-from-wa-message-use-case'
+import { ChatsRepository } from '../repositories/chats-repository'
+import { CreateChatFromWAChatUseCase } from '../use-cases/chats/create-chat-from-wa-chat-use-case'
+import { CreateMessageFromWAMessageUseCase } from '../use-cases/messages/create-message-from-wa-message-use-case'
 
 interface HandleReceivedWARequestMessage {
   waMessage: WAMessage
@@ -28,6 +29,7 @@ type HandleReceivedWAResponseMessage = Either<
   }
 >
 
+@Injectable()
 export class HandleReceivedWAMessage {
   constructor(
     private chatsRepository: ChatsRepository,

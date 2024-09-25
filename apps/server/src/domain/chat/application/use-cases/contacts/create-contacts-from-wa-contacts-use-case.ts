@@ -3,7 +3,8 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Contact } from '@/domain/chat/enterprise/entities/contact'
 import { ContactPhone } from '@/domain/chat/enterprise/entities/value-objects/contact-phone'
 import type { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
-import type { ContactsRepository } from '../../repositories/contacts-repository'
+import { Injectable } from '@nestjs/common'
+import { ContactsRepository } from '../../repositories/contacts-repository'
 
 interface CreateContactsFromWAContactsUseCaseRequest {
   waContacts: WAPrivateContact[]
@@ -17,6 +18,7 @@ type CreateContactsFromWAContactsUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateContactsFromWAContactsUseCase {
   constructor(private contactsRepository: ContactsRepository) {}
 

@@ -1,7 +1,7 @@
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAGroupContact } from '@/domain/chat/enterprise/entities/wa/group/contact'
 import { Injectable } from '@nestjs/common'
-import { Contact as WWJSContact } from 'whatsapp-web.js'
+import { WWJSContact } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
 
 interface WWJSGroupContactMapperToDomainParams {

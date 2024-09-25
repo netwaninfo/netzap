@@ -1,13 +1,13 @@
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAGroupChat } from '@/domain/chat/enterprise/entities/wa/group/chat'
 import { Injectable } from '@nestjs/common'
-import { GroupChat as WWJSChat } from 'whatsapp-web.js'
+import { WWJSGroupChat } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
-import { WWJSPrivateContactMapper } from '../private/wwjs-private-contact'
-import { WWJSGroupContactMapper } from './wwjs-group-contact'
+import { WWJSPrivateContactMapper } from '../private/wwjs-private-contact-mapper'
+import { WWJSGroupContactMapper } from './wwjs-group-contact-mapper'
 
 interface WWJSGroupChatMapperToDomainParams {
-  chat: WWJSChat
+  chat: WWJSGroupChat
   client: WWJSClient
 }
 

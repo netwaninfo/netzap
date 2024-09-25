@@ -2,7 +2,8 @@ import { type Either, failure, success } from '@/core/either'
 import { Group } from '@/domain/chat/enterprise/entities/group'
 import type { WAGroupContact } from '@/domain/chat/enterprise/entities/wa/group/contact'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import type { GroupsRepository } from '../../repositories/groups-repository'
+import { Injectable } from '@nestjs/common'
+import { GroupsRepository } from '../../repositories/groups-repository'
 
 interface CreateGroupFromWAContactUseCaseRequest {
   waContact: WAGroupContact
@@ -15,6 +16,7 @@ type CreateGroupFromWAContactUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateGroupFromWAContactUseCase {
   constructor(private groupsRepository: GroupsRepository) {}
 

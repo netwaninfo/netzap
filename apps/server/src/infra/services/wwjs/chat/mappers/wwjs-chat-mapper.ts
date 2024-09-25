@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common'
-import { Chat, GroupChat } from 'whatsapp-web.js'
 
+import { WAChat } from '@/domain/chat/enterprise/types/wa-chat'
+import { WWJSChat, WWJSGroupChat } from '../../types/wwjs-entities'
 import { WWJSClient } from '../../wwjs-client'
+import { ChatUtils } from '../utils/chat'
 import { WWJSGroupChatMapper } from './group/wwjs-group-chat-mapper'
 import { WWJSPrivateChatMapper } from './private/wwjs-private-chat-mapper'
 
-type WWJSChat = Chat | GroupChat
+type WWJSRawChat = WWJSChat | WWJSGroupChat
 
 interface WWJSChatMapperToDomainParams {
-  chat: WWJSChat
+  chat: WWJSRawChat
   client: WWJSClient
 }
 
@@ -19,12 +21,11 @@ export class WWJSChatMapper {
     private groupChatMapper: WWJSGroupChatMapper
   ) {}
 
-  private isGroupChat(chat: WWJSChat): chat is GroupChat {
-    return chat.isGroup
-  }
-
-  async toDomain({ chat, client }: WWJSChatMapperToDomainParams) {
-    if (this.isGroupChat(chat)) {
+  async toDomain({
+    chat,
+    client,
+  }: WWJSChatMapperToDomainParams): Promise<WAChat> {
+    if (ChatUtils.isGroupChat(chat)) {
       return this.groupChatMapper.toDomain({ chat, client })
     }
 

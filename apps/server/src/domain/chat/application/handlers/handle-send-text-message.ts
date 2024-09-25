@@ -3,6 +3,8 @@ import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
 import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id'
 import type { Chat } from '../../enterprise/types/chat'
@@ -27,6 +29,8 @@ type HandleSendTextMessageResponse = Either<
   | ResourceNotFoundError
   | InvalidResourceFormatError
   | ResourceAlreadyExistsError
+  | UnhandledError
+  | ServiceUnavailableError
   | null,
   {
     message: Message
@@ -66,10 +70,13 @@ export class HandleSendTextMessage {
     })
 
     if (!chat) {
-      const waChat = await this.whatsAppService.getChatByWAChatId({
+      const response = await this.whatsAppService.getChatByWAChatId({
         instanceId,
         waChatId,
       })
+
+      if (response.isFailure()) return failure(response.value)
+      const { value: waChat } = response
 
       if (!waChat) {
         return failure(
@@ -79,29 +86,32 @@ export class HandleSendTextMessage {
         )
       }
 
-      const response = await this.createChatFromWAChat.execute({ waChat })
-      if (response.isFailure()) return failure(response.value)
+      const result = await this.createChatFromWAChat.execute({ waChat })
+      if (result.isFailure()) return failure(result.value)
 
-      chat = response.value.chat
+      chat = result.value.chat
       this.chatEmitter.emitCreate({ chat })
     }
 
     const content = attendant.displayName.concat('\n', body)
-    const waMessage = await this.whatsAppService.sendTextMessage({
+    const response = await this.whatsAppService.sendTextMessage({
       body: content,
       instanceId,
       waChatId,
       quotedId,
     })
 
-    const response = await this.createTextMessageFromWAMessage.execute({
+    if (response.isFailure()) return failure(response.value)
+    const { value: waMessage } = response
+
+    const result = await this.createTextMessageFromWAMessage.execute({
       waMessage,
       attendantId,
     })
 
-    if (response.isFailure()) return failure(response.value)
+    if (result.isFailure()) return failure(result.value)
 
-    const { message } = response.value
+    const { message } = result.value
     this.messageEmitter.emitCreate({ message })
 
     chat.interact(message)
