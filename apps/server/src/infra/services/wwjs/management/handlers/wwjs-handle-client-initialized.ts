@@ -1,21 +1,15 @@
 import { HandleInstanceInitialized } from '@/domain/management/application/handlers/handle-instance-initialized'
-import { Injectable } from '@nestjs/common'
+import { Handler } from '../../decorators/handler.decorator'
+import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
 import { WWJSInternalStates } from '../../types/wwjs-enums'
-import { WWJSHandler, WWJSListener } from '../../types/wwjs-handler'
+import { WWJSHandler, type WWJSListener } from '../../types/wwjs-handler'
 import { WWJSClient } from '../../wwjs-client'
-import { WWJSFactory } from '../../wwjs-factory.service'
 
-@Injectable()
+@Handler()
 export class WWJSHandleClientInitialized implements WWJSHandler {
-  constructor(
-    private factory: WWJSFactory,
-    private handleInitialized: HandleInstanceInitialized
-  ) {
-    this.factory.addHandler(this)
-  }
+  constructor(private handleInitialized: HandleInstanceInitialized) {}
 
-  event = WWJSInternalStates.INITIALIZED
-
+  @SubscribeEvent(WWJSInternalStates.INITIALIZED)
   register(client: WWJSClient): WWJSListener {
     return async () => {
       await this.handleInitialized.execute({

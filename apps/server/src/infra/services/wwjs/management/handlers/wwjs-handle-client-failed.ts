@@ -1,21 +1,15 @@
 import { HandleInstanceFailed } from '@/domain/management/application/handlers/handle-instance-failed'
-import { Injectable } from '@nestjs/common'
+import { Handler } from '../../decorators/handler.decorator'
+import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
 import { WWJSInternalStates } from '../../types/wwjs-enums'
-import { WWJSHandler, WWJSListener } from '../../types/wwjs-handler'
+import { WWJSHandler, type WWJSListener } from '../../types/wwjs-handler'
 import { WWJSClient } from '../../wwjs-client'
-import { WWJSFactory } from '../../wwjs-factory.service'
 
-@Injectable()
+@Handler()
 export class WWJSHandleClientFailed implements WWJSHandler {
-  constructor(
-    private factory: WWJSFactory,
-    private handleFailed: HandleInstanceFailed
-  ) {
-    this.factory.addHandler(this)
-  }
+  constructor(private handleFailed: HandleInstanceFailed) {}
 
-  event = WWJSInternalStates.FAILED
-
+  @SubscribeEvent(WWJSInternalStates.FAILED)
   register(client: WWJSClient): WWJSListener {
     return async () => {
       await this.handleFailed.execute({

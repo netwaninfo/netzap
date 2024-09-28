@@ -1,26 +1,22 @@
 import { HandleReceivedWAMessage } from '@/domain/chat/application/handlers/handle-received-wa-message'
-import { Injectable } from '@nestjs/common'
+import { Handler } from '../../decorators/handler.decorator'
+import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
 import { WWJSMessage } from '../../types/wwjs-entities'
 import { WWJSEvents } from '../../types/wwjs-enums'
-import { WWJSHandler, WWJSListener } from '../../types/wwjs-handler'
+import { WWJSHandler, type WWJSListener } from '../../types/wwjs-handler'
 import { WWJSClient } from '../../wwjs-client'
-import { WWJSFactory } from '../../wwjs-factory.service'
 import { WWJSChatMapper } from '../mappers/wwjs-chat-mapper'
 import { WWJSMessageMapper } from '../mappers/wwjs-message-mapper'
 
-@Injectable()
+@Handler()
 export class WWJSHandleMessageReceived implements WWJSHandler {
   constructor(
-    private factory: WWJSFactory,
     private handleReceived: HandleReceivedWAMessage,
     private chatMapper: WWJSChatMapper,
     private messageMapper: WWJSMessageMapper
-  ) {
-    this.factory.addHandler(this)
-  }
+  ) {}
 
-  event = WWJSEvents.MESSAGE_RECEIVED
-
+  @SubscribeEvent(WWJSEvents.MESSAGE_RECEIVED)
   register(client: WWJSClient): WWJSListener {
     return async (message: WWJSMessage) => {
       const chat = await message.getChat()

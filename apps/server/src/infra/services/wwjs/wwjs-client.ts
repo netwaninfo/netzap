@@ -8,6 +8,7 @@ import {
   WWJSInternalStates,
   WWJSInternalStatus,
 } from './types/wwjs-enums'
+import { WWJSEvent } from './types/wwjs-event'
 import { WWJSHandler } from './types/wwjs-handler'
 
 export interface WWJSClientProps {
@@ -17,33 +18,26 @@ export interface WWJSClientProps {
   state: InstanceState
 }
 
-const WWJS_EVENTS_STATES_MAPPER = [
+type EventStatesArrayMapper = [WWJSInternalStates, InstanceState][]
+
+const STATES_MAPPER: EventStatesArrayMapper = [
   [WWJSInternalStates.STOPPED, 'stopped'],
   [WWJSInternalStates.FAILED, 'failed'],
   [WWJSInternalStates.STARTING, 'starting'],
   [WWJSInternalStates.INITIALIZED, 'initialized'],
 ]
 
-const WWJS_EVENTS_STATUS_MAPPER = [
+type EventStatusArrayMapper = [
+  WWJSInternalStatus | WWJSEvents,
+  InstanceStatus,
+][]
+
+const STATUS_MAPPER: EventStatusArrayMapper = [
   [WWJSEvents.READY, 'connected'],
   [WWJSInternalStatus.DISCONNECTED, 'disconnected'],
 ]
 
 export class WWJSClient extends ValueObject<WWJSClientProps> {
-  protected constructor(props: WWJSClientProps) {
-    super(props)
-
-    for (const mapper of WWJS_EVENTS_STATES_MAPPER) {
-      const [event, state] = mapper as [WWJSInternalStates, InstanceState]
-      this.raw.on(event, () => this.set({ state }))
-    }
-
-    for (const mapper of WWJS_EVENTS_STATUS_MAPPER) {
-      const [event, status] = mapper as [WWJSInternalStates, InstanceStatus]
-      this.raw.on(event, () => this.set({ status }))
-    }
-  }
-
   get instanceId() {
     return this.props.instanceId
   }
@@ -61,6 +55,14 @@ export class WWJSClient extends ValueObject<WWJSClientProps> {
   }
 
   init() {
+    for (const [event, state] of STATES_MAPPER) {
+      this.raw.on(event, () => this.set({ state }))
+    }
+
+    for (const [event, status] of STATUS_MAPPER) {
+      this.raw.on(event, () => this.set({ status }))
+    }
+
     return this.raw.initialize()
   }
 
@@ -76,10 +78,8 @@ export class WWJSClient extends ValueObject<WWJSClientProps> {
     return this.status === 'connected' && this.state === 'initialized'
   }
 
-  addHandlers(handlers: WWJSHandler[]) {
-    for (const handler of handlers) {
-      this.raw.on(handler.event, handler.register(this))
-    }
+  addHandlers(event: WWJSEvent, handler: WWJSHandler) {
+    this.raw.on(event, handler.register(this))
   }
 
   static create(props: SetOptional<WWJSClientProps, 'status' | 'state'>) {

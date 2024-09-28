@@ -1,21 +1,15 @@
 import { HandleInstanceStopped } from '@/domain/management/application/handlers/handle-instance-stopped'
-import { Injectable } from '@nestjs/common'
+import { Handler } from '../../decorators/handler.decorator'
+import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
 import { WWJSInternalStates } from '../../types/wwjs-enums'
-import { WWJSHandler, WWJSListener } from '../../types/wwjs-handler'
+import { WWJSHandler, type WWJSListener } from '../../types/wwjs-handler'
 import { WWJSClient } from '../../wwjs-client'
-import { WWJSFactory } from '../../wwjs-factory.service'
 
-@Injectable()
+@Handler()
 export class WWJSHandleClientStopped implements WWJSHandler {
-  constructor(
-    private factory: WWJSFactory,
-    private handleStopped: HandleInstanceStopped
-  ) {
-    this.factory.addHandler(this)
-  }
+  constructor(private handleStopped: HandleInstanceStopped) {}
 
-  event = WWJSInternalStates.STOPPED
-
+  @SubscribeEvent(WWJSInternalStates.STOPPED)
   register(client: WWJSClient): WWJSListener {
     return async () => {
       await this.handleStopped.execute({

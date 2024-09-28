@@ -1,21 +1,15 @@
 import { HandleInstanceQRCodeChange } from '@/domain/management/application/handlers/handle-instance-qr-code-change'
-import { Injectable } from '@nestjs/common'
+import { Handler } from '../../decorators/handler.decorator'
+import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
 import { WWJSInternalEvents } from '../../types/wwjs-enums'
-import { WWJSHandler, WWJSListener } from '../../types/wwjs-handler'
+import { WWJSHandler, type WWJSListener } from '../../types/wwjs-handler'
 import { WWJSClient } from '../../wwjs-client'
-import { WWJSFactory } from '../../wwjs-factory.service'
 
-@Injectable()
+@Handler()
 export class WWJSHandleClientQRCodeChange implements WWJSHandler {
-  constructor(
-    private factory: WWJSFactory,
-    private handleQRCodeChange: HandleInstanceQRCodeChange
-  ) {
-    this.factory.addHandler(this)
-  }
+  constructor(private handleQRCodeChange: HandleInstanceQRCodeChange) {}
 
-  event = WWJSInternalEvents.QR_CODE
-
+  @SubscribeEvent(WWJSInternalEvents.QR_CODE)
   register(client: WWJSClient): WWJSListener {
     return async (qrCode: string) => {
       await this.handleQRCodeChange.execute({
