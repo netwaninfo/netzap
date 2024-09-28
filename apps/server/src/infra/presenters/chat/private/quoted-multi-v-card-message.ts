@@ -1,12 +1,12 @@
 import { PrivateMultiVCardMessage } from '@/domain/chat/enterprise/entities/private/multi-v-card-message'
-import { PrivateQuotedMultiVCardMessage } from '@netzap/contracts/chat'
+import { PrivateQuotedMessage } from '@netzap/contracts/chat'
 import { Except } from 'type-fest'
 import { ContactPresenter } from '../contact-presenter'
 
 export class PrivateQuotedMultiVCardMessagePresenter {
   static toHttp(
     message: Except<PrivateMultiVCardMessage, 'quoted'>
-  ): PrivateQuotedMultiVCardMessage {
+  ): PrivateQuotedMessage {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),

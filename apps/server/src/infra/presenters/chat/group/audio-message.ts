@@ -22,7 +22,9 @@ export class GroupAudioMessagePresenter {
       quoted: message.hasQuoted()
         ? GroupQuotedMessagePresenter.toHttp(message.quoted)
         : null,
-      media: MessageMediaPresenter.toHttp(message.media),
+      media: message.hasMedia()
+        ? MessageMediaPresenter.toHttp(message.media)
+        : null,
     }
   }
 }

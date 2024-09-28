@@ -1,12 +1,12 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Except, SetOptional } from 'type-fest'
+import type { Except, SetNonNullable, SetOptional } from 'type-fest'
 import type { MessageMedia } from '../message-media'
 import { PrivateMessage, type PrivateMessageProps } from './message'
 import { PrivateRevokedMessage } from './revoked-message'
 
 export interface PrivateImageMessageProps extends PrivateMessageProps {
   type: 'image'
-  media: MessageMedia
+  media: MessageMedia | null
   body: string | null
 }
 
@@ -17,6 +17,10 @@ export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps
 
   get media() {
     return this.props.media
+  }
+
+  hasMedia(): this is SetNonNullable<PrivateImageMessageProps, 'media'> {
+    return !!this.media
   }
 
   get body() {
@@ -51,6 +55,7 @@ export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps
         | 'sentBy'
         | 'createdAt'
         | 'body'
+        | 'media'
       >,
       'type'
     >,
@@ -67,6 +72,7 @@ export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps
         isFromMe: props.isFromMe ?? true,
         sentBy: props.sentBy ?? null,
         createdAt: props.createdAt ?? new Date(),
+        media: props.media ?? null,
       },
       id
     )

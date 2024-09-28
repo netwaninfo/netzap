@@ -118,6 +118,7 @@ describe('HandleRevokeWAMessage', () => {
       waChatId,
     })
     messagesRepository.items.push(messageRef)
+    assert(!!messageRef.media)
 
     const storageObject = makeStorageObject({ path: messageRef.media.key })
     storageService.items.push(storageObject)

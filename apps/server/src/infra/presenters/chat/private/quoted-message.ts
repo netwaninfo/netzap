@@ -5,7 +5,6 @@ import { PrivateQuotedAudioMessagePresenter } from './quoted-audio-message'
 import { PrivateQuotedDocumentMessagePresenter } from './quoted-document-message'
 import { PrivateQuotedImageMessagePresenter } from './quoted-image-message'
 import { PrivateQuotedMultiVCardMessagePresenter } from './quoted-multi-v-card-message'
-import { PrivateQuotedRevokedMessagePresenter } from './quoted-revoked-message'
 import { PrivateQuotedTextMessagePresenter } from './quoted-text-message'
 import { PrivateQuotedUnknownMessagePresenter } from './quoted-unknown-message'
 import { PrivateQuotedVCardMessagePresenter } from './quoted-v-card-message'
@@ -30,7 +29,7 @@ export class PrivateQuotedMessagePresenter {
         return PrivateQuotedMultiVCardMessagePresenter.toHttp(message)
 
       case 'revoked':
-        return PrivateQuotedRevokedMessagePresenter.toHttp(message)
+        throw new Error('Cannot quote a private revoked message')
 
       case 'text':
         return PrivateQuotedTextMessagePresenter.toHttp(message)

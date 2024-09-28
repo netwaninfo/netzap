@@ -1,4 +1,4 @@
-import z from 'zod'
+import { z } from 'zod'
 
 import { paginationResponseSchema } from '@/shared/index.js'
 import { chatSchema } from '../../types/index.js'

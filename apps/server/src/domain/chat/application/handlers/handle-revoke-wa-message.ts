@@ -64,7 +64,7 @@ export class HandleRevokeWAMessage {
       )
     }
 
-    if (isMessageWithMedia(prevMessage)) {
+    if (isMessageWithMedia(prevMessage) && prevMessage.hasMedia()) {
       const response = await this.storageService.delete(prevMessage.media.key)
       if (response.isFailure()) return failure(response.value)
     }

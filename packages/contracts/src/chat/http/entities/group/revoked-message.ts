@@ -1,7 +1,12 @@
-import z from 'zod'
+import { z } from 'zod'
 
-import { groupQuotedRevokedMessageSchema } from './quoted-revoked-message.js'
+import { messageTypeSchema } from '@/chat/enums/index.js'
+import { baseGroupMessage } from './message.js'
 
-export const groupRevokedMessageSchema = groupQuotedRevokedMessageSchema
+export const groupRevokedMessageSchema = baseGroupMessage.extend({
+  type: z.literal(messageTypeSchema.Values.revoked),
+  revokedAt: z.date(),
+  revokedBy: z.string().nullable(),
+})
 
 export type GroupRevokedMessage = z.infer<typeof groupRevokedMessageSchema>

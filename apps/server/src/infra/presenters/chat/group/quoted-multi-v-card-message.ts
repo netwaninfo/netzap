@@ -1,12 +1,12 @@
 import { GroupMultiVCardMessage } from '@/domain/chat/enterprise/entities/group/multi-v-card-message'
-import { GroupQuotedMultiVCardMessage } from '@netzap/contracts/chat'
+import { GroupQuotedMessage } from '@netzap/contracts/chat'
 import { Except } from 'type-fest'
 import { ContactPresenter } from '../contact-presenter'
 
 export class GroupQuotedMultiVCardMessagePresenter {
   static toHttp(
     message: Except<GroupMultiVCardMessage, 'quoted'>
-  ): GroupQuotedMultiVCardMessage {
+  ): GroupQuotedMessage {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),

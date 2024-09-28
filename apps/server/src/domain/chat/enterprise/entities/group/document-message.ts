@@ -1,12 +1,12 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Except, SetOptional } from 'type-fest'
+import type { Except, SetNonNullable, SetOptional } from 'type-fest'
 import type { MessageMedia } from '../message-media'
 import { GroupMessage, type GroupMessageProps } from './message'
 import { GroupRevokedMessage } from './revoked-message'
 
 export interface GroupDocumentMessageProps extends GroupMessageProps {
   type: 'document'
-  media: MessageMedia
+  media: MessageMedia | null
   body: string | null
 }
 
@@ -17,6 +17,10 @@ export class GroupDocumentMessage extends GroupMessage<GroupDocumentMessageProps
 
   get media() {
     return this.props.media
+  }
+
+  hasMedia(): this is SetNonNullable<GroupDocumentMessageProps, 'media'> {
+    return !!this.media
   }
 
   get body() {
@@ -52,6 +56,7 @@ export class GroupDocumentMessage extends GroupMessage<GroupDocumentMessageProps
         | 'sentBy'
         | 'createdAt'
         | 'body'
+        | 'media'
       >,
       'type'
     >,
@@ -68,6 +73,7 @@ export class GroupDocumentMessage extends GroupMessage<GroupDocumentMessageProps
         isFromMe: props.isFromMe ?? true,
         sentBy: props.sentBy ?? null,
         createdAt: props.createdAt ?? new Date(),
+        media: props.media ?? null,
       },
       id
     )

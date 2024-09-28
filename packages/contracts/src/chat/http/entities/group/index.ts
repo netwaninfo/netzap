@@ -1,22 +1,49 @@
-export * from './audio-message.js'
-export * from './quoted-audio-message.js'
 export * from './chat.js'
-export * from './document-message.js'
-export * from './quoted-document-message.js'
-export * from './image-message.js'
-export * from './quoted-image-message.js'
-export * from './multi-v-card-message.js'
-export * from './quoted-multi-v-card-message.js'
-export * from './quoted-message.js'
+export * from './quoted.js'
+
+export {
+  type GroupAudioMessage,
+  groupAudioMessageSchema,
+} from './audio-message.js'
+
+export {
+  type GroupDocumentMessage,
+  groupDocumentMessageSchema,
+} from './document-message.js'
+
+export {
+  type GroupImageMessage,
+  groupImageMessageSchema,
+} from './image-message.js'
+
+export {
+  type GroupMultiVCardMessage,
+  groupMultiVCardMessageSchema,
+} from './multi-v-card-message.js'
+
 export * from './revoked-message.js'
-export * from './quoted-revoked-message.js'
-export * from './text-message.js'
-export * from './quoted-text-message.js'
-export * from './unknown-message.js'
-export * from './quoted-unknown-message.js'
-export * from './v-card-message.js'
-export * from './quoted-v-card-message.js'
-export * from './video-message.js'
-export * from './quoted-video-message.js'
-export * from './voice-message.js'
-export * from './quoted-voice-message.js'
+
+export {
+  type GroupTextMessage,
+  groupTextMessageSchema,
+} from './text-message.js'
+
+export {
+  type GroupUnknownMessage,
+  groupUnknownMessageSchema,
+} from './unknown-message.js'
+
+export {
+  type GroupVCardMessage,
+  groupVCardMessageSchema,
+} from './v-card-message.js'
+
+export {
+  type GroupVideoMessage,
+  groupVideoMessageSchema,
+} from './video-message.js'
+
+export {
+  type GroupVoiceMessage,
+  groupVoiceMessageSchema,
+} from './voice-message.js'

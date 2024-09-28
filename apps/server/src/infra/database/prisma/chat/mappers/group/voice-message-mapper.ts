@@ -9,7 +9,7 @@ import { PrismaMessageMediaMapper } from '../prisma-message-media-mapper'
 import { RawGroupMessage } from './message-mapper'
 import { PrismaGroupMessageMapper } from './message-mapper'
 
-type Raw = SetNonNullable<RawGroupMessage, 'media' | 'author'>
+type Raw = SetNonNullable<RawGroupMessage, 'author'>
 
 export class PrismaGroupVoiceMessageMapper {
   static toDomain(raw: Raw): GroupVoiceMessage {
@@ -24,7 +24,7 @@ export class PrismaGroupVoiceMessageMapper {
         isForwarded: raw.isForwarded,
         isFromMe: raw.isFromMe,
         createdAt: raw.createdAt,
-        media: PrismaMessageMediaMapper.toDomain(raw.media),
+        media: raw.media ? PrismaMessageMediaMapper.toDomain(raw.media) : null,
         ...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
         ...(raw.quoted && {
           quoted: PrismaGroupMessageMapper.toDomain(raw.quoted),
@@ -52,7 +52,9 @@ export class PrismaGroupVoiceMessageMapper {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      media: PrismaMessageMediaMapper.toPrisma(message.media),
+      media: message.hasMedia()
+        ? PrismaMessageMediaMapper.toPrisma(message.media)
+        : null,
     }
   }
 }

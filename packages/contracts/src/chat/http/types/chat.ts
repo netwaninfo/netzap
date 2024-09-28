@@ -1,4 +1,4 @@
-import z from 'zod'
+import { z } from 'zod'
 
 import { groupChatSchema, privateChatSchema } from '../entities/index.js'
 

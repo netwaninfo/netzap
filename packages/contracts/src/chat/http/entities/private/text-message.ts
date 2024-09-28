@@ -1,10 +1,16 @@
-import z from 'zod'
+import { z } from 'zod'
 
-import { privateQuotedMessageSchema } from './quoted-message.js'
-import { privateQuotedTextMessageSchema } from './quoted-text-message.js'
+import { messageTypeSchema } from '@/chat/enums/index.js'
+import { basePrivateMessage } from './message.js'
+import { privateQuotedMessageSchema } from './quoted.js'
 
-export const privateTextMessageSchema = privateQuotedTextMessageSchema.extend({
-  quoted: privateQuotedMessageSchema.nullable(),
+export const basePrivateTextMessageSchema = basePrivateMessage.extend({
+  type: z.literal(messageTypeSchema.Values.text),
+  body: z.string(),
+})
+
+export const privateTextMessageSchema = basePrivateTextMessageSchema.extend({
+  quoted: z.lazy(() => privateQuotedMessageSchema).nullable(),
 })
 
 export type PrivateTextMessage = z.infer<typeof privateTextMessageSchema>

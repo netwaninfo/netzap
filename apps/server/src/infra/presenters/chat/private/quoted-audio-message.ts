@@ -19,7 +19,9 @@ export class PrivateQuotedAudioMessagePresenter {
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
       sentBy: message.sentBy?.toString() ?? null,
-      media: MessageMediaPresenter.toHttp(message.media),
+      media: message.hasMedia()
+        ? MessageMediaPresenter.toHttp(message.media)
+        : null,
     }
   }
 }

@@ -1,5 +1,5 @@
 import { GroupVoiceMessage } from '@/domain/chat/enterprise/entities/group/voice-message'
-import { GroupQuotedVoiceMessage } from '@netzap/contracts/chat'
+import { GroupQuotedMessage } from '@netzap/contracts/chat'
 import { Except } from 'type-fest'
 import { ContactPresenter } from '../contact-presenter'
 import { MessageMediaPresenter } from '../message-media-presenter'
@@ -7,7 +7,7 @@ import { MessageMediaPresenter } from '../message-media-presenter'
 export class GroupQuotedVoiceMessagePresenter {
   static toHttp(
     message: Except<GroupVoiceMessage, 'quoted'>
-  ): GroupQuotedVoiceMessage {
+  ): GroupQuotedMessage {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -21,7 +21,9 @@ export class GroupQuotedVoiceMessagePresenter {
       createdAt: message.createdAt,
       author: ContactPresenter.toHttp(message.author),
       sentBy: message.sentBy?.toString() ?? null,
-      media: MessageMediaPresenter.toHttp(message.media),
+      media: message.hasMedia()
+        ? MessageMediaPresenter.toHttp(message.media)
+        : null,
     }
   }
 }

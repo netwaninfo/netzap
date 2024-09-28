@@ -1,11 +1,11 @@
 import { PrivateTextMessage } from '@/domain/chat/enterprise/entities/private/text-message'
-import { PrivateQuotedTextMessage } from '@netzap/contracts/chat'
+import { PrivateQuotedMessage } from '@netzap/contracts/chat'
 import { Except } from 'type-fest'
 
 export class PrivateQuotedTextMessagePresenter {
   static toHttp(
     message: Except<PrivateTextMessage, 'quoted'>
-  ): PrivateQuotedTextMessage {
+  ): PrivateQuotedMessage {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),

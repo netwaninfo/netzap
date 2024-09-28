@@ -21,7 +21,9 @@ export class GroupQuotedAudioMessagePresenter {
       createdAt: message.createdAt,
       author: ContactPresenter.toHttp(message.author),
       sentBy: message.sentBy?.toString() ?? null,
-      media: MessageMediaPresenter.toHttp(message.media),
+      media: message.hasMedia()
+        ? MessageMediaPresenter.toHttp(message.media)
+        : null,
     }
   }
 }

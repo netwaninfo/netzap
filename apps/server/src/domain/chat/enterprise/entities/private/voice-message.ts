@@ -1,12 +1,12 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Except, SetOptional } from 'type-fest'
+import type { Except, SetNonNullable, SetOptional } from 'type-fest'
 import type { MessageMedia } from '../message-media'
 import { PrivateMessage, type PrivateMessageProps } from './message'
 import { PrivateRevokedMessage } from './revoked-message'
 
 export interface PrivateVoiceMessageProps extends PrivateMessageProps {
   type: 'voice'
-  media: MessageMedia
+  media: MessageMedia | null
 }
 
 export class PrivateVoiceMessage extends PrivateMessage<PrivateVoiceMessageProps> {
@@ -16,6 +16,10 @@ export class PrivateVoiceMessage extends PrivateMessage<PrivateVoiceMessageProps
 
   get media() {
     return this.props.media
+  }
+
+  hasMedia(): this is SetNonNullable<PrivateVoiceMessageProps, 'media'> {
+    return !!this.media
   }
 
   revoke(): PrivateRevokedMessage {
@@ -45,6 +49,7 @@ export class PrivateVoiceMessage extends PrivateMessage<PrivateVoiceMessageProps
         | 'isFromMe'
         | 'sentBy'
         | 'createdAt'
+        | 'media'
       >,
       'type'
     >,
@@ -60,6 +65,7 @@ export class PrivateVoiceMessage extends PrivateMessage<PrivateVoiceMessageProps
         isFromMe: props.isFromMe ?? true,
         sentBy: props.sentBy ?? null,
         createdAt: props.createdAt ?? new Date(),
+        media: props.media ?? null,
       },
       id
     )

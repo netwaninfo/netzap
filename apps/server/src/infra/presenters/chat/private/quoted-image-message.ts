@@ -1,12 +1,12 @@
 import { PrivateImageMessage } from '@/domain/chat/enterprise/entities/private/image-message'
-import { PrivateQuotedImageMessage } from '@netzap/contracts/chat'
+import { PrivateQuotedMessage } from '@netzap/contracts/chat'
 import { Except } from 'type-fest'
 import { MessageMediaPresenter } from '../message-media-presenter'
 
 export class PrivateQuotedImageMessagePresenter {
   static toHttp(
     message: Except<PrivateImageMessage, 'quoted'>
-  ): PrivateQuotedImageMessage {
+  ): PrivateQuotedMessage {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -20,7 +20,9 @@ export class PrivateQuotedImageMessagePresenter {
       createdAt: message.createdAt,
       sentBy: message.sentBy?.toString() ?? null,
       body: message.body,
-      media: MessageMediaPresenter.toHttp(message.media),
+      media: message.hasMedia()
+        ? MessageMediaPresenter.toHttp(message.media)
+        : null,
     }
   }
 }

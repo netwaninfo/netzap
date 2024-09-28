@@ -3,12 +3,11 @@ import { PrivateVoiceMessage } from '@/domain/chat/enterprise/entities/private/v
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { Prisma } from '@prisma/client'
-import { SetNonNullable } from 'type-fest'
 import { PrismaMessageMediaMapper } from '../prisma-message-media-mapper'
 import { RawPrivateMessage } from './message-mapper'
 import { PrismaPrivateMessageMapper } from './message-mapper'
 
-type Raw = SetNonNullable<RawPrivateMessage, 'media'>
+type Raw = RawPrivateMessage
 
 export class PrismaPrivateVoiceMessageMapper {
   static toDomain(raw: Raw): PrivateVoiceMessage {
@@ -22,7 +21,7 @@ export class PrismaPrivateVoiceMessageMapper {
         isForwarded: raw.isForwarded,
         isFromMe: raw.isFromMe,
         createdAt: raw.createdAt,
-        media: PrismaMessageMediaMapper.toDomain(raw.media),
+        media: raw.media ? PrismaMessageMediaMapper.toDomain(raw.media) : null,
         ...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
         ...(raw.quoted && {
           quoted: PrismaPrivateMessageMapper.toDomain(raw.quoted),
@@ -49,7 +48,9 @@ export class PrismaPrivateVoiceMessageMapper {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      media: PrismaMessageMediaMapper.toPrisma(message.media),
+      media: message.hasMedia()
+        ? PrismaMessageMediaMapper.toPrisma(message.media)
+        : null,
     }
   }
 }

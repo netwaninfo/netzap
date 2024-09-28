@@ -21,7 +21,9 @@ export class PrivateDocumentMessagePresenter {
       quoted: message.hasQuoted()
         ? PrivateQuotedMessagePresenter.toHttp(message.quoted)
         : null,
-      media: MessageMediaPresenter.toHttp(message.media),
+      media: message.hasMedia()
+        ? MessageMediaPresenter.toHttp(message.media)
+        : null,
     }
   }
 }

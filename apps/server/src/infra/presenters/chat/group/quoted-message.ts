@@ -5,7 +5,6 @@ import { GroupQuotedAudioMessagePresenter } from './quoted-audio-message'
 import { GroupQuotedDocumentMessagePresenter } from './quoted-document-message'
 import { GroupQuotedImageMessagePresenter } from './quoted-image-message'
 import { GroupQuotedMultiVCardMessagePresenter } from './quoted-multi-v-card-message'
-import { GroupQuotedRevokedMessagePresenter } from './quoted-revoked-message'
 import { GroupQuotedTextMessagePresenter } from './quoted-text-message'
 import { GroupQuotedUnknownMessagePresenter } from './quoted-unknown-message'
 import { GroupQuotedVCardMessagePresenter } from './quoted-v-card-message'
@@ -28,7 +27,7 @@ export class GroupQuotedMessagePresenter {
         return GroupQuotedMultiVCardMessagePresenter.toHttp(message)
 
       case 'revoked':
-        return GroupQuotedRevokedMessagePresenter.toHttp(message)
+        throw new Error('Cannot quote a group revoked message')
 
       case 'text':
         return GroupQuotedTextMessagePresenter.toHttp(message)

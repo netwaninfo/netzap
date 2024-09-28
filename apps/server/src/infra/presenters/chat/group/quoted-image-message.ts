@@ -1,5 +1,5 @@
 import { GroupImageMessage } from '@/domain/chat/enterprise/entities/group/image-message'
-import { GroupQuotedImageMessage } from '@netzap/contracts/chat'
+import { GroupQuotedMessage } from '@netzap/contracts/chat'
 import { Except } from 'type-fest'
 import { ContactPresenter } from '../contact-presenter'
 import { MessageMediaPresenter } from '../message-media-presenter'
@@ -7,7 +7,7 @@ import { MessageMediaPresenter } from '../message-media-presenter'
 export class GroupQuotedImageMessagePresenter {
   static toHttp(
     message: Except<GroupImageMessage, 'quoted'>
-  ): GroupQuotedImageMessage {
+  ): GroupQuotedMessage {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -22,7 +22,9 @@ export class GroupQuotedImageMessagePresenter {
       author: ContactPresenter.toHttp(message.author),
       sentBy: message.sentBy?.toString() ?? null,
       body: message.body,
-      media: MessageMediaPresenter.toHttp(message.media),
+      media: message.hasMedia()
+        ? MessageMediaPresenter.toHttp(message.media)
+        : null,
     }
   }
 }
