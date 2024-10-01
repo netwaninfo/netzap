@@ -46,7 +46,7 @@ export class WWJSPrivateMessageMapper {
         isFromMe: message.fromMe,
         raw: JSON.parse(JSON.stringify(message)),
         timestamp: message.timestamp,
-        waChatId: WAEntityID.createFromString(message.to),
+        waChatId: WAEntityID.createFromString(message.from),
         ...(media && {
           media: WWJSMessageMediaMapper.toDomain(media),
         }),

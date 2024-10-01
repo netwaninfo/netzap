@@ -1,12 +1,11 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { EnvService } from '@/infra/env/env.service'
 import { Injectable, OnModuleInit } from '@nestjs/common'
-import { DiscoveryService } from '@nestjs/core'
-import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper'
 import { Except } from 'type-fest'
+import { DiscoveryService } from '../utilities/nestjs/discovery.service'
+import { WWJSLocalAuthStrategy } from './auth-strategies/local-auth-strategy'
 import { BROWSER_ARGS, WWJS_EVENT_KEY, WWJS_HANDLER_KEY } from './constants'
 import { WWJSInternalClient } from './internal/client'
-import { WWJSLocalStrategy } from './strategies/local-strategy'
 import { WWJSEvent } from './types/wwjs-event'
 import { WWJSHandler } from './types/wwjs-handler'
 import { WWJSClient, WWJSClientProps } from './wwjs-client'
@@ -22,17 +21,13 @@ export class WWJSFactory implements OnModuleInit {
 
   private handlers: [WWJSEvent, WWJSHandler][] = []
 
-  onModuleInit() {
-    const providers = this.discoveryService
-      .getProviders()
-      .filter((wrapper): wrapper is InstanceWrapper<WWJSHandler> => {
-        return (
-          wrapper.metatype &&
-          Reflect.getMetadata(WWJS_HANDLER_KEY, wrapper.metatype)
-        )
+  async onModuleInit() {
+    const providers =
+      await this.discoveryService.getInstancesProviders<WWJSHandler>({
+        metadataKey: WWJS_HANDLER_KEY,
       })
 
-    this.handlers = providers.map(({ instance }) => {
+    this.handlers = providers.map(instance => {
       return [Reflect.getMetadata(WWJS_EVENT_KEY, instance.register), instance]
     })
   }
@@ -41,7 +36,9 @@ export class WWJSFactory implements OnModuleInit {
     const isProduction = this.env.get('NODE_ENV') === 'production'
 
     return new WWJSInternalClient({
-      authStrategy: new WWJSLocalStrategy({ clientId: clientId.toString() }),
+      authStrategy: new WWJSLocalAuthStrategy({
+        clientId: clientId.toString(),
+      }),
       puppeteer: {
         args: BROWSER_ARGS,
         executablePath: this.env.get('WWJS_EXECUTABLE_PATH'),

@@ -1,4 +1,4 @@
-import type { MessageType } from '@netzap/contracts/chat'
+import type { MessageType } from '@netzap/entities/chat'
 import { WWJSMessageTypes } from '../../types/wwjs-enums'
 
 const DOMAIN_MAPPER: Partial<{

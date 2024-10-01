@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ValueObject } from '@/core/entities/value-object'
-import { InstanceState, InstanceStatus } from '@netzap/contracts/management'
+import { InstanceState, InstanceStatus } from '@netzap/entities/management'
 import { SetOptional } from 'type-fest'
 import { WWJSInternalClient } from './internal/client'
 import {

@@ -1,4 +1,4 @@
-import { MessageStatus } from '@netzap/contracts/chat'
+import { MessageStatus } from '@netzap/entities/chat'
 import { WWJSMessageACK } from '../../types/wwjs-enums'
 
 const DOMAIN_MAPPER: { [key in WWJSMessageACK]: MessageStatus } = {
