@@ -1,14 +1,10 @@
-import { DateService } from '@/domain/chat/application/services/date-service'
 import { Module } from '@nestjs/common'
-import { DayjsDateService } from './date/dayjs-date.service'
+
+import { UtilitiesDateModule } from './date/utilities-date.module'
+import { UtilitiesNestJSModule } from './nestjs/utilities-nestjs.module'
 
 @Module({
-  providers: [
-    {
-      provide: DateService,
-      useClass: DayjsDateService,
-    },
-  ],
-  exports: [DateService],
+  imports: [UtilitiesNestJSModule, UtilitiesDateModule],
+  exports: [UtilitiesNestJSModule, UtilitiesDateModule],
 })
 export class UtilitiesModule {}
