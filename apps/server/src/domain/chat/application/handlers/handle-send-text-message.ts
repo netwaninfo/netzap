@@ -69,6 +69,8 @@ export class HandleSendTextMessage {
       waChatId,
     })
 
+    const hasPreviousChat = !!chat
+
     if (!chat) {
       const response = await this.whatsAppService.getChatByWAChatId({
         instanceId,
@@ -90,9 +92,9 @@ export class HandleSendTextMessage {
       if (result.isFailure()) return failure(result.value)
 
       chat = result.value.chat
-      this.chatEmitter.emitCreate({ chat })
     }
 
+    // this.chatEmitter.emitCreate({ chat })
     const content = attendant.displayName.concat('\n', body)
     const response = await this.whatsAppService.sendTextMessage({
       body: content,
@@ -110,13 +112,17 @@ export class HandleSendTextMessage {
     })
 
     if (result.isFailure()) return failure(result.value)
-
     const { message } = result.value
-    this.messageEmitter.emitCreate({ message })
 
     chat.interact(message)
     await this.chatsRepository.save(chat)
-    this.chatEmitter.emitChange({ chat })
+
+    if (!hasPreviousChat) {
+      this.chatEmitter.emitCreate({ chat })
+    } else {
+      this.messageEmitter.emitCreate({ message })
+      this.chatEmitter.emitChange({ chat })
+    }
 
     return success({ message, chat })
   }

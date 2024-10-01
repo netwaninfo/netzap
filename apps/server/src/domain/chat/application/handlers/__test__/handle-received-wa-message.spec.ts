@@ -5,6 +5,10 @@ import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateMessage } from '@/domain/chat/enterprise/entities/private/message'
 import { FakeChatEmitter } from '@/test/emitters/chat/fake-chat-emitter'
 import { FakeMessageEmitter } from '@/test/emitters/chat/fake-message-emitter'
+import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
+import { makeContact } from '@/test/factories/chat/make-contact'
+import { makeGroup } from '@/test/factories/chat/make-group'
+import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makeWAGroupChat } from '@/test/factories/chat/wa/make-wa-group-chat'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateChat } from '@/test/factories/chat/wa/make-wa-private-chat'
@@ -404,6 +408,38 @@ describe('HandleReceivedWAMessage', () => {
 
     expect(chat).toBeInstanceOf(PrivateChat)
     expect(chat.lastMessage).toBeInstanceOf(PrivateMessage)
+    expect(messageEmitter.items).toHaveLength(0)
+    expect(chatEmitter.items).toHaveLength(1)
+  })
+
+  it('should be able to create a private chat and message with previous chat', async () => {
+    const waChat = makeWAPrivateChat({ instanceId })
+    const waMessage = makeWAPrivateMessage({ instanceId, waChatId: waChat.id })
+
+    const contact = makeContact({ waContactId: waChat.contact.id, instanceId })
+    contactsRepository.items.push(contact)
+    chatsRepository.items.push(
+      makePrivateChat({
+        contactId: contact.id,
+        waChatId: waChat.id,
+        instanceId,
+      })
+    )
+
+    const response = await sut.execute({
+      waChat,
+      waMessage,
+    })
+
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
+
+    const { chat, message } = response.value
+
+    expect(message).toBeInstanceOf(PrivateMessage)
+
+    expect(chat).toBeInstanceOf(PrivateChat)
+    expect(chat.lastMessage).toBeInstanceOf(PrivateMessage)
     expect(messageEmitter.items).toHaveLength(1)
     expect(chatEmitter.items).toHaveLength(1)
   })
@@ -415,6 +451,38 @@ describe('HandleReceivedWAMessage', () => {
       waChatId: waChat.id,
       author: makeWAPrivateContact({ instanceId }),
     })
+
+    const response = await sut.execute({
+      waChat,
+      waMessage,
+    })
+
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
+
+    const { chat, message } = response.value
+
+    expect(message).toBeInstanceOf(GroupMessage)
+
+    expect(chat).toBeInstanceOf(GroupChat)
+    expect(chat.lastMessage).toBeInstanceOf(GroupMessage)
+    expect(messageEmitter.items).toHaveLength(0)
+    expect(chatEmitter.items).toHaveLength(1)
+  })
+
+  it('should be able to create a group chat and message with previous chat', async () => {
+    const waChat = makeWAGroupChat({ instanceId })
+    const waMessage = makeWAGroupMessage({
+      instanceId,
+      waChatId: waChat.id,
+      author: makeWAPrivateContact({ instanceId }),
+    })
+
+    const group = makeGroup({ instanceId, waGroupId: waChat.contact.id })
+    groupsRepository.items.push(group)
+    chatsRepository.items.push(
+      makeGroupChat({ groupId: group.id, instanceId, waChatId: waChat.id })
+    )
 
     const response = await sut.execute({
       waChat,

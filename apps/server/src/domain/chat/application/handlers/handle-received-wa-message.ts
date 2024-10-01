@@ -49,6 +49,8 @@ export class HandleReceivedWAMessage {
       waChatId: waChat.id,
     })
 
+    const hasPreviousChat = !!chat
+
     if (!chat) {
       const response = await this.createChatFromWAChat.execute({ waChat })
 
@@ -61,13 +63,17 @@ export class HandleReceivedWAMessage {
     })
 
     if (response.isFailure()) return failure(response.value)
-
     const { message } = response.value
-    this.messageEmitter.emitCreate({ message })
 
     chat.interact(message)
     await this.chatsRepository.save(chat)
-    this.chatEmitter.emitChange({ chat })
+
+    if (!hasPreviousChat) {
+      this.chatEmitter.emitCreate({ chat })
+    } else {
+      this.messageEmitter.emitCreate({ message })
+      this.chatEmitter.emitChange({ chat })
+    }
 
     return success({ message, chat })
   }

@@ -10,6 +10,7 @@ import { FakeMessageEmitter } from '@/test/emitters/chat/fake-message-emitter'
 import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
 import { makeAttendant } from '@/test/factories/chat/make-attendant'
 import { makeContact } from '@/test/factories/chat/make-contact'
+import { makeGroup } from '@/test/factories/chat/make-group'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
@@ -173,10 +174,47 @@ describe('HandleSendTextMessage', () => {
     const { message, chat } = response.value
 
     expect(messagesRepository.items).toHaveLength(1)
+    expect(messageEmitter.items).toHaveLength(0)
+    expect(message).toBeInstanceOf(PrivateTextMessage)
+
+    expect(chatEmitter.items).toHaveLength(1)
+    expect(chatsRepository.items).toHaveLength(1)
+    expect(chat).toBeInstanceOf(PrivateChat)
+    expect(chat.lastMessage).toBeTruthy()
+  })
+
+  it('should be able to send text message to private chat with previous chat', async () => {
+    whatsAppService.sendTextMessage = async params => {
+      return success(await whatsAppService.sendPrivateTextMessage(params))
+    }
+
+    const contact = makeContact({ instanceId })
+    contactsRepository.items.push(contact)
+
+    const privateChat = makePrivateChat({ instanceId, contactId: contact.id })
+    chatsRepository.items.push(privateChat)
+
+    whatsAppService.getChatByWAChatId = async params => {
+      return success(await whatsAppService.getPrivateChatByWAChatId(params))
+    }
+
+    const response = await sut.execute({
+      instanceId,
+      attendantId: attendant.id,
+      body: 'message',
+      waChatId: privateChat.waChatId,
+    })
+
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
+
+    const { message, chat } = response.value
+
+    expect(messagesRepository.items).toHaveLength(1)
     expect(messageEmitter.items).toHaveLength(1)
     expect(message).toBeInstanceOf(PrivateTextMessage)
 
-    expect(chatEmitter.items).toHaveLength(2)
+    expect(chatEmitter.items).toHaveLength(1)
     expect(chatsRepository.items).toHaveLength(1)
     expect(chat).toBeInstanceOf(PrivateChat)
     expect(chat.lastMessage).toBeTruthy()
@@ -214,9 +252,54 @@ describe('HandleSendTextMessage', () => {
 
     expect(messagesRepository.items).toHaveLength(1)
     expect(message).toBeInstanceOf(GroupTextMessage)
+    expect(messageEmitter.items).toHaveLength(0)
+
+    expect(chatEmitter.items).toHaveLength(1)
+    expect(chatsRepository.items).toHaveLength(1)
+    expect(chat).toBeInstanceOf(GroupChat)
+    expect(chat.lastMessage).toBeTruthy()
+  })
+
+  it('should be able to send text message to group chat with previous chat', async () => {
+    const author = makeContact({ instanceId })
+    contactsRepository.items.push(author)
+
+    whatsAppService.sendTextMessage = async params => {
+      return success(
+        makeWAGroupMessage({
+          ...params,
+          author: makeWAPrivateContact({}, author.waContactId),
+        })
+      )
+    }
+
+    const group = makeGroup({ instanceId })
+    groupsRepository.items.push(group)
+
+    const groupChat = makeGroupChat({ instanceId, groupId: group.id })
+    chatsRepository.items.push(groupChat)
+
+    whatsAppService.getChatByWAChatId = async params => {
+      return success(await whatsAppService.getGroupChatByWAChatId(params))
+    }
+
+    const response = await sut.execute({
+      instanceId,
+      attendantId: attendant.id,
+      body: 'message',
+      waChatId: groupChat.waChatId,
+    })
+
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
+
+    const { message, chat } = response.value
+
+    expect(messagesRepository.items).toHaveLength(1)
+    expect(message).toBeInstanceOf(GroupTextMessage)
     expect(messageEmitter.items).toHaveLength(1)
 
-    expect(chatEmitter.items).toHaveLength(2)
+    expect(chatEmitter.items).toHaveLength(1)
     expect(chatsRepository.items).toHaveLength(1)
     expect(chat).toBeInstanceOf(GroupChat)
     expect(chat.lastMessage).toBeTruthy()
