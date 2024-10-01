@@ -5,7 +5,7 @@ import { baseChatSchema } from '../chat.js'
 
 const schema = baseChatSchema.extend({
   contactId: z.string(),
-  lastMessage: privateMessageSchema.nullable(),
+  lastMessage: z.lazy(() => privateMessageSchema.nullable()),
 })
 
 // TS7056

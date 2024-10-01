@@ -41,7 +41,9 @@
 			"dist",
 			"coverage",
 			".docker",
-			"package.json"
+			"package.json",
+			".wwebjs_auth",
+			".wwebjs_cache"
 		]
 	}
 }
