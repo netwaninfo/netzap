@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "rm -rf dist && tsup --watch",
-		"build": "rm -rf dist && tsup --silent",
+		"build": "rm -rf dist && tsup",
 		"lint": "biome check --error-on-warnings",
 		"lint:fix": "biome check --write --error-on-warnings",
 		"check:types": "tsc --noEmit",
@@ -16,9 +16,9 @@
 	],
 	"exports": {
 		"./node": {
-			"import": "./dist/node.js",
+			"types": "./dist/node.d.ts",
 			"require": "./dist/node.cjs",
-			"types": "./dist/node.d.ts"
+			"import": "./dist/node.js"
 		}
 	},
 	"devDependencies": {
