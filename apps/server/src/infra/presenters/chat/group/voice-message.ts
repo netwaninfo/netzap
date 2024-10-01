@@ -1,11 +1,11 @@
 import { GroupVoiceMessage } from '@/domain/chat/enterprise/entities/group/voice-message'
-import { GroupVoiceMessage as HttpGroupVoiceMessage } from '@netzap/contracts/chat'
+import { GroupVoiceMessage as Output } from '@netzap/entities/chat'
 import { ContactPresenter } from '../contact-presenter'
 import { MessageMediaPresenter } from '../message-media-presenter'
 import { GroupQuotedMessagePresenter } from './quoted-message'
 
 export class GroupVoiceMessagePresenter {
-  static toHttp(message: GroupVoiceMessage): HttpGroupVoiceMessage {
+  static toOutput(message: GroupVoiceMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -17,13 +17,13 @@ export class GroupVoiceMessagePresenter {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      author: ContactPresenter.toHttp(message.author),
+      author: ContactPresenter.toOutput(message.author),
       sentBy: message.sentBy?.toString() ?? null,
       quoted: message.hasQuoted()
-        ? GroupQuotedMessagePresenter.toHttp(message.quoted)
+        ? GroupQuotedMessagePresenter.toOutput(message.quoted)
         : null,
       media: message.hasMedia()
-        ? MessageMediaPresenter.toHttp(message.media)
+        ? MessageMediaPresenter.toOutput(message.media)
         : null,
     }
   }

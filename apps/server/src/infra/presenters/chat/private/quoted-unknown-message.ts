@@ -1,11 +1,9 @@
 import { PrivateUnknownMessage } from '@/domain/chat/enterprise/entities/private/unknown-message'
-import { PrivateQuotedMessage } from '@netzap/contracts/chat'
+import { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
 import { Except } from 'type-fest'
 
 export class PrivateQuotedUnknownMessagePresenter {
-  static toHttp(
-    message: Except<PrivateUnknownMessage, 'quoted'>
-  ): PrivateQuotedMessage {
+  static toOutput(message: Except<PrivateUnknownMessage, 'quoted'>): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),

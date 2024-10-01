@@ -1,10 +1,10 @@
 import { PrivateVoiceMessage } from '@/domain/chat/enterprise/entities/private/voice-message'
-import { PrivateVoiceMessage as HttpPrivateVoiceMessage } from '@netzap/contracts/chat'
+import { PrivateVoiceMessage as Output } from '@netzap/entities/chat'
 import { MessageMediaPresenter } from '../message-media-presenter'
 import { PrivateQuotedMessagePresenter } from './quoted-message'
 
 export class PrivateVoiceMessagePresenter {
-  static toHttp(message: PrivateVoiceMessage): HttpPrivateVoiceMessage {
+  static toOutput(message: PrivateVoiceMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -18,10 +18,10 @@ export class PrivateVoiceMessagePresenter {
       createdAt: message.createdAt,
       sentBy: message.sentBy?.toString() ?? null,
       quoted: message.hasQuoted()
-        ? PrivateQuotedMessagePresenter.toHttp(message.quoted)
+        ? PrivateQuotedMessagePresenter.toOutput(message.quoted)
         : null,
       media: message.hasMedia()
-        ? MessageMediaPresenter.toHttp(message.media)
+        ? MessageMediaPresenter.toOutput(message.media)
         : null,
     }
   }

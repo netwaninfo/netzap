@@ -1,5 +1,5 @@
 import { PrivateMessage } from '@/domain/chat/enterprise/types/message'
-import { PrivateQuotedMessage } from '@netzap/contracts/chat'
+import { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
 import { Except } from 'type-fest'
 import { PrivateQuotedAudioMessagePresenter } from './quoted-audio-message'
 import { PrivateQuotedDocumentMessagePresenter } from './quoted-document-message'
@@ -12,39 +12,37 @@ import { PrivateQuotedVideoMessagePresenter } from './quoted-video-message'
 import { PrivateQuotedVoiceMessagePresenter } from './quoted-voice-message'
 
 export class PrivateQuotedMessagePresenter {
-  static toHttp(
-    message: Except<PrivateMessage, 'quoted'>
-  ): PrivateQuotedMessage {
+  static toOutput(message: Except<PrivateMessage, 'quoted'>): Output {
     switch (message.type) {
       case 'audio':
-        return PrivateQuotedAudioMessagePresenter.toHttp(message)
+        return PrivateQuotedAudioMessagePresenter.toOutput(message)
 
       case 'document':
-        return PrivateQuotedDocumentMessagePresenter.toHttp(message)
+        return PrivateQuotedDocumentMessagePresenter.toOutput(message)
 
       case 'image':
-        return PrivateQuotedImageMessagePresenter.toHttp(message)
+        return PrivateQuotedImageMessagePresenter.toOutput(message)
 
       case 'multi_vcard':
-        return PrivateQuotedMultiVCardMessagePresenter.toHttp(message)
+        return PrivateQuotedMultiVCardMessagePresenter.toOutput(message)
 
       case 'revoked':
         throw new Error('Cannot quote a private revoked message')
 
       case 'text':
-        return PrivateQuotedTextMessagePresenter.toHttp(message)
+        return PrivateQuotedTextMessagePresenter.toOutput(message)
 
       case 'vcard':
-        return PrivateQuotedVCardMessagePresenter.toHttp(message)
+        return PrivateQuotedVCardMessagePresenter.toOutput(message)
 
       case 'video':
-        return PrivateQuotedVideoMessagePresenter.toHttp(message)
+        return PrivateQuotedVideoMessagePresenter.toOutput(message)
 
       case 'voice':
-        return PrivateQuotedVoiceMessagePresenter.toHttp(message)
+        return PrivateQuotedVoiceMessagePresenter.toOutput(message)
 
       default:
-        return PrivateQuotedUnknownMessagePresenter.toHttp(message)
+        return PrivateQuotedUnknownMessagePresenter.toOutput(message)
     }
   }
 }

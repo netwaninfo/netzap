@@ -9,7 +9,7 @@ import {
   type FetchInstancesRequestQuery,
   type FetchInstancesResponseBody,
   fetchInstancesRequestQuerySchema,
-} from '@netzap/contracts/chat'
+} from '@netzap/http/chat'
 
 const querySchema = new ZodHttpValidationPipe(fetchInstancesRequestQuerySchema)
 
@@ -37,8 +37,8 @@ export class FetchInstancesController {
     const { instances, pagination } = response.value
 
     return {
-      data: instances.map(InstancePresenter.toHttp),
-      pagination: PaginationPresenter.toHttp(pagination),
+      data: instances.map(InstancePresenter.toOutput),
+      pagination: PaginationPresenter.toOutput(pagination),
     }
   }
 }

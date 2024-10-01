@@ -1,9 +1,9 @@
 import { PrivateUnknownMessage } from '@/domain/chat/enterprise/entities/private/unknown-message'
-import { PrivateUnknownMessage as HttpPrivateUnknownMessage } from '@netzap/contracts/chat'
+import { PrivateUnknownMessage as Output } from '@netzap/entities/chat'
 import { PrivateQuotedMessagePresenter } from './quoted-message'
 
 export class PrivateUnknownMessagePresenter {
-  static toHttp(message: PrivateUnknownMessage): HttpPrivateUnknownMessage {
+  static toOutput(message: PrivateUnknownMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -17,7 +17,7 @@ export class PrivateUnknownMessagePresenter {
       createdAt: message.createdAt,
       sentBy: message.sentBy?.toString() ?? null,
       quoted: message.hasQuoted()
-        ? PrivateQuotedMessagePresenter.toHttp(message.quoted)
+        ? PrivateQuotedMessagePresenter.toOutput(message.quoted)
         : null,
     }
   }

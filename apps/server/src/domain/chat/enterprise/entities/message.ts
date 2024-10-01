@@ -1,6 +1,6 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { MessageStatus, MessageType } from '@netzap/contracts/chat'
+import type { MessageStatus, MessageType } from '@netzap/entities/chat'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 import type { WAMessageID } from './value-objects/wa-message-id'
 

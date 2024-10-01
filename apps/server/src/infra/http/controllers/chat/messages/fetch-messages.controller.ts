@@ -17,7 +17,7 @@ import {
   type FetchMessagesResponseBody,
   fetchMessagesRequestParamsSchema,
   fetchMessagesRequestQuerySchema,
-} from '@netzap/contracts/chat'
+} from '@netzap/http/chat'
 
 const querySchema = new ZodHttpValidationPipe(fetchMessagesRequestQuerySchema)
 const paramsSchema = new ZodHttpValidationPipe(fetchMessagesRequestParamsSchema)
@@ -48,8 +48,8 @@ export class FetchMessagesController {
     const { messages, pagination } = response.value
 
     return {
-      data: messages.map(MessagePresenter.toHttp),
-      pagination: PaginationPresenter.toHttp(pagination),
+      data: messages.map(MessagePresenter.toOutput),
+      pagination: PaginationPresenter.toOutput(pagination),
     }
   }
 }

@@ -1,12 +1,10 @@
 import { GroupUnknownMessage } from '@/domain/chat/enterprise/entities/group/unknown-message'
-import { GroupQuotedMessage } from '@netzap/contracts/chat'
+import { GroupQuotedMessage as Output } from '@netzap/entities/chat'
 import { Except } from 'type-fest'
 import { ContactPresenter } from '../contact-presenter'
 
 export class GroupQuotedUnknownMessagePresenter {
-  static toHttp(
-    message: Except<GroupUnknownMessage, 'quoted'>
-  ): GroupQuotedMessage {
+  static toOutput(message: Except<GroupUnknownMessage, 'quoted'>): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -18,7 +16,7 @@ export class GroupQuotedUnknownMessagePresenter {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      author: ContactPresenter.toHttp(message.author),
+      author: ContactPresenter.toOutput(message.author),
       sentBy: message.sentBy?.toString() ?? null,
     }
   }

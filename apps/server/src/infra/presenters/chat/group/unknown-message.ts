@@ -1,10 +1,10 @@
 import { GroupUnknownMessage } from '@/domain/chat/enterprise/entities/group/unknown-message'
-import { GroupUnknownMessage as HttpGroupUnknownMessage } from '@netzap/contracts/chat'
+import { GroupUnknownMessage as Output } from '@netzap/entities/chat'
 import { ContactPresenter } from '../contact-presenter'
 import { GroupQuotedMessagePresenter } from './quoted-message'
 
 export class GroupUnknownMessagePresenter {
-  static toHttp(message: GroupUnknownMessage): HttpGroupUnknownMessage {
+  static toOutput(message: GroupUnknownMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -16,10 +16,10 @@ export class GroupUnknownMessagePresenter {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      author: ContactPresenter.toHttp(message.author),
+      author: ContactPresenter.toOutput(message.author),
       sentBy: message.sentBy?.toString() ?? null,
       quoted: message.hasQuoted()
-        ? GroupQuotedMessagePresenter.toHttp(message.quoted)
+        ? GroupQuotedMessagePresenter.toOutput(message.quoted)
         : null,
     }
   }

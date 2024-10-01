@@ -1,9 +1,9 @@
 import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
-import { PrivateChat as HttpPrivateChat } from '@netzap/contracts/chat'
+import { PrivateChat as Output } from '@netzap/entities/chat'
 import { PrivateMessagePresenter } from './message'
 
 export class PrivateChatPresenter {
-  static toHttp(chat: PrivateChat): HttpPrivateChat {
+  static toOutput(chat: PrivateChat): Output {
     return {
       id: chat.id.toString(),
       contactId: chat.contactId.toString(),
@@ -11,7 +11,7 @@ export class PrivateChatPresenter {
       unreadCount: chat.unreadCount,
       waChatId: chat.waChatId.toString(),
       lastMessage: chat.hasLastMessage()
-        ? PrivateMessagePresenter.toHttp(chat.lastMessage)
+        ? PrivateMessagePresenter.toOutput(chat.lastMessage)
         : null,
     }
   }

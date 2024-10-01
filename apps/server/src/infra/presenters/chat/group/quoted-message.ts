@@ -1,5 +1,5 @@
 import { GroupMessage } from '@/domain/chat/enterprise/types/message'
-import { GroupQuotedMessage } from '@netzap/contracts/chat'
+import { GroupQuotedMessage as Output } from '@netzap/entities/chat'
 import { Except } from 'type-fest'
 import { GroupQuotedAudioMessagePresenter } from './quoted-audio-message'
 import { GroupQuotedDocumentMessagePresenter } from './quoted-document-message'
@@ -12,37 +12,37 @@ import { GroupQuotedVideoMessagePresenter } from './quoted-video-message'
 import { GroupQuotedVoiceMessagePresenter } from './quoted-voice-message'
 
 export class GroupQuotedMessagePresenter {
-  static toHttp(message: Except<GroupMessage, 'quoted'>): GroupQuotedMessage {
+  static toOutput(message: Except<GroupMessage, 'quoted'>): Output {
     switch (message.type) {
       case 'audio':
-        return GroupQuotedAudioMessagePresenter.toHttp(message)
+        return GroupQuotedAudioMessagePresenter.toOutput(message)
 
       case 'document':
-        return GroupQuotedDocumentMessagePresenter.toHttp(message)
+        return GroupQuotedDocumentMessagePresenter.toOutput(message)
 
       case 'image':
-        return GroupQuotedImageMessagePresenter.toHttp(message)
+        return GroupQuotedImageMessagePresenter.toOutput(message)
 
       case 'multi_vcard':
-        return GroupQuotedMultiVCardMessagePresenter.toHttp(message)
+        return GroupQuotedMultiVCardMessagePresenter.toOutput(message)
 
       case 'revoked':
         throw new Error('Cannot quote a group revoked message')
 
       case 'text':
-        return GroupQuotedTextMessagePresenter.toHttp(message)
+        return GroupQuotedTextMessagePresenter.toOutput(message)
 
       case 'vcard':
-        return GroupQuotedVCardMessagePresenter.toHttp(message)
+        return GroupQuotedVCardMessagePresenter.toOutput(message)
 
       case 'video':
-        return GroupQuotedVideoMessagePresenter.toHttp(message)
+        return GroupQuotedVideoMessagePresenter.toOutput(message)
 
       case 'voice':
-        return GroupQuotedVoiceMessagePresenter.toHttp(message)
+        return GroupQuotedVoiceMessagePresenter.toOutput(message)
 
       default:
-        return GroupQuotedUnknownMessagePresenter.toHttp(message)
+        return GroupQuotedUnknownMessagePresenter.toOutput(message)
     }
   }
 }

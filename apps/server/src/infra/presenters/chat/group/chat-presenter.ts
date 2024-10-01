@@ -1,9 +1,9 @@
 import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
-import { GroupChat as HttpGroupChat } from '@netzap/contracts/chat'
+import { GroupChat as Output } from '@netzap/entities/chat'
 import { GroupMessagePresenter } from './message'
 
 export class GroupChatPresenter {
-  static toHttp(chat: GroupChat): HttpGroupChat {
+  static toOutput(chat: GroupChat): Output {
     return {
       id: chat.id.toString(),
       groupId: chat.groupId.toString(),
@@ -11,7 +11,7 @@ export class GroupChatPresenter {
       unreadCount: chat.unreadCount,
       waChatId: chat.waChatId.toString(),
       lastMessage: chat.hasLastMessage()
-        ? GroupMessagePresenter.toHttp(chat.lastMessage)
+        ? GroupMessagePresenter.toOutput(chat.lastMessage)
         : null,
     }
   }

@@ -1,9 +1,9 @@
 import { Contact } from '@/domain/chat/enterprise/entities/contact'
 
-import { Contact as HttpContact } from '@netzap/contracts/chat'
+import { Contact as Output } from '@netzap/entities/chat'
 
 export class ContactPresenter {
-  static toHttp(contact: Contact): HttpContact {
+  static toOutput(contact: Contact): Output {
     return {
       id: contact.id.toString(),
       imageUrl: contact.imageUrl,

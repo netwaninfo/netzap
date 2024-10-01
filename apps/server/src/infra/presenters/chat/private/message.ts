@@ -1,5 +1,5 @@
 import { PrivateMessage } from '@/domain/chat/enterprise/types/message'
-import { PrivateMessage as HttpPrivateMessage } from '@netzap/contracts/chat'
+import { PrivateMessage as Output } from '@netzap/entities/chat'
 import { PrivateAudioMessagePresenter } from './audio-message'
 import { PrivateDocumentMessagePresenter } from './document-message'
 import { PrivateImageMessagePresenter } from './image-message'
@@ -12,37 +12,37 @@ import { PrivateVideoMessagePresenter } from './video-message'
 import { PrivateVoiceMessagePresenter } from './voice-message'
 
 export class PrivateMessagePresenter {
-  static toHttp(message: PrivateMessage): HttpPrivateMessage {
+  static toOutput(message: PrivateMessage): Output {
     switch (message.type) {
       case 'audio':
-        return PrivateAudioMessagePresenter.toHttp(message)
+        return PrivateAudioMessagePresenter.toOutput(message)
 
       case 'document':
-        return PrivateDocumentMessagePresenter.toHttp(message)
+        return PrivateDocumentMessagePresenter.toOutput(message)
 
       case 'image':
-        return PrivateImageMessagePresenter.toHttp(message)
+        return PrivateImageMessagePresenter.toOutput(message)
 
       case 'multi_vcard':
-        return PrivateMultiVCardMessagePresenter.toHttp(message)
+        return PrivateMultiVCardMessagePresenter.toOutput(message)
 
       case 'revoked':
-        return PrivateRevokedMessagePresenter.toHttp(message)
+        return PrivateRevokedMessagePresenter.toOutput(message)
 
       case 'text':
-        return PrivateTextMessagePresenter.toHttp(message)
+        return PrivateTextMessagePresenter.toOutput(message)
 
       case 'vcard':
-        return PrivateVCardMessagePresenter.toHttp(message)
+        return PrivateVCardMessagePresenter.toOutput(message)
 
       case 'video':
-        return PrivateVideoMessagePresenter.toHttp(message)
+        return PrivateVideoMessagePresenter.toOutput(message)
 
       case 'voice':
-        return PrivateVoiceMessagePresenter.toHttp(message)
+        return PrivateVoiceMessagePresenter.toOutput(message)
 
       default:
-        return PrivateUnknownMessagePresenter.toHttp(message)
+        return PrivateUnknownMessagePresenter.toOutput(message)
     }
   }
 }

@@ -1,11 +1,11 @@
 import { GroupDocumentMessage } from '@/domain/chat/enterprise/entities/group/document-message'
-import { GroupDocumentMessage as HttpGroupDocumentMessage } from '@netzap/contracts/chat'
+import { GroupDocumentMessage as Output } from '@netzap/entities/chat'
 import { ContactPresenter } from '../contact-presenter'
 import { MessageMediaPresenter } from '../message-media-presenter'
 import { GroupQuotedMessagePresenter } from './quoted-message'
 
 export class GroupDocumentMessagePresenter {
-  static toHttp(message: GroupDocumentMessage): HttpGroupDocumentMessage {
+  static toOutput(message: GroupDocumentMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -17,14 +17,14 @@ export class GroupDocumentMessagePresenter {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      author: ContactPresenter.toHttp(message.author),
+      author: ContactPresenter.toOutput(message.author),
       sentBy: message.sentBy?.toString() ?? null,
       body: message.body,
       quoted: message.hasQuoted()
-        ? GroupQuotedMessagePresenter.toHttp(message.quoted)
+        ? GroupQuotedMessagePresenter.toOutput(message.quoted)
         : null,
       media: message.hasMedia()
-        ? MessageMediaPresenter.toHttp(message.media)
+        ? MessageMediaPresenter.toOutput(message.media)
         : null,
     }
   }

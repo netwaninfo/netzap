@@ -1,10 +1,10 @@
 import { PrivateVCardMessage } from '@/domain/chat/enterprise/entities/private/v-card-message'
-import { PrivateVCardMessage as HttpPrivateVCardMessage } from '@netzap/contracts/chat'
+import { PrivateVCardMessage as Output } from '@netzap/entities/chat'
 import { ContactPresenter } from '../contact-presenter'
 import { PrivateQuotedMessagePresenter } from './quoted-message'
 
 export class PrivateVCardMessagePresenter {
-  static toHttp(message: PrivateVCardMessage): HttpPrivateVCardMessage {
+  static toOutput(message: PrivateVCardMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -18,9 +18,9 @@ export class PrivateVCardMessagePresenter {
       createdAt: message.createdAt,
       sentBy: message.sentBy?.toString() ?? null,
       quoted: message.hasQuoted()
-        ? PrivateQuotedMessagePresenter.toHttp(message.quoted)
+        ? PrivateQuotedMessagePresenter.toOutput(message.quoted)
         : null,
-      contact: ContactPresenter.toHttp(message.contact),
+      contact: ContactPresenter.toOutput(message.contact),
     }
   }
 }

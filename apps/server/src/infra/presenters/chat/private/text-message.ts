@@ -1,9 +1,9 @@
 import { PrivateTextMessage } from '@/domain/chat/enterprise/entities/private/text-message'
-import { PrivateTextMessage as HttpPrivateTextMessage } from '@netzap/contracts/chat'
+import { PrivateTextMessage as Output } from '@netzap/entities/chat'
 import { PrivateQuotedMessagePresenter } from './quoted-message'
 
 export class PrivateTextMessagePresenter {
-  static toHttp(message: PrivateTextMessage): HttpPrivateTextMessage {
+  static toOutput(message: PrivateTextMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -18,7 +18,7 @@ export class PrivateTextMessagePresenter {
       sentBy: message.sentBy?.toString() ?? null,
       body: message.body,
       quoted: message.hasQuoted()
-        ? PrivateQuotedMessagePresenter.toHttp(message.quoted)
+        ? PrivateQuotedMessagePresenter.toOutput(message.quoted)
         : null,
     }
   }

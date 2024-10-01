@@ -1,7 +1,4 @@
-import type {
-  InstanceState,
-  InstanceStatus,
-} from '@netzap/contracts/management'
+import type { InstanceState, InstanceStatus } from '@netzap/entities/management'
 
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'

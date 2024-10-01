@@ -1,13 +1,11 @@
 import { GroupVideoMessage } from '@/domain/chat/enterprise/entities/group/video-message'
-import { GroupQuotedMessage } from '@netzap/contracts/chat'
+import { GroupQuotedMessage as Output } from '@netzap/entities/chat'
 import { Except } from 'type-fest'
 import { ContactPresenter } from '../contact-presenter'
 import { MessageMediaPresenter } from '../message-media-presenter'
 
 export class GroupQuotedVideoMessagePresenter {
-  static toHttp(
-    message: Except<GroupVideoMessage, 'quoted'>
-  ): GroupQuotedMessage {
+  static toOutput(message: Except<GroupVideoMessage, 'quoted'>): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -19,11 +17,11 @@ export class GroupQuotedVideoMessagePresenter {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      author: ContactPresenter.toHttp(message.author),
+      author: ContactPresenter.toOutput(message.author),
       sentBy: message.sentBy?.toString() ?? null,
       body: message.body,
       media: message.hasMedia()
-        ? MessageMediaPresenter.toHttp(message.media)
+        ? MessageMediaPresenter.toOutput(message.media)
         : null,
     }
   }

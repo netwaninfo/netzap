@@ -1,10 +1,10 @@
 import { GroupVCardMessage } from '@/domain/chat/enterprise/entities/group/v-card-message'
-import { GroupVCardMessage as HttpGroupVCardMessage } from '@netzap/contracts/chat'
+import { GroupVCardMessage as Output } from '@netzap/entities/chat'
 import { ContactPresenter } from '../contact-presenter'
 import { GroupQuotedMessagePresenter } from './quoted-message'
 
 export class GroupVCardMessagePresenter {
-  static toHttp(message: GroupVCardMessage): HttpGroupVCardMessage {
+  static toOutput(message: GroupVCardMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -16,12 +16,12 @@ export class GroupVCardMessagePresenter {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      author: ContactPresenter.toHttp(message.author),
+      author: ContactPresenter.toOutput(message.author),
       sentBy: message.sentBy?.toString() ?? null,
       quoted: message.hasQuoted()
-        ? GroupQuotedMessagePresenter.toHttp(message.quoted)
+        ? GroupQuotedMessagePresenter.toOutput(message.quoted)
         : null,
-      contact: ContactPresenter.toHttp(message.contact),
+      contact: ContactPresenter.toOutput(message.contact),
     }
   }
 }

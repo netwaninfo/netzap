@@ -1,5 +1,5 @@
 import { GroupMessage } from '@/domain/chat/enterprise/types/message'
-import { GroupMessage as HttpGroupMessage } from '@netzap/contracts/chat'
+import { GroupMessage as Output } from '@netzap/entities/chat'
 import { GroupAudioMessagePresenter } from './audio-message'
 import { GroupDocumentMessagePresenter } from './document-message'
 import { GroupImageMessagePresenter } from './image-message'
@@ -12,37 +12,37 @@ import { GroupVideoMessagePresenter } from './video-message'
 import { GroupVoiceMessagePresenter } from './voice-message'
 
 export class GroupMessagePresenter {
-  static toHttp(message: GroupMessage): HttpGroupMessage {
+  static toOutput(message: GroupMessage): Output {
     switch (message.type) {
       case 'audio':
-        return GroupAudioMessagePresenter.toHttp(message)
+        return GroupAudioMessagePresenter.toOutput(message)
 
       case 'document':
-        return GroupDocumentMessagePresenter.toHttp(message)
+        return GroupDocumentMessagePresenter.toOutput(message)
 
       case 'image':
-        return GroupImageMessagePresenter.toHttp(message)
+        return GroupImageMessagePresenter.toOutput(message)
 
       case 'multi_vcard':
-        return GroupMultiVCardMessagePresenter.toHttp(message)
+        return GroupMultiVCardMessagePresenter.toOutput(message)
 
       case 'revoked':
-        return GroupRevokedMessagePresenter.toHttp(message)
+        return GroupRevokedMessagePresenter.toOutput(message)
 
       case 'text':
-        return GroupTextMessagePresenter.toHttp(message)
+        return GroupTextMessagePresenter.toOutput(message)
 
       case 'vcard':
-        return GroupVCardMessagePresenter.toHttp(message)
+        return GroupVCardMessagePresenter.toOutput(message)
 
       case 'video':
-        return GroupVideoMessagePresenter.toHttp(message)
+        return GroupVideoMessagePresenter.toOutput(message)
 
       case 'voice':
-        return GroupVoiceMessagePresenter.toHttp(message)
+        return GroupVoiceMessagePresenter.toOutput(message)
 
       default:
-        return GroupUnknownMessagePresenter.toHttp(message)
+        return GroupUnknownMessagePresenter.toOutput(message)
     }
   }
 }

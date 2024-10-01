@@ -1,8 +1,8 @@
 import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
-import { MessageMedia as HttpMessageMedia } from '@netzap/contracts/chat'
+import { MessageMedia as Output } from '@netzap/entities/chat'
 
 export class MessageMediaPresenter {
-  static toHttp(media: MessageMedia): HttpMessageMedia {
+  static toOutput(media: MessageMedia): Output {
     return {
       id: media.id.toString(),
       key: media.key,

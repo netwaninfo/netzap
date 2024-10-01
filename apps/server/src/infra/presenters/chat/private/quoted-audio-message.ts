@@ -1,12 +1,10 @@
 import { PrivateAudioMessage } from '@/domain/chat/enterprise/entities/private/audio-message'
-import { PrivateQuotedMessage } from '@netzap/contracts/chat'
+import { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
 import { Except } from 'type-fest'
 import { MessageMediaPresenter } from '../message-media-presenter'
 
 export class PrivateQuotedAudioMessagePresenter {
-  static toHttp(
-    message: Except<PrivateAudioMessage, 'quoted'>
-  ): PrivateQuotedMessage {
+  static toOutput(message: Except<PrivateAudioMessage, 'quoted'>): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -20,7 +18,7 @@ export class PrivateQuotedAudioMessagePresenter {
       createdAt: message.createdAt,
       sentBy: message.sentBy?.toString() ?? null,
       media: message.hasMedia()
-        ? MessageMediaPresenter.toHttp(message.media)
+        ? MessageMediaPresenter.toOutput(message.media)
         : null,
     }
   }

@@ -1,9 +1,9 @@
 import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message'
-import { GroupRevokedMessage as HttpGroupRevokedMessage } from '@netzap/contracts/chat'
+import { GroupRevokedMessage as Output } from '@netzap/entities/chat'
 import { ContactPresenter } from '../contact-presenter'
 
 export class GroupRevokedMessagePresenter {
-  static toHttp(message: GroupRevokedMessage): HttpGroupRevokedMessage {
+  static toOutput(message: GroupRevokedMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -15,7 +15,7 @@ export class GroupRevokedMessagePresenter {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      author: ContactPresenter.toHttp(message.author),
+      author: ContactPresenter.toOutput(message.author),
       sentBy: message.sentBy?.toString() ?? null,
       revokedAt: message.revokedAt,
       revokedBy: message.revokedBy?.toString() ?? null,

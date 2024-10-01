@@ -1,10 +1,10 @@
 import { PrivateVideoMessage } from '@/domain/chat/enterprise/entities/private/video-message'
-import { PrivateVideoMessage as HttpPrivateVideoMessage } from '@netzap/contracts/chat'
+import { PrivateVideoMessage as Output } from '@netzap/entities/chat'
 import { MessageMediaPresenter } from '../message-media-presenter'
 import { PrivateQuotedMessagePresenter } from './quoted-message'
 
 export class PrivateVideoMessagePresenter {
-  static toHttp(message: PrivateVideoMessage): HttpPrivateVideoMessage {
+  static toOutput(message: PrivateVideoMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -19,10 +19,10 @@ export class PrivateVideoMessagePresenter {
       sentBy: message.sentBy?.toString() ?? null,
       body: message.body,
       quoted: message.hasQuoted()
-        ? PrivateQuotedMessagePresenter.toHttp(message.quoted)
+        ? PrivateQuotedMessagePresenter.toOutput(message.quoted)
         : null,
       media: message.hasMedia()
-        ? MessageMediaPresenter.toHttp(message.media)
+        ? MessageMediaPresenter.toOutput(message.media)
         : null,
     }
   }

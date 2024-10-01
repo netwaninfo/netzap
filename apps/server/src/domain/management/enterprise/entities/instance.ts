@@ -1,7 +1,4 @@
-import type {
-  InstanceState,
-  InstanceStatus,
-} from '@netzap/contracts/management'
+import type { InstanceState, InstanceStatus } from '@netzap/entities/management'
 import type { SetOptional } from 'type-fest'
 
 import { Entity } from '@/core/entities/entity'

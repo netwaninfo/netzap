@@ -1,8 +1,8 @@
 import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message'
-import { PrivateRevokedMessage as HttpPrivateRevokedMessage } from '@netzap/contracts/chat'
+import { PrivateRevokedMessage as Output } from '@netzap/entities/chat'
 
 export class PrivateRevokedMessagePresenter {
-  static toHttp(message: PrivateRevokedMessage): HttpPrivateRevokedMessage {
+  static toOutput(message: PrivateRevokedMessage): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),

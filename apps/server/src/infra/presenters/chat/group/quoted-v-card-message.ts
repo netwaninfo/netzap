@@ -1,12 +1,10 @@
 import { GroupVCardMessage } from '@/domain/chat/enterprise/entities/group/v-card-message'
-import { GroupQuotedMessage } from '@netzap/contracts/chat'
+import { GroupQuotedMessage as Output } from '@netzap/entities/chat'
 import { Except } from 'type-fest'
 import { ContactPresenter } from '../contact-presenter'
 
 export class GroupQuotedVCardMessagePresenter {
-  static toHttp(
-    message: Except<GroupVCardMessage, 'quoted'>
-  ): GroupQuotedMessage {
+  static toOutput(message: Except<GroupVCardMessage, 'quoted'>): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -18,9 +16,9 @@ export class GroupQuotedVCardMessagePresenter {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      author: ContactPresenter.toHttp(message.author),
+      author: ContactPresenter.toOutput(message.author),
       sentBy: message.sentBy?.toString() ?? null,
-      contact: ContactPresenter.toHttp(message.contact),
+      contact: ContactPresenter.toOutput(message.contact),
     }
   }
 }

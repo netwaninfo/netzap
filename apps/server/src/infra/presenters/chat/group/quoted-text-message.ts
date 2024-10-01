@@ -1,12 +1,10 @@
 import { GroupTextMessage } from '@/domain/chat/enterprise/entities/group/text-message'
-import { GroupQuotedMessage } from '@netzap/contracts/chat'
+import { GroupQuotedMessage as Output } from '@netzap/entities/chat'
 import { Except } from 'type-fest'
 import { ContactPresenter } from '../contact-presenter'
 
 export class GroupQuotedTextMessagePresenter {
-  static toHttp(
-    message: Except<GroupTextMessage, 'quoted'>
-  ): GroupQuotedMessage {
+  static toOutput(message: Except<GroupTextMessage, 'quoted'>): Output {
     return {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
@@ -18,7 +16,7 @@ export class GroupQuotedTextMessagePresenter {
       isForwarded: message.isForwarded,
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
-      author: ContactPresenter.toHttp(message.author),
+      author: ContactPresenter.toOutput(message.author),
       sentBy: message.sentBy?.toString() ?? null,
       body: message.body,
     }
