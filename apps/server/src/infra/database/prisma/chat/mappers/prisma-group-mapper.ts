@@ -13,7 +13,7 @@ export class PrismaGroupMapper {
     })
   }
 
-  static toPrisma(group: Group): Prisma.GroupUncheckedCreateInput {
+  static toPrismaCreate(group: Group): Prisma.GroupUncheckedCreateInput {
     return {
       id: group.id.toString(),
       instanceId: group.instanceId.toString(),

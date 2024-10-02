@@ -1,4 +1,3 @@
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import { Injectable } from '@nestjs/common'
@@ -24,7 +23,7 @@ export class WWJSPrivateMessageMapper {
     message,
     client,
   }: WWJSPrivateMessageMapperToDomainParams): Promise<WAPrivateMessage> {
-    const media = message.hasMedia && (await message.downloadMedia())
+    const messageId = WAMessageID.createFromString(message.id._serialized)
 
     const contacts =
       MessageUtils.hasContacts(message) &&
@@ -35,6 +34,7 @@ export class WWJSPrivateMessageMapper {
       ))
 
     const quoted = message.hasQuotedMsg && (await message.getQuotedMessage())
+    const media = message.hasMedia && (await message.downloadMedia())
 
     return WAPrivateMessage.create(
       {
@@ -46,7 +46,7 @@ export class WWJSPrivateMessageMapper {
         isFromMe: message.fromMe,
         raw: JSON.parse(JSON.stringify(message)),
         timestamp: message.timestamp,
-        waChatId: WAEntityID.createFromString(message.from),
+        waChatId: messageId.entityId,
         ...(media && {
           media: WWJSMessageMediaMapper.toDomain(media),
         }),
@@ -61,7 +61,7 @@ export class WWJSPrivateMessageMapper {
           quoted: await this.toDomain({ client, message: quoted }),
         }),
       },
-      WAMessageID.createFromString(message.id._serialized)
+      messageId
     )
   }
 }

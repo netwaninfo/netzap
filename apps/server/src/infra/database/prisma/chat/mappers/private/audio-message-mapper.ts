@@ -31,7 +31,7 @@ export class PrismaPrivateAudioMessageMapper {
     )
   }
 
-  static toPrisma(
+  static toPrismaCreate(
     message: PrivateAudioMessage
   ): Prisma.MessageUncheckedCreateInput {
     return {
@@ -39,7 +39,7 @@ export class PrismaPrivateAudioMessageMapper {
       chatType: 'private',
       chatId: message.chatId.toString(),
       waChatId: message.waChatId.toString(),
-      waMessageId: message.waChatId.toString(),
+      waMessageId: message.waMessageId.toString(),
       instanceId: message.instanceId.toString(),
       quotedId: message.quoted?.id.toString(),
       senderId: message.sentBy?.toString(),
@@ -49,7 +49,29 @@ export class PrismaPrivateAudioMessageMapper {
       isFromMe: message.isFromMe,
       createdAt: message.createdAt,
       media: message.hasMedia()
-        ? PrismaMessageMediaMapper.toPrisma(message.media)
+        ? PrismaMessageMediaMapper.toPrismaCreate(message.media)
+        : null,
+    }
+  }
+
+  static toPrismaUpdate(
+    message: PrivateAudioMessage
+  ): Prisma.MessageUncheckedUpdateInput {
+    return {
+      chatType: 'private',
+      chatId: message.chatId.toString(),
+      waChatId: message.waChatId.toString(),
+      waMessageId: message.waMessageId.toString(),
+      instanceId: message.instanceId.toString(),
+      quotedId: message.quoted?.id.toString(),
+      senderId: message.sentBy?.toString(),
+      type: message.type,
+      status: message.status,
+      isForwarded: message.isForwarded,
+      isFromMe: message.isFromMe,
+      createdAt: message.createdAt,
+      media: message.hasMedia()
+        ? PrismaMessageMediaMapper.toPrismaCreate(message.media)
         : null,
     }
   }

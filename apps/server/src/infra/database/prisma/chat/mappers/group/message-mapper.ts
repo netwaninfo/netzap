@@ -68,45 +68,90 @@ export class PrismaGroupMessageMapper {
     return PrismaGroupUnknownMessageMapper.toDomain(raw)
   }
 
-  static toPrisma(message: GroupMessage): Prisma.MessageUncheckedCreateInput {
+  static toPrismaCreate(
+    message: GroupMessage
+  ): Prisma.MessageUncheckedCreateInput {
     if (isGroupMessageWithMedia(message)) {
       switch (message.type) {
         case 'audio':
-          return PrismaGroupAudioMessageMapper.toPrisma(message)
+          return PrismaGroupAudioMessageMapper.toPrismaCreate(message)
 
         case 'document':
-          return PrismaGroupDocumentMessageMapper.toPrisma(message)
+          return PrismaGroupDocumentMessageMapper.toPrismaCreate(message)
 
         case 'image':
-          return PrismaGroupImageMessageMapper.toPrisma(message)
+          return PrismaGroupImageMessageMapper.toPrismaCreate(message)
 
         case 'video':
-          return PrismaGroupVideoMessageMapper.toPrisma(message)
+          return PrismaGroupVideoMessageMapper.toPrismaCreate(message)
 
         case 'voice':
-          return PrismaGroupVoiceMessageMapper.toPrisma(message)
+          return PrismaGroupVoiceMessageMapper.toPrismaCreate(message)
       }
     }
 
     if (isGroupMessageWithContacts(message)) {
       switch (message.type) {
         case 'vcard':
-          return PrismaGroupVCardMessageMapper.toPrisma(message)
+          return PrismaGroupVCardMessageMapper.toPrismaCreate(message)
 
         case 'multi_vcard':
-          return PrismaGroupMultiVCardMessageMapper.toPrisma(message)
+          return PrismaGroupMultiVCardMessageMapper.toPrismaCreate(message)
       }
     }
 
     switch (message.type) {
       case 'revoked':
-        return PrismaGroupRevokedMessageMapper.toPrisma(message)
+        return PrismaGroupRevokedMessageMapper.toPrismaCreate(message)
 
       case 'text':
-        return PrismaGroupTextMessageMapper.toPrisma(message)
+        return PrismaGroupTextMessageMapper.toPrismaCreate(message)
     }
 
-    return PrismaGroupUnknownMessageMapper.toPrisma(message)
+    return PrismaGroupUnknownMessageMapper.toPrismaCreate(message)
+  }
+
+  static toPrismaUpdate(
+    message: GroupMessage
+  ): Prisma.MessageUncheckedUpdateInput {
+    if (isGroupMessageWithMedia(message)) {
+      switch (message.type) {
+        case 'audio':
+          return PrismaGroupAudioMessageMapper.toPrismaUpdate(message)
+
+        case 'document':
+          return PrismaGroupDocumentMessageMapper.toPrismaUpdate(message)
+
+        case 'image':
+          return PrismaGroupImageMessageMapper.toPrismaUpdate(message)
+
+        case 'video':
+          return PrismaGroupVideoMessageMapper.toPrismaUpdate(message)
+
+        case 'voice':
+          return PrismaGroupVoiceMessageMapper.toPrismaUpdate(message)
+      }
+    }
+
+    if (isGroupMessageWithContacts(message)) {
+      switch (message.type) {
+        case 'vcard':
+          return PrismaGroupVCardMessageMapper.toPrismaUpdate(message)
+
+        case 'multi_vcard':
+          return PrismaGroupMultiVCardMessageMapper.toPrismaUpdate(message)
+      }
+    }
+
+    switch (message.type) {
+      case 'revoked':
+        return PrismaGroupRevokedMessageMapper.toPrismaUpdate(message)
+
+      case 'text':
+        return PrismaGroupTextMessageMapper.toPrismaUpdate(message)
+    }
+
+    return PrismaGroupUnknownMessageMapper.toPrismaUpdate(message)
   }
 
   // Type Guards/Asserts

@@ -15,12 +15,20 @@ export class PrismaChatMapper {
     return PrismaGroupChatMapper.toDomain(raw)
   }
 
-  static toPrisma(chat: Chat): Prisma.ChatUncheckedCreateInput {
+  static toPrismaCreate(chat: Chat): Prisma.ChatUncheckedCreateInput {
     if (isPrivateChat(chat)) {
-      return PrismaPrivateChatMapper.toPrisma(chat)
+      return PrismaPrivateChatMapper.toPrismaCreate(chat)
     }
 
-    return PrismaGroupChatMapper.toPrisma(chat)
+    return PrismaGroupChatMapper.toPrismaCreate(chat)
+  }
+
+  static toPrismaUpdate(chat: Chat): Prisma.ChatUncheckedUpdateInput {
+    if (isPrivateChat(chat)) {
+      return PrismaPrivateChatMapper.toPrismaUpdate(chat)
+    }
+
+    return PrismaGroupChatMapper.toPrismaUpdate(chat)
   }
 
   private static isRawPrivateChat(raw: Raw): raw is RawPrivateChat {

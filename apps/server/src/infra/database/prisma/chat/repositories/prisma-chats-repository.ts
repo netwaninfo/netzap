@@ -129,7 +129,7 @@ export class PrismaChatsRepository implements ChatsRepository {
   async create(chat: Chat): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.chat.create({
-        data: PrismaChatMapper.toPrisma(chat),
+        data: PrismaChatMapper.toPrismaCreate(chat),
       }),
     ])
   }
@@ -137,7 +137,7 @@ export class PrismaChatsRepository implements ChatsRepository {
   async save(chat: Chat): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.chat.update({
-        data: PrismaChatMapper.toPrisma(chat),
+        data: PrismaChatMapper.toPrismaUpdate(chat),
         where: {
           id: chat.id.toString(),
         },

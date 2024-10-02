@@ -38,7 +38,7 @@ export class PrismaGroupMultiVCardMessageMapper {
     )
   }
 
-  static toPrisma(
+  static toPrismaCreate(
     message: GroupMultiVCardMessage
   ): Prisma.MessageUncheckedCreateInput {
     return {
@@ -47,7 +47,35 @@ export class PrismaGroupMultiVCardMessageMapper {
       authorId: message.author.id.toString(),
       chatId: message.chatId.toString(),
       waChatId: message.waChatId.toString(),
-      waMessageId: message.waChatId.toString(),
+      waMessageId: message.waMessageId.toString(),
+      instanceId: message.instanceId.toString(),
+      quotedId: message.quoted?.id.toString(),
+      senderId: message.sentBy?.toString(),
+      type: message.type,
+      status: message.status,
+      isForwarded: message.isForwarded,
+      isFromMe: message.isFromMe,
+      createdAt: message.createdAt,
+      contacts: {
+        connect: message.contacts.map(contact => ({
+          contactId_instanceId: {
+            contactId: contact.id.toString(),
+            instanceId: message.instanceId.toString(),
+          },
+        })),
+      },
+    }
+  }
+
+  static toPrismaUpdate(
+    message: GroupMultiVCardMessage
+  ): Prisma.MessageUncheckedUpdateInput {
+    return {
+      chatType: 'group',
+      authorId: message.author.id.toString(),
+      chatId: message.chatId.toString(),
+      waChatId: message.waChatId.toString(),
+      waMessageId: message.waMessageId.toString(),
       instanceId: message.instanceId.toString(),
       quotedId: message.quoted?.id.toString(),
       senderId: message.sentBy?.toString(),

@@ -34,7 +34,7 @@ export class PrismaGroupRevokedMessageMapper {
     )
   }
 
-  static toPrisma(
+  static toPrismaCreate(
     message: GroupRevokedMessage
   ): Prisma.MessageUncheckedCreateInput {
     return {
@@ -43,7 +43,29 @@ export class PrismaGroupRevokedMessageMapper {
       authorId: message.author.id.toString(),
       chatId: message.chatId.toString(),
       waChatId: message.waChatId.toString(),
-      waMessageId: message.waChatId.toString(),
+      waMessageId: message.waMessageId.toString(),
+      instanceId: message.instanceId.toString(),
+      quotedId: message.quoted?.id.toString(),
+      senderId: message.sentBy?.toString(),
+      type: message.type,
+      status: message.status,
+      isForwarded: message.isForwarded,
+      isFromMe: message.isFromMe,
+      createdAt: message.createdAt,
+      revokerId: message.revokedBy?.toString(),
+      revokedAt: message.revokedAt,
+    }
+  }
+
+  static toPrismaUpdate(
+    message: GroupRevokedMessage
+  ): Prisma.MessageUncheckedUpdateInput {
+    return {
+      chatType: 'group',
+      authorId: message.author.id.toString(),
+      chatId: message.chatId.toString(),
+      waChatId: message.waChatId.toString(),
+      waMessageId: message.waMessageId.toString(),
       instanceId: message.instanceId.toString(),
       quotedId: message.quoted?.id.toString(),
       senderId: message.sentBy?.toString(),

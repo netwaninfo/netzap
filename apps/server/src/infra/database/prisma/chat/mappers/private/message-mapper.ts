@@ -64,45 +64,90 @@ export class PrismaPrivateMessageMapper {
     return PrismaPrivateUnknownMessageMapper.toDomain(raw)
   }
 
-  static toPrisma(message: PrivateMessage): Prisma.MessageUncheckedCreateInput {
+  static toPrismaCreate(
+    message: PrivateMessage
+  ): Prisma.MessageUncheckedCreateInput {
     if (isPrivateMessageWithMedia(message)) {
       switch (message.type) {
         case 'audio':
-          return PrismaPrivateAudioMessageMapper.toPrisma(message)
+          return PrismaPrivateAudioMessageMapper.toPrismaCreate(message)
 
         case 'document':
-          return PrismaPrivateDocumentMessageMapper.toPrisma(message)
+          return PrismaPrivateDocumentMessageMapper.toPrismaCreate(message)
 
         case 'image':
-          return PrismaPrivateImageMessageMapper.toPrisma(message)
+          return PrismaPrivateImageMessageMapper.toPrismaCreate(message)
 
         case 'video':
-          return PrismaPrivateVideoMessageMapper.toPrisma(message)
+          return PrismaPrivateVideoMessageMapper.toPrismaCreate(message)
 
         case 'voice':
-          return PrismaPrivateVoiceMessageMapper.toPrisma(message)
+          return PrismaPrivateVoiceMessageMapper.toPrismaCreate(message)
       }
     }
 
     if (isPrivateMessageWithContacts(message)) {
       switch (message.type) {
         case 'vcard':
-          return PrismaPrivateVCardMessageMapper.toPrisma(message)
+          return PrismaPrivateVCardMessageMapper.toPrismaCreate(message)
 
         case 'multi_vcard':
-          return PrismaPrivateMultiVCardMessageMapper.toPrisma(message)
+          return PrismaPrivateMultiVCardMessageMapper.toPrismaCreate(message)
       }
     }
 
     switch (message.type) {
       case 'revoked':
-        return PrismaPrivateRevokedMessageMapper.toPrisma(message)
+        return PrismaPrivateRevokedMessageMapper.toPrismaCreate(message)
 
       case 'text':
-        return PrismaPrivateTextMessageMapper.toPrisma(message)
+        return PrismaPrivateTextMessageMapper.toPrismaCreate(message)
     }
 
-    return PrismaPrivateUnknownMessageMapper.toPrisma(message)
+    return PrismaPrivateUnknownMessageMapper.toPrismaCreate(message)
+  }
+
+  static toPrismaUpdate(
+    message: PrivateMessage
+  ): Prisma.MessageUncheckedUpdateInput {
+    if (isPrivateMessageWithMedia(message)) {
+      switch (message.type) {
+        case 'audio':
+          return PrismaPrivateAudioMessageMapper.toPrismaUpdate(message)
+
+        case 'document':
+          return PrismaPrivateDocumentMessageMapper.toPrismaUpdate(message)
+
+        case 'image':
+          return PrismaPrivateImageMessageMapper.toPrismaUpdate(message)
+
+        case 'video':
+          return PrismaPrivateVideoMessageMapper.toPrismaUpdate(message)
+
+        case 'voice':
+          return PrismaPrivateVoiceMessageMapper.toPrismaUpdate(message)
+      }
+    }
+
+    if (isPrivateMessageWithContacts(message)) {
+      switch (message.type) {
+        case 'vcard':
+          return PrismaPrivateVCardMessageMapper.toPrismaUpdate(message)
+
+        case 'multi_vcard':
+          return PrismaPrivateMultiVCardMessageMapper.toPrismaUpdate(message)
+      }
+    }
+
+    switch (message.type) {
+      case 'revoked':
+        return PrismaPrivateRevokedMessageMapper.toPrismaUpdate(message)
+
+      case 'text':
+        return PrismaPrivateTextMessageMapper.toPrismaUpdate(message)
+    }
+
+    return PrismaPrivateUnknownMessageMapper.toPrismaUpdate(message)
   }
 
   // Type Guards/Asserts

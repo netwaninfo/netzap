@@ -25,9 +25,22 @@ export class PrismaPrivateChatMapper {
     )
   }
 
-  static toPrisma(chat: PrivateChat): Prisma.ChatUncheckedCreateInput {
+  static toPrismaCreate(chat: PrivateChat): Prisma.ChatUncheckedCreateInput {
     return {
       id: chat.id.toString(),
+      instanceId: chat.instanceId.toString(),
+      waChatId: chat.waChatId.toString(),
+      recipientId: chat.contactId.toString(),
+      type: 'private',
+      unreadCount: chat.unreadCount,
+      lastMessageId: chat.lastMessage?.id.toString(),
+    }
+  }
+
+  static toPrismaUpdate(chat: PrivateChat): Prisma.ChatUncheckedUpdateInput {
+    console.log(chat)
+
+    return {
       instanceId: chat.instanceId.toString(),
       waChatId: chat.waChatId.toString(),
       recipientId: chat.contactId.toString(),

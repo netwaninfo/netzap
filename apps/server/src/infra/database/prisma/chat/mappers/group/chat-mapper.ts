@@ -25,9 +25,22 @@ export class PrismaGroupChatMapper {
     )
   }
 
-  static toPrisma(chat: GroupChat): Prisma.ChatUncheckedCreateInput {
+  static toPrismaCreate(chat: GroupChat): Prisma.ChatUncheckedCreateInput {
     return {
       id: chat.id.toString(),
+      instanceId: chat.instanceId.toString(),
+      waChatId: chat.waChatId.toString(),
+      recipientId: chat.groupId.toString(),
+      type: 'group',
+      unreadCount: chat.unreadCount,
+      lastMessageId: chat.lastMessage?.id.toString(),
+    }
+  }
+
+  static toPrismaUpdate(chat: GroupChat): Prisma.ChatUncheckedUpdateInput {
+    console.log(chat)
+
+    return {
       instanceId: chat.instanceId.toString(),
       waChatId: chat.waChatId.toString(),
       recipientId: chat.groupId.toString(),

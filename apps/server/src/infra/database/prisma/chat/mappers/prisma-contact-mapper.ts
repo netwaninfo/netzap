@@ -2,7 +2,7 @@ import { Contact } from '@/domain/chat/enterprise/entities/contact'
 import { Prisma } from '@prisma/client'
 
 export class PrismaContactMapper {
-  static toPrisma(contact: Contact): Prisma.ContactUncheckedCreateInput {
+  static toPrismaCreate(contact: Contact): Prisma.ContactUncheckedCreateInput {
     return {
       id: contact.id.toString(),
       formattedPhone: contact.phone.formattedNumber,

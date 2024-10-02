@@ -126,7 +126,7 @@ export class PrismaContactsRepository implements ContactsRepository {
   async create(contact: Contact): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.contact.create({
-        data: PrismaContactMapper.toPrisma(contact),
+        data: PrismaContactMapper.toPrismaCreate(contact),
       }),
     ])
   }
@@ -134,7 +134,7 @@ export class PrismaContactsRepository implements ContactsRepository {
   async createMany(contacts: Contact[]): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.contact.createMany({
-        data: contacts.map(PrismaContactMapper.toPrisma),
+        data: contacts.map(PrismaContactMapper.toPrismaCreate),
       }),
     ])
   }

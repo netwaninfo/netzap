@@ -21,12 +21,20 @@ export class PrismaMessageMapper {
     return PrismaGroupMessageMapper.toDomain(raw)
   }
 
-  static toPrisma(message: Message): Prisma.MessageUncheckedCreateInput {
+  static toPrismaCreate(message: Message): Prisma.MessageUncheckedCreateInput {
     if (isPrivateMessage(message)) {
-      return PrismaPrivateMessageMapper.toPrisma(message)
+      return PrismaPrivateMessageMapper.toPrismaCreate(message)
     }
 
-    return PrismaGroupMessageMapper.toPrisma(message)
+    return PrismaGroupMessageMapper.toPrismaCreate(message)
+  }
+
+  static toPrismaUpdate(message: Message): Prisma.MessageUncheckedUpdateInput {
+    if (isPrivateMessage(message)) {
+      return PrismaPrivateMessageMapper.toPrismaUpdate(message)
+    }
+
+    return PrismaGroupMessageMapper.toPrismaCreate(message)
   }
 
   private static isRawPrivateMessage(raw: Raw): raw is RawPrivateMessage {

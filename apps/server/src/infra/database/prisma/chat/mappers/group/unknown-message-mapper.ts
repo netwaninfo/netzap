@@ -33,7 +33,7 @@ export class PrismaGroupUnknownMessageMapper {
     )
   }
 
-  static toPrisma(
+  static toPrismaCreate(
     message: GroupUnknownMessage
   ): Prisma.MessageUncheckedCreateInput {
     return {
@@ -42,7 +42,28 @@ export class PrismaGroupUnknownMessageMapper {
       authorId: message.author.id.toString(),
       chatId: message.chatId.toString(),
       waChatId: message.waChatId.toString(),
-      waMessageId: message.waChatId.toString(),
+      waMessageId: message.waMessageId.toString(),
+      instanceId: message.instanceId.toString(),
+      quotedId: message.quoted?.id.toString(),
+      senderId: message.sentBy?.toString(),
+      type: message.type,
+      status: message.status,
+      isForwarded: message.isForwarded,
+      isFromMe: message.isFromMe,
+      createdAt: message.createdAt,
+      payload: message.payload ?? null,
+    }
+  }
+
+  static toPrismaUpdate(
+    message: GroupUnknownMessage
+  ): Prisma.MessageUncheckedUpdateInput {
+    return {
+      chatType: 'group',
+      authorId: message.author.id.toString(),
+      chatId: message.chatId.toString(),
+      waChatId: message.waChatId.toString(),
+      waMessageId: message.waMessageId.toString(),
       instanceId: message.instanceId.toString(),
       quotedId: message.quoted?.id.toString(),
       senderId: message.sentBy?.toString(),

@@ -172,7 +172,7 @@ export class PrismaMessagesRepository implements MessagesRepository {
   async create(message: Message): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.message.create({
-        data: PrismaMessageMapper.toPrisma(message),
+        data: PrismaMessageMapper.toPrismaCreate(message),
       }),
     ])
   }
@@ -180,7 +180,7 @@ export class PrismaMessagesRepository implements MessagesRepository {
   async save(message: Message): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.message.update({
-        data: PrismaMessageMapper.toPrisma(message),
+        data: PrismaMessageMapper.toPrismaUpdate(message),
         where: {
           id: message.id.toString(),
         },

@@ -13,7 +13,15 @@ export class PrismaMessageMediaMapper {
     })
   }
 
-  static toPrisma(media: MessageMedia): Prisma.MessageMediaCreateInput {
+  static toPrismaCreate(media: MessageMedia): Prisma.MessageMediaCreateInput {
+    return {
+      key: media.key,
+      mimeType: media.mimeType.extension(),
+      url: media.url,
+    }
+  }
+
+  static toPrismaUpdate(media: MessageMedia): Prisma.MessageMediaUpdateInput {
     return {
       key: media.key,
       mimeType: media.mimeType.extension(),
