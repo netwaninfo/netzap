@@ -31,8 +31,12 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
     this.set({ unreadCount: -1 })
   }
 
+  setUnreadCount(unreadCount: number) {
+    this.set({ unreadCount })
+  }
+
   interact(message: Message): void {
-    this.set({ lastMessage: message })
+    this.set({ lastMessage: message, unreadCount: this.unreadCount + 1 })
   }
 
   protected override set<T extends Partial<ChatProps>>(newProps: T) {
