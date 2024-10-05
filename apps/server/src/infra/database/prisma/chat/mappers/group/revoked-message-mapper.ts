@@ -6,7 +6,6 @@ import { Prisma } from '@prisma/client'
 import { SetNonNullable } from 'type-fest'
 import { PrismaContactInstanceMapper } from '../prisma-contact-instance-mapper'
 import { RawGroupMessage } from './message-mapper'
-import { PrismaGroupMessageMapper } from './message-mapper'
 
 type Raw = SetNonNullable<RawGroupMessage, 'author'>
 
@@ -26,9 +25,6 @@ export class PrismaGroupRevokedMessageMapper {
         revokedAt: raw.revokedAt ?? raw.createdAt,
         ...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
         ...(raw.revokerId && { sentBy: UniqueEntityID.create(raw.revokerId) }),
-        ...(raw.quoted && {
-          quoted: PrismaGroupMessageMapper.toDomain(raw.quoted),
-        }),
       },
       UniqueEntityID.create(raw.id)
     )

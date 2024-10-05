@@ -4,7 +4,6 @@ import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-e
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { Prisma } from '@prisma/client'
 import { RawPrivateMessage } from './message-mapper'
-import { PrismaPrivateMessageMapper } from './message-mapper'
 
 type Raw = RawPrivateMessage
 
@@ -23,9 +22,6 @@ export class PrismaPrivateRevokedMessageMapper {
         revokedAt: raw.revokedAt ?? raw.createdAt,
         ...(raw.senderId && { sentBy: UniqueEntityID.create(raw.senderId) }),
         ...(raw.revokerId && { sentBy: UniqueEntityID.create(raw.revokerId) }),
-        ...(raw.quoted && {
-          quoted: PrismaPrivateMessageMapper.toDomain(raw.quoted),
-        }),
       },
       UniqueEntityID.create(raw.id)
     )
@@ -62,7 +58,6 @@ export class PrismaPrivateRevokedMessageMapper {
       waChatId: message.waChatId.toString(),
       waMessageId: message.waMessageId.toString(),
       instanceId: message.instanceId.toString(),
-      quotedId: message.quoted?.id.toString(),
       senderId: message.sentBy?.toString(),
       type: message.type,
       status: message.status,
@@ -71,6 +66,18 @@ export class PrismaPrivateRevokedMessageMapper {
       createdAt: message.createdAt,
       revokerId: message.revokedBy?.toString(),
       revokedAt: message.revokedAt,
+      quotedId: {
+        unset: true,
+      },
+      authorId: {
+        unset: true,
+      },
+      body: {
+        unset: true,
+      },
+      media: {
+        unset: true,
+      },
     }
   }
 }
