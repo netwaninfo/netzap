@@ -37,10 +37,9 @@ export class CreateMessageMediaFromWAMessageUseCase {
     }
 
     const waMessageMedia = waMessage.media
-    const extension = waMessageMedia.mimeType.extension()
 
     const response = await this.storageService.put({
-      filename: `${waMessage.ref}.${extension}`,
+      filename: waMessage.ref,
       mimeType: waMessageMedia.mimeType,
       data: Readable.from(Buffer.from(waMessageMedia.data, 'base64')),
     })

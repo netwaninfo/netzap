@@ -24,15 +24,7 @@ export const envSchema = z.object({
   CLOUDFLARE_ACCESS_KEY_ID: z.string(),
   CLOUDFLARE_SECRET_ACCESS_KEY: z.string(),
   CLOUDFLARE_BUCKET_NAME: z.string(),
-  CLOUDFLARE_PUBLIC_BUCKET_URL: z
-    .string()
-    .url()
-    .transform(value =>
-      value.endsWith('/') ? value.replace(/\/$/, '') : value
-    ),
-  CLOUDFLARE_BUCKET_MEDIA_PATH: z
-    .string()
-    .transform(value => (value.startsWith('/') ? value : `/${value}`)),
+  CLOUDFLARE_PUBLIC_BUCKET_URL: z.string().url(),
 })
 
 export type Env = z.infer<typeof envSchema>

@@ -23,6 +23,7 @@ export class FakeStorageService implements StorageService {
       url: faker.internet.url(),
       mimeType,
     })
+
     this.items.push(object)
 
     return success(object)

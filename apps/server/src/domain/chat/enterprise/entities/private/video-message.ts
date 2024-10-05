@@ -65,7 +65,7 @@ export class PrivateVideoMessage extends PrivateMessage<PrivateVideoMessageProps
       {
         ...props,
         type: 'video',
-        body: props.body ?? null,
+        body: props.body?.trim() ? props.body : null,
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',
         isForwarded: props.isForwarded ?? false,

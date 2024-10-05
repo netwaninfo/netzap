@@ -1,11 +1,8 @@
-import {
-  DeleteObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from '@aws-sdk/client-s3'
+import crypto from 'node:crypto'
+import { DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { Upload } from '@aws-sdk/lib-storage'
 import { Injectable } from '@nestjs/common'
 
-import { randomUUID } from 'node:crypto'
 import { Either, failure, success } from '@/core/either'
 import {
   StorageService,
@@ -45,20 +42,15 @@ export class R2StorageService implements StorageService {
     }
   }
 
-  private getObjectPath(key: string) {
-    return `${this.env.get('CLOUDFLARE_BUCKET_MEDIA_PATH')}/${key}`
+  private formatFilePath(fileKey: string) {
+    return `medias/${fileKey}`
   }
 
-  private getPublicObjectUrl(key: string) {
-    const url = new URL(
-      key,
-      new URL(
-        this.env.get('CLOUDFLARE_BUCKET_MEDIA_PATH'),
-        this.env.get('CLOUDFLARE_PUBLIC_BUCKET_URL')
-      )
-    )
-
-    return url.toString()
+  private getPublicFileUrl(filePath: string) {
+    return new URL(
+      filePath.replace(/^\//, '').trim(),
+      this.env.get('CLOUDFLARE_PUBLIC_BUCKET_URL')
+    ).toString()
   }
 
   async put({
@@ -68,24 +60,29 @@ export class R2StorageService implements StorageService {
   }: StorageServicePutParams): Promise<
     Either<UnhandledError | ServiceUnavailableError, StorageObject>
   > {
-    const uuid = randomUUID()
-    const objectKey = `${uuid}-${filename}`
-    const objectPath = this.getObjectPath(objectKey)
+    const hash = crypto.createHash('md5').update(filename).digest('hex')
+    const extension = mimeType.extension()
 
-    const command = new PutObjectCommand({
-      Bucket: this.env.get('CLOUDFLARE_BUCKET_NAME'),
-      Key: objectPath,
-      Body: data,
-      ContentType: mimeType.toString(),
+    const fileKey = `${hash}.${extension}`
+    const filePath = this.formatFilePath(fileKey)
+
+    const upload = new Upload({
+      client: this.client,
+      params: {
+        Bucket: this.env.get('CLOUDFLARE_BUCKET_NAME'),
+        Key: filePath,
+        Body: data,
+        ContentType: mimeType.toString(),
+      },
     })
 
-    const response = await this.wrap(() => this.client.send(command))
+    const response = await this.wrap(() => upload.done())
     if (response.isFailure()) return failure(response.value)
 
     const storageObject = StorageObject.create({
       mimeType,
-      path: objectPath,
-      url: this.getPublicObjectUrl(objectKey),
+      path: filePath,
+      url: this.getPublicFileUrl(filePath),
     })
 
     return success(storageObject)

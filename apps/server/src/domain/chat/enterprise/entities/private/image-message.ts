@@ -65,7 +65,7 @@ export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps
       {
         ...props,
         type: 'image',
-        body: props.body ?? null,
+        body: props.body?.trim() ? props.body : null,
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',
         isForwarded: props.isForwarded ?? false,

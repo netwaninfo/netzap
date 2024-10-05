@@ -65,7 +65,7 @@ export class PrivateDocumentMessage extends PrivateMessage<PrivateDocumentMessag
       {
         ...props,
         type: 'document',
-        body: props.body ?? null,
+        body: props.body?.trim() ? props.body : null,
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',
         isForwarded: props.isForwarded ?? false,
