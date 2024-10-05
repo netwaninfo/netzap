@@ -1,3 +1,4 @@
+import { HandleChangeWAChatUnreadCount } from '@/domain/chat/application/handlers/handle-change-wa-chat-unread-count'
 import { HandleReceivedWAMessage } from '@/domain/chat/application/handlers/handle-received-wa-message'
 import { CreateChatFromWAChatUseCase } from '@/domain/chat/application/use-cases/chats/create-chat-from-wa-chat-use-case'
 import { CreateGroupChatFromWAChatUseCase } from '@/domain/chat/application/use-cases/chats/create-group-chat-from-wa-chat-use-case'
@@ -34,13 +35,13 @@ import { StorageModule } from '@/infra/services/storage/storage.module'
 import { UtilitiesModule } from '@/infra/services/utilities/utilities.module'
 import { Module } from '@nestjs/common'
 import { WWJSMappersModule } from '../mappers/wwjs-mappers.module'
+import { WWJSHandleChatUnreadCount } from './wwjs-handle-chat-unread-count'
 import { WWJSHandleMessageReceived } from './wwjs-handle-message-received'
 
 @Module({
   imports: [SocketModule, UtilitiesModule, StorageModule, WWJSMappersModule],
   providers: [
     WWJSHandleMessageReceived,
-
     HandleReceivedWAMessage,
     CreateChatFromWAChatUseCase,
     CreateGroupChatFromWAChatUseCase,
@@ -72,7 +73,10 @@ import { WWJSHandleMessageReceived } from './wwjs-handle-message-received'
     CreateGroupVCardMessageFromWAMessageUseCase,
     CreateGroupVideoMessageFromWAMessageUseCase,
     CreateGroupVoiceMessageFromWAMessageUseCase,
+
+    WWJSHandleChatUnreadCount,
+    HandleChangeWAChatUnreadCount,
   ],
-  exports: [WWJSHandleMessageReceived],
+  exports: [WWJSHandleMessageReceived, WWJSHandleChatUnreadCount],
 })
 export class WWJSHandlersModule {}

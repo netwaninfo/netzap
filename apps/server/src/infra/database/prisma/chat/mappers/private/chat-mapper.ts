@@ -38,8 +38,6 @@ export class PrismaPrivateChatMapper {
   }
 
   static toPrismaUpdate(chat: PrivateChat): Prisma.ChatUncheckedUpdateInput {
-    console.log(chat)
-
     return {
       instanceId: chat.instanceId.toString(),
       waChatId: chat.waChatId.toString(),

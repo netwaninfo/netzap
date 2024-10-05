@@ -38,8 +38,6 @@ export class PrismaGroupChatMapper {
   }
 
   static toPrismaUpdate(chat: GroupChat): Prisma.ChatUncheckedUpdateInput {
-    console.log(chat)
-
     return {
       instanceId: chat.instanceId.toString(),
       waChatId: chat.waChatId.toString(),

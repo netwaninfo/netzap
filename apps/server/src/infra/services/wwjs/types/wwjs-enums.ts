@@ -6,6 +6,7 @@ export {
 
 export enum WWJSInternalEvents {
   QR_CODE = 'wa:qr',
+  CHAT_UNREAD_COUNT = 'unread_count',
 }
 
 export enum WWJSInternalStates {

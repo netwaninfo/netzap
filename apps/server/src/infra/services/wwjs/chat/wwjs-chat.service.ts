@@ -38,6 +38,7 @@ export class WWJSChatService implements WhatsAppService {
     Either<UnhandledError | ServiceUnavailableError, WAChat>
   > {
     const client = this.wwjsService.getAvailableClient(instanceId)
+
     if (!client) {
       return failure(
         new ServiceUnavailableError({ name: WWJSChatService.name })
@@ -57,6 +58,7 @@ export class WWJSChatService implements WhatsAppService {
     Either<UnhandledError, WAMessage>
   > {
     const client = this.wwjsService.getAvailableClient(instanceId)
+
     if (!client) {
       return failure(
         new ServiceUnavailableError({ name: WWJSChatService.name })

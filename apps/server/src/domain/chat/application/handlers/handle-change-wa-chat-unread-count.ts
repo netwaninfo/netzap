@@ -1,5 +1,6 @@
 import { type Either, failure, success } from '@/core/either'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 import { Chat } from '../../enterprise/types/chat'
 import { WAChat } from '../../enterprise/types/wa-chat'
 import { ChatEmitter } from '../emitters/chat-emitter'
@@ -15,7 +16,7 @@ type HandleChangeWAChatUnreadCountResponse = Either<
     chat: Chat
   }
 >
-
+@Injectable()
 export class HandleChangeWAChatUnreadCount {
   constructor(
     private chatsRepository: ChatsRepository,
