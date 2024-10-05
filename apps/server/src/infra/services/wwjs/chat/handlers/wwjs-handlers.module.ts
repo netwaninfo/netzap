@@ -1,6 +1,7 @@
 import { HandleChangeWAChatUnreadCount } from '@/domain/chat/application/handlers/handle-change-wa-chat-unread-count'
 import { HandleChangeWAMessageACK } from '@/domain/chat/application/handlers/handle-change-wa-message-ack'
 import { HandleReceivedWAMessage } from '@/domain/chat/application/handlers/handle-received-wa-message'
+import { HandleRevokeWAMessage } from '@/domain/chat/application/handlers/handle-revoke-wa-message'
 import { CreateChatFromWAChatUseCase } from '@/domain/chat/application/use-cases/chats/create-chat-from-wa-chat-use-case'
 import { CreateGroupChatFromWAChatUseCase } from '@/domain/chat/application/use-cases/chats/create-group-chat-from-wa-chat-use-case'
 import { CreatePrivateChatFromWAChatUseCase } from '@/domain/chat/application/use-cases/chats/create-private-chat-from-wa-chat-use-case'
@@ -39,6 +40,7 @@ import { WWJSMappersModule } from '../mappers/wwjs-mappers.module'
 import { WWJSHandleChatUnreadCount } from './wwjs-handle-chat-unread-count'
 import { WWJSHandleMessageAck } from './wwjs-handle-message-ack'
 import { WWJSHandleMessageReceived } from './wwjs-handle-message-received'
+import { WWJSHandleMessageRevokedEveryone } from './wwjs-handle-message-revoked-everyone'
 
 @Module({
   imports: [SocketModule, UtilitiesModule, StorageModule, WWJSMappersModule],
@@ -81,6 +83,9 @@ import { WWJSHandleMessageReceived } from './wwjs-handle-message-received'
 
     WWJSHandleMessageAck,
     HandleChangeWAMessageACK,
+
+    WWJSHandleMessageRevokedEveryone,
+    HandleRevokeWAMessage,
   ],
   exports: [WWJSHandleMessageReceived, WWJSHandleChatUnreadCount],
 })

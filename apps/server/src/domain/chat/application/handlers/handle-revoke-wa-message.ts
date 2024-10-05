@@ -3,6 +3,7 @@ import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resou
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
+import { Injectable } from '@nestjs/common'
 import {
   isMessageCanRevoke,
   isMessageWithMedia,
@@ -11,9 +12,9 @@ import type { Message } from '../../enterprise/types/message'
 import type { WAChat } from '../../enterprise/types/wa-chat'
 import type { WAMessage } from '../../enterprise/types/wa-message'
 import { MessageEmitter } from '../emitters/message-emitter'
-import type { MessagesRepository } from '../repositories/messages-repository'
-import type { DateService } from '../services/date-service'
-import type { StorageService } from '../services/storage-service'
+import { MessagesRepository } from '../repositories/messages-repository'
+import { DateService } from '../services/date-service'
+import { StorageService } from '../services/storage-service'
 
 interface HandleRevokeWAMessageRequest {
   waRevokedMessage: WAMessage
@@ -30,6 +31,7 @@ type HandleRevokeWAMessageResponse = Either<
   }
 >
 
+@Injectable()
 export class HandleRevokeWAMessage {
   constructor(
     private messagesRepository: MessagesRepository,
