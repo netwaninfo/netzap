@@ -1,3 +1,5 @@
+import { Module } from '@nestjs/common'
+
 import { HandleChangeWAChatUnreadCount } from '@/domain/chat/application/handlers/handle-change-wa-chat-unread-count'
 import { HandleChangeWAMessageACK } from '@/domain/chat/application/handlers/handle-change-wa-message-ack'
 import { HandleReceivedWAMessage } from '@/domain/chat/application/handlers/handle-received-wa-message'
@@ -35,7 +37,6 @@ import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '@/domain/chat/app
 import { SocketModule } from '@/infra/services/socket-io/socket.module'
 import { StorageModule } from '@/infra/services/storage/storage.module'
 import { UtilitiesModule } from '@/infra/services/utilities/utilities.module'
-import { Module } from '@nestjs/common'
 import { WWJSMappersModule } from '../mappers/wwjs-mappers.module'
 import { WWJSHandleChatUnreadCount } from './wwjs-handle-chat-unread-count'
 import { WWJSHandleMessageAck } from './wwjs-handle-message-ack'
@@ -87,6 +88,5 @@ import { WWJSHandleMessageRevokedEveryone } from './wwjs-handle-message-revoked-
     WWJSHandleMessageRevokedEveryone,
     HandleRevokeWAMessage,
   ],
-  exports: [WWJSHandleMessageReceived, WWJSHandleChatUnreadCount],
 })
 export class WWJSHandlersModule {}

@@ -3,6 +3,7 @@ import type { WAEntityID } from '../../value-objects/wa-entity-id'
 import { WAContact, type WAContactProps } from '../contact'
 
 export interface WAPrivateContactProps extends WAContactProps {
+  isMe: boolean
   isGroup: false
   isBusiness: boolean
   isEnterprise: boolean
@@ -12,6 +13,10 @@ export interface WAPrivateContactProps extends WAContactProps {
 }
 
 export class WAPrivateContact extends WAContact<WAPrivateContactProps> {
+  get isMe() {
+    return this.props.isMe
+  }
+
   get isGroup() {
     return this.props.isGroup
   }
@@ -48,7 +53,7 @@ export class WAPrivateContact extends WAContact<WAPrivateContactProps> {
     props: Except<
       SetOptional<
         WAPrivateContactProps,
-        'name' | 'shortName' | 'pushName' | 'imageUrl' | 'isInstance'
+        'name' | 'shortName' | 'pushName' | 'imageUrl' | 'isInstance' | 'isMe'
       >,
       'isGroup'
     >,
@@ -63,6 +68,7 @@ export class WAPrivateContact extends WAContact<WAPrivateContactProps> {
         pushName: props.pushName ?? null,
         imageUrl: props.imageUrl ?? null,
         isInstance: props.isInstance ?? false,
+        isMe: props.isMe ?? false,
       },
       id
     )

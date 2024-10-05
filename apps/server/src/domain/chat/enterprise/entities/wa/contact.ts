@@ -50,8 +50,4 @@ export abstract class WAContact<Props extends WAContactProps> extends WAEntity<
   get imageUrl() {
     return this.props.imageUrl
   }
-
-  get isMe() {
-    return this.instanceId.equals(UniqueEntityID.create(this.id.toString()))
-  }
 }

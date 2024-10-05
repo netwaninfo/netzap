@@ -45,6 +45,7 @@ export class WWJSPrivateContactMapper {
         name: contact.name,
         pushName: contact.pushname,
         shortName: contact.shortName,
+        isMe: instance?.id === client.instanceId.toString(),
       },
       WAEntityID.createFromString(contact.id._serialized)
     )
