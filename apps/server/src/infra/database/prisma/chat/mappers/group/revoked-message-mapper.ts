@@ -58,12 +58,10 @@ export class PrismaGroupRevokedMessageMapper {
   ): Prisma.MessageUncheckedUpdateInput {
     return {
       chatType: 'group',
-      authorId: message.author.id.toString(),
       chatId: message.chatId.toString(),
       waChatId: message.waChatId.toString(),
       waMessageId: message.waMessageId.toString(),
       instanceId: message.instanceId.toString(),
-      quotedId: message.quoted?.id.toString(),
       senderId: message.sentBy?.toString(),
       type: message.type,
       status: message.status,
@@ -72,6 +70,18 @@ export class PrismaGroupRevokedMessageMapper {
       createdAt: message.createdAt,
       revokerId: message.revokedBy?.toString(),
       revokedAt: message.revokedAt,
+      quotedId: {
+        unset: true,
+      },
+      authorId: {
+        unset: true,
+      },
+      body: {
+        unset: true,
+      },
+      media: {
+        unset: true,
+      },
     }
   }
 }

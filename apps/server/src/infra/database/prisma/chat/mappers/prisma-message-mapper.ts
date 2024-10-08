@@ -34,7 +34,7 @@ export class PrismaMessageMapper {
       return PrismaPrivateMessageMapper.toPrismaUpdate(message)
     }
 
-    return PrismaGroupMessageMapper.toPrismaCreate(message)
+    return PrismaGroupMessageMapper.toPrismaUpdate(message)
   }
 
   private static isRawPrivateMessage(raw: Raw): raw is RawPrivateMessage {
