@@ -1,1 +1,1 @@
-export * from './chat-server-events.js'
+export * from './server-events.js'

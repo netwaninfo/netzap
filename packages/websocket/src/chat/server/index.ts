@@ -1,2 +1,2 @@
 export * from './chats/index.js'
-export * from './events.js'
+export * from './messages/index.js'
