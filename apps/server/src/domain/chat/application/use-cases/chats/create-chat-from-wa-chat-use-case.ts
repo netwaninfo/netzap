@@ -11,7 +11,7 @@ interface CreateChatFromWAChatUseCaseRequest {
   waChat: WAChat
 }
 
-type CreateChatFromWAChatUseCaseResponse = Either<
+export type CreateChatFromWAChatUseCaseResponse = Either<
   ResourceAlreadyExistsError | null,
   {
     chat: Chat

@@ -87,11 +87,23 @@ export class FakeWhatsAppService implements WhatsAppService {
     })
   }
 
-  async getContacts(
-    _: WhatsAppServiceGetContactsParams
-  ): Promise<
+  async getContacts({
+    instanceId,
+  }: WhatsAppServiceGetContactsParams): Promise<
     Either<UnhandledError | ServiceUnavailableError, WAPrivateContact[]>
   > {
-    return success(this.contacts)
+    return success(
+      this.contacts.filter(contact => contact.instanceId.equals(instanceId))
+    )
+  }
+
+  async getChats({
+    instanceId,
+  }: WhatsAppServiceGetContactsParams): Promise<
+    Either<UnhandledError | ServiceUnavailableError, WAChat[]>
+  > {
+    return success(
+      this.chats.filter(chat => chat.instanceId.equals(instanceId))
+    )
   }
 }
