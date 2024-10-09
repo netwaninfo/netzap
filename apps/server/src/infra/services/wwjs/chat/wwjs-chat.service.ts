@@ -1,7 +1,7 @@
 import { Either, failure, success } from '@/core/either'
 import {
   WhatsAppService,
-  WhatsAppServiceGetChatByWAChatId,
+  WhatsAppServiceGetChatByWAChatIdParams,
   WhatsAppServiceSendTextMessageParams,
 } from '@/domain/chat/application/services/whats-app-service'
 import { WAChat } from '@/domain/chat/enterprise/types/wa-chat'
@@ -34,7 +34,7 @@ export class WWJSChatService implements WhatsAppService {
   async getChatByWAChatId({
     instanceId,
     waChatId,
-  }: WhatsAppServiceGetChatByWAChatId): Promise<
+  }: WhatsAppServiceGetChatByWAChatIdParams): Promise<
     Either<UnhandledError | ServiceUnavailableError, WAChat>
   > {
     const client = this.wwjsService.getAvailableClient(instanceId)

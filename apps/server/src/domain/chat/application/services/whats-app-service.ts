@@ -4,6 +4,7 @@ import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavaila
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
 import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id'
+import { WAPrivateContact } from '../../enterprise/entities/wa/private/contact'
 import { WAChat } from '../../enterprise/types/wa-chat'
 import type { WAMessage } from '../../enterprise/types/wa-message'
 
@@ -14,17 +15,27 @@ export interface WhatsAppServiceSendTextMessageParams {
   quotedId?: WAMessageID
 }
 
-export interface WhatsAppServiceGetChatByWAChatId {
+export interface WhatsAppServiceGetChatByWAChatIdParams {
   instanceId: UniqueEntityID
   waChatId: WAEntityID
 }
 
+export interface WhatsAppServiceGetContactsParams {
+  instanceId: UniqueEntityID
+}
+
 export abstract class WhatsAppService {
   abstract getChatByWAChatId(
-    params: WhatsAppServiceGetChatByWAChatId
+    params: WhatsAppServiceGetChatByWAChatIdParams
   ): Promise<Either<UnhandledError | ServiceUnavailableError, WAChat>>
 
   abstract sendTextMessage(
     params: WhatsAppServiceSendTextMessageParams
   ): Promise<Either<UnhandledError | ServiceUnavailableError, WAMessage>>
+
+  abstract getContacts(
+    params: WhatsAppServiceGetContactsParams
+  ): Promise<
+    Either<UnhandledError | ServiceUnavailableError, WAPrivateContact[]>
+  >
 }

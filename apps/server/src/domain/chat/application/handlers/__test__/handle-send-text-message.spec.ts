@@ -12,7 +12,9 @@ import { makeAttendant } from '@/test/factories/chat/make-attendant'
 import { makeContact } from '@/test/factories/chat/make-contact'
 import { makeGroup } from '@/test/factories/chat/make-group'
 import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
+import { makeWAGroupChat } from '@/test/factories/chat/wa/make-wa-group-chat'
 import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
+import { makeWAPrivateChat } from '@/test/factories/chat/wa/make-wa-private-chat'
 import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { InMemoryAttendantsRepository } from '@/test/repositories/chat/in-memory-attendants-repository'
@@ -156,16 +158,14 @@ describe('HandleSendTextMessage', () => {
       return success(await whatsAppService.sendPrivateTextMessage(params))
     }
 
-    const privateChat = makePrivateChat({ instanceId })
-    whatsAppService.getChatByWAChatId = async params => {
-      return success(await whatsAppService.getPrivateChatByWAChatId(params))
-    }
+    const waChat = makeWAPrivateChat({ instanceId })
+    whatsAppService.chats.push(waChat)
 
     const response = await sut.execute({
       instanceId,
       attendantId: attendant.id,
       body: 'message',
-      waChatId: privateChat.waChatId,
+      waChatId: waChat.id,
     })
 
     expect(response.isSuccess()).toBe(true)
@@ -193,10 +193,6 @@ describe('HandleSendTextMessage', () => {
 
     const privateChat = makePrivateChat({ instanceId, contactId: contact.id })
     chatsRepository.items.push(privateChat)
-
-    whatsAppService.getChatByWAChatId = async params => {
-      return success(await whatsAppService.getPrivateChatByWAChatId(params))
-    }
 
     const response = await sut.execute({
       instanceId,
@@ -233,16 +229,14 @@ describe('HandleSendTextMessage', () => {
       )
     }
 
-    const groupChat = makeGroupChat({ instanceId })
-    whatsAppService.getChatByWAChatId = async params => {
-      return success(await whatsAppService.getGroupChatByWAChatId(params))
-    }
+    const waChat = makeWAGroupChat({ instanceId })
+    whatsAppService.chats.push(waChat)
 
     const response = await sut.execute({
       instanceId,
       attendantId: attendant.id,
       body: 'message',
-      waChatId: groupChat.waChatId,
+      waChatId: waChat.id,
     })
 
     expect(response.isSuccess()).toBe(true)
@@ -278,10 +272,6 @@ describe('HandleSendTextMessage', () => {
 
     const groupChat = makeGroupChat({ instanceId, groupId: group.id })
     chatsRepository.items.push(groupChat)
-
-    whatsAppService.getChatByWAChatId = async params => {
-      return success(await whatsAppService.getGroupChatByWAChatId(params))
-    }
 
     const response = await sut.execute({
       instanceId,
