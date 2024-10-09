@@ -88,10 +88,15 @@ export class HandleSendTextMessage {
         )
       }
 
-      const result = await this.createChatFromWAChat.execute({ waChat })
-      if (result.isFailure()) return failure(result.value)
+      const createChatResponse = await this.createChatFromWAChat.execute({
+        waChat,
+      })
 
-      chat = result.value.chat
+      if (createChatResponse.isFailure()) {
+        return failure(createChatResponse.value)
+      }
+
+      chat = createChatResponse.value.chat
     }
 
     // this.chatEmitter.emitCreate({ chat })
@@ -106,13 +111,14 @@ export class HandleSendTextMessage {
     if (response.isFailure()) return failure(response.value)
     const { value: waMessage } = response
 
-    const result = await this.createTextMessageFromWAMessage.execute({
-      waMessage,
-      attendantId,
-    })
+    const createTextResponse =
+      await this.createTextMessageFromWAMessage.execute({
+        waMessage,
+        attendantId,
+      })
 
-    if (result.isFailure()) return failure(result.value)
-    const { message } = result.value
+    if (createTextResponse.isFailure()) return failure(createTextResponse.value)
+    const { message } = createTextResponse.value
 
     chat.interact(message)
     await this.chatsRepository.save(chat)

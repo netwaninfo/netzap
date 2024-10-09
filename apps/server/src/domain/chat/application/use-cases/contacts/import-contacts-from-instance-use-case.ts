@@ -32,13 +32,17 @@ export class ImportContactsFromInstanceUseCase {
     if (response.isFailure()) return failure(response.value)
 
     const waContacts = response.value
-    const result = await this.createContactsFromWAContacts.execute({
-      waContacts,
-      instanceId,
-    })
+    const createContactsResponse =
+      await this.createContactsFromWAContacts.execute({
+        waContacts,
+        instanceId,
+      })
 
-    if (result.isFailure()) return failure(result.value)
-    const { contacts } = result.value
+    if (createContactsResponse.isFailure()) {
+      return failure(createContactsResponse.value)
+    }
+
+    const { contacts } = createContactsResponse.value
 
     return success({ contacts })
   }
