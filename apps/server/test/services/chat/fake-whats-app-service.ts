@@ -2,7 +2,8 @@ import { Either, success } from '@/core/either'
 import type {
   WhatsAppService,
   WhatsAppServiceGetChatByWAChatIdParams,
-  WhatsAppServiceGetContactsParams,
+  WhatsAppServiceGetContactsFromInstanceParams,
+  WhatsAppServiceGetMessagesFromInstanceParams,
   WhatsAppServiceSendTextMessageParams,
 } from '@/domain/chat/application/services/whats-app-service'
 import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
@@ -26,6 +27,7 @@ interface WhatsAppServiceSendGroupTextMessageParams
 export class FakeWhatsAppService implements WhatsAppService {
   contacts: WAPrivateContact[] = []
   chats: WAChat[] = []
+  messages: WAMessage[] = []
 
   async getChatByWAChatId({
     instanceId,
@@ -87,9 +89,9 @@ export class FakeWhatsAppService implements WhatsAppService {
     })
   }
 
-  async getContacts({
+  async getContactsFromInstance({
     instanceId,
-  }: WhatsAppServiceGetContactsParams): Promise<
+  }: WhatsAppServiceGetContactsFromInstanceParams): Promise<
     Either<UnhandledError | ServiceUnavailableError, WAPrivateContact[]>
   > {
     return success(
@@ -97,13 +99,23 @@ export class FakeWhatsAppService implements WhatsAppService {
     )
   }
 
-  async getChats({
+  async getChatsFromInstance({
     instanceId,
-  }: WhatsAppServiceGetContactsParams): Promise<
+  }: WhatsAppServiceGetContactsFromInstanceParams): Promise<
     Either<UnhandledError | ServiceUnavailableError, WAChat[]>
   > {
     return success(
       this.chats.filter(chat => chat.instanceId.equals(instanceId))
+    )
+  }
+
+  async getMessagesFromInstance({
+    instanceId,
+  }: WhatsAppServiceGetMessagesFromInstanceParams): Promise<
+    Either<UnhandledError | ServiceUnavailableError, WAMessage[]>
+  > {
+    return success(
+      this.messages.filter(message => message.instanceId.equals(instanceId))
     )
   }
 }

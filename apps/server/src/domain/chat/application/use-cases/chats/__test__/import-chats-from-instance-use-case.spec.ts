@@ -1,4 +1,3 @@
-import {} from '@/domain/chat/enterprise/type-guards/chat'
 import { makeWAGroupChat } from '@/test/factories/chat/wa/make-wa-group-chat'
 import { makeWAPrivateChat } from '@/test/factories/chat/wa/make-wa-private-chat'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'

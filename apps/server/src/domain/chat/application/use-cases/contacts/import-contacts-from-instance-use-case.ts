@@ -28,7 +28,10 @@ export class ImportContactsFromInstanceUseCase {
   ): Promise<ImportContactsFromInstanceUseCaseResponse> {
     const { instanceId } = request
 
-    const response = await this.whatsAppService.getContacts({ instanceId })
+    const response = await this.whatsAppService.getContactsFromInstance({
+      instanceId,
+    })
+
     if (response.isFailure()) return failure(response.value)
 
     const waContacts = response.value

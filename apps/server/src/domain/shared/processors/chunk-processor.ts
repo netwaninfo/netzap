@@ -20,7 +20,7 @@ export class ChunkProcessor<T> {
     return this.props.chunks
   }
 
-  async processChunk<R>(method: ChunkProcessorMethod<Array<T>, R>) {
+  async processChunk<R>(method: ChunkProcessorMethod<T[], R>) {
     return await Promise.all(this.chunks.map(chunk => method(chunk)))
   }
 

@@ -19,6 +19,7 @@ describe('ImportContactsFromInstanceUseCase', () => {
     createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
       contactsRepository
     )
+
     whatsAppService = new FakeWhatsAppService()
 
     sut = new ImportContactsFromInstanceUseCase(

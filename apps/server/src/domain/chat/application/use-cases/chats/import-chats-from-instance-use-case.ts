@@ -30,9 +30,11 @@ export class ImportChatsFromInstanceUseCase {
   ): Promise<ImportChatsFromInstanceUseCaseResponse> {
     const { instanceId } = request
 
-    const response = await this.whatsAppService.getChats({ instanceId })
-    if (response.isFailure()) return failure(response.value)
+    const response = await this.whatsAppService.getChatsFromInstance({
+      instanceId,
+    })
 
+    if (response.isFailure()) return failure(response.value)
     const waChats = response.value
 
     const chats: Chat[] = []

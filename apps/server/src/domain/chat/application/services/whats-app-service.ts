@@ -20,11 +20,15 @@ export interface WhatsAppServiceGetChatByWAChatIdParams {
   waChatId: WAEntityID
 }
 
-export interface WhatsAppServiceGetContactsParams {
+export interface WhatsAppServiceGetContactsFromInstanceParams {
   instanceId: UniqueEntityID
 }
 
-export interface WhatsAppServiceGetChatsParams {
+export interface WhatsAppServiceGetChatsFromInstanceParams {
+  instanceId: UniqueEntityID
+}
+
+export interface WhatsAppServiceGetMessagesFromInstanceParams {
   instanceId: UniqueEntityID
 }
 
@@ -37,13 +41,17 @@ export abstract class WhatsAppService {
     params: WhatsAppServiceSendTextMessageParams
   ): Promise<Either<UnhandledError | ServiceUnavailableError, WAMessage>>
 
-  abstract getContacts(
-    params: WhatsAppServiceGetContactsParams
+  abstract getContactsFromInstance(
+    params: WhatsAppServiceGetContactsFromInstanceParams
   ): Promise<
     Either<UnhandledError | ServiceUnavailableError, WAPrivateContact[]>
   >
 
-  abstract getChats(
-    params: WhatsAppServiceGetContactsParams
+  abstract getChatsFromInstance(
+    params: WhatsAppServiceGetContactsFromInstanceParams
   ): Promise<Either<UnhandledError | ServiceUnavailableError, WAChat[]>>
+
+  abstract getMessagesFromInstance(
+    params: WhatsAppServiceGetMessagesFromInstanceParams
+  ): Promise<Either<UnhandledError | ServiceUnavailableError, WAMessage[]>>
 }
