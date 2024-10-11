@@ -1,16 +1,78 @@
+import 'dotenv/config'
+
+import crypto from 'node:crypto'
 import { faker } from '@/test/lib/faker'
+import { createClerkClient } from '@clerk/clerk-sdk-node'
 import { PrismaClient } from '@prisma/client'
+import merge from 'lodash.merge'
+import { z } from 'zod'
+
+const envSchema = z.object({
+  CLERK_PUBLISHABLE_KEY: z.string(),
+  CLERK_SECRET_KEY: z.string(),
+})
+
+const env = envSchema.parse(process.env)
 
 const prisma = new PrismaClient()
 
-async function seed() {
-  await prisma.instance.deleteMany()
+const clerk = createClerkClient({
+  publishableKey: env.CLERK_PUBLISHABLE_KEY,
+  secretKey: env.CLERK_SECRET_KEY,
+})
 
-  await prisma.instance.create({
+async function seed() {
+  const email = 'estevao.biondi@gmail.com'
+
+  const { data } = await clerk.users.getUserList({ emailAddress: [email] })
+  let user = data[0]
+
+  if (!user) {
+    user = await clerk.users.createUser({
+      emailAddress: [email],
+      password: crypto.randomBytes(16).toString('hex'),
+      publicMetadata: {
+        applications: {
+          netzap: {},
+        },
+      },
+    })
+  }
+
+  await Promise.all([
+    prisma.instance.deleteMany(),
+    prisma.attendant.deleteMany(),
+  ])
+
+  const instance = await prisma.instance.create({
     data: {
       name: faker.company.name(),
       phone: '5511975513068',
     },
+    select: {
+      id: true,
+    },
+  })
+
+  const attendant = await prisma.attendant.create({
+    data: {
+      displayName: faker.internet.userName(),
+      ssoId: user.id,
+      instanceIds: [instance.id],
+    },
+    select: {
+      id: true,
+    },
+  })
+
+  await clerk.users.updateUserMetadata(user.id, {
+    publicMetadata: merge(user.publicMetadata, {
+      applications: {
+        netzap: {
+          id: attendant.id,
+        },
+      },
+    }),
   })
 }
 
