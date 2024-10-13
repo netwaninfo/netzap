@@ -3,6 +3,7 @@ import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { Prisma, Chat as PrismaChat } from '@prisma/client'
 import { Except } from 'type-fest'
+import { PrismaChatMapper } from '../prisma-chat-mapper'
 import { PrismaPrivateMessageMapper, RawPrivateMessage } from './message-mapper'
 
 export type RawPrivateChat = PrismaChat & {
@@ -33,7 +34,8 @@ export class PrismaPrivateChatMapper {
       recipientId: chat.contactId.toString(),
       type: 'private',
       unreadCount: chat.unreadCount,
-      lastMessageId: chat.lastMessage?.id.toString(),
+      lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
+      hasLastMessage: chat.hasLastMessage(),
     }
   }
 
@@ -44,7 +46,8 @@ export class PrismaPrivateChatMapper {
       recipientId: chat.contactId.toString(),
       type: 'private',
       unreadCount: chat.unreadCount,
-      lastMessageId: chat.lastMessage?.id.toString(),
+      lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
+      hasLastMessage: chat.hasLastMessage(),
     }
   }
 }

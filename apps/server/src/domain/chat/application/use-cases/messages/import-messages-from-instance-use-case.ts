@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { type Either, failure, success } from '@/core/either'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Message } from '@/domain/chat/enterprise/types/message'
@@ -19,6 +21,7 @@ type ImportMessagesFromInstanceUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class ImportMessagesFromInstanceUseCase {
   constructor(
     private createMessageFromWAMessage: CreateMessageFromWAMessageUseCase,

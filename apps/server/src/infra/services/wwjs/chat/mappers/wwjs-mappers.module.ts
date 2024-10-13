@@ -19,6 +19,6 @@ import { WWJSMessageMapper } from './wwjs-message-mapper'
     WWJSGroupMessageMapper,
     WWJSMessageMapper,
   ],
-  exports: [WWJSChatMapper, WWJSMessageMapper],
+  exports: [WWJSChatMapper, WWJSMessageMapper, WWJSPrivateContactMapper],
 })
 export class WWJSMappersModule {}

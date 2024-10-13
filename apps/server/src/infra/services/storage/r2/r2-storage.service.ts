@@ -31,7 +31,7 @@ export class R2StorageService implements StorageService {
     })
   }
 
-  private async wrap<T>(
+  private async runSafely<T>(
     request: RequestFunction<T>
   ): Promise<Either<UnhandledError, T>> {
     try {
@@ -76,7 +76,7 @@ export class R2StorageService implements StorageService {
       },
     })
 
-    const response = await this.wrap(() => upload.done())
+    const response = await this.runSafely(() => upload.done())
     if (response.isFailure()) return failure(response.value)
 
     const storageObject = StorageObject.create({
@@ -96,7 +96,7 @@ export class R2StorageService implements StorageService {
       Key: path,
     })
 
-    const response = await this.wrap(() => this.client.send(command))
+    const response = await this.runSafely(() => this.client.send(command))
     if (response.isFailure()) return failure(response.value)
 
     return success(true)

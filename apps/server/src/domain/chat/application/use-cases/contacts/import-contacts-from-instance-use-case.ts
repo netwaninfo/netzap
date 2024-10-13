@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { type Either, failure, success } from '@/core/either'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Contact } from '@/domain/chat/enterprise/entities/contact'
@@ -17,6 +19,7 @@ type ImportContactsFromInstanceUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class ImportContactsFromInstanceUseCase {
   constructor(
     private createContactsFromWAContacts: CreateContactsFromWAContactsUseCase,

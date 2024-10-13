@@ -3,6 +3,7 @@ import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { Prisma, Chat as PrismaChat } from '@prisma/client'
 import { Except } from 'type-fest'
+import { PrismaChatMapper } from '../prisma-chat-mapper'
 import { PrismaGroupMessageMapper, RawGroupMessage } from './message-mapper'
 
 export type RawGroupChat = PrismaChat & {
@@ -33,7 +34,8 @@ export class PrismaGroupChatMapper {
       recipientId: chat.groupId.toString(),
       type: 'group',
       unreadCount: chat.unreadCount,
-      lastMessageId: chat.lastMessage?.id.toString(),
+      lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
+      hasLastMessage: chat.hasLastMessage(),
     }
   }
 
@@ -44,7 +46,8 @@ export class PrismaGroupChatMapper {
       recipientId: chat.groupId.toString(),
       type: 'group',
       unreadCount: chat.unreadCount,
-      lastMessageId: chat.lastMessage?.id.toString(),
+      lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
+      hasLastMessage: chat.hasLastMessage(),
     }
   }
 }

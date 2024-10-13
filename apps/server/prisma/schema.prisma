@@ -111,9 +111,10 @@ model Chat {
   instanceId  String @map("instance_id") @db.ObjectId
   unreadCount Int    @map("unread_count")
 
-  type          ChatType
-  recipientId   String   @map("recipient_id") @db.ObjectId
-  lastMessageId String?  @unique @map("last_message_id") @db.ObjectId
+  type           ChatType
+  recipientId    String   @map("recipient_id") @db.ObjectId
+  lastMessageId  String?  @unique @map("last_message_id") @db.ObjectId
+  hasLastMessage Boolean  @default(false) @map("has_last_message")
 
   group   Group?   @relation(fields: [recipientId], references: [id])
   contact Contact? @relation(fields: [recipientId], references: [id])

@@ -1,3 +1,4 @@
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { isPrivateChat } from '@/domain/chat/enterprise/type-guards/chat'
 import { Chat } from '@/domain/chat/enterprise/types/chat'
 import { Prisma } from '@prisma/client'
@@ -7,6 +8,13 @@ import { PrismaPrivateChatMapper, RawPrivateChat } from './private/chat-mapper'
 type Raw = RawPrivateChat | RawGroupChat
 
 export class PrismaChatMapper {
+  static getLastMessageIDFromChat(chat: Chat) {
+    // Generating an ID to avoid a constraint error when no last message exists
+    return chat.hasLastMessage()
+      ? chat.lastMessage.id.toString()
+      : UniqueEntityID.create().toString()
+  }
+
   static toDomain(raw: Raw): Chat {
     if (PrismaChatMapper.isRawPrivateChat(raw)) {
       return PrismaPrivateChatMapper.toDomain(raw)

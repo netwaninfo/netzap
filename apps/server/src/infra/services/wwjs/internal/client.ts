@@ -9,7 +9,7 @@ import {
 } from '../types/wwjs-enums'
 
 export class WWJSInternalClient extends Client {
-  private async wrap<T>(request: RequestFunction<T>) {
+  private async runSafely<T>(request: RequestFunction<T>) {
     try {
       return await request()
     } catch (error) {
@@ -35,7 +35,7 @@ export class WWJSInternalClient extends Client {
       this.emit(WWJSInternalEvents.QR_CODE, code)
     })
 
-    return this.wrap(async () => {
+    return this.runSafely(async () => {
       this.emit(WWJSInternalStates.STARTING)
       await super.initialize()
       this.emit(WWJSInternalStates.INITIALIZED)
@@ -43,14 +43,14 @@ export class WWJSInternalClient extends Client {
   }
 
   override destroy(): Promise<void> {
-    return this.wrap(async () => {
+    return this.runSafely(async () => {
       await super.destroy()
       this.emit(WWJSInternalStates.STOPPED)
     })
   }
 
   override logout(): Promise<void> {
-    return this.wrap(async () => {
+    return this.runSafely(async () => {
       await super.logout()
       this.emit(WWJSInternalStatus.DISCONNECTED, 'LOGOUT')
     })
