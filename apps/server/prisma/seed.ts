@@ -2,7 +2,7 @@ import 'dotenv/config'
 
 import crypto from 'node:crypto'
 import { faker } from '@/test/lib/faker'
-import { createClerkClient } from '@clerk/clerk-sdk-node'
+import { createClerkClient } from '@clerk/backend'
 import { PrismaClient } from '@prisma/client'
 import merge from 'lodash.merge'
 import { z } from 'zod'
@@ -23,12 +23,14 @@ const clerk = createClerkClient({
 
 async function seed() {
   const email = 'estevao.biondi@gmail.com'
+  const name = 'Estevão'
 
   const { data } = await clerk.users.getUserList({ emailAddress: [email] })
   let user = data[0]
 
   if (!user) {
     user = await clerk.users.createUser({
+      firstName: name,
       emailAddress: [email],
       password: crypto.randomBytes(16).toString('hex'),
       publicMetadata: {

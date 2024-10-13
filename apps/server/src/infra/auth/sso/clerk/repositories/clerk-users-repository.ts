@@ -4,7 +4,7 @@ import {
 } from '@/domain/auth/application/repositories/users-repositories'
 import { User } from '@/domain/auth/enterprise/entities/user'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
-import { User as RawClerkUser } from '@clerk/clerk-sdk-node'
+import { User as RawClerkUser } from '@clerk/backend'
 import { Injectable } from '@nestjs/common'
 import { ClerkService } from '../clerk.service'
 import { ClerkUserMapper } from '../mappers/clerk-user-mapper'
