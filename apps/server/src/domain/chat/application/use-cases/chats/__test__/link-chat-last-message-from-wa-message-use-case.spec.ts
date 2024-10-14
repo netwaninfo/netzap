@@ -1,19 +1,13 @@
-import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
-import { makeWAGroupChat } from '@/test/factories/chat/wa/make-wa-group-chat'
-import { makeWAPrivateChat } from '@/test/factories/chat/wa/make-wa-private-chat'
+import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
 import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
 import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
-import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-groups-repository'
 import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
 import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { FakeWhatsAppService } from '@/test/services/chat/fake-whats-app-service'
-import { each } from '@/test/utilities/each'
 import { CreateContactFromWAContactUseCase } from '../../contacts/create-contact-from-wa-contact-use-case'
 import { CreateContactsFromWAContactsUseCase } from '../../contacts/create-contacts-from-wa-contacts-use-case'
-import { CreateGroupFromWAContactUseCase } from '../../groups/create-group-from-wa-contact-use-case'
 import { CreateMessageFromWAMessageUseCase } from '../../messages/create-message-from-wa-message-use-case'
 import { CreateMessageMediaFromWAMessageUseCase } from '../../messages/create-message-media-from-wa-message-use-case'
 import { CreateGroupAudioMessageFromWAMessageUseCase } from '../../messages/group/create-group-audio-message-from-wa-message-use-case'
@@ -38,13 +32,9 @@ import { CreatePrivateUnknownMessageFromWAMessageUseCase } from '../../messages/
 import { CreatePrivateVCardMessageFromWAMessageUseCase } from '../../messages/private/create-private-v-card-message-from-wa-message-use-case'
 import { CreatePrivateVideoMessageFromWAMessageUseCase } from '../../messages/private/create-private-video-message-from-wa-message-use-case'
 import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '../../messages/private/create-private-voice-message-from-wa-message-use-case'
-import { CreateChatFromWAChatUseCase } from '../create-chat-from-wa-chat-use-case'
-import { CreateGroupChatFromWAChatUseCase } from '../create-group-chat-from-wa-chat-use-case'
-import { CreatePrivateChatFromWAChatUseCase } from '../create-private-chat-from-wa-chat-use-case'
-import { ImportChatsFromInstanceUseCase } from '../import-chats-from-instance-use-case'
 import { LinkChatLastMessageFromWAMessageUseCase } from '../link-chat-last-message-from-wa-message-use-case'
 
-describe('ImportChatsFromInstanceUseCase', () => {
+describe('LinkChatLastMessageFromWAMessageUseCase', () => {
   let chatsRepository: InMemoryChatsRepository
   let messagesRepository: InMemoryMessagesRepository
 
@@ -91,25 +81,7 @@ describe('ImportChatsFromInstanceUseCase', () => {
 
   let createMessageFromWAMessageUseCase: CreateMessageFromWAMessageUseCase
 
-  let linkChatLastMessageFromWAMessage: LinkChatLastMessageFromWAMessageUseCase
-
-  let groupsRepository: InMemoryGroupsRepository
-
-  let createGroupFromWAContactUseCase: CreateGroupFromWAContactUseCase
-
-  let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
-
-  let createGroupChatFromWAChatUseCase: CreateGroupChatFromWAChatUseCase
-
-  let createContactFromWAContactUseCase: CreateContactFromWAContactUseCase
-
-  let createPrivateChatFromWAChatUseCase: CreatePrivateChatFromWAChatUseCase
-
-  let createChatFromWAChat: CreateChatFromWAChatUseCase
-
-  let whatsAppService: FakeWhatsAppService
-
-  let sut: ImportChatsFromInstanceUseCase
+  let sut: LinkChatLastMessageFromWAMessageUseCase
 
   beforeEach(() => {
     chatsRepository = new InMemoryChatsRepository()
@@ -332,84 +304,32 @@ describe('ImportChatsFromInstanceUseCase', () => {
       createGroupMessageFromWAMessage
     )
 
-    linkChatLastMessageFromWAMessage =
-      new LinkChatLastMessageFromWAMessageUseCase(
-        chatsRepository,
-        createMessageFromWAMessageUseCase
-      )
-
-    groupsRepository = new InMemoryGroupsRepository()
-
-    createGroupFromWAContactUseCase = new CreateGroupFromWAContactUseCase(
-      groupsRepository
-    )
-
-    contactsRepository = new InMemoryContactsRepository()
-
-    createContactsFromWAContacts = new CreateContactsFromWAContactsUseCase(
-      contactsRepository
-    )
-
-    createGroupChatFromWAChatUseCase = new CreateGroupChatFromWAChatUseCase(
+    sut = new LinkChatLastMessageFromWAMessageUseCase(
       chatsRepository,
-      groupsRepository,
-      createGroupFromWAContactUseCase,
-      createContactsFromWAContacts
-    )
-
-    createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
-      contactsRepository
-    )
-
-    createPrivateChatFromWAChatUseCase = new CreatePrivateChatFromWAChatUseCase(
-      chatsRepository,
-      contactsRepository,
-      createContactFromWAContactUseCase
-    )
-
-    createChatFromWAChat = new CreateChatFromWAChatUseCase(
-      createGroupChatFromWAChatUseCase,
-      createPrivateChatFromWAChatUseCase
-    )
-
-    whatsAppService = new FakeWhatsAppService()
-
-    sut = new ImportChatsFromInstanceUseCase(
-      createChatFromWAChat,
-      linkChatLastMessageFromWAMessage,
-      whatsAppService
+      createMessageFromWAMessageUseCase
     )
   })
 
-  it('should be able to import chats from instance', async () => {
+  it('should be able to chat last message from wa-message', async () => {
     const instanceId = makeUniqueEntityID()
 
-    const waPrivateChats = each(2)
-      .map(() => makeWAEntityID())
-      .map(waChatId =>
-        makeWAPrivateChat(
-          {
-            instanceId,
-            lastMessage: makeWAPrivateMessage({ waChatId, instanceId }),
-          },
-          waChatId
-        )
-      )
+    const chat = makePrivateChat({ instanceId, lastMessage: null })
+    chatsRepository.items.push(chat)
 
-    const waGroupChats = each(3).map(() =>
-      makeWAGroupChat({ instanceId, lastMessage: null })
-    )
-
-    whatsAppService.chats.push(...waPrivateChats, ...waGroupChats)
+    const waMessage = makeWAPrivateMessage({
+      instanceId,
+      waChatId: chat.waChatId,
+    })
 
     const response = await sut.execute({
-      instanceId,
+      chat,
+      waMessage,
     })
 
     expect(response.isSuccess()).toBe(true)
     if (response.isFailure()) return
 
-    expect(chatsRepository.items).toHaveLength(5)
-    expect(messagesRepository.items).toHaveLength(2)
+    expect(messagesRepository.items).toHaveLength(1)
+    expect(chat.hasLastMessage()).toBe(true)
   })
 })

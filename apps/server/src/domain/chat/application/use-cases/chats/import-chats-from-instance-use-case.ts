@@ -8,6 +8,7 @@ import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavaila
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import { WhatsAppService } from '../../services/whats-app-service'
 import { CreateChatFromWAChatUseCase } from './create-chat-from-wa-chat-use-case'
+import { LinkChatLastMessageFromWAMessageUseCase } from './link-chat-last-message-from-wa-message-use-case'
 
 interface ImportChatsFromInstanceUseCaseRequest {
   instanceId: UniqueEntityID
@@ -24,6 +25,7 @@ type ImportChatsFromInstanceUseCaseResponse = Either<
 export class ImportChatsFromInstanceUseCase {
   constructor(
     private createChatFromWAChat: CreateChatFromWAChatUseCase,
+    private linkChatLastMessageFromWAMessage: LinkChatLastMessageFromWAMessageUseCase,
     private whatsAppService: WhatsAppService
   ) {}
 
@@ -42,12 +44,25 @@ export class ImportChatsFromInstanceUseCase {
     const chats: Chat[] = []
 
     for (const waChat of waChats) {
-      const response = await this.createChatFromWAChat.execute({ waChat })
+      const createChatResponse = await this.createChatFromWAChat.execute({
+        waChat,
+      })
+      if (createChatResponse.isFailure()) continue
 
-      if (response.isSuccess()) {
-        const { chat } = response.value
-        chats.push(chat)
+      let chat: Chat = createChatResponse.value.chat
+
+      if (waChat.hasLastMessage()) {
+        const linkChatResponse =
+          await this.linkChatLastMessageFromWAMessage.execute({
+            chat,
+            waMessage: waChat.lastMessage,
+          })
+
+        if (linkChatResponse.isFailure()) continue
+        chat = linkChatResponse.value.chat
       }
+
+      chats.push(chat)
     }
 
     return success({ chats })
