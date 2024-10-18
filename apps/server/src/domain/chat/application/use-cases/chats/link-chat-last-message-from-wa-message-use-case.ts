@@ -36,14 +36,22 @@ export class LinkChatLastMessageFromWAMessageUseCase {
   ): Promise<LinkChatLastMessageFromWAMessageUseCaseResponse> {
     const { chat, waMessage } = request
 
-    const response = await this.createMessageFromWAChat.execute({
+    if (waMessage.hasQuoted()) {
+      const response = await this.execute({ chat, waMessage: waMessage.quoted })
+      if (response.isFailure()) return failure(response.value)
+    }
+
+    const createMessageResponse = await this.createMessageFromWAChat.execute({
       waMessage,
     })
 
-    if (response.isFailure()) return failure(response.value)
-    const { message } = response.value
+    if (createMessageResponse.isFailure()) {
+      return failure(createMessageResponse.value)
+    }
 
+    const { message } = createMessageResponse.value
     chat.interact(message)
+
     await this.chatsRepository.save(chat)
 
     return success({ chat })

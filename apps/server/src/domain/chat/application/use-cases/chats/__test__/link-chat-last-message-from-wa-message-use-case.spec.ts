@@ -310,7 +310,7 @@ describe('LinkChatLastMessageFromWAMessageUseCase', () => {
     )
   })
 
-  it('should be able to chat last message from wa-message', async () => {
+  it('should be able to create last message of chat from wa-message', async () => {
     const instanceId = makeUniqueEntityID()
 
     const chat = makePrivateChat({ instanceId, lastMessage: null })
@@ -331,5 +331,31 @@ describe('LinkChatLastMessageFromWAMessageUseCase', () => {
 
     expect(messagesRepository.items).toHaveLength(1)
     expect(chat.hasLastMessage()).toBe(true)
+  })
+
+  it('should be able to create last message of chat from wa-message with quoted message', async () => {
+    const instanceId = makeUniqueEntityID()
+
+    const chat = makePrivateChat({ instanceId, lastMessage: null })
+    chatsRepository.items.push(chat)
+
+    const waMessage = makeWAPrivateMessage({
+      instanceId,
+      waChatId: chat.waChatId,
+      quoted: makeWAPrivateMessage({ instanceId, waChatId: chat.waChatId }),
+    })
+
+    const spySut = vi.spyOn(sut, 'execute')
+    const response = await sut.execute({
+      chat,
+      waMessage,
+    })
+
+    expect(response.isSuccess()).toBe(true)
+    if (response.isFailure()) return
+
+    expect(messagesRepository.items).toHaveLength(2)
+    expect(chat.hasLastMessage()).toBe(true)
+    expect(spySut).toHaveBeenCalledTimes(2)
   })
 })

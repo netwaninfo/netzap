@@ -47,8 +47,8 @@ export class ImportChatsFromInstanceUseCase {
       const createChatResponse = await this.createChatFromWAChat.execute({
         waChat,
       })
-      if (createChatResponse.isFailure()) continue
 
+      if (createChatResponse.isFailure()) continue
       let chat: Chat = createChatResponse.value.chat
 
       if (waChat.hasLastMessage()) {
