@@ -135,12 +135,10 @@ export class WWJSChatService implements WhatsAppService {
 
     return this.runSafely(async () => {
       const allChats = await client.raw.getChats()
-
       const chats = allChats.filter(chat => chat.id.server !== 'lid')
 
       const chunksOfWaChats = await ChunkProcessor.fromArray({
         array: chats,
-        amount: 1,
       }).processChunk(async chunk => {
         const waChats: WAChat[] = []
 
@@ -161,8 +159,8 @@ export class WWJSChatService implements WhatsAppService {
   }: WhatsAppServiceGetMessagesFromInstanceParams): Promise<
     Either<UnhandledError | ServiceUnavailableError, WAMessage[]>
   > {
-    const bool = true
-    if (bool) return success([])
+    const skip = true
+    if (skip) return success([])
 
     const client = this.wwjsService.getAvailableClient(instanceId)
 

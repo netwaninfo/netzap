@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common'
 import { WWJSChat } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
 import { WWJSPrivateContactMapper } from './wwjs-private-contact-mapper'
+import { WWJSPrivateMessageMapper } from './wwjs-private-message-mapper'
 
 interface WWJSPrivateChatMapperToDomainParams {
   chat: WWJSChat
@@ -12,16 +13,26 @@ interface WWJSPrivateChatMapperToDomainParams {
 
 @Injectable()
 export class WWJSPrivateChatMapper {
-  constructor(private contactMapper: WWJSPrivateContactMapper) {}
+  constructor(
+    private contactMapper: WWJSPrivateContactMapper,
+    private messageMapper: WWJSPrivateMessageMapper
+  ) {}
 
   async toDomain({
     chat,
     client,
   }: WWJSPrivateChatMapperToDomainParams): Promise<WAPrivateChat> {
-    const contact = await this.contactMapper.toDomain({
-      contact: await chat.getContact(),
-      client,
-    })
+    const [contact, lastMessage] = await Promise.all([
+      this.contactMapper.toDomain({
+        contact: await chat.getContact(),
+        client,
+      }),
+      !!chat.lastMessage?.timestamp &&
+        this.messageMapper.toDomain({
+          client,
+          message: chat.lastMessage,
+        }),
+    ])
 
     return WAPrivateChat.create(
       {
@@ -31,6 +42,7 @@ export class WWJSPrivateChatMapper {
         timestamp: chat.timestamp,
         unreadCount: chat.unreadCount,
         imageUrl: contact.imageUrl,
+        ...(lastMessage && { lastMessage }),
       },
       WAEntityID.createFromString(chat.id._serialized)
     )

@@ -24,7 +24,7 @@ export class ChunkProcessor<T> {
     return await Promise.all(this.chunks.map(chunk => method(chunk)))
   }
 
-  static fromArray<T>({ array, amount = 5 }: ChunkProcessorFromArrayParams<T>) {
+  static fromArray<T>({ array, amount = 3 }: ChunkProcessorFromArrayParams<T>) {
     const chunks: T[][] = []
     const chunkSize = Math.ceil(array.length / amount)
 

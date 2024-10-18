@@ -25,16 +25,18 @@ export class WWJSPrivateMessageMapper {
   }: WWJSPrivateMessageMapperToDomainParams): Promise<WAPrivateMessage> {
     const messageId = WAMessageID.createFromString(message.id._serialized)
 
-    const contacts =
+    const [contacts, media, rawQuoted] = await Promise.all([
       MessageUtils.hasContacts(message) &&
-      (await Promise.all(
-        message.vCards
-          .map(VCardUtils.getWAId)
-          .map(contactId => client.raw.getContactById(contactId))
-      ))
+        Promise.all(
+          message.vCards
+            .map(VCardUtils.getWAId)
+            .map(contactId => client.raw.getContactById(contactId))
+        ),
+      message.hasMedia && message.downloadMedia(),
+      message.hasQuotedMsg ? message.getQuotedMessage() : null,
+    ])
 
-    const quoted = message.hasQuotedMsg && (await message.getQuotedMessage())
-    const media = message.hasMedia && (await message.downloadMedia())
+    const quoted = !!rawQuoted?.timestamp && rawQuoted
 
     return WAPrivateMessage.create(
       {

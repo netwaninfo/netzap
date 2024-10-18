@@ -1,7 +1,5 @@
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { Injectable } from '@nestjs/common'
 import { WWJSContact } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
 
@@ -10,23 +8,12 @@ interface WWJSPrivateContactMapperToDomainParams {
   client: WWJSClient
 }
 
-@Injectable()
 export class WWJSPrivateContactMapper {
-  constructor(private prisma: PrismaService) {}
-
   async toDomain({
     client,
     contact,
   }: WWJSPrivateContactMapperToDomainParams): Promise<WAPrivateContact> {
-    const [instance, imageUrl, formattedNumber] = await Promise.all([
-      this.prisma.instance.findUnique({
-        where: {
-          phone: contact.number,
-        },
-        select: {
-          id: true,
-        },
-      }),
+    const [imageUrl, formattedNumber] = await Promise.all([
       contact.getProfilePicUrl(),
       contact.getFormattedNumber(),
     ])
@@ -40,12 +27,12 @@ export class WWJSPrivateContactMapper {
         isMyContact: contact.isMyContact,
         isWAContact: contact.isWAContact,
         number: contact.number,
-        isInstance: !!instance,
+        isInstance: contact.isMe,
         imageUrl: imageUrl ?? null,
         name: contact.name,
         pushName: contact.pushname,
         shortName: contact.shortName,
-        isMe: instance?.id === client.instanceId.toString(),
+        isMe: contact.isMe,
       },
       WAEntityID.createFromString(contact.id._serialized)
     )

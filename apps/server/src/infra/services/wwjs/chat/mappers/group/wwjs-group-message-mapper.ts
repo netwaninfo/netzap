@@ -1,7 +1,7 @@
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/message'
 import { Injectable } from '@nestjs/common'
-import { WWJSMessage } from '../../../types/wwjs-entities'
+import { WWJSContact, WWJSMessage } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
 import { MessageUtils } from '../../utils/message'
 import { VCardUtils } from '../../utils/v-card'
@@ -19,23 +19,38 @@ interface WWJSGroupMessageMapperToDomainParams {
 export class WWJSGroupMessageMapper {
   constructor(private contactMapper: WWJSPrivateContactMapper) {}
 
+  private ensureValidAuthor(contact: WWJSContact): WWJSContact {
+    const hasInvalidId =
+      'device' in contact.id &&
+      contact.id._serialized.includes(`:${contact.id.device}`)
+
+    if (hasInvalidId) {
+      contact.id._serialized = `${contact.id.user}@${contact.id.server}`
+    }
+
+    return contact
+  }
+
   async toDomain({
     message,
     client,
   }: WWJSGroupMessageMapperToDomainParams): Promise<WAGroupMessage> {
     const messageId = WAMessageID.createFromString(message.id._serialized)
-    const author = await message.getContact()
 
-    const contacts =
+    const [rawAuthor, contacts, media, rawQuoted] = await Promise.all([
+      message.getContact(),
       MessageUtils.hasContacts(message) &&
-      (await Promise.all(
-        message.vCards
-          .map(VCardUtils.getWAId)
-          .map(contactId => client.raw.getContactById(contactId))
-      ))
+        Promise.all(
+          message.vCards
+            .map(VCardUtils.getWAId)
+            .map(contactId => client.raw.getContactById(contactId))
+        ),
+      message.hasMedia && message.downloadMedia(),
+      message.hasQuotedMsg ? message.getQuotedMessage() : null,
+    ])
 
-    const media = message.hasMedia && (await message.downloadMedia())
-    const quoted = message.hasQuotedMsg && (await message.getQuotedMessage())
+    const quoted = !!rawQuoted?.timestamp && rawQuoted
+    const author = this.ensureValidAuthor(rawAuthor)
 
     return WAGroupMessage.create(
       {

@@ -7,6 +7,7 @@ import { WWJSGroupChat } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
 import { WWJSPrivateContactMapper } from '../private/wwjs-private-contact-mapper'
 import { WWJSGroupContactMapper } from './wwjs-group-contact-mapper'
+import { WWJSGroupMessageMapper } from './wwjs-group-message-mapper'
 
 interface WWJSGroupChatMapperToDomainParams {
   chat: WWJSGroupChat
@@ -17,6 +18,7 @@ interface WWJSGroupChatMapperToDomainParams {
 export class WWJSGroupChatMapper {
   constructor(
     private contactMapper: WWJSGroupContactMapper,
+    private messageMapper: WWJSGroupMessageMapper,
     private privateContactMapper: WWJSPrivateContactMapper
   ) {}
 
@@ -24,10 +26,17 @@ export class WWJSGroupChatMapper {
     chat,
     client,
   }: WWJSGroupChatMapperToDomainParams): Promise<WAGroupChat> {
-    const contact = await this.contactMapper.toDomain({
-      contact: await chat.getContact(),
-      client,
-    })
+    const [contact, lastMessage] = await Promise.all([
+      this.contactMapper.toDomain({
+        contact: await chat.getContact(),
+        client,
+      }),
+      !!chat.lastMessage?.timestamp &&
+        this.messageMapper.toDomain({
+          client,
+          message: chat.lastMessage,
+        }),
+    ])
 
     const chunksOfParticipants = await ChunkProcessor.fromArray({
       array: chat.participants,
@@ -61,6 +70,7 @@ export class WWJSGroupChatMapper {
         unreadCount: chat.unreadCount,
         imageUrl: contact.imageUrl,
         participants,
+        ...(lastMessage && { lastMessage }),
       },
       WAEntityID.createFromString(chat.id._serialized)
     )
