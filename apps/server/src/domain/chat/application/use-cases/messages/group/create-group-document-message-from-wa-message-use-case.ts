@@ -1,8 +1,10 @@
 import { type Either, failure, success } from '@/core/either'
 import { GroupDocumentMessage } from '@/domain/chat/enterprise/entities/group/document-message'
+import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
 import type { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/message'
 import type { GroupMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
 import { ChatsRepository } from '../../../repositories/chats-repository'
@@ -16,7 +18,9 @@ interface CreateGroupDocumentMessageFromWAMessageUseCaseRequest {
 }
 
 type CreateGroupDocumentMessageFromWAMessageUseCaseResponse = Either<
-  ResourceNotFoundError | InvalidResourceFormatError,
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError,
   {
     message: GroupDocumentMessage
   }
@@ -37,8 +41,7 @@ export class CreateGroupDocumentMessageFromWAMessageUseCase {
   ): Promise<CreateGroupDocumentMessageFromWAMessageUseCaseResponse> {
     const { waMessage } = request
 
-    const hasInvalidFormat =
-      waMessage.type !== 'document' || !waMessage.hasMedia()
+    const hasInvalidFormat = waMessage.type !== 'document'
     if (hasInvalidFormat) {
       return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
     }
@@ -66,8 +69,19 @@ export class CreateGroupDocumentMessageFromWAMessageUseCase {
       return failure(new ResourceNotFoundError({ id: waMessage.author.ref }))
     }
 
-    let quoted: GroupMessage | null = null
+    const someMessage =
+      await this.messagesRepository.findUniqueGroupMessageByChatIAndWAMessageId(
+        {
+          chatId: chat.id,
+          waMessageId: waMessage.id,
+        }
+      )
 
+    if (someMessage) {
+      return failure(new ResourceAlreadyExistsError({ id: waMessage.ref }))
+    }
+
+    let quoted: GroupMessage | null = null
     if (waMessage.hasQuoted()) {
       quoted =
         await this.messagesRepository.findUniqueGroupMessageByChatIAndWAMessageId(
@@ -78,12 +92,15 @@ export class CreateGroupDocumentMessageFromWAMessageUseCase {
         )
     }
 
-    const response = await this.createMessageMediaFromWAMessage.execute({
-      waMessage,
-    })
+    let media: MessageMedia | null = null
+    if (waMessage.hasMedia()) {
+      const response = await this.createMessageMediaFromWAMessage.execute({
+        waMessage,
+      })
 
-    if (response.isFailure()) return failure(response.value)
-    const { media } = response.value
+      if (response.isFailure()) return failure(response.value)
+      media = response.value.media
+    }
 
     const message = GroupDocumentMessage.create({
       author,

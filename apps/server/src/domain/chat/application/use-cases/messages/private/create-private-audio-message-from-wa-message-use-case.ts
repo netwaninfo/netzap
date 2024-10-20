@@ -1,8 +1,10 @@
 import { type Either, failure, success } from '@/core/either'
+import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
 import { PrivateAudioMessage } from '@/domain/chat/enterprise/entities/private/audio-message'
 import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import type { PrivateMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
 import { ChatsRepository } from '../../../repositories/chats-repository'
@@ -15,7 +17,9 @@ interface CreatePrivateAudioMessageFromWAMessageUseCaseRequest {
 }
 
 type CreatePrivateAudioMessageFromWAMessageUseCaseResponse = Either<
-  ResourceNotFoundError | InvalidResourceFormatError,
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError,
   {
     message: PrivateAudioMessage
   }
@@ -35,7 +39,7 @@ export class CreatePrivateAudioMessageFromWAMessageUseCase {
   ): Promise<CreatePrivateAudioMessageFromWAMessageUseCaseResponse> {
     const { waMessage } = request
 
-    const hasInvalidFormat = waMessage.type !== 'audio' || !waMessage.hasMedia()
+    const hasInvalidFormat = waMessage.type !== 'audio'
     if (hasInvalidFormat) {
       return failure(new InvalidResourceFormatError({ id: waMessage.ref }))
     }
@@ -54,8 +58,19 @@ export class CreatePrivateAudioMessageFromWAMessageUseCase {
       )
     }
 
-    let quoted: PrivateMessage | null = null
+    const someMessage =
+      await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
+        {
+          chatId: chat.id,
+          waMessageId: waMessage.id,
+        }
+      )
 
+    if (someMessage) {
+      return failure(new ResourceAlreadyExistsError({ id: waMessage.ref }))
+    }
+
+    let quoted: PrivateMessage | null = null
     if (waMessage.hasQuoted()) {
       quoted =
         await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
@@ -66,12 +81,15 @@ export class CreatePrivateAudioMessageFromWAMessageUseCase {
         )
     }
 
-    const response = await this.createMessageMediaFromWAMessage.execute({
-      waMessage,
-    })
+    let media: MessageMedia | null = null
+    if (waMessage.hasMedia()) {
+      const response = await this.createMessageMediaFromWAMessage.execute({
+        waMessage,
+      })
 
-    if (response.isFailure()) return failure(response.value)
-    const { media } = response.value
+      if (response.isFailure()) return failure(response.value)
+      media = response.value.media
+    }
 
     const message = PrivateAudioMessage.create({
       media,
