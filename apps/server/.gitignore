@@ -10,3 +10,7 @@ coverage
 # WWJS
 .wwebjs_auth
 .wwebjs_cache
+
+# TMP
+tmp/*
+!tmp/.gitkeep

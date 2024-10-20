@@ -12,13 +12,15 @@ import { StorageObject } from '@/domain/chat/enterprise/entities/value-objects/s
 import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import { EnvService } from '@/infra/env/env.service'
-import { RequestFunction } from '../../wwjs/types/internals'
+import { RunSafely } from '../../shared/run-safely'
 
 @Injectable()
-export class R2StorageService implements StorageService {
+export class R2StorageService extends RunSafely implements StorageService {
   private client: S3Client
 
   constructor(private env: EnvService) {
+    super()
+
     const ACCOUNT_ID = this.env.get('CLOUDFLARE_ACCOUNT_ID')
 
     this.client = new S3Client({
@@ -29,17 +31,6 @@ export class R2StorageService implements StorageService {
         secretAccessKey: this.env.get('CLOUDFLARE_SECRET_ACCESS_KEY'),
       },
     })
-  }
-
-  private async runSafely<T>(
-    request: RequestFunction<T>
-  ): Promise<Either<UnhandledError, T>> {
-    try {
-      return success(await request())
-    } catch (error) {
-      const err = error as Error
-      return failure(new UnhandledError({ message: err.message }))
-    }
   }
 
   private formatFilePath(fileKey: string) {
