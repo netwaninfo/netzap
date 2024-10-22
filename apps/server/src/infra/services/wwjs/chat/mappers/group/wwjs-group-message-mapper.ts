@@ -45,7 +45,7 @@ export class WWJSGroupMessageMapper {
             .map(VCardUtils.getWAId)
             .map(contactId => client.raw.getContactById(contactId))
         ),
-      message.hasMedia && message.downloadMedia(),
+      message.hasMedia && MessageUtils.getMediaOrNull(message),
       message.hasQuotedMsg ? message.getQuotedMessage() : null,
     ])
 

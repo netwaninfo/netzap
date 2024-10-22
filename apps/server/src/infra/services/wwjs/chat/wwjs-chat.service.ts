@@ -1,4 +1,4 @@
-import { Either, failure, success } from '@/core/either'
+import { Either, failure } from '@/core/either'
 import {
   WhatsAppService,
   WhatsAppServiceGetChatByWAChatIdParams,
@@ -13,30 +13,21 @@ import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavaila
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor'
 import { Injectable } from '@nestjs/common'
-import { RequestFunction } from '../types/internals'
+import { RunSafely } from '../../shared/run-safely'
 import { WWJSService } from '../wwjs.service'
 import { WWJSPrivateContactMapper } from './mappers/private/wwjs-private-contact-mapper'
 import { WWJSChatMapper } from './mappers/wwjs-chat-mapper'
 import { WWJSMessageMapper } from './mappers/wwjs-message-mapper'
 
 @Injectable()
-export class WWJSChatService implements WhatsAppService {
+export class WWJSChatService extends RunSafely implements WhatsAppService {
   constructor(
     private wwjsService: WWJSService,
     private chatMapper: WWJSChatMapper,
     private messageMapper: WWJSMessageMapper,
     private contactMapper: WWJSPrivateContactMapper
-  ) {}
-
-  private async runSafely<T>(
-    request: RequestFunction<T>
-  ): Promise<Either<UnhandledError, T>> {
-    try {
-      return success(await request())
-    } catch (error) {
-      const err = error as Error
-      return failure(new UnhandledError({ message: err.message }))
-    }
+  ) {
+    super()
   }
 
   async getChatByWAChatId({
@@ -159,9 +150,6 @@ export class WWJSChatService implements WhatsAppService {
   }: WhatsAppServiceGetMessagesFromInstanceParams): Promise<
     Either<UnhandledError | ServiceUnavailableError, WAMessage[]>
   > {
-    const skip = true
-    if (skip) return success([])
-
     const client = this.wwjsService.getAvailableClient(instanceId)
 
     if (!client) {
@@ -180,7 +168,7 @@ export class WWJSChatService implements WhatsAppService {
 
         for (const chat of chunk) {
           const messages = await chat.fetchMessages({
-            limit: Number.POSITIVE_INFINITY,
+            limit: 50,
           })
 
           const currentChunksOfMessages = await ChunkProcessor.fromArray({

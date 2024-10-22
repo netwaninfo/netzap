@@ -1,4 +1,6 @@
-import { WWJSMessage } from '../../types/wwjs-entities'
+import timers from 'node:timers/promises'
+
+import { WWJSMessage, WWJSMessageMedia } from '../../types/wwjs-entities'
 import { WWJSMessageTypes } from '../../types/wwjs-enums'
 
 export class MessageUtils {
@@ -12,5 +14,16 @@ export class MessageUtils {
 
   static isGroupMessage(message: WWJSMessage) {
     return message.id._serialized.includes('@g.us')
+  }
+
+  static getMediaOrNull(
+    message: WWJSMessage
+  ): Promise<WWJSMessageMedia | null> {
+    const TIMEOUT_IN_MS = 1000 * 5 // 5 seconds
+
+    return Promise.race([
+      message.downloadMedia(),
+      timers.setTimeout(TIMEOUT_IN_MS, null),
+    ])
   }
 }

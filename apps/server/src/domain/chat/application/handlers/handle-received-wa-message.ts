@@ -70,10 +70,12 @@ export class HandleReceivedWAMessage {
 
     if (!hasPreviousChat) {
       this.chatEmitter.emitCreate({ chat })
-    } else {
-      this.messageEmitter.emitCreate({ message })
-      this.chatEmitter.emitChange({ chat })
+
+      return success({ message, chat })
     }
+
+    this.messageEmitter.emitCreate({ message })
+    this.chatEmitter.emitChange({ chat })
 
     return success({ message, chat })
   }

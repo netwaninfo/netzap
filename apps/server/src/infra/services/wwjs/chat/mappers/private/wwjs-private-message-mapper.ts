@@ -1,6 +1,7 @@
+import { Injectable } from '@nestjs/common'
+
 import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
-import { Injectable } from '@nestjs/common'
 import { WWJSMessage } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
 import { MessageUtils } from '../../utils/message'
@@ -32,7 +33,7 @@ export class WWJSPrivateMessageMapper {
             .map(VCardUtils.getWAId)
             .map(contactId => client.raw.getContactById(contactId))
         ),
-      message.hasMedia && message.downloadMedia(),
+      message.hasMedia && MessageUtils.getMediaOrNull(message),
       message.hasQuotedMsg ? message.getQuotedMessage() : null,
     ])
 

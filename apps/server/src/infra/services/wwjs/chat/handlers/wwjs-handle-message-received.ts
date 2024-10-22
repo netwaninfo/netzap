@@ -17,6 +17,7 @@ const MESSAGES_TYPES_TO_IGNORE = [
   WWJSMessageTypes.CIPHERTEXT,
   WWJSMessageTypes.NOTIFICATION,
   WWJSMessageTypes.NOTIFICATION_TEMPLATE,
+  WWJSMessageTypes.GP2,
 ]
 
 @Handler()
