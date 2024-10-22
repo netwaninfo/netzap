@@ -3,6 +3,7 @@ import { GroupUnknownMessage } from '@/domain/chat/enterprise/entities/group/unk
 import type { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/message'
 import type { GroupMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
 import { ChatsRepository } from '../../../repositories/chats-repository'
@@ -15,7 +16,9 @@ interface CreateGroupUnknownMessageFromWAMessageUseCaseRequest {
 }
 
 type CreateGroupUnknownMessageFromWAMessageUseCaseResponse = Either<
-  ResourceNotFoundError | InvalidResourceFormatError,
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError,
   {
     message: GroupUnknownMessage
   }
@@ -63,8 +66,19 @@ export class CreateGroupUnknownMessageFromWAMessageUseCase {
       return failure(new ResourceNotFoundError({ id: waMessage.author.ref }))
     }
 
-    let quoted: GroupMessage | null = null
+    const someMessage =
+      await this.messagesRepository.findUniqueGroupMessageByChatIAndWAMessageId(
+        {
+          chatId: chat.id,
+          waMessageId: waMessage.id,
+        }
+      )
 
+    if (someMessage) {
+      return failure(new ResourceAlreadyExistsError({ id: waMessage.ref }))
+    }
+
+    let quoted: GroupMessage | null = null
     if (waMessage.hasQuoted()) {
       quoted =
         await this.messagesRepository.findUniqueGroupMessageByChatIAndWAMessageId(

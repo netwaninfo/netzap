@@ -3,6 +3,7 @@ import { PrivateUnknownMessage } from '@/domain/chat/enterprise/entities/private
 import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import type { PrivateMessage } from '@/domain/chat/enterprise/types/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
 import { ChatsRepository } from '../../../repositories/chats-repository'
@@ -14,7 +15,9 @@ interface CreatePrivateUnknownMessageFromWAMessageUseCaseRequest {
 }
 
 type CreatePrivateUnknownMessageFromWAMessageUseCaseResponse = Either<
-  ResourceNotFoundError | InvalidResourceFormatError,
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError,
   {
     message: PrivateUnknownMessage
   }
@@ -52,8 +55,19 @@ export class CreatePrivateUnknownMessageFromWAMessageUseCase {
       )
     }
 
-    let quoted: PrivateMessage | null = null
+    const someMessage =
+      await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
+        {
+          chatId: chat.id,
+          waMessageId: waMessage.id,
+        }
+      )
 
+    if (someMessage) {
+      return failure(new ResourceAlreadyExistsError({ id: waMessage.ref }))
+    }
+
+    let quoted: PrivateMessage | null = null
     if (waMessage.hasQuoted()) {
       quoted =
         await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(

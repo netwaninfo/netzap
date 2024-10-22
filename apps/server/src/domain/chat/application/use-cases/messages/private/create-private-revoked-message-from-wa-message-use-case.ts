@@ -2,6 +2,7 @@ import { type Either, failure, success } from '@/core/either'
 import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message'
 import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
 import { ChatsRepository } from '../../../repositories/chats-repository'
@@ -13,7 +14,9 @@ interface CreatePrivateRevokedMessageFromWAMessageUseCaseRequest {
 }
 
 type CreatePrivateRevokedMessageFromWAMessageUseCaseResponse = Either<
-  ResourceNotFoundError | InvalidResourceFormatError,
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError,
   {
     message: PrivateRevokedMessage
   }
@@ -49,6 +52,18 @@ export class CreatePrivateRevokedMessageFromWAMessageUseCase {
           id: `${waMessage.instanceId.toString()}/${waMessage.waChatId.toString()}`,
         })
       )
+    }
+
+    const someMessage =
+      await this.messagesRepository.findUniquePrivateMessageByChatIAndWAMessageId(
+        {
+          chatId: chat.id,
+          waMessageId: waMessage.id,
+        }
+      )
+
+    if (someMessage) {
+      return failure(new ResourceAlreadyExistsError({ id: waMessage.ref }))
     }
 
     const createdAndRevokedAt = this.dateService

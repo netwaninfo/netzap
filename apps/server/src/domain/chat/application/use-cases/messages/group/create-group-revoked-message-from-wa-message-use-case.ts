@@ -2,6 +2,7 @@ import { type Either, failure, success } from '@/core/either'
 import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message'
 import type { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/message'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
 import { ChatsRepository } from '../../../repositories/chats-repository'
@@ -14,7 +15,9 @@ interface CreateGroupRevokedMessageFromWAMessageUseCaseRequest {
 }
 
 type CreateGroupRevokedMessageFromWAMessageUseCaseResponse = Either<
-  ResourceNotFoundError | InvalidResourceFormatError,
+  | ResourceNotFoundError
+  | InvalidResourceFormatError
+  | ResourceAlreadyExistsError,
   {
     message: GroupRevokedMessage
   }
@@ -60,6 +63,18 @@ export class CreateGroupRevokedMessageFromWAMessageUseCase {
 
     if (!author) {
       return failure(new ResourceNotFoundError({ id: waMessage.author.ref }))
+    }
+
+    const someMessage =
+      await this.messagesRepository.findUniqueGroupMessageByChatIAndWAMessageId(
+        {
+          chatId: chat.id,
+          waMessageId: waMessage.id,
+        }
+      )
+
+    if (someMessage) {
+      return failure(new ResourceAlreadyExistsError({ id: waMessage.ref }))
     }
 
     const createdAndRevokedAt = this.dateService
