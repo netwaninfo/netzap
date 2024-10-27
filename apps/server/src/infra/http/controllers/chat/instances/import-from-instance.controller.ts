@@ -10,7 +10,7 @@ import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
 
 const paramsSchema = new ZodHttpValidationPipe(importFromInstanceParamsSchema)
 
-@Controller('/wa/instances/:instanceId/contacts')
+@Controller('/wa/instances/:instanceId/import')
 export class ImportFromInstanceController {
   constructor(private importFromInstance: ImportFromInstanceUseCase) {}
 

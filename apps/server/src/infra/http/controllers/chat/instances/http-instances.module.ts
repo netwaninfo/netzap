@@ -34,11 +34,13 @@ import { CreatePrivateUnknownMessageFromWAMessageUseCase } from '@/domain/chat/a
 import { CreatePrivateVCardMessageFromWAMessageUseCase } from '@/domain/chat/application/use-cases/messages/private/create-private-v-card-message-from-wa-message-use-case'
 import { CreatePrivateVideoMessageFromWAMessageUseCase } from '@/domain/chat/application/use-cases/messages/private/create-private-video-message-from-wa-message-use-case'
 import { CreatePrivateVoiceMessageFromWAMessageUseCase } from '@/domain/chat/application/use-cases/messages/private/create-private-voice-message-from-wa-message-use-case'
+import { ServicesModule } from '@/infra/services/services.module'
 import { Module } from '@nestjs/common'
 import { FetchInstancesController } from './fetch-instances.controller'
 import { ImportFromInstanceController } from './import-from-instance.controller'
 
 @Module({
+  imports: [ServicesModule],
   controllers: [FetchInstancesController, ImportFromInstanceController],
   providers: [
     FetchInstancesUseCase,
