@@ -22,13 +22,13 @@
 		}
 	},
 	"devDependencies": {
-		"@arethetypeswrong/cli": "^0.16.2",
+		"@arethetypeswrong/cli": "^0.16.4",
 		"@netzap/ts-config": "workspace:^",
-		"tsup": "^8.2.4",
-		"typescript": "^5.5.4"
+		"tsup": "^8.3.5",
+		"typescript": "^5.6.3"
 	},
 	"dependencies": {
-		"zod": "^3.23.8",
-		"@netzap/entities": "workspace:^"
+		"@netzap/entities": "workspace:^",
+		"zod": "^3.23.8"
 	}
 }
