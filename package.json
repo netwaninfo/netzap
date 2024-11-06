@@ -2,7 +2,7 @@
 	"name": "@netwan/netzap",
 	"version": "1.0.0",
 	"scripts": {
-		"packages:dev": "turbo run dev --filter=!./apps/*",
+		"prepack": "turbo run build --filter=./packages/*",
 		"lint": "turbo run lint",
 		"lint:fix": "turbo run lint:fix"
 	},
