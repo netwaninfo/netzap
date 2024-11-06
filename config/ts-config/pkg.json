@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"display": "Node PKG",
+	"display": "PKG",
 	"extends": "./base.json",
 	"compilerOptions": {
 		"declaration": true,

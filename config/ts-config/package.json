@@ -4,6 +4,6 @@
 	"private": true,
 	"exports": {
 		"./node": "./node.json",
-		"./node-pkg": "./node-pkg.json"
+		"./pkg": "./pkg.json"
 	}
 }
