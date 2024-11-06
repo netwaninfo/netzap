@@ -15,6 +15,11 @@
 		"dist"
 	],
 	"exports": {
+		"./users": {
+			"require": "./dist/users/index.cjs",
+			"types": "./dist/users/index.d.ts",
+			"import": "./dist/users/index.js"
+		},
 		"./chat": {
 			"require": "./dist/chat/index.cjs",
 			"types": "./dist/chat/index.d.ts",
