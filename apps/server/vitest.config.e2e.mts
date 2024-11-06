@@ -1,6 +1,6 @@
-import config from '@netzap/vitest-config/node'
 import swc from 'unplugin-swc'
-import { type UserConfig, defineConfig, mergeConfig } from 'vitest/config'
+import { defineConfig, mergeConfig } from 'vitest/config'
+import { config } from './vitest-default.config.mjs'
 
 export default defineConfig(
   mergeConfig(config, {
@@ -9,5 +9,5 @@ export default defineConfig(
       setupFiles: ['./test/setup/mongo-database-test.ts'],
     },
     plugins: [swc.vite()],
-  } as UserConfig)
+  })
 )
