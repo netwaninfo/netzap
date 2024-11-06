@@ -1,7 +1,7 @@
 import {
-  UsersRepositories,
-  UsersRepositoriesFindUniqueByUserIdParams,
-} from '@/domain/auth/application/repositories/users-repositories'
+  UsersRepository,
+  UsersRepositoryFindUniqueBySSOParams,
+} from '@/domain/auth/application/repositories/users-repository'
 import { User } from '@/domain/auth/enterprise/entities/user'
 import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { User as RawClerkUser } from '@clerk/backend'
@@ -11,7 +11,7 @@ import { ClerkUserMapper } from '../mappers/clerk-user-mapper'
 import { ClerkUser, ClerkUserPublicMetadata } from '../types/clerk-user'
 
 @Injectable()
-export class ClerkUsersRepository implements UsersRepositories {
+export class ClerkUsersRepository implements UsersRepository {
   constructor(private clerk: ClerkService) {}
 
   private checkIsValidClerkUser(user: RawClerkUser): ClerkUser {
@@ -20,25 +20,25 @@ export class ClerkUsersRepository implements UsersRepositories {
 
     const publicMetadata =
       user.publicMetadata as unknown as ClerkUserPublicMetadata
-    const internalId = publicMetadata.applications.netzap?.id
+    const refId = publicMetadata.applications.netzap?.id
 
-    if (!email || !name || !internalId) {
+    if (!email || !name || !refId) {
       throw new InvalidResourceFormatError({ id: user.id })
     }
 
     return {
       id: user.id,
+      refId,
       email,
       name,
-      internalId,
     }
   }
 
-  async findUniqueByUserId({
-    userId,
-  }: UsersRepositoriesFindUniqueByUserIdParams): Promise<User | null> {
+  async findUniqueBySSO({
+    refId,
+  }: UsersRepositoryFindUniqueBySSOParams): Promise<User | null> {
     try {
-      const raw = await this.clerk.client.users.getUser(userId.toString())
+      const raw = await this.clerk.client.users.getUser(refId.toString())
 
       return ClerkUserMapper.toDomain(this.checkIsValidClerkUser(raw))
     } catch {

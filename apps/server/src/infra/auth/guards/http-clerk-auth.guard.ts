@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { UsersRepositories } from '@/domain/auth/application/repositories/users-repositories'
+import { UsersRepository } from '@/domain/auth/application/repositories/users-repository'
 import {
   CanActivate,
   ExecutionContext,
@@ -13,7 +13,7 @@ import { ClerkService } from '../sso/clerk/clerk.service'
 export class HttpClerkAuthGuard implements CanActivate {
   constructor(
     private clerk: ClerkService,
-    private usersRepository: UsersRepositories
+    private usersRepository: UsersRepository
   ) {}
 
   async canActivate(context: ExecutionContext) {
@@ -25,13 +25,13 @@ export class HttpClerkAuthGuard implements CanActivate {
     try {
       const payload = await this.clerk.verifyToken(sessionToken)
 
-      const user = await this.usersRepository.findUniqueByUserId({
-        userId: UniqueEntityID.create(payload.sub),
+      const user = await this.usersRepository.findUniqueBySSO({
+        refId: UniqueEntityID.create(payload.sub),
       })
 
       if (!user) throw new UnauthorizedException()
 
-      request.userId = user.internalId.toString()
+      request.userId = user.id.toString()
     } catch (error) {
       throw new UnauthorizedException()
     }

@@ -1,12 +1,12 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { User } from '../../enterprise/entities/user'
 
-export interface UsersRepositoriesFindUniqueByUserIdParams {
+export interface UsersRepositoryFindUniqueByUserIdParams {
   userId: UniqueEntityID
 }
 
-export abstract class UsersRepositories {
+export abstract class UsersRepository {
   abstract findUniqueByUserId(
-    params: UsersRepositoriesFindUniqueByUserIdParams
+    params: UsersRepositoryFindUniqueByUserIdParams
   ): Promise<User | null>
 }

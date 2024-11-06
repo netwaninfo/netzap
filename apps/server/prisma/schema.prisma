@@ -36,7 +36,7 @@ model Instance {
 
 model Attendant {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
-  ssoId       String @unique @map("sso_id")
+  refId       String @unique @map("ref_id")
   displayName String @map("display_name")
 
   instanceIds String[]   @map("instance_ids") @db.ObjectId

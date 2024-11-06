@@ -1,4 +1,4 @@
-import { UsersRepositories } from '@/domain/auth/application/repositories/users-repositories'
+import { UsersRepository } from '@/domain/auth/application/repositories/users-repository'
 import { Module } from '@nestjs/common'
 import { ClerkService } from './clerk.service'
 import { ClerkUsersRepository } from './repositories/clerk-users-repository'
@@ -7,10 +7,10 @@ import { ClerkUsersRepository } from './repositories/clerk-users-repository'
   providers: [
     ClerkService,
     {
-      provide: UsersRepositories,
+      provide: UsersRepository,
       useClass: ClerkUsersRepository,
     },
   ],
-  exports: [ClerkService, UsersRepositories],
+  exports: [ClerkService, UsersRepository],
 })
 export class ClerkModule {}

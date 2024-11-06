@@ -59,7 +59,7 @@ async function seed() {
   const attendant = await prisma.attendant.create({
     data: {
       displayName: user.firstName ?? faker.person.firstName(),
-      ssoId: user.id,
+      refId: user.id,
       instanceIds: [instance.id],
     },
     select: {

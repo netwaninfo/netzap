@@ -1,12 +1,13 @@
 import { StorageService } from '@/domain/chat/application/services/storage-service'
 import { Module } from '@nestjs/common'
-import { R2StorageService } from './r2/r2-storage.service'
+import { FileSystemStorageService } from './filesystem/filesystem-storage.service'
 
 @Module({
   providers: [
     {
       provide: StorageService,
-      useClass: R2StorageService,
+      useClass: FileSystemStorageService,
+      // useClass: R2StorageService,
     },
   ],
   exports: [StorageService],

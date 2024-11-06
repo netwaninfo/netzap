@@ -4,7 +4,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 export interface UserProps {
   name: string
   email: string
-  internalId: UniqueEntityID
+  refId: UniqueEntityID
 }
 
 export class User extends Entity<UserProps> {
@@ -16,8 +16,8 @@ export class User extends Entity<UserProps> {
     return this.props.email
   }
 
-  get internalId() {
-    return this.props.internalId
+  get refId() {
+    return this.props.refId
   }
 
   static create({ ...props }: UserProps, id: UniqueEntityID) {

@@ -4,14 +4,12 @@ import { User } from '../user'
 
 describe('User', () => {
   it('should be able to create', () => {
-    const user = User.create(
-      {
-        name: faker.person.firstName(),
-        email: faker.internet.email(),
-        refId: makeUniqueEntityID(),
-      },
-      makeUniqueEntityID(faker.string.uuid())
-    )
+    const user = User.create({
+      name: faker.person.firstName(),
+      email: faker.internet.email(),
+      displayName: faker.internet.username(),
+      refId: makeUniqueEntityID(),
+    })
 
     expect(user).toBeTruthy()
   })

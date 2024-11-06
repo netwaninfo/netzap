@@ -8,7 +8,7 @@ export interface ClerkUserPublicMetadata {
 
 export type ClerkUser = {
   id: string
+  refId: string
   name: string
   email: string
-  internalId: string
 }
