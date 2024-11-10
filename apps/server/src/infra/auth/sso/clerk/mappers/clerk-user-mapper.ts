@@ -8,6 +8,7 @@ export class ClerkUserMapper {
       {
         email: raw.email,
         name: raw.name,
+        imageUrl: raw.imageUrl,
         refId: UniqueEntityID.create(raw.id),
       },
       UniqueEntityID.create(raw.refId)

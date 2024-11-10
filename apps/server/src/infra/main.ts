@@ -14,14 +14,17 @@ async function bootstrap() {
     new FastifyAdapter()
   )
 
-  app.enableShutdownHooks()
+  const envService = app.get<EnvService>(EnvService)
 
-  // @ts-ignore
+  app.enableCors({
+    origin: [envService.get('NETZAP_DOMAIN_URL')],
+    credentials: true,
+  })
+
+  app.enableShutdownHooks()
   await app.register(fastifyCookie)
 
-  const envService = app.get<EnvService>(EnvService)
   const port = envService.get('PORT')
-
   await app.listen(port)
 }
 

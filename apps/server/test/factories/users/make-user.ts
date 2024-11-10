@@ -12,6 +12,7 @@ export const makeUser = (
       name: faker.person.firstName(),
       email: faker.internet.email(),
       displayName: faker.internet.username(),
+      imageUrl: faker.image.url(),
       refId: makeUniqueEntityID(),
       ...override,
     },

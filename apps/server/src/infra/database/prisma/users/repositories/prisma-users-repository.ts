@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { UsersRepository as AuthUsersRepository } from '@/domain/auth/application/repositories/users-repository'
 import {
   UsersRepository,
   UsersRepositoryFindUniqueByUserIdParams,
 } from '@/domain/users/application/repositories/users-repository'
 import { User } from '@/domain/users/enterprise/entities/user'
-import { ClerkUsersRepository } from '@/infra/auth/sso/clerk/repositories/clerk-users-repository'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../../prisma.service'
 import { PrismaUserMapper } from '../mappers/prisma-user-mapper'
@@ -13,7 +13,7 @@ import { PrismaUserMapper } from '../mappers/prisma-user-mapper'
 export class PrismaUsersRepository implements UsersRepository {
   constructor(
     private prisma: PrismaService,
-    private clerkUsersRepository: ClerkUsersRepository
+    private clerkUsersRepository: AuthUsersRepository
   ) {}
 
   async findUniqueByUserId({
@@ -37,6 +37,7 @@ export class PrismaUsersRepository implements UsersRepository {
       ...raw,
       name: user.name,
       email: user.email,
+      imageUrl: user.imageUrl,
     })
   }
 }

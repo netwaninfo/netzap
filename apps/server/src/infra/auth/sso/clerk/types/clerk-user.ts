@@ -3,7 +3,8 @@ import { z } from 'zod'
 export const clerkUserSchema = z
   .object({
     id: z.string(),
-    email: z.object({ emailAddress: z.string().email() }),
+    primaryEmailAddress: z.object({ emailAddress: z.string().email() }),
+    imageUrl: z.string().url(),
     firstName: z.string().nullable(),
     lastName: z.string().nullable(),
     fullName: z.string().nullable(),
@@ -18,8 +19,9 @@ export const clerkUserSchema = z
   .refine(raw => raw.firstName || raw.lastName || raw.fullName)
   .transform(raw => ({
     id: raw.id,
-    email: raw.email.emailAddress,
+    email: raw.primaryEmailAddress.emailAddress,
     name: String(raw.firstName || raw.lastName || raw.fullName),
+    imageUrl: raw.imageUrl,
     refId: raw.publicMetadata.applications.netzap.id,
   }))
 

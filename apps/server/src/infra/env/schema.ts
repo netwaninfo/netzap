@@ -25,6 +25,9 @@ export const envSchema = z.object({
   CLOUDFLARE_SECRET_ACCESS_KEY: z.string(),
   CLOUDFLARE_BUCKET_NAME: z.string(),
   CLOUDFLARE_PUBLIC_BUCKET_URL: z.string().url(),
+
+  // NetZap
+  NETZAP_DOMAIN_URL: z.string().url(),
 })
 
 export type Env = z.infer<typeof envSchema>

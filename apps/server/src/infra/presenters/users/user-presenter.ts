@@ -8,6 +8,7 @@ export class UserPresenter {
       name: user.name,
       email: user.email,
       displayName: user.displayName,
+      imageUrl: user.imageUrl,
       instances: user.instances.currentItems.map(instanceId =>
         instanceId.toString()
       ),

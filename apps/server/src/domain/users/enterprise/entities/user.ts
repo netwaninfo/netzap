@@ -7,6 +7,7 @@ export interface UserProps {
   name: string
   email: string
   displayName: string
+  imageUrl: string
   instances: UserInstanceList
   refId: UniqueEntityID
 }
@@ -22,6 +23,10 @@ export class User extends Entity<UserProps> {
 
   get displayName() {
     return this.props.displayName
+  }
+
+  get imageUrl() {
+    return this.props.imageUrl
   }
 
   get instances() {

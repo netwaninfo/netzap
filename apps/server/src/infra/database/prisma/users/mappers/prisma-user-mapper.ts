@@ -5,13 +5,14 @@ import { ClerkUser } from '@/infra/auth/sso/clerk/types/clerk-user'
 import { Attendant } from '@prisma/client'
 import { PickDeep } from 'type-fest'
 
-type RawUser = Attendant & PickDeep<ClerkUser, 'name' | 'email'>
+type RawUser = Attendant & PickDeep<ClerkUser, 'name' | 'email' | 'imageUrl'>
 
 export class PrismaUserMapper {
   static toDomain(raw: RawUser): User {
     return User.create(
       {
         displayName: raw.displayName,
+        imageUrl: raw.imageUrl,
         email: raw.email,
         name: raw.name,
         instances: UserInstanceList.create(

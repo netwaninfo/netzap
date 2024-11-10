@@ -12,7 +12,7 @@ import {
 
 import { GetMeResponseBody } from '@netzap/http/users'
 
-@Controller('/me')
+@Controller('/users/me')
 export class GetMeController {
   constructor(private getUser: GetUserUseCase) {}
 
