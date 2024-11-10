@@ -5,6 +5,7 @@ export const userSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   displayName: z.string(),
+  imageUrl: z.string().url(),
   instances: z.array(z.string()),
 })
 
