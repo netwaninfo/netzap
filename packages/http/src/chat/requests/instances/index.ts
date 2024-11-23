@@ -1,2 +1,2 @@
-export * from './fetch-instances-request.js'
-export * from './import-from-instance-request.js'
+export * from './fetch-instances-request'
+export * from './import-from-instance-request'

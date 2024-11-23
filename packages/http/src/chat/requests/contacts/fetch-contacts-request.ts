@@ -4,7 +4,7 @@ import {
   instanceRequestParamsSchema,
   paginatedRequestQuerySchema,
   searchableRequestQuerySchema,
-} from '@/shared/index.js'
+} from '@/shared'
 
 export const fetchContactsRequestParamsSchema = instanceRequestParamsSchema
 

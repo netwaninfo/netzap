@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { paginatedRequestQuerySchema } from '@/shared/index.js'
+import { paginatedRequestQuerySchema } from '@/shared'
 
 export const fetchInstancesRequestQuerySchema = paginatedRequestQuerySchema
 

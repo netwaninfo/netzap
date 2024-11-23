@@ -1,1 +1,1 @@
-export * from './fetch-messages-response.js'
+export * from './fetch-messages-response'

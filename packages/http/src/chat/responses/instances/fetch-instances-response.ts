@@ -1,7 +1,7 @@
 import { instanceSchema } from '@netzap/entities/chat'
 import { z } from 'zod'
 
-import { paginationResponseSchema } from '@/shared/index.js'
+import { paginationResponseSchema } from '@/shared'
 
 export const fetchInstancesResponseBodySchema = z.object({
   data: z.array(instanceSchema),

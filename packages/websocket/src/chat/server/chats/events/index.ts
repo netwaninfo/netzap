@@ -1,2 +1,2 @@
-export * from './chat-change-event.js'
-export * from './chat-create-event.js'
+export * from './chat-change-event'
+export * from './chat-create-event'

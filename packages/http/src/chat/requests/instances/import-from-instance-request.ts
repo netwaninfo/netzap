@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { instanceRequestParamsSchema } from '@/shared/index.js'
+import { instanceRequestParamsSchema } from '@/shared'
 
 export const importFromInstanceParamsSchema = instanceRequestParamsSchema
 

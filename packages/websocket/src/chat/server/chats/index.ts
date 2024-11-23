@@ -1,3 +1,3 @@
-export * from './events/index.js'
-export * from './names.js'
-export * from './types.js'
+export * from './events'
+export * from './names'
+export * from './types'

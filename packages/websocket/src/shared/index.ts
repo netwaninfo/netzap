@@ -1,1 +1,1 @@
-export * from './defaults.js'
+export * from './defaults'

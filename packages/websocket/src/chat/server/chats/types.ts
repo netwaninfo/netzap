@@ -3,7 +3,7 @@ import { z } from 'zod'
 import {
   chatChangeServerEventSchema,
   chatCreateServerEventSchema,
-} from './events/index.js'
+} from './events'
 
 export const chatServerEventsSchema = chatChangeServerEventSchema.and(
   chatCreateServerEventSchema

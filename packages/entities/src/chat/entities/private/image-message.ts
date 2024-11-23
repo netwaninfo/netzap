@@ -1,26 +1,21 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums/index.js'
-import { messageMediaSchema } from '../message-media.js'
-import { basePrivateMessage } from './message.js'
-import { privateQuotedMessageSchema } from './quoted.js'
-
-export const basePrivateImageMessageSchema = basePrivateMessage.extend({
-  type: z.literal(messageTypeSchema.Values.image),
-  media: messageMediaSchema.nullable(),
-  body: z.string().nullable(),
-})
+import { basePrivateImageMessageSchema } from '../base/private'
+import { privateQuotedMessageSchema } from './quoted-message'
 
 const schema = basePrivateImageMessageSchema.extend({
-  quoted: z.lazy(() => privateQuotedMessageSchema).nullable(),
+  quoted: privateQuotedMessageSchema.nullable(),
 })
 
 // TS7056
-type SchemaInput = z.input<typeof schema>
-type SchemaOutput = z.output<typeof schema>
-
 export interface PrivateImageMessageSchema
-  extends z.ZodType<SchemaOutput, z.ZodTypeDef, SchemaInput> {}
+  extends z.ZodObject<
+    typeof schema.shape,
+    z.UnknownKeysParam,
+    z.ZodTypeAny,
+    z.output<typeof schema>,
+    z.input<typeof schema>
+  > {}
 // ------
 
 export const privateImageMessageSchema: PrivateImageMessageSchema = schema

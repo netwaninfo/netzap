@@ -1,30 +1,43 @@
 import { z } from 'zod'
 
-import { emitterFunction } from '@/shared/index.js'
-import { chatEventsNamesSchema } from '../names.js'
-import { chatServerEventPayloadSchema } from '../payload.js'
+import { emitterFunction } from '@/shared'
+import { chatEventsNamesSchema } from '../names'
+import { chatServerEventPayloadSchema } from '../payload'
 
-const schema = chatServerEventPayloadSchema
+const payloadSchema = chatServerEventPayloadSchema
 
 // TS7056
-type SchemaInput = z.input<typeof schema>
-type SchemaOutput = z.output<typeof schema>
-
 export interface ChatCreateServerEventPayloadSchema
-  extends z.ZodType<SchemaOutput, z.ZodTypeDef, SchemaInput> {}
+  extends z.ZodType<
+    z.output<typeof payloadSchema>,
+    z.ZodTypeDef,
+    z.input<typeof payloadSchema>
+  > {}
 // ------
 
 export const chatCreateServerEventPayloadSchema: ChatCreateServerEventPayloadSchema =
-  schema
+  payloadSchema
 
 export type ChatCreateServerEventPayload = z.infer<
   typeof chatCreateServerEventPayloadSchema
 >
 
-export const chatCreateServerEventSchema = z.object({
+const eventSchema = z.object({
   [chatEventsNamesSchema.Values['chat:create']]: emitterFunction.args(
     chatCreateServerEventPayloadSchema
   ),
 })
+
+// TS7056
+export interface ChatCreateServerEventSchema
+  extends z.ZodType<
+    z.output<typeof eventSchema>,
+    z.ZodTypeDef,
+    z.input<typeof eventSchema>
+  > {}
+// ------
+
+export const chatCreateServerEventSchema: ChatCreateServerEventSchema =
+  eventSchema
 
 export type ChatCreateServerEvent = z.infer<typeof chatCreateServerEventSchema>

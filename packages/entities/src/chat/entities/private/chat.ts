@@ -1,19 +1,24 @@
 import { z } from 'zod'
 
-import { privateMessageSchema } from '@/chat/types/index.js'
-import { baseChatSchema } from '../chat.js'
+import { chatTypeSchema } from '@/chat/enums'
+import { baseChatSchema } from '../base'
+import { privateMessageSchema } from './message'
 
 const schema = baseChatSchema.extend({
   contactId: z.string(),
-  lastMessage: z.lazy(() => privateMessageSchema.nullable()),
+  type: z.literal(chatTypeSchema.Values.private),
+  lastMessage: privateMessageSchema.nullable(),
 })
 
 // TS7056
-type SchemaInput = z.input<typeof schema>
-type SchemaOutput = z.output<typeof schema>
-
 export interface PrivateChatSchema
-  extends z.ZodType<SchemaOutput, z.ZodTypeDef, SchemaInput> {}
+  extends z.ZodObject<
+    typeof schema.shape,
+    z.UnknownKeysParam,
+    z.ZodTypeAny,
+    z.output<typeof schema>,
+    z.input<typeof schema>
+  > {}
 // ------
 
 export const privateChatSchema: PrivateChatSchema = schema

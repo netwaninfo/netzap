@@ -1,1 +1,1 @@
-export * from './fetch-chats-response.js'
+export * from './fetch-chats-response'

@@ -1,3 +1,3 @@
-export * from './paginated-request.js'
-export * from './instance-request.js'
-export * from './searchable-request.js'
+export * from './paginated-request'
+export * from './instance-request'
+export * from './searchable-request'

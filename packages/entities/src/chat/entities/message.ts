@@ -1,16 +1,8 @@
 import { z } from 'zod'
 
-import { messageStatusSchema } from '@/chat/enums/index.js'
+import { groupMessageSchema } from './group'
+import { privateMessageSchema } from './private'
 
-export const baseMessageSchema = z.object({
-  id: z.string(),
-  waMessageId: z.string(),
-  waChatId: z.string(),
-  instanceId: z.string(),
-  chatId: z.string(),
-  status: messageStatusSchema,
-  isForwarded: z.boolean(),
-  isFromMe: z.boolean(),
-  createdAt: z.date(),
-  sentBy: z.string().nullable(),
-})
+export const messageSchema = z.union([privateMessageSchema, groupMessageSchema])
+
+export type Message = z.infer<typeof messageSchema>

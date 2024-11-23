@@ -3,6 +3,8 @@
 	"display": "PKG",
 	"extends": "./base.json",
 	"compilerOptions": {
+		"moduleResolution": "bundler",
+		"module": "ESNext",
 		"declaration": true,
 		"declarationMap": true
 	}

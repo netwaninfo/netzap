@@ -1,25 +1,21 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums/index.js'
-import { messageMediaSchema } from '../message-media.js'
-import { baseGroupMessage } from './message.js'
-import { groupQuotedMessageSchema } from './quoted.js'
-
-export const baseGroupAudioMessageSchema = baseGroupMessage.extend({
-  type: z.literal(messageTypeSchema.Values.audio),
-  media: messageMediaSchema.nullable(),
-})
+import { baseGroupAudioMessageSchema } from '../base/group'
+import { groupQuotedMessageSchema } from './quoted-message'
 
 const schema = baseGroupAudioMessageSchema.extend({
-  quoted: z.lazy(() => groupQuotedMessageSchema).nullable(),
+  quoted: groupQuotedMessageSchema.nullable(),
 })
 
 // TS7056
-type SchemaInput = z.input<typeof schema>
-type SchemaOutput = z.output<typeof schema>
-
 export interface GroupAudioMessageSchema
-  extends z.ZodType<SchemaOutput, z.ZodTypeDef, SchemaInput> {}
+  extends z.ZodObject<
+    typeof schema.shape,
+    z.UnknownKeysParam,
+    z.ZodTypeAny,
+    z.output<typeof schema>,
+    z.input<typeof schema>
+  > {}
 // ------
 
 export const groupAudioMessageSchema: GroupAudioMessageSchema = schema

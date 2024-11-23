@@ -1,31 +1,44 @@
 import { z } from 'zod'
 
-import { emitterFunction } from '@/shared/index.js'
-import { messageEventsNamesSchema } from '../names.js'
-import { messageServerEventPayloadSchema } from '../payload.js'
+import { emitterFunction } from '@/shared'
+import { messageEventsNamesSchema } from '../names'
+import { messageServerEventPayloadSchema } from '../payload'
 
-const schema = messageServerEventPayloadSchema
+const payloadSchema = messageServerEventPayloadSchema
 
 // TS7056
-type SchemaInput = z.input<typeof schema>
-type SchemaOutput = z.output<typeof schema>
-
 export interface MessageRevokedServerEventPayloadSchema
-  extends z.ZodType<SchemaOutput, z.ZodTypeDef, SchemaInput> {}
+  extends z.ZodType<
+    z.output<typeof payloadSchema>,
+    z.ZodTypeDef,
+    z.input<typeof payloadSchema>
+  > {}
 // ------
 
 export const messageRevokedServerEventPayloadSchema: MessageRevokedServerEventPayloadSchema =
-  schema
+  payloadSchema
 
 export type MessageRevokedServerEventPayload = z.infer<
   typeof messageRevokedServerEventPayloadSchema
 >
 
-export const messageRevokedServerEventSchema = z.object({
+const eventSchema = z.object({
   [messageEventsNamesSchema.Values['message:revoked']]: emitterFunction.args(
     messageRevokedServerEventPayloadSchema
   ),
 })
+
+// TS7056
+export interface MessageRevokedServerEventSchema
+  extends z.ZodType<
+    z.output<typeof eventSchema>,
+    z.ZodTypeDef,
+    z.input<typeof eventSchema>
+  > {}
+// ------
+
+export const messageRevokedServerEventSchema: MessageRevokedServerEventSchema =
+  eventSchema
 
 export type MessageRevokedServerEvent = z.infer<
   typeof messageRevokedServerEventSchema

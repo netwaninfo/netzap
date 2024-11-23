@@ -1,1 +1,1 @@
-export * from './pagination-response.js'
+export * from './pagination-response'

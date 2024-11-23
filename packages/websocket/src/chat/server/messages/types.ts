@@ -4,10 +4,9 @@ import {
   messageChangeServerEventSchema,
   messageCreateServerEventSchema,
   messageRevokedServerEventSchema,
-} from './events/index.js'
+} from './events'
 
 export const messageServerEventsSchema = messageChangeServerEventSchema
-  .and(messageCreateServerEventSchema)
   .and(messageCreateServerEventSchema)
   .and(messageRevokedServerEventSchema)
 

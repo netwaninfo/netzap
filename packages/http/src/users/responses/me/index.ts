@@ -1,1 +1,1 @@
-export * from './get-me-response.js'
+export * from './get-me-response'

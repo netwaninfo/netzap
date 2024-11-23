@@ -1,25 +1,21 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums/index.js'
-import { contactSchema } from '../contact.js'
-import { baseGroupMessage } from './message.js'
-import { groupQuotedMessageSchema } from './quoted.js'
-
-export const baseGroupVCardMessageSchema = baseGroupMessage.extend({
-  type: z.literal(messageTypeSchema.Values.vcard),
-  contact: contactSchema,
-})
+import { baseGroupVCardMessageSchema } from '../base/group'
+import { groupQuotedMessageSchema } from './quoted-message'
 
 const schema = baseGroupVCardMessageSchema.extend({
-  quoted: z.lazy(() => groupQuotedMessageSchema).nullable(),
+  quoted: groupQuotedMessageSchema.nullable(),
 })
 
 // TS7056
-type SchemaInput = z.input<typeof schema>
-type SchemaOutput = z.output<typeof schema>
-
 export interface GroupVCardMessageSchema
-  extends z.ZodType<SchemaOutput, z.ZodTypeDef, SchemaInput> {}
+  extends z.ZodObject<
+    typeof schema.shape,
+    z.UnknownKeysParam,
+    z.ZodTypeAny,
+    z.output<typeof schema>,
+    z.input<typeof schema>
+  > {}
 // ------
 
 export const groupVCardMessageSchema: GroupVCardMessageSchema = schema

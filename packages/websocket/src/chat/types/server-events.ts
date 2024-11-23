@@ -1,9 +1,6 @@
 import { z } from 'zod'
 
-import {
-  chatServerEventsSchema,
-  messageServerEventsSchema,
-} from '../server/index.js'
+import { chatServerEventsSchema, messageServerEventsSchema } from '../server'
 
 export const serverEventsSchema = z.intersection(
   chatServerEventsSchema,

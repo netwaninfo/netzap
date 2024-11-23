@@ -1,24 +1,21 @@
 import { z } from 'zod'
 
-import { messageTypeSchema } from '@/chat/enums/index.js'
-import { baseGroupMessage } from './message.js'
-import { groupQuotedMessageSchema } from './quoted.js'
-
-export const baseGroupTextMessageSchema = baseGroupMessage.extend({
-  type: z.literal(messageTypeSchema.Values.text),
-  body: z.string(),
-})
+import { baseGroupTextMessageSchema } from '../base/group'
+import { groupQuotedMessageSchema } from './quoted-message'
 
 const schema = baseGroupTextMessageSchema.extend({
-  quoted: z.lazy(() => groupQuotedMessageSchema).nullable(),
+  quoted: groupQuotedMessageSchema.nullable(),
 })
 
 // TS7056
-type SchemaInput = z.input<typeof schema>
-type SchemaOutput = z.output<typeof schema>
-
 export interface GroupTextMessageSchema
-  extends z.ZodType<SchemaOutput, z.ZodTypeDef, SchemaInput> {}
+  extends z.ZodObject<
+    typeof schema.shape,
+    z.UnknownKeysParam,
+    z.ZodTypeAny,
+    z.output<typeof schema>,
+    z.input<typeof schema>
+  > {}
 // ------
 
 export const groupTextMessageSchema: GroupTextMessageSchema = schema

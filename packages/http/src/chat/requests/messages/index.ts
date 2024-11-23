@@ -1,1 +1,1 @@
-export * from './fetch-messages-request.js'
+export * from './fetch-messages-request'

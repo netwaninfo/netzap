@@ -1,8 +1,11 @@
 import { z } from 'zod'
 
-export const baseChatSchema = z.object({
-  id: z.string(),
-  waChatId: z.string(),
-  instanceId: z.string(),
-  unreadCount: z.number(),
-})
+import { groupChatSchema } from './group'
+import { privateChatSchema } from './private'
+
+export const chatSchema = z.discriminatedUnion('type', [
+  privateChatSchema,
+  groupChatSchema,
+])
+
+export type Chat = z.infer<typeof chatSchema>
