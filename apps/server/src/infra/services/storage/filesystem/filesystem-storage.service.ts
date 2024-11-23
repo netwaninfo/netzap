@@ -10,12 +10,19 @@ import {
 import { StorageObject } from '@/domain/chat/enterprise/entities/value-objects/storage-object'
 import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
+import { EnvService } from '@/infra/env/env.service'
+import { Injectable } from '@nestjs/common'
 import { RunSafely } from '../../shared/run-safely'
 
+@Injectable()
 export class FileSystemStorageService
   extends RunSafely
   implements StorageService
 {
+  constructor(private env: EnvService) {
+    super()
+  }
+
   private TMP_FOLDER = path.resolve(process.cwd(), 'tmp')
 
   async put({
@@ -40,10 +47,12 @@ export class FileSystemStorageService
       })
     })
 
+    const fileUrl = `${this.env.get('MEDIA_PUBLIC_PATH')}/${fileKey}`
+
     const storageObject = StorageObject.create({
       mimeType,
       path: fileKey,
-      url: fileKey,
+      url: fileUrl,
     })
 
     return success(storageObject)

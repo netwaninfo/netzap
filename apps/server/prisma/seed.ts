@@ -60,7 +60,11 @@ async function seed() {
     data: {
       displayName: user.firstName ?? faker.person.firstName(),
       refId: user.id,
-      instanceIds: [instance.id],
+      instances: {
+        connect: {
+          id: instance.id,
+        },
+      },
     },
     select: {
       id: true,

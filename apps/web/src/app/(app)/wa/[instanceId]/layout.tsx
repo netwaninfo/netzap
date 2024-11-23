@@ -1,16 +1,14 @@
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { PropsWithChildren } from 'react'
-
 import { InstanceSidebar } from './components/instance-sidebar'
 
 interface LayoutProps extends PropsWithChildren {}
 
-export default function Layout({ children }: LayoutProps) {
+export default function InstanceLayout({ children }: LayoutProps) {
   return (
-    <SidebarProvider open={false}>
+    <div className="flex w-full h-full">
       <InstanceSidebar />
 
-      <SidebarInset>{children}</SidebarInset>
-    </SidebarProvider>
+      {children}
+    </div>
   )
 }

@@ -5,19 +5,15 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
-  SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar'
-import { Skeleton } from '@/components/ui/skeleton'
+} from '@/components/custom/sidebar'
 import { MessageCircle } from 'lucide-react'
-import { Suspense } from 'react'
 import { SelectInstance } from './select-instance'
 import { UserMenu } from './user-menu'
 
 export function InstanceSidebar() {
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar>
       <SidebarHeader>
         <SelectInstance />
       </SidebarHeader>
@@ -25,25 +21,15 @@ export function InstanceSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton isActive>
-                  <MessageCircle />
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
+            <SidebarMenuButton isActive className="size-8" variant="ghost">
+              <MessageCircle className="size-4" />
+            </SidebarMenuButton>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter>
-        <Suspense
-          fallback={
-            <Skeleton className="h-8 w-8 rounded-lg bg-sidebar-accent" />
-          }
-        >
-          <UserMenu />
-        </Suspense>
+        <UserMenu />
       </SidebarFooter>
     </Sidebar>
   )

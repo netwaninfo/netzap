@@ -17,6 +17,9 @@ export class HttpClerkAuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext) {
+    // const skip = true
+    // if (skip) return true
+
     const request = context.switchToHttp().getRequest() as FastifyRequest
 
     const sessionToken = request.cookies.__session

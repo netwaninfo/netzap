@@ -7,6 +7,7 @@ const nodeEnvSchema = z
 export const envSchema = z.object({
   NODE_ENV: nodeEnvSchema,
   PORT: z.coerce.number().optional().default(3333),
+  MEDIA_PUBLIC_PATH: z.string().default('/media'),
 
   // Prisma
   DATABASE_URL: z.string().url(),

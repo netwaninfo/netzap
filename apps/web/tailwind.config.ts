@@ -14,6 +14,9 @@ const config: Config = {
       mono: ['var(--font-geist-mono)', ...defaultTheme.fontFamily.mono],
     },
     extend: {
+      spacing: {
+        84: '21rem',
+      },
       width: {
         'dropdown-menu-trigger': 'var(--radix-dropdown-menu-trigger-width)',
       },

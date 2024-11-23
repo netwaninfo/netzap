@@ -1,10 +1,10 @@
-import { usersAPI } from '@/services/netzap/container'
+import { netzapAPI } from '@/services/container'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
-export function useMeUser() {
+export function useGetMe() {
   const { data, ...rest } = useSuspenseQuery({
     queryKey: ['users', 'me'],
-    queryFn: () => usersAPI.getMe(),
+    queryFn: () => netzapAPI.users.getMe(),
   })
 
   const { error, isFetching } = rest

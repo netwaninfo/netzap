@@ -28,7 +28,7 @@ model Instance {
   status InstanceStatus @default(disconnected)
   state  InstanceState  @default(stopped)
 
-  attendantIds String[]    @map("attendant_ids") @db.ObjectId
+  attendantIds String[]    @db.ObjectId
   attendants   Attendant[] @relation(fields: [attendantIds], references: [id])
 
   @@map("instances")
@@ -39,7 +39,7 @@ model Attendant {
   refId       String @unique @map("ref_id")
   displayName String @map("display_name")
 
-  instanceIds String[]   @map("instance_ids") @db.ObjectId
+  instanceIds String[]   @db.ObjectId
   instances   Instance[] @relation(fields: [instanceIds], references: [id])
 
   sentMessages    Message[] @relation("AttendantSentMessages")
@@ -57,7 +57,7 @@ model ContactInstance {
   isMe        Boolean @map("is_me")
   isMyContact Boolean @map("is_my_contact")
 
-  vCardMessageIds String[] @default([]) @map("v_card_messages_ids") @db.ObjectId
+  vCardMessageIds String[] @default([]) @db.ObjectId
 
   contact       Contact   @relation(fields: [contactId], references: [id])
   vCardMessages Message[] @relation(fields: [vCardMessageIds], references: [id], "ContactVCardMessages")
@@ -177,7 +177,7 @@ model Message {
   senderId           String?  @map("sender_id") @db.ObjectId
   revokerId          String?  @map("revoker_id") @db.ObjectId
   authorId           String?  @map("author_id") @db.ObjectId
-  contactInstanceIds String[] @map("contacts_ids") @db.ObjectId
+  contactInstanceIds String[] @db.ObjectId
   quotedId           String?  @map("quoted_id") @db.ObjectId
 
   createdAt DateTime  @default(now()) @map("created_at")

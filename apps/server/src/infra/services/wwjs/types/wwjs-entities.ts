@@ -1,7 +1,7 @@
-export {
-  type Message as WWJSMessage,
-  type Contact as WWJSContact,
-  type Chat as WWJSChat,
-  type GroupChat as WWJSGroupChat,
-  type MessageMedia as WWJSMessageMedia,
+export type {
+  Message as WWJSMessage,
+  Contact as WWJSContact,
+  Chat as WWJSChat,
+  GroupChat as WWJSGroupChat,
+  MessageMedia as WWJSMessageMedia,
 } from 'whatsapp-web.js'

@@ -6,6 +6,7 @@ export class PrivateChatPresenter {
   static toOutput(chat: PrivateChat): Output {
     return {
       id: chat.id.toString(),
+      type: 'private',
       contactId: chat.contactId.toString(),
       instanceId: chat.instanceId.toString(),
       unreadCount: chat.unreadCount,

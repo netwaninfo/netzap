@@ -6,6 +6,7 @@ export class GroupChatPresenter {
   static toOutput(chat: GroupChat): Output {
     return {
       id: chat.id.toString(),
+      type: 'group',
       groupId: chat.groupId.toString(),
       instanceId: chat.instanceId.toString(),
       unreadCount: chat.unreadCount,

@@ -1,5 +1,10 @@
 'use client'
 
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/components/custom/sidebar'
 import { Avatar, AvatarImage, AvatarName } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -9,28 +14,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar'
-import { useMeUser } from '@/hooks/queries/user-me-user'
+import { useGetMe } from '@/hooks/queries/user-get-me'
 import { SignOutButton } from '@clerk/nextjs'
 import { LogOut } from 'lucide-react'
 
 export function UserMenu() {
-  const [user] = useMeUser()
+  const [{ data: user }] = useGetMe()
 
   return (
-    <SidebarMenu>
+    <SidebarMenu className="gap-0">
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <Avatar className="h-8 w-8 rounded-lg">
+            <SidebarMenuButton className="size-8 relative rounded-lg p-0">
+              <Avatar className="size-8 rounded-lg">
                 <AvatarImage src={user.imageUrl} alt={user.name} />
                 <AvatarName className="rounded-lg">{user.name}</AvatarName>
               </Avatar>
