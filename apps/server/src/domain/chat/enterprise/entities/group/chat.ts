@@ -3,15 +3,16 @@ import type { SetNonNullable, SetOptional } from 'type-fest'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { GroupMessage } from '../../types/message'
 import { Chat, type ChatProps } from '../chat'
+import { Group } from '../group'
 
 export interface GroupChatProps extends ChatProps {
-  groupId: UniqueEntityID
+  group: Group
   lastMessage: GroupMessage | null
 }
 
 export class GroupChat extends Chat<GroupChatProps> {
-  get groupId() {
-    return this.props.groupId
+  get group() {
+    return this.props.group
   }
 
   get lastMessage() {

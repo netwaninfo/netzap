@@ -1,3 +1,5 @@
+export * from './group'
+
 export * from './chat'
 export * from './message'
 

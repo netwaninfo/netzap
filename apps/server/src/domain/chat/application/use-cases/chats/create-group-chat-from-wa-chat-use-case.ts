@@ -66,7 +66,7 @@ export class CreateGroupChatFromWAChatUseCase {
     if (response.isFailure()) return failure(response.value)
 
     const chat = GroupChat.create({
-      groupId: group.id,
+      group,
       instanceId: waChat.instanceId,
       unreadCount: waChat.unreadCount,
       waChatId: waChat.id,

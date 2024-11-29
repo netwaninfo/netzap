@@ -29,7 +29,7 @@ export class PrismaContactInstanceMapper {
         isMe: raw.isMe,
         isMyContact: raw.isMyContact,
       },
-      UniqueEntityID.create(raw.contact.id)
+      UniqueEntityID.create(contact.id)
     )
   }
 }

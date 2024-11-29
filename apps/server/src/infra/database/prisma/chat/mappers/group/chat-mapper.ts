@@ -4,17 +4,23 @@ import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-e
 import { Prisma, Chat as PrismaChat } from '@prisma/client'
 import { Except } from 'type-fest'
 import { PrismaChatMapper } from '../prisma-chat-mapper'
+import { PrismaGroupMapper, Raw as RawGroup } from '../prisma-group-mapper'
 import { PrismaGroupMessageMapper, RawGroupMessage } from './message-mapper'
 
 export type RawGroupChat = PrismaChat & {
   message?: Except<RawGroupMessage, 'quoted'> | null
+  group: RawGroup | null
 }
 
 export class PrismaGroupChatMapper {
   static toDomain(raw: RawGroupChat): GroupChat {
+    if (!raw.group) {
+      throw new Error('Missing group of GroupChat')
+    }
+
     return GroupChat.create(
       {
-        groupId: UniqueEntityID.create(raw.recipientId),
+        group: PrismaGroupMapper.toDomain(raw.group),
         instanceId: UniqueEntityID.create(raw.instanceId),
         unreadCount: raw.unreadCount,
         waChatId: WAEntityID.createFromString(raw.waChatId),
@@ -31,7 +37,7 @@ export class PrismaGroupChatMapper {
       id: chat.id.toString(),
       instanceId: chat.instanceId.toString(),
       waChatId: chat.waChatId.toString(),
-      recipientId: chat.groupId.toString(),
+      recipientId: chat.group.id.toString(),
       type: 'group',
       unreadCount: chat.unreadCount,
       lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
@@ -43,7 +49,7 @@ export class PrismaGroupChatMapper {
     return {
       instanceId: chat.instanceId.toString(),
       waChatId: chat.waChatId.toString(),
-      recipientId: chat.groupId.toString(),
+      recipientId: chat.group.id.toString(),
       type: 'group',
       unreadCount: chat.unreadCount,
       lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),

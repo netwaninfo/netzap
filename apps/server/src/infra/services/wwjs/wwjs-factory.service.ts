@@ -59,7 +59,7 @@ export class WWJSFactory implements OnModuleInit {
     })
 
     for (const [event, handler] of this.handlers) {
-      client.raw.on(event, handler.register(client))
+      client.addHandler(event, handler)
     }
 
     return client

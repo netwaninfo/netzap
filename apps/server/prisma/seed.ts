@@ -50,6 +50,7 @@ async function seed() {
     data: {
       name: faker.company.name(),
       phone: '5511975513068',
+      id: '6744ffcabb2a41172420a3e8',
     },
     select: {
       id: true,

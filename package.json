@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"scripts": {
 		"prepack": "turbo run build --filter=./packages/*",
+		"prepack:dev": "turbo run dev --filter=./packages/*",
 		"lint": "turbo run lint",
 		"lint:fix": "turbo run lint:fix"
 	},

@@ -1,5 +1,6 @@
 import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
 import { GroupChat as Output } from '@netzap/entities/chat'
+import { GroupPresenter } from '../group-presenter'
 import { GroupMessagePresenter } from './message'
 
 export class GroupChatPresenter {
@@ -7,7 +8,7 @@ export class GroupChatPresenter {
     return {
       id: chat.id.toString(),
       type: 'group',
-      groupId: chat.groupId.toString(),
+      group: GroupPresenter.toOutput(chat.group),
       instanceId: chat.instanceId.toString(),
       unreadCount: chat.unreadCount,
       waChatId: chat.waChatId.toString(),

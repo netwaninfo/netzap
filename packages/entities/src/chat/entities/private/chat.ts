@@ -2,10 +2,11 @@ import { z } from 'zod'
 
 import { chatTypeSchema } from '@/chat/enums'
 import { baseChatSchema } from '../base'
+import { contactSchema } from '../contact'
 import { privateMessageSchema } from './message'
 
 const schema = baseChatSchema.extend({
-  contactId: z.string(),
+  contact: contactSchema,
   type: z.literal(chatTypeSchema.Values.private),
   lastMessage: privateMessageSchema.nullable(),
 })

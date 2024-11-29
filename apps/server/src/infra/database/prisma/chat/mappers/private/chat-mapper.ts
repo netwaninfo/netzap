@@ -4,17 +4,26 @@ import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-e
 import { Prisma, Chat as PrismaChat } from '@prisma/client'
 import { Except } from 'type-fest'
 import { PrismaChatMapper } from '../prisma-chat-mapper'
+import {
+  PrismaContactMapper,
+  Raw as RawContact,
+} from '../prisma-contact-mapper'
 import { PrismaPrivateMessageMapper, RawPrivateMessage } from './message-mapper'
 
 export type RawPrivateChat = PrismaChat & {
   message?: Except<RawPrivateMessage, 'quoted'> | null
+  contact: RawContact | null
 }
 
 export class PrismaPrivateChatMapper {
   static toDomain(raw: RawPrivateChat): PrivateChat {
+    if (!raw.contact) {
+      throw new Error('Missing contact of PrivateChat')
+    }
+
     return PrivateChat.create(
       {
-        contactId: UniqueEntityID.create(raw.recipientId),
+        contact: PrismaContactMapper.toDomain(raw.contact),
         instanceId: UniqueEntityID.create(raw.instanceId),
         unreadCount: raw.unreadCount,
         waChatId: WAEntityID.createFromString(raw.waChatId),
@@ -31,7 +40,7 @@ export class PrismaPrivateChatMapper {
       id: chat.id.toString(),
       instanceId: chat.instanceId.toString(),
       waChatId: chat.waChatId.toString(),
-      recipientId: chat.contactId.toString(),
+      recipientId: chat.contact.id.toString(),
       type: 'private',
       unreadCount: chat.unreadCount,
       lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
@@ -43,7 +52,7 @@ export class PrismaPrivateChatMapper {
     return {
       instanceId: chat.instanceId.toString(),
       waChatId: chat.waChatId.toString(),
-      recipientId: chat.contactId.toString(),
+      recipientId: chat.contact.id.toString(),
       type: 'private',
       unreadCount: chat.unreadCount,
       lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),

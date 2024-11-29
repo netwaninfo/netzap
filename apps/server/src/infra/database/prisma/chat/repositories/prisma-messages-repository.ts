@@ -20,38 +20,38 @@ import { PrismaGroupMessageMapper } from '../mappers/group/message-mapper'
 import { PrismaMessageMapper } from '../mappers/prisma-message-mapper'
 import { PrismaPrivateMessageMapper } from '../mappers/private/message-mapper'
 
-const QUOTED_MESSAGE_INCLUDES = {
-  contacts: {
-    include: {
-      contact: true,
-    },
-  },
-  author: {
-    include: {
-      contact: true,
-    },
-  },
-} satisfies Prisma.MessageInclude
-
-const MESSAGE_INCLUDES = {
-  contacts: {
-    include: {
-      contact: true,
-    },
-  },
-  quoted: {
-    include: QUOTED_MESSAGE_INCLUDES,
-  },
-  author: {
-    include: {
-      contact: true,
-    },
-  },
-} satisfies Prisma.MessageInclude
-
 @Injectable()
 export class PrismaMessagesRepository implements MessagesRepository {
   constructor(private prisma: PrismaService) {}
+
+  private getMessagesIncludes() {
+    return {
+      contacts: {
+        include: {
+          contact: true,
+        },
+      },
+      quoted: {
+        include: {
+          contacts: {
+            include: {
+              contact: true,
+            },
+          },
+          author: {
+            include: {
+              contact: true,
+            },
+          },
+        },
+      },
+      author: {
+        include: {
+          contact: true,
+        },
+      },
+    } satisfies Prisma.MessageInclude
+  }
 
   async findUniquePrivateMessageByChatIAndWAMessageId({
     chatId,
@@ -65,7 +65,7 @@ export class PrismaMessagesRepository implements MessagesRepository {
           waMessageId: waMessageId.toString(),
         },
       },
-      include: MESSAGE_INCLUDES,
+      include: this.getMessagesIncludes(),
     })
 
     if (!raw) return null
@@ -85,7 +85,7 @@ export class PrismaMessagesRepository implements MessagesRepository {
           waMessageId: waMessageId.toString(),
         },
       },
-      include: MESSAGE_INCLUDES,
+      include: this.getMessagesIncludes(),
     })
 
     if (!raw) return null
@@ -104,7 +104,7 @@ export class PrismaMessagesRepository implements MessagesRepository {
           waMessageId: waMessageId.toString(),
         },
       },
-      include: MESSAGE_INCLUDES,
+      include: this.getMessagesIncludes(),
     })
 
     if (!raw) return null
@@ -123,7 +123,7 @@ export class PrismaMessagesRepository implements MessagesRepository {
         createdAt: createdAt.toISOString(),
         instanceId: instanceId.toString(),
       },
-      include: MESSAGE_INCLUDES,
+      include: this.getMessagesIncludes(),
     })
 
     if (!raw) return null
@@ -146,7 +146,7 @@ export class PrismaMessagesRepository implements MessagesRepository {
       },
       take,
       skip: Pagination.skip({ limit: take, page }),
-      include: MESSAGE_INCLUDES,
+      include: this.getMessagesIncludes(),
       orderBy: {
         createdAt: 'desc',
       },

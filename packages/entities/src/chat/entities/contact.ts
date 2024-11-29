@@ -6,7 +6,7 @@ export const contactSchema = z.object({
   instanceId: z.string(),
   name: z.string(),
   phone: z.string(),
-  imageUrl: z.string().nullable(),
+  imageUrl: z.string().url().nullable(),
   isInstance: z.boolean(),
   isMe: z.boolean(),
   isMyContact: z.boolean(),

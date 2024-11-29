@@ -78,7 +78,7 @@ export class WWJSClient extends ValueObject<WWJSClientProps> {
     return this.status === 'connected' && this.state === 'initialized'
   }
 
-  addHandlers(event: WWJSEvent, handler: WWJSHandler) {
+  addHandler(event: WWJSEvent, handler: WWJSHandler) {
     this.raw.on(event, handler.register(this))
   }
 

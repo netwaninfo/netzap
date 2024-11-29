@@ -2,10 +2,11 @@ import { z } from 'zod'
 
 import { chatTypeSchema } from '@/chat/enums'
 import { baseChatSchema } from '../base'
+import { groupSchema } from '../group'
 import { groupMessageSchema } from './message'
 
 const schema = baseChatSchema.extend({
-  groupId: z.string(),
+  group: groupSchema,
   type: z.literal(chatTypeSchema.Values.group),
   lastMessage: groupMessageSchema.nullable(),
 })

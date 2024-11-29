@@ -58,7 +58,7 @@ export class CreatePrivateChatFromWAChatUseCase {
     }
 
     const chat = PrivateChat.create({
-      contactId: contact.id,
+      contact,
       instanceId: waChat.instanceId,
       unreadCount: waChat.unreadCount,
       waChatId: waChat.id,

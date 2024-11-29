@@ -191,7 +191,7 @@ describe('HandleSendTextMessage', () => {
     const contact = makeContact({ instanceId })
     contactsRepository.items.push(contact)
 
-    const privateChat = makePrivateChat({ instanceId, contactId: contact.id })
+    const privateChat = makePrivateChat({ instanceId, contact })
     chatsRepository.items.push(privateChat)
 
     const response = await sut.execute({
@@ -270,7 +270,7 @@ describe('HandleSendTextMessage', () => {
     const group = makeGroup({ instanceId })
     groupsRepository.items.push(group)
 
-    const groupChat = makeGroupChat({ instanceId, groupId: group.id })
+    const groupChat = makeGroupChat({ instanceId, group })
     chatsRepository.items.push(groupChat)
 
     const response = await sut.execute({

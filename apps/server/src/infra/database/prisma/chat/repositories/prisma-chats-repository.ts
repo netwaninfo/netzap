@@ -1,3 +1,4 @@
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   ChatsRepository,
   ChatsRepositoryCountByInstanceIdParams,
@@ -17,26 +18,38 @@ import { PrismaGroupChatMapper } from '../mappers/group/chat-mapper'
 import { PrismaChatMapper } from '../mappers/prisma-chat-mapper'
 import { PrismaPrivateChatMapper } from '../mappers/private/chat-mapper'
 
-const CHAT_INCLUDES = {
-  message: {
-    include: {
-      author: {
-        include: {
-          contact: true,
-        },
-      },
-      contacts: {
-        include: {
-          contact: true,
-        },
-      },
-    },
-  },
-} satisfies Prisma.ChatInclude
-
 @Injectable()
 export class PrismaChatsRepository implements ChatsRepository {
   constructor(private prisma: PrismaService) {}
+
+  private getChatIncludes(instanceId: UniqueEntityID) {
+    return {
+      message: {
+        include: {
+          author: {
+            include: {
+              contact: true,
+            },
+          },
+          contacts: {
+            include: {
+              contact: true,
+            },
+          },
+        },
+      },
+      contact: {
+        include: {
+          instances: {
+            where: {
+              instanceId: instanceId.toString(),
+            },
+          },
+        },
+      },
+      group: true,
+    } satisfies Prisma.ChatInclude
+  }
 
   async findUniqueByWAChatIdAndInstanceId({
     instanceId,
@@ -48,8 +61,18 @@ export class PrismaChatsRepository implements ChatsRepository {
           instanceId: instanceId.toString(),
           waChatId: waChatId.toString(),
         },
+        ...(waChatId.node === 'c.us' && {
+          contact: {
+            isNot: null,
+          },
+        }),
+        ...(waChatId.node === 'g.us' && {
+          group: {
+            isNot: null,
+          },
+        }),
       },
-      include: CHAT_INCLUDES,
+      include: this.getChatIncludes(instanceId),
     })
 
     if (!raw) return null
@@ -68,8 +91,11 @@ export class PrismaChatsRepository implements ChatsRepository {
           instanceId: instanceId.toString(),
           waChatId: waChatId.toString(),
         },
+        contact: {
+          isNot: null,
+        },
       },
-      include: CHAT_INCLUDES,
+      include: this.getChatIncludes(instanceId),
     })
 
     if (!raw) return null
@@ -88,8 +114,11 @@ export class PrismaChatsRepository implements ChatsRepository {
           instanceId: instanceId.toString(),
           waChatId: waChatId.toString(),
         },
+        group: {
+          isNot: null,
+        },
       },
-      include: CHAT_INCLUDES,
+      include: this.getChatIncludes(instanceId),
     })
 
     if (!raw) return null
@@ -108,7 +137,12 @@ export class PrismaChatsRepository implements ChatsRepository {
       },
       take,
       skip: Pagination.skip({ limit: take, page }),
-      include: CHAT_INCLUDES,
+      include: this.getChatIncludes(instanceId),
+      orderBy: {
+        message: {
+          createdAt: 'desc',
+        },
+      },
     })
 
     return raw.map(PrismaChatMapper.toDomain)

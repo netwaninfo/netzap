@@ -420,7 +420,7 @@ describe('HandleReceivedWAMessage', () => {
     contactsRepository.items.push(contact)
     chatsRepository.items.push(
       makePrivateChat({
-        contactId: contact.id,
+        contact,
         waChatId: waChat.id,
         instanceId,
       })
@@ -481,7 +481,7 @@ describe('HandleReceivedWAMessage', () => {
     const group = makeGroup({ instanceId, waGroupId: waChat.contact.id })
     groupsRepository.items.push(group)
     chatsRepository.items.push(
-      makeGroupChat({ groupId: group.id, instanceId, waChatId: waChat.id })
+      makeGroupChat({ group, instanceId, waChatId: waChat.id })
     )
 
     const response = await sut.execute({

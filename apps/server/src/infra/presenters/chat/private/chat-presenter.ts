@@ -1,5 +1,6 @@
 import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
 import { PrivateChat as Output } from '@netzap/entities/chat'
+import { ContactPresenter } from '../contact-presenter'
 import { PrivateMessagePresenter } from './message'
 
 export class PrivateChatPresenter {
@@ -7,7 +8,7 @@ export class PrivateChatPresenter {
     return {
       id: chat.id.toString(),
       type: 'private',
-      contactId: chat.contactId.toString(),
+      contact: ContactPresenter.toOutput(chat.contact),
       instanceId: chat.instanceId.toString(),
       unreadCount: chat.unreadCount,
       waChatId: chat.waChatId.toString(),
