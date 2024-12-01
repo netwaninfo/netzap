@@ -113,6 +113,33 @@ const Muted = React.forwardRef<MutedRef, MutedProps>(
 )
 Muted.displayName = 'Muted'
 
+type CodeRef = HTMLElement
+type CodeProps = React.HTMLAttributes<HTMLElement>
+
+const Code = React.forwardRef<CodeRef, CodeProps>(
+  ({ className, ...props }, ref) => (
+    <code
+      ref={ref}
+      className={cn(
+        'text-sm inline-block border rounded-sm py-px px-1',
+        className
+      )}
+      {...props}
+    />
+  )
+)
+Code.displayName = 'Code'
+
+type InlineRef = HTMLElement
+type InlineProps = React.HTMLAttributes<HTMLElement>
+
+const Inline = React.forwardRef<InlineRef, InlineProps>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cn('leading-4', className)} {...props} />
+  )
+)
+Code.displayName = 'Code'
+
 export {
   H1,
   type H1Ref,
@@ -138,4 +165,10 @@ export {
   Muted,
   type MutedRef,
   type MutedProps,
+  Code,
+  type CodeRef,
+  type CodeProps,
+  Inline,
+  type InlineRef,
+  type InlineProps,
 }

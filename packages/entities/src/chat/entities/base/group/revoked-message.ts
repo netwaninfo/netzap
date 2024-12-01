@@ -5,7 +5,7 @@ import { baseGroupMessageSchema } from './message'
 
 const schema = baseGroupMessageSchema.extend({
   type: z.literal(messageTypeSchema.Values.revoked),
-  revokedAt: z.date(),
+  revokedAt: z.coerce.date(),
   revokedBy: z.string().nullable(),
 })
 

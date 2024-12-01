@@ -1,11 +1,4 @@
-import {
-  H4,
-  H4Props,
-  H4Ref,
-  Paragraph,
-  ParagraphProps,
-  ParagraphRef,
-} from '@/components/custom/typography'
+import { H4, H4Props, H4Ref } from '@/components/custom/typography'
 import {
   Avatar,
   AvatarFallback,
@@ -23,7 +16,7 @@ const Chat = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'rounded-lg py-2 px-4 flex items-center hover:bg-accent space-x-4',
+      'rounded-lg py-2 px-4 flex items-center hover:bg-border/60 space-x-4 cursor-pointer transition-colors',
       className
     )}
     {...props}
@@ -77,7 +70,7 @@ ChatName.displayName = 'ChatName'
 
 const ChatTime = React.forwardRef<
   HTMLTimeElement,
-  React.HTMLAttributes<HTMLTimeElement>
+  React.TimeHTMLAttributes<HTMLTimeElement>
 >(({ className, ...props }, ref) => (
   <time
     ref={ref}
@@ -102,17 +95,6 @@ const ChatCounter = React.forwardRef<
 ))
 ChatCounter.displayName = 'ChatCounter'
 
-const ChatMessage = React.forwardRef<ParagraphRef, ParagraphProps>(
-  ({ className, ...props }, ref) => (
-    <Paragraph
-      ref={ref}
-      className={cn('truncate text-sm', className)}
-      {...props}
-    />
-  )
-)
-ChatMessage.displayName = 'ChatMessage'
-
 export {
   Chat,
   ChatAvatar,
@@ -123,5 +105,4 @@ export {
   ChatName,
   ChatTime,
   ChatCounter,
-  ChatMessage,
 }

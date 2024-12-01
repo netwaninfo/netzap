@@ -20,6 +20,11 @@ const config: Config = {
       width: {
         'dropdown-menu-trigger': 'var(--radix-dropdown-menu-trigger-width)',
       },
+      height({ theme }) {
+        return {
+          'chats-list': `calc(100% - ${theme('spacing.16')})`,
+        }
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

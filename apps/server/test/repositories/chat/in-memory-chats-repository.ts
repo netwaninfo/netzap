@@ -78,11 +78,25 @@ export class InMemoryChatsRepository implements ChatsRepository {
     this.items.push(chat)
   }
 
-  async save(chat: Chat): Promise<void> {
+  async setMessage(chat: Chat): Promise<void> {
     const itemIndex = this.items.findIndex(
       item => item.id.toString() === chat.id.toString()
     )
 
-    this.items[itemIndex] = chat
+    const item = this.items[itemIndex]
+    if (!item || !chat.lastMessage) return
+
+    item.interact(chat.lastMessage)
+  }
+
+  async setUnreadCount(chat: Chat): Promise<void> {
+    const itemIndex = this.items.findIndex(
+      item => item.id.toString() === chat.id.toString()
+    )
+
+    const item = this.items[itemIndex]
+    if (!item) return
+
+    item.setUnreadCount(chat.unreadCount)
   }
 }

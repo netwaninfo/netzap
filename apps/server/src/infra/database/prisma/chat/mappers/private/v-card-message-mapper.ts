@@ -71,30 +71,11 @@ export class PrismaPrivateVCardMessageMapper {
     }
   }
 
-  static toPrismaUpdate(
+  static toPrismaSetStatus(
     message: PrivateVCardMessage
   ): Prisma.MessageUncheckedUpdateInput {
     return {
-      chatType: 'private',
-      chatId: message.chatId.toString(),
-      waChatId: message.waChatId.toString(),
-      waMessageId: message.waMessageId.toString(),
-      instanceId: message.instanceId.toString(),
-      quotedId: message.quoted?.id.toString(),
-      senderId: message.sentBy?.toString(),
-      type: message.type,
       status: message.status,
-      isForwarded: message.isForwarded,
-      isFromMe: message.isFromMe,
-      createdAt: message.createdAt,
-      contacts: {
-        connect: {
-          contactId_instanceId: {
-            contactId: message.contact.id.toString(),
-            instanceId: message.instanceId.toString(),
-          },
-        },
-      },
     }
   }
 }

@@ -15,6 +15,7 @@ export class PrivateChatPresenter {
       lastMessage: chat.hasLastMessage()
         ? PrivateMessagePresenter.toOutput(chat.lastMessage)
         : null,
+      lastInteractionAt: chat.lastInteractionAt,
     }
   }
 }

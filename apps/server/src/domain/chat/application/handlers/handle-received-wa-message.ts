@@ -66,7 +66,7 @@ export class HandleReceivedWAMessage {
     const { message } = response.value
 
     chat.interact(message)
-    await this.chatsRepository.save(chat)
+    await this.chatsRepository.setMessage(chat)
 
     if (!hasPreviousChat) {
       this.chatEmitter.emitCreate({ chat })

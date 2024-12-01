@@ -3,6 +3,18 @@ import timers from 'node:timers/promises'
 import { WWJSMessage, WWJSMessageMedia } from '../../types/wwjs-entities'
 import { WWJSMessageTypes } from '../../types/wwjs-enums'
 
+const MESSAGES_TYPES_TO_IGNORE = [
+  WWJSMessageTypes.E2E_NOTIFICATION,
+  WWJSMessageTypes.GROUP_NOTIFICATION,
+  WWJSMessageTypes.GROUP_INVITE,
+  WWJSMessageTypes.BROADCAST_NOTIFICATION,
+  WWJSMessageTypes.CALL_LOG,
+  WWJSMessageTypes.CIPHERTEXT,
+  WWJSMessageTypes.NOTIFICATION,
+  WWJSMessageTypes.NOTIFICATION_TEMPLATE,
+  WWJSMessageTypes.GP2,
+]
+
 export class MessageUtils {
   static hasContacts(message: WWJSMessage) {
     return (
@@ -25,5 +37,9 @@ export class MessageUtils {
       message.downloadMedia(),
       timers.setTimeout(TIMEOUT_IN_MS, null),
     ])
+  }
+
+  static canIgnore(type: WWJSMessageTypes) {
+    return MESSAGES_TYPES_TO_IGNORE.includes(type)
   }
 }

@@ -95,7 +95,8 @@ describe('HandleSendTextMessage', () => {
       chatsRepository,
       groupsRepository,
       createGroupFromWAContact,
-      createContactsFromWAContacts
+      createContactsFromWAContacts,
+      dateService
     )
 
     createContactFromWAContact = new CreateContactFromWAContactUseCase(
@@ -105,7 +106,8 @@ describe('HandleSendTextMessage', () => {
     createPrivateChatFromWAChat = new CreatePrivateChatFromWAChatUseCase(
       chatsRepository,
       contactsRepository,
-      createContactFromWAContact
+      createContactFromWAContact,
+      dateService
     )
 
     createChatFromWAChat = new CreateChatFromWAChatUseCase(

@@ -6,6 +6,7 @@ import type {
   GroupMessage,
   Message,
   PrivateMessage,
+  RevokedMessage,
 } from '../../enterprise/types/message'
 
 export interface MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams {
@@ -67,5 +68,8 @@ export abstract class MessagesRepository {
 
   abstract create(message: Message): Promise<void>
 
-  abstract save(message: Message): Promise<void>
+  // ----
+  abstract setRevoked(message: RevokedMessage): Promise<void>
+
+  abstract setStatus(message: Message): Promise<void>
 }

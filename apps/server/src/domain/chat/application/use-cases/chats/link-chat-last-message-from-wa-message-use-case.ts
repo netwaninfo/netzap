@@ -52,7 +52,7 @@ export class LinkChatLastMessageFromWAMessageUseCase {
     const { message } = createMessageResponse.value
     chat.interact(message)
 
-    await this.chatsRepository.save(chat)
+    await this.chatsRepository.setMessage(chat)
 
     return success({ chat })
   }

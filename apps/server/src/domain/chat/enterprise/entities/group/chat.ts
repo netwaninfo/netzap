@@ -24,13 +24,14 @@ export class GroupChat extends Chat<GroupChatProps> {
   }
 
   static create(
-    props: SetOptional<GroupChatProps, 'lastMessage'>,
+    props: SetOptional<GroupChatProps, 'lastMessage' | 'lastInteractionAt'>,
     id?: UniqueEntityID
   ) {
     return new GroupChat(
       {
         ...props,
         lastMessage: props.lastMessage ?? null,
+        lastInteractionAt: props.lastInteractionAt ?? new Date(),
       },
       id
     )

@@ -1,3 +1,4 @@
+import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message'
 import {
   isPrivateMessageWithContacts,
   isPrivateMessageWithMedia,
@@ -107,47 +108,51 @@ export class PrismaPrivateMessageMapper {
     return PrismaPrivateUnknownMessageMapper.toPrismaCreate(message)
   }
 
-  static toPrismaUpdate(
+  static toPrismaSetStatus(
     message: PrivateMessage
   ): Prisma.MessageUncheckedUpdateInput {
     if (isPrivateMessageWithMedia(message)) {
       switch (message.type) {
         case 'audio':
-          return PrismaPrivateAudioMessageMapper.toPrismaUpdate(message)
+          return PrismaPrivateAudioMessageMapper.toPrismaSetStatus(message)
 
         case 'document':
-          return PrismaPrivateDocumentMessageMapper.toPrismaUpdate(message)
+          return PrismaPrivateDocumentMessageMapper.toPrismaSetStatus(message)
 
         case 'image':
-          return PrismaPrivateImageMessageMapper.toPrismaUpdate(message)
+          return PrismaPrivateImageMessageMapper.toPrismaSetStatus(message)
 
         case 'video':
-          return PrismaPrivateVideoMessageMapper.toPrismaUpdate(message)
+          return PrismaPrivateVideoMessageMapper.toPrismaSetStatus(message)
 
         case 'voice':
-          return PrismaPrivateVoiceMessageMapper.toPrismaUpdate(message)
+          return PrismaPrivateVoiceMessageMapper.toPrismaSetStatus(message)
       }
     }
 
     if (isPrivateMessageWithContacts(message)) {
       switch (message.type) {
         case 'vcard':
-          return PrismaPrivateVCardMessageMapper.toPrismaUpdate(message)
+          return PrismaPrivateVCardMessageMapper.toPrismaSetStatus(message)
 
         case 'multi_vcard':
-          return PrismaPrivateMultiVCardMessageMapper.toPrismaUpdate(message)
+          return PrismaPrivateMultiVCardMessageMapper.toPrismaSetStatus(message)
       }
     }
 
     switch (message.type) {
       case 'revoked':
-        return PrismaPrivateRevokedMessageMapper.toPrismaUpdate(message)
+        return PrismaPrivateRevokedMessageMapper.toPrismaSetStatus(message)
 
       case 'text':
-        return PrismaPrivateTextMessageMapper.toPrismaUpdate(message)
+        return PrismaPrivateTextMessageMapper.toPrismaSetStatus(message)
     }
 
-    return PrismaPrivateUnknownMessageMapper.toPrismaUpdate(message)
+    return PrismaPrivateUnknownMessageMapper.toPrismaSetStatus(message)
+  }
+
+  static toPrismaSetRevoked(message: PrivateRevokedMessage) {
+    return PrismaPrivateRevokedMessageMapper.toPrismaSetRevoked(message)
   }
 
   // Type Guards/Asserts

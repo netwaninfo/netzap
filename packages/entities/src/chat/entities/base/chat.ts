@@ -5,4 +5,5 @@ export const baseChatSchema = z.object({
   waChatId: z.string(),
   instanceId: z.string(),
   unreadCount: z.number(),
+  lastInteractionAt: z.coerce.date(),
 })

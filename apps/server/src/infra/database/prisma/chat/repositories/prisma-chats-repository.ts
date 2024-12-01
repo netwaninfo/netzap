@@ -138,11 +138,10 @@ export class PrismaChatsRepository implements ChatsRepository {
       take,
       skip: Pagination.skip({ limit: take, page }),
       include: this.getChatIncludes(instanceId),
-      orderBy: {
-        message: {
-          createdAt: 'desc',
-        },
-      },
+      orderBy: [
+        { message: { createdAt: 'desc' } },
+        { lastInteractionAt: 'desc' },
+      ],
     })
 
     return raw.map(PrismaChatMapper.toDomain)
@@ -168,10 +167,21 @@ export class PrismaChatsRepository implements ChatsRepository {
     ])
   }
 
-  async save(chat: Chat): Promise<void> {
+  async setMessage(chat: Chat): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.chat.update({
-        data: PrismaChatMapper.toPrismaUpdate(chat),
+        data: PrismaChatMapper.toPrismaSetMessage(chat),
+        where: {
+          id: chat.id.toString(),
+        },
+      }),
+    ])
+  }
+
+  async setUnreadCount(chat: Chat): Promise<void> {
+    await this.prisma.$transaction([
+      this.prisma.chat.update({
+        data: PrismaChatMapper.toPrismaSetUnreadCount(chat),
         where: {
           id: chat.id.toString(),
         },

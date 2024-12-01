@@ -30,6 +30,7 @@ export class PrismaPrivateChatMapper {
         ...(raw.message && {
           lastMessage: PrismaPrivateMessageMapper.toDomain(raw.message),
         }),
+        lastInteractionAt: raw.lastInteractionAt,
       },
       UniqueEntityID.create(raw.id)
     )
@@ -45,18 +46,25 @@ export class PrismaPrivateChatMapper {
       unreadCount: chat.unreadCount,
       lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
       hasLastMessage: chat.hasLastMessage(),
+      lastInteractionAt: chat.lastInteractionAt,
     }
   }
 
-  static toPrismaUpdate(chat: PrivateChat): Prisma.ChatUncheckedUpdateInput {
+  static toPrismaSetUnreadCount(
+    chat: PrivateChat
+  ): Prisma.ChatUncheckedUpdateInput {
     return {
-      instanceId: chat.instanceId.toString(),
-      waChatId: chat.waChatId.toString(),
-      recipientId: chat.contact.id.toString(),
-      type: 'private',
       unreadCount: chat.unreadCount,
+    }
+  }
+
+  static toPrismaSetMessage(
+    chat: PrivateChat
+  ): Prisma.ChatUncheckedUpdateInput {
+    return {
       lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
       hasLastMessage: chat.hasLastMessage(),
+      lastInteractionAt: chat.lastInteractionAt,
     }
   }
 }

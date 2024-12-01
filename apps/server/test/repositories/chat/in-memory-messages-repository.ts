@@ -7,6 +7,8 @@ import type {
   MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams,
   MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams,
 } from '@/domain/chat/application/repositories/messages-repository'
+import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message'
+import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message'
 import {
   isGroupMessage,
   isPrivateMessage,
@@ -108,7 +110,20 @@ export class InMemoryMessagesRepository implements MessagesRepository {
     this.items.push(message)
   }
 
-  async save(message: Message): Promise<void> {
+  async setStatus(message: Message): Promise<void> {
+    const itemIndex = this.items.findIndex(
+      item => item.id.toString() === message.id.toString()
+    )
+
+    const item = this.items[itemIndex]
+    if (!item) return
+
+    item.setStatus(message.status)
+  }
+
+  async setRevoked(
+    message: PrivateRevokedMessage | GroupRevokedMessage
+  ): Promise<void> {
     const itemIndex = this.items.findIndex(
       item => item.id.toString() === message.id.toString()
     )

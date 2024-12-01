@@ -42,7 +42,7 @@ export class HandleChangeWAMessageACK {
     }
 
     message.setStatus(ack)
-    await this.messagesRepository.save(message)
+    await this.messagesRepository.setStatus(message)
     this.messageEmitter.emitChange({ message })
 
     return success({ message })

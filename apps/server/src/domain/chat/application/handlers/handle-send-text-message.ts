@@ -121,14 +121,16 @@ export class HandleSendTextMessage {
     const { message } = createTextResponse.value
 
     chat.interact(message)
-    await this.chatsRepository.save(chat)
+    await this.chatsRepository.setMessage(chat)
 
     if (!hasPreviousChat) {
       this.chatEmitter.emitCreate({ chat })
-    } else {
-      this.messageEmitter.emitCreate({ message })
-      this.chatEmitter.emitChange({ chat })
+
+      return success({ message, chat })
     }
+
+    this.messageEmitter.emitCreate({ message })
+    this.chatEmitter.emitChange({ chat })
 
     return success({ message, chat })
   }

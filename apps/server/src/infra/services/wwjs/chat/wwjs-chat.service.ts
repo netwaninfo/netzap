@@ -18,6 +18,7 @@ import { WWJSService } from '../wwjs.service'
 import { WWJSPrivateContactMapper } from './mappers/private/wwjs-private-contact-mapper'
 import { WWJSChatMapper } from './mappers/wwjs-chat-mapper'
 import { WWJSMessageMapper } from './mappers/wwjs-message-mapper'
+import { ChatUtils } from './utils/chat'
 
 @Injectable()
 export class WWJSChatService extends RunSafely implements WhatsAppService {
@@ -39,6 +40,12 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
     const client = this.wwjsService.getAvailableClient(instanceId)
 
     if (!client) {
+      return failure(
+        new ServiceUnavailableError({ name: WWJSChatService.name })
+      )
+    }
+
+    if (ChatUtils.canIgnore(waChatId.node)) {
       return failure(
         new ServiceUnavailableError({ name: WWJSChatService.name })
       )
@@ -126,7 +133,9 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
 
     return this.runSafely(async () => {
       const allChats = await client.raw.getChats()
-      const chats = allChats.filter(chat => chat.id.server !== 'lid')
+      const chats = allChats.filter(
+        chat => !ChatUtils.canIgnore(chat.id.server)
+      )
 
       const chunksOfWaChats = await ChunkProcessor.fromArray({
         array: chats,

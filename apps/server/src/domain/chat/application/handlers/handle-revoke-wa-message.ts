@@ -78,7 +78,7 @@ export class HandleRevokeWAMessage {
     }
 
     const message = prevMessage.revoke()
-    await this.messagesRepository.save(message)
+    await this.messagesRepository.setRevoked(message)
     this.messageEmitter.emitRevoked({ message })
 
     return success({ message })

@@ -38,7 +38,7 @@ export class HandleChangeWAChatUnreadCount {
     }
 
     chat.setUnreadCount(waChat.unreadCount)
-    await this.chatsRepository.save(chat)
+    await this.chatsRepository.setUnreadCount(chat)
 
     this.chatEmitter.emitChange({ chat })
 

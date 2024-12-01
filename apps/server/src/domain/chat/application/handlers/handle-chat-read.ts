@@ -43,7 +43,7 @@ export class HandleChatRead {
     }
 
     chat.read()
-    await this.chatsRepository.save(chat)
+    await this.chatsRepository.setUnreadCount(chat)
     this.chatEmitter.emitChange({ chat })
 
     return success({ chat })

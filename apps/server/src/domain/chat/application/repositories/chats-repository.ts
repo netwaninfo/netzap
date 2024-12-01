@@ -52,5 +52,8 @@ export abstract class ChatsRepository {
 
   abstract create(chat: Chat): Promise<void>
 
-  abstract save(chat: Chat): Promise<void>
+  // ----
+  abstract setMessage(chat: Chat): Promise<void>
+
+  abstract setUnreadCount(chat: Chat): Promise<void>
 }

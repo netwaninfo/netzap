@@ -4,6 +4,7 @@ import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-c
 import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
 import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
 import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-groups-repository'
+import { FakeDateService } from '@/test/services/chat/fake-date-service'
 import { each } from '@/test/utilities/each'
 import { CreateContactsFromWAContactsUseCase } from '../../contacts/create-contacts-from-wa-contacts-use-case'
 import { CreateGroupFromWAContactUseCase } from '../../groups/create-group-from-wa-contact-use-case'
@@ -18,6 +19,8 @@ describe('CreateGroupChatFromWAChatUseCase', () => {
   let contactsRepository: InMemoryContactsRepository
 
   let createContactsFromWAContacts: CreateContactsFromWAContactsUseCase
+
+  let dateService: FakeDateService
 
   let sut: CreateGroupChatFromWAChatUseCase
 
@@ -35,11 +38,14 @@ describe('CreateGroupChatFromWAChatUseCase', () => {
       contactsRepository
     )
 
+    dateService = new FakeDateService()
+
     sut = new CreateGroupChatFromWAChatUseCase(
       chatsRepository,
       groupsRepository,
       createGroupFromWAContactUseCase,
-      createContactsFromWAContacts
+      createContactsFromWAContacts,
+      dateService
     )
   })
 

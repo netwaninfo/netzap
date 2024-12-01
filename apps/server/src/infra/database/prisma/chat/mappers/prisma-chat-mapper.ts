@@ -31,14 +31,23 @@ export class PrismaChatMapper {
     return PrismaGroupChatMapper.toPrismaCreate(chat)
   }
 
-  static toPrismaUpdate(chat: Chat): Prisma.ChatUncheckedUpdateInput {
+  static toPrismaSetUnreadCount(chat: Chat): Prisma.ChatUncheckedUpdateInput {
     if (isPrivateChat(chat)) {
-      return PrismaPrivateChatMapper.toPrismaUpdate(chat)
+      return PrismaPrivateChatMapper.toPrismaSetUnreadCount(chat)
     }
 
-    return PrismaGroupChatMapper.toPrismaUpdate(chat)
+    return PrismaGroupChatMapper.toPrismaSetUnreadCount(chat)
   }
 
+  static toPrismaSetMessage(chat: Chat): Prisma.ChatUncheckedUpdateInput {
+    if (isPrivateChat(chat)) {
+      return PrismaPrivateChatMapper.toPrismaSetMessage(chat)
+    }
+
+    return PrismaGroupChatMapper.toPrismaSetMessage(chat)
+  }
+
+  // Type Guards/Asserts
   private static isRawPrivateChat(raw: Raw): raw is RawPrivateChat {
     return raw.type === 'private'
   }

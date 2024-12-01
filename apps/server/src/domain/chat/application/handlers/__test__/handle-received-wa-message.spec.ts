@@ -136,11 +136,14 @@ describe('HandleReceivedWAMessage', () => {
       contactsRepository
     )
 
+    dateService = new FakeDateService()
+
     createGroupChatFromWAChatUseCase = new CreateGroupChatFromWAChatUseCase(
       chatsRepository,
       groupsRepository,
       createGroupFromWAContactUseCase,
-      createContactsFromWAContacts
+      createContactsFromWAContacts,
+      dateService
     )
 
     createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
@@ -150,7 +153,8 @@ describe('HandleReceivedWAMessage', () => {
     createPrivateChatFromWAChatUseCase = new CreatePrivateChatFromWAChatUseCase(
       chatsRepository,
       contactsRepository,
-      createContactFromWAContactUseCase
+      createContactFromWAContactUseCase,
+      dateService
     )
 
     createChatFromWAChat = new CreateChatFromWAChatUseCase(
@@ -163,8 +167,6 @@ describe('HandleReceivedWAMessage', () => {
     storageService = new FakeStorageService()
     createMessageMediaFromWAMessage =
       new CreateMessageMediaFromWAMessageUseCase(storageService)
-
-    dateService = new FakeDateService()
 
     createPrivateAudioMessageFromWAMessageUseCase =
       new CreatePrivateAudioMessageFromWAMessageUseCase(

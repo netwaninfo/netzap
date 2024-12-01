@@ -106,10 +106,11 @@ enum ChatType {
 }
 
 model Chat {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  waChatId    String @map("wa_chat_id")
-  instanceId  String @map("instance_id") @db.ObjectId
-  unreadCount Int    @map("unread_count")
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  waChatId          String   @map("wa_chat_id")
+  instanceId        String   @map("instance_id") @db.ObjectId
+  unreadCount       Int      @map("unread_count")
+  lastInteractionAt DateTime @default(now()) @map("last_interaction_at")
 
   type           ChatType
   recipientId    String   @map("recipient_id") @db.ObjectId

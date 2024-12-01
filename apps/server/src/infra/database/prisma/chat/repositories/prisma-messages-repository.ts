@@ -11,6 +11,7 @@ import {
   GroupMessage,
   Message,
   PrivateMessage,
+  RevokedMessage,
 } from '@/domain/chat/enterprise/types/message'
 import { Pagination } from '@/domain/shared/entities/pagination'
 import { Injectable } from '@nestjs/common'
@@ -177,10 +178,21 @@ export class PrismaMessagesRepository implements MessagesRepository {
     ])
   }
 
-  async save(message: Message): Promise<void> {
+  async setStatus(message: Message): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.message.update({
-        data: PrismaMessageMapper.toPrismaUpdate(message),
+        data: PrismaMessageMapper.toPrismaSetStatus(message),
+        where: {
+          id: message.id.toString(),
+        },
+      }),
+    ])
+  }
+
+  async setRevoked(message: RevokedMessage): Promise<void> {
+    await this.prisma.$transaction([
+      this.prisma.message.update({
+        data: PrismaMessageMapper.toPrismaSetRevoked(message),
         where: {
           id: message.id.toString(),
         },

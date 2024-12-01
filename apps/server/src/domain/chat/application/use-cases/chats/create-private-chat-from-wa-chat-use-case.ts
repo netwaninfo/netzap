@@ -6,6 +6,7 @@ import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-alre
 import { Injectable } from '@nestjs/common'
 import { ChatsRepository } from '../../repositories/chats-repository'
 import { ContactsRepository } from '../../repositories/contacts-repository'
+import { DateService } from '../../services/date-service'
 import { CreateContactFromWAContactUseCase } from '../contacts/create-contact-from-wa-contact-use-case'
 
 interface CreatePrivateChatFromWAChatUseCaseRequest {
@@ -24,7 +25,8 @@ export class CreatePrivateChatFromWAChatUseCase {
   constructor(
     private chatsRepository: ChatsRepository,
     private contactsRepository: ContactsRepository,
-    private createContactFromWAContact: CreateContactFromWAContactUseCase
+    private createContactFromWAContact: CreateContactFromWAContactUseCase,
+    private dateService: DateService
   ) {}
 
   async execute(
@@ -62,6 +64,7 @@ export class CreatePrivateChatFromWAChatUseCase {
       instanceId: waChat.instanceId,
       unreadCount: waChat.unreadCount,
       waChatId: waChat.id,
+      lastInteractionAt: this.dateService.fromUnix(waChat.timestamp).toDate(),
     })
 
     await this.chatsRepository.create(chat)

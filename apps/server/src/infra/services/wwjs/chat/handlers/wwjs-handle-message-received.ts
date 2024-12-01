@@ -2,23 +2,13 @@ import { HandleReceivedWAMessage } from '@/domain/chat/application/handlers/hand
 import { Handler } from '../../decorators/handler.decorator'
 import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
 import { WWJSMessage } from '../../types/wwjs-entities'
-import { WWJSEvents, WWJSMessageTypes } from '../../types/wwjs-enums'
+import { WWJSEvents } from '../../types/wwjs-enums'
 import { WWJSHandler, type WWJSListener } from '../../types/wwjs-handler'
 import { WWJSClient } from '../../wwjs-client'
 import { WWJSChatMapper } from '../mappers/wwjs-chat-mapper'
 import { WWJSMessageMapper } from '../mappers/wwjs-message-mapper'
-
-const MESSAGES_TYPES_TO_IGNORE = [
-  WWJSMessageTypes.E2E_NOTIFICATION,
-  WWJSMessageTypes.GROUP_NOTIFICATION,
-  WWJSMessageTypes.GROUP_INVITE,
-  WWJSMessageTypes.BROADCAST_NOTIFICATION,
-  WWJSMessageTypes.CALL_LOG,
-  WWJSMessageTypes.CIPHERTEXT,
-  WWJSMessageTypes.NOTIFICATION,
-  WWJSMessageTypes.NOTIFICATION_TEMPLATE,
-  WWJSMessageTypes.GP2,
-]
+import { ChatUtils } from '../utils/chat'
+import { MessageUtils } from '../utils/message'
 
 @Handler()
 export class WWJSHandleMessageReceived implements WWJSHandler {
@@ -28,16 +18,13 @@ export class WWJSHandleMessageReceived implements WWJSHandler {
     private messageMapper: WWJSMessageMapper
   ) {}
 
-  private ignoreMessage(message: WWJSMessage) {
-    return MESSAGES_TYPES_TO_IGNORE.includes(message.type)
-  }
-
   @SubscribeEvent(WWJSEvents.MESSAGE_RECEIVED)
   register(client: WWJSClient): WWJSListener {
     return async (message: WWJSMessage) => {
-      if (this.ignoreMessage(message)) return
+      if (MessageUtils.canIgnore(message.type)) return
 
       const chat = await message.getChat()
+      if (ChatUtils.canIgnore(chat.id.server)) return
 
       const [waChat, waMessage] = await Promise.all([
         this.chatMapper.toDomain({

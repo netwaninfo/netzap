@@ -33,7 +33,7 @@ export class WWJSService implements OnModuleInit, OnApplicationShutdown {
       clients.map(client => [client.instanceId.toString(), client] as const)
     )
 
-    Promise.all(clients.map(client => client.init()))
+    // Promise.all(clients.map(client => client.init()))
   }
 
   async onApplicationShutdown() {

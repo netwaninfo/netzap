@@ -6,28 +6,28 @@ import {
   useId,
 } from 'react'
 
-interface EachRenderProps<T> {
-  id: string
+interface RenderFunctionProps<T> {
   item: T
   index: number
 }
 
-type RenderFunction<T> = (props: EachRenderProps<T>) => ReactNode
+type RenderFunction<T> = (props: RenderFunctionProps<T>) => ReactNode
 
 interface EachProps<T> {
   items: T[]
   render: RenderFunction<T>
 }
 
-const Each = <T,>({ items, render }: EachProps<T>) => {
+function Each<T>({ items, render }: EachProps<T>) {
+  const refId = useId()
+
   return Children.toArray(
-    items
-      .map((item, index) => ({ item, index, id: useId() }))
-      .map(({ id, ...props }) =>
-        cloneElement(render({ ...props, id }) as ReactElement, { key: id })
-      )
+    items.map((item, index) =>
+      cloneElement(render({ index, item }) as ReactElement, {
+        key: String(`${refId}-${index}`),
+      })
+    )
   )
 }
-Each.displayName = 'Each'
 
-export { Each }
+export { Each, type EachProps }

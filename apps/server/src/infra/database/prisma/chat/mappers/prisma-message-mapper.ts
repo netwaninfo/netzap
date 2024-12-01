@@ -1,5 +1,5 @@
 import { isPrivateMessage } from '@/domain/chat/enterprise/type-guards/message'
-import { Message } from '@/domain/chat/enterprise/types/message'
+import { Message, RevokedMessage } from '@/domain/chat/enterprise/types/message'
 import { Prisma } from '@prisma/client'
 import {
   PrismaGroupMessageMapper,
@@ -29,14 +29,27 @@ export class PrismaMessageMapper {
     return PrismaGroupMessageMapper.toPrismaCreate(message)
   }
 
-  static toPrismaUpdate(message: Message): Prisma.MessageUncheckedUpdateInput {
+  static toPrismaSetStatus(
+    message: Message
+  ): Prisma.MessageUncheckedUpdateInput {
     if (isPrivateMessage(message)) {
-      return PrismaPrivateMessageMapper.toPrismaUpdate(message)
+      return PrismaPrivateMessageMapper.toPrismaSetStatus(message)
     }
 
-    return PrismaGroupMessageMapper.toPrismaUpdate(message)
+    return PrismaGroupMessageMapper.toPrismaSetStatus(message)
   }
 
+  static toPrismaSetRevoked(
+    message: RevokedMessage
+  ): Prisma.MessageUncheckedUpdateInput {
+    if (isPrivateMessage(message)) {
+      return PrismaPrivateMessageMapper.toPrismaSetRevoked(message)
+    }
+
+    return PrismaGroupMessageMapper.toPrismaSetRevoked(message)
+  }
+
+  // Type Guards/Asserts
   private static isRawPrivateMessage(raw: Raw): raw is RawPrivateMessage {
     return raw.chatType === 'private'
   }

@@ -5,7 +5,7 @@ import { basePrivateMessageSchema } from './message'
 
 const schema = basePrivateMessageSchema.extend({
   type: z.literal(messageTypeSchema.Values.revoked),
-  revokedAt: z.date(),
+  revokedAt: z.coerce.date(),
   revokedBy: z.string().nullable(),
 })
 

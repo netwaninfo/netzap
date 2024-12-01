@@ -45,15 +45,19 @@ export class PrismaGroupChatMapper {
     }
   }
 
-  static toPrismaUpdate(chat: GroupChat): Prisma.ChatUncheckedUpdateInput {
+  static toPrismaSetUnreadCount(
+    chat: GroupChat
+  ): Prisma.ChatUncheckedUpdateInput {
     return {
-      instanceId: chat.instanceId.toString(),
-      waChatId: chat.waChatId.toString(),
-      recipientId: chat.group.id.toString(),
-      type: 'group',
       unreadCount: chat.unreadCount,
+    }
+  }
+
+  static toPrismaSetMessage(chat: GroupChat): Prisma.ChatUncheckedUpdateInput {
+    return {
       lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
       hasLastMessage: chat.hasLastMessage(),
+      lastInteractionAt: chat.lastInteractionAt,
     }
   }
 }

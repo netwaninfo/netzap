@@ -49,21 +49,18 @@ export class PrismaPrivateRevokedMessageMapper {
     }
   }
 
-  static toPrismaUpdate(
+  static toPrismaSetStatus(
     message: PrivateRevokedMessage
   ): Prisma.MessageUncheckedUpdateInput {
     return {
-      chatType: 'private',
-      chatId: message.chatId.toString(),
-      waChatId: message.waChatId.toString(),
-      waMessageId: message.waMessageId.toString(),
-      instanceId: message.instanceId.toString(),
-      senderId: message.sentBy?.toString(),
-      type: message.type,
       status: message.status,
-      isForwarded: message.isForwarded,
-      isFromMe: message.isFromMe,
-      createdAt: message.createdAt,
+    }
+  }
+
+  static toPrismaSetRevoked(
+    message: PrivateRevokedMessage
+  ): Prisma.MessageUncheckedUpdateInput {
+    return {
       revokerId: message.revokedBy?.toString(),
       revokedAt: message.revokedAt,
       quotedId: {

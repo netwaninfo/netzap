@@ -8,6 +8,7 @@ export interface ChatProps {
   instanceId: UniqueEntityID
   unreadCount: number
   lastMessage: Message | null
+  lastInteractionAt: Date
 }
 
 export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
@@ -23,6 +24,10 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
     return this.props.unreadCount
   }
 
+  get lastInteractionAt() {
+    return this.props.lastInteractionAt
+  }
+
   read() {
     this.set({ unreadCount: 0 })
   }
@@ -36,10 +41,13 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
   }
 
   interact(message: Message): void {
-    this.set({ lastMessage: message, unreadCount: this.unreadCount + 1 })
+    this.set({
+      lastMessage: message,
+      lastInteractionAt: message.createdAt,
+    })
   }
 
-  protected override set<T extends Partial<ChatProps>>(newProps: T) {
+  override set<T extends Partial<ChatProps>>(newProps: T) {
     this.props = Object.assign({}, this.props, newProps)
   }
 }

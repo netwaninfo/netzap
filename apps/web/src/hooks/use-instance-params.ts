@@ -1,10 +1,12 @@
 import { z } from 'zod'
 import { useParsedParams } from './use-parsed-params'
 
-const paramsSchema = z.object({ instanceId: z.string() })
+const instanceParamsSchema = z.object({ instanceId: z.string() })
 
-export function useInstanceParams() {
-  const params = useParsedParams(paramsSchema)
+function useInstanceParams() {
+  const params = useParsedParams(instanceParamsSchema)
 
   return params
 }
+
+export { useInstanceParams, instanceParamsSchema }

@@ -1,3 +1,4 @@
+import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message'
 import {
   isGroupMessageWithContacts,
   isGroupMessageWithMedia,
@@ -111,47 +112,51 @@ export class PrismaGroupMessageMapper {
     return PrismaGroupUnknownMessageMapper.toPrismaCreate(message)
   }
 
-  static toPrismaUpdate(
+  static toPrismaSetStatus(
     message: GroupMessage
   ): Prisma.MessageUncheckedUpdateInput {
     if (isGroupMessageWithMedia(message)) {
       switch (message.type) {
         case 'audio':
-          return PrismaGroupAudioMessageMapper.toPrismaUpdate(message)
+          return PrismaGroupAudioMessageMapper.toPrismaSetStatus(message)
 
         case 'document':
-          return PrismaGroupDocumentMessageMapper.toPrismaUpdate(message)
+          return PrismaGroupDocumentMessageMapper.toPrismaSetStatus(message)
 
         case 'image':
-          return PrismaGroupImageMessageMapper.toPrismaUpdate(message)
+          return PrismaGroupImageMessageMapper.toPrismaSetStatus(message)
 
         case 'video':
-          return PrismaGroupVideoMessageMapper.toPrismaUpdate(message)
+          return PrismaGroupVideoMessageMapper.toPrismaSetStatus(message)
 
         case 'voice':
-          return PrismaGroupVoiceMessageMapper.toPrismaUpdate(message)
+          return PrismaGroupVoiceMessageMapper.toPrismaSetStatus(message)
       }
     }
 
     if (isGroupMessageWithContacts(message)) {
       switch (message.type) {
         case 'vcard':
-          return PrismaGroupVCardMessageMapper.toPrismaUpdate(message)
+          return PrismaGroupVCardMessageMapper.toPrismaSetStatus(message)
 
         case 'multi_vcard':
-          return PrismaGroupMultiVCardMessageMapper.toPrismaUpdate(message)
+          return PrismaGroupMultiVCardMessageMapper.toPrismaSetStatus(message)
       }
     }
 
     switch (message.type) {
       case 'revoked':
-        return PrismaGroupRevokedMessageMapper.toPrismaUpdate(message)
+        return PrismaGroupRevokedMessageMapper.toPrismaSetStatus(message)
 
       case 'text':
-        return PrismaGroupTextMessageMapper.toPrismaUpdate(message)
+        return PrismaGroupTextMessageMapper.toPrismaSetStatus(message)
     }
 
-    return PrismaGroupUnknownMessageMapper.toPrismaUpdate(message)
+    return PrismaGroupUnknownMessageMapper.toPrismaSetStatus(message)
+  }
+
+  static toPrismaSetRevoked(message: GroupRevokedMessage) {
+    return PrismaGroupRevokedMessageMapper.toPrismaSetRevoked(message)
   }
 
   // Type Guards/Asserts

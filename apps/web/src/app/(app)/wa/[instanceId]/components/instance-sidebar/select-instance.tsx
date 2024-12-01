@@ -1,4 +1,5 @@
 'use client'
+
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -7,7 +8,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
@@ -16,20 +16,13 @@ import { Each } from '@/components/utilities/each'
 import { useFetchInstances } from '@/hooks/queries/use-fetch-instances'
 import { useInstanceParams } from '@/hooks/use-instance-params'
 import { getInitials } from '@/utils/get-initials'
-import { useRouter } from 'next/navigation'
+import { InstanceItem } from './instance-item'
 
 export function SelectInstance() {
   const { instanceId } = useInstanceParams()
   const [{ data: instances }] = useFetchInstances({ query: { page: 1 } })
-  const router = useRouter()
 
   const currentInstance = instances.find(instance => instance.id === instanceId)
-
-  function handleChangeInstance(instanceId: string) {
-    if (instanceId === currentInstance?.id) return
-
-    return router.push(`/wa/${instanceId}/chats`)
-  }
 
   function handlePreventFocusOnTrigger(event: Event) {
     event.preventDefault()
@@ -61,14 +54,7 @@ export function SelectInstance() {
 
             <Each
               items={instances}
-              render={({ item }) => (
-                <DropdownMenuItem
-                  onClick={() => handleChangeInstance(item.id)}
-                  className="p-2 cursor-pointer"
-                >
-                  {item.name}
-                </DropdownMenuItem>
-              )}
+              render={({ item }) => <InstanceItem item={item} />}
             />
           </DropdownMenuContent>
         </DropdownMenu>

@@ -16,18 +16,6 @@ export class ChatsAPI extends AbstractEndpoint {
     params,
     query,
   }: FetchRequest): Promise<FetchChatsResponseBody> {
-    fetchChatsResponseBodySchema.parse({
-      data: [{}],
-      pagination: {
-        current: 0,
-        pages: 0,
-        next: 0,
-        prev: 0,
-      },
-    })
-
-    return null
-
     const { instanceId } = params
 
     const response = await this.client

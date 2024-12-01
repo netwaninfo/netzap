@@ -24,13 +24,14 @@ export class PrivateChat extends Chat<PrivateChatProps> {
   }
 
   static create(
-    props: SetOptional<PrivateChatProps, 'lastMessage'>,
+    props: SetOptional<PrivateChatProps, 'lastMessage' | 'lastInteractionAt'>,
     id?: UniqueEntityID
   ) {
     return new PrivateChat(
       {
         ...props,
         lastMessage: props.lastMessage ?? null,
+        lastInteractionAt: props.lastInteractionAt ?? new Date(),
       },
       id
     )

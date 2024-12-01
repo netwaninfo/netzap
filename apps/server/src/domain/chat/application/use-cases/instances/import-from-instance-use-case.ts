@@ -29,6 +29,7 @@ export class ImportFromInstanceUseCase {
       .execute({ instanceId })
       .then(() => this.importChats.execute({ instanceId }))
       .then(() => this.importMessages.execute({ instanceId }))
+      .then(() => console.log('FINISHED'))
 
     return success({})
   }

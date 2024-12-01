@@ -55,24 +55,11 @@ export class PrismaGroupTextMessageMapper {
     }
   }
 
-  static toPrismaUpdate(
+  static toPrismaSetStatus(
     message: GroupTextMessage
   ): Prisma.MessageUncheckedUpdateInput {
     return {
-      chatType: 'group',
-      authorId: message.author.id.toString(),
-      chatId: message.chatId.toString(),
-      waChatId: message.waChatId.toString(),
-      waMessageId: message.waMessageId.toString(),
-      instanceId: message.instanceId.toString(),
-      quotedId: message.quoted?.id.toString(),
-      senderId: message.sentBy?.toString(),
-      type: message.type,
       status: message.status,
-      isForwarded: message.isForwarded,
-      isFromMe: message.isFromMe,
-      createdAt: message.createdAt,
-      body: message.body,
     }
   }
 }

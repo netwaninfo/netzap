@@ -63,3 +63,5 @@ export type Message = PrivateMessage | GroupMessage
 export type MessageWithMedia = PrivateMessageWithMedia | GroupMessageWithMedia
 
 export type MessageCanRevoke = PrivateMessageCanRevoke | GroupMessageCanRevoke
+
+export type RevokedMessage = PrivateRevokedMessage | GroupRevokedMessage

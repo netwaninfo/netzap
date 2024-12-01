@@ -56,26 +56,11 @@ export class PrismaPrivateVideoMessageMapper {
     }
   }
 
-  static toPrismaUpdate(
+  static toPrismaSetStatus(
     message: PrivateVideoMessage
   ): Prisma.MessageUncheckedUpdateInput {
     return {
-      chatType: 'private',
-      chatId: message.chatId.toString(),
-      waChatId: message.waChatId.toString(),
-      waMessageId: message.waMessageId.toString(),
-      instanceId: message.instanceId.toString(),
-      quotedId: message.quoted?.id.toString(),
-      senderId: message.sentBy?.toString(),
-      type: message.type,
       status: message.status,
-      isForwarded: message.isForwarded,
-      isFromMe: message.isFromMe,
-      createdAt: message.createdAt,
-      body: message.body,
-      media: message.hasMedia()
-        ? PrismaMessageMediaMapper.toPrismaCreate(message.media)
-        : null,
     }
   }
 }

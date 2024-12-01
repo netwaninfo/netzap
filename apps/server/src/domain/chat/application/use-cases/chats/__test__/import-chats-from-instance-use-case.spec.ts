@@ -354,7 +354,8 @@ describe('ImportChatsFromInstanceUseCase', () => {
       chatsRepository,
       groupsRepository,
       createGroupFromWAContactUseCase,
-      createContactsFromWAContacts
+      createContactsFromWAContacts,
+      dateService
     )
 
     createContactFromWAContactUseCase = new CreateContactFromWAContactUseCase(
@@ -364,7 +365,8 @@ describe('ImportChatsFromInstanceUseCase', () => {
     createPrivateChatFromWAChatUseCase = new CreatePrivateChatFromWAChatUseCase(
       chatsRepository,
       contactsRepository,
-      createContactFromWAContactUseCase
+      createContactFromWAContactUseCase,
+      dateService
     )
 
     createChatFromWAChat = new CreateChatFromWAChatUseCase(

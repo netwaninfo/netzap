@@ -15,6 +15,7 @@ export class GroupChatPresenter {
       lastMessage: chat.hasLastMessage()
         ? GroupMessagePresenter.toOutput(chat.lastMessage)
         : null,
+      lastInteractionAt: chat.lastInteractionAt,
     }
   }
 }

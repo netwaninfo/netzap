@@ -11,6 +11,6 @@ export const baseMessageSchema = z.object({
   status: messageStatusSchema,
   isForwarded: z.boolean(),
   isFromMe: z.boolean(),
-  createdAt: z.date(),
+  createdAt: z.coerce.date(),
   sentBy: z.string().nullable(),
 })
