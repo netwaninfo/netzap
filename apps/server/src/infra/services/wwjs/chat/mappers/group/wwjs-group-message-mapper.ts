@@ -3,6 +3,7 @@ import { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/messa
 import { Injectable } from '@nestjs/common'
 import { WWJSContact, WWJSMessage } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
+import { ContactUtils } from '../../utils/contact'
 import { MessageUtils } from '../../utils/message'
 import { VCardUtils } from '../../utils/v-card'
 import { WWJSPrivateContactMapper } from '../private/wwjs-private-contact-mapper'
@@ -40,11 +41,13 @@ export class WWJSGroupMessageMapper {
     const [rawAuthor, contacts, media, rawQuoted] = await Promise.all([
       message.getContact(),
       MessageUtils.hasContacts(message) &&
-        Promise.all(
-          message.vCards
-            .map(VCardUtils.getWAId)
-            .map(contactId => client.raw.getContactById(contactId))
-        ),
+        (
+          await Promise.all(
+            message.vCards
+              .map(VCardUtils.getWAId)
+              .map(contactId => client.raw.getContactById(contactId))
+          )
+        ).filter(contact => ContactUtils.isValid(contact)),
       message.hasMedia && MessageUtils.getMediaOrNull(message),
       message.hasQuotedMsg ? message.getQuotedMessage() : null,
     ])

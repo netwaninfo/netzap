@@ -1,6 +1,7 @@
 import { fetcher } from './fetcher'
 
 import { ChatsAPI } from './endpoints/chats'
+import { ContactsAPI } from './endpoints/contacts'
 import { InstancesAPI } from './endpoints/instances'
 import { UsersAPI } from './endpoints/users'
 
@@ -9,5 +10,6 @@ export function createAPIClient() {
     users: new UsersAPI(fetcher),
     instances: new InstancesAPI(fetcher),
     chats: new ChatsAPI(fetcher),
+    contacts: new ContactsAPI(fetcher),
   }
 }

@@ -2,7 +2,7 @@
 
 import { GroupChat } from '@netzap/entities/chat'
 
-import { User } from 'lucide-react'
+import { Users } from 'lucide-react'
 
 import { useInstanceParams } from '@/hooks/use-instance-params'
 import { formatRelativeDate } from '@/utils/format-relative-date'
@@ -42,9 +42,12 @@ export function GroupChatItem({ chat }: GroupChatItemProps) {
   return (
     <Chat onClick={handleSelect}>
       <ChatAvatar>
-        <ChatAvatarImage src={chat.group.imageUrl ?? ''} alt="" />
+        {chat.group.imageUrl && (
+          <ChatAvatarImage src={chat.group.imageUrl} alt="" />
+        )}
+
         <ChatAvatarFallback>
-          <User className="size-5 text-muted-foreground" />
+          <Users className="size-5 text-muted-foreground" />
         </ChatAvatarFallback>
       </ChatAvatar>
 

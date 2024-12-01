@@ -10,13 +10,13 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 
 const Chat = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLElement>
+  HTMLButtonElement,
+  React.HTMLAttributes<HTMLButtonElement>
 >(({ className, ...props }, ref) => (
-  <div
+  <button
     ref={ref}
     className={cn(
-      'rounded-lg py-2 px-4 flex items-center hover:bg-border/60 space-x-4 cursor-pointer transition-colors',
+      'w-full flex py-2 px-4 hover:bg-border/40 items-center space-x-4 rounded-lg ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed select-none',
       className
     )}
     {...props}

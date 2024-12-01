@@ -90,3 +90,13 @@
     @apply bg-background text-foreground font-sans;
   }
 }
+
+@layer utilities {
+  .inset-y-center {
+    @apply -translate-y-1/2 top-1/2;
+  }
+
+  .inset-x-center {
+    @apply -translate-x-1/2 left-1/2;
+  }
+}

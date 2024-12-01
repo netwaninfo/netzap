@@ -42,7 +42,10 @@ export function PrivateChatItem({ chat }: PrivateChatItemProps) {
   return (
     <Chat onClick={handleSelect}>
       <ChatAvatar>
-        <ChatAvatarImage src={chat.contact.imageUrl ?? ''} alt="" />
+        {chat.contact.imageUrl && (
+          <ChatAvatarImage src={chat.contact.imageUrl} alt="" />
+        )}
+
         <ChatAvatarFallback>
           <User className="size-5 text-muted-foreground" />
         </ChatAvatarFallback>

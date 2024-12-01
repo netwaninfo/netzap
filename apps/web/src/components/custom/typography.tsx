@@ -66,7 +66,7 @@ type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement>
 
 const Paragraph = React.forwardRef<ParagraphRef, ParagraphProps>(
   ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn('leading-7', className)} {...props} />
+    <p ref={ref} className={cn('leading-relaxed', className)} {...props} />
   )
 )
 Paragraph.displayName = 'Paragraph'

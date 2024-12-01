@@ -71,19 +71,27 @@ export class PrismaContactsRepository implements ContactsRepository {
     const raw = await this.prisma.contactInstance.findMany({
       where: {
         instanceId: instanceId.toString(),
+        isMyContact: true,
         contact: {
-          OR: [
-            {
-              name: {
-                contains: query,
+          waContactId: {
+            endsWith: '@c.us',
+          },
+          ...(query && {
+            OR: [
+              {
+                name: {
+                  contains: query,
+                  mode: 'insensitive',
+                },
               },
-            },
-            {
-              phone: {
-                contains: query,
+              {
+                phone: {
+                  contains: query,
+                  mode: 'insensitive',
+                },
               },
-            },
-          ],
+            ],
+          }),
         },
       },
       include: {
@@ -91,6 +99,10 @@ export class PrismaContactsRepository implements ContactsRepository {
       },
       take,
       skip: Pagination.skip({ limit: take, page }),
+      orderBy: [
+        { contact: { name: 'asc' } },
+        { contact: { formattedPhone: 'asc' } },
+      ],
     })
 
     return raw.map(PrismaContactInstanceMapper.toDomain)

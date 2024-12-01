@@ -23,11 +23,7 @@ const SidebarHeader = React.forwardRef<
   HTMLElement,
   React.HTMLAttributes<HTMLElement>
 >(({ className, ...props }, ref) => (
-  <header
-    ref={ref}
-    className={cn('flex flex-cols space-y-2 p-2', className)}
-    {...props}
-  />
+  <header ref={ref} className={cn('flex p-2', className)} {...props} />
 ))
 SidebarHeader.displayName = 'SidebarHeader'
 

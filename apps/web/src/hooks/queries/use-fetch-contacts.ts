@@ -1,22 +1,22 @@
 import { netzapAPI } from '@/services/container'
 import {
-  FetchChatsRequestParams,
-  FetchChatsRequestQuery,
+  FetchContactsRequestParams,
+  FetchContactsRequestQuery,
 } from '@netzap/http/chat'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 
-interface UseFetchChatsParams {
-  params: FetchChatsRequestParams
-  query: FetchChatsRequestQuery
+interface UseFetchContactsParams {
+  params: FetchContactsRequestParams
+  query: FetchContactsRequestQuery
 }
 
-export function useFetchChats({
+export function useFetchContacts({
   params,
   query = { page: 1 },
-}: UseFetchChatsParams) {
+}: UseFetchContactsParams) {
   const { data, ...rest } = useSuspenseInfiniteQuery({
-    queryKey: ['chats', params, query],
-    queryFn: () => netzapAPI.chats.fetch({ params, query }),
+    queryKey: ['contacts', params, query],
+    queryFn: () => netzapAPI.contacts.fetch({ params, query }),
     initialPageParam: query.page,
     getNextPageParam: page => page.pagination.next,
     getPreviousPageParam: page => page.pagination.prev,

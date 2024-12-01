@@ -3,6 +3,7 @@
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { instanceParamsSchema } from '@/hooks/use-instance-params'
 import { useParamsState } from '@/hooks/use-params-state'
+import { cn } from '@/lib/utils'
 import { Instance } from '@netzap/entities/chat'
 
 interface InstanceItemProps {
@@ -14,14 +15,19 @@ export function InstanceItem({ item }: InstanceItemProps) {
     schema: instanceParamsSchema,
   })
 
+  const isCurrentInstanceId = item.id === currentInstanceId
+
   function handleSelect() {
-    if (item.id === currentInstanceId) return
+    if (isCurrentInstanceId) return
 
     setParams({ instanceId: item.id })
   }
 
   return (
-    <DropdownMenuItem onClick={handleSelect} className="p-2 cursor-pointer">
+    <DropdownMenuItem
+      onClick={handleSelect}
+      className={cn('p-2 cursor-pointer', isCurrentInstanceId && 'bg-accent')}
+    >
       {item.name}
     </DropdownMenuItem>
   )

@@ -4,6 +4,7 @@ import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-
 import { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
 import { WWJSMessage } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
+import { ContactUtils } from '../../utils/contact'
 import { MessageUtils } from '../../utils/message'
 import { VCardUtils } from '../../utils/v-card'
 import { WWJSMessageACKMapper } from '../wwjs-message-ack-mapper'
@@ -28,11 +29,13 @@ export class WWJSPrivateMessageMapper {
 
     const [contacts, media, rawQuoted] = await Promise.all([
       MessageUtils.hasContacts(message) &&
-        Promise.all(
-          message.vCards
-            .map(VCardUtils.getWAId)
-            .map(contactId => client.raw.getContactById(contactId))
-        ),
+        (
+          await Promise.all(
+            message.vCards
+              .map(VCardUtils.getWAId)
+              .map(contactId => client.raw.getContactById(contactId))
+          )
+        ).filter(contact => ContactUtils.isValid(contact)),
       message.hasMedia && MessageUtils.getMediaOrNull(message),
       message.hasQuotedMsg ? message.getQuotedMessage() : null,
     ])

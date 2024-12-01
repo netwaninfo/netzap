@@ -26,9 +26,9 @@ export class FetchContactsUseCase {
   async execute(
     request: FetchContactsUseCaseRequest
   ): Promise<FetchContactsUseCaseResponse> {
-    const { instanceId, page } = request
+    const { instanceId, page, query } = request
 
-    const limit = Pagination.limit(100)
+    const limit = Pagination.limit(request.limit ?? 100)
 
     const [rows, contacts] = await Promise.all([
       this.contactsRepository.countByInstanceId({
@@ -38,6 +38,7 @@ export class FetchContactsUseCase {
         instanceId,
         page,
         take: limit,
+        query,
       }),
     ])
 

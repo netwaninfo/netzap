@@ -19,6 +19,7 @@ import { WWJSPrivateContactMapper } from './mappers/private/wwjs-private-contact
 import { WWJSChatMapper } from './mappers/wwjs-chat-mapper'
 import { WWJSMessageMapper } from './mappers/wwjs-message-mapper'
 import { ChatUtils } from './utils/chat'
+import { ContactUtils } from './utils/contact'
 
 @Injectable()
 export class WWJSChatService extends RunSafely implements WhatsAppService {
@@ -90,11 +91,8 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
     return this.runSafely(async () => {
       const allContacts = await client.raw.getContacts()
 
-      const contacts = allContacts.filter(
-        contact =>
-          contact.id.server === 'c.us' &&
-          contact.isWAContact &&
-          contact.isMyContact
+      const contacts = allContacts.filter(contact =>
+        ContactUtils.isMyContact(contact)
       )
 
       const chunksOfContacts = await ChunkProcessor.fromArray({

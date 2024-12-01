@@ -7,7 +7,6 @@ import {
   MessageContent,
   MessageIcon,
 } from '../../ui/message'
-import { MessageStatus } from '../message-status'
 
 interface PrivateChatLastRevokedMessageProps {
   message: PrivateRevokedMessage
@@ -18,8 +17,6 @@ export function PrivateChatLastRevokedMessage({
 }: PrivateChatLastRevokedMessageProps) {
   return (
     <Message>
-      {message.isFromMe && <MessageStatus status={message.status} />}
-
       <MessageContent>
         <MessageIcon>
           <Ban className="size-4" />

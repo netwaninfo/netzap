@@ -10,7 +10,6 @@ import {
   MessageContentGroup,
   MessageIcon,
 } from '../../ui/message'
-import { MessageStatus } from '../message-status'
 
 interface GroupChatLastRevokedMessageProps {
   message: GroupRevokedMessage
@@ -23,8 +22,6 @@ export function GroupChatLastRevokedMessage({
 
   return (
     <Message>
-      {message.isFromMe && <MessageStatus status={message.status} />}
-
       <MessageContent>
         <MessageAuthor>{author}</MessageAuthor>
 

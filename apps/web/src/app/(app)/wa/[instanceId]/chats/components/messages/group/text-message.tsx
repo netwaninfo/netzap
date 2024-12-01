@@ -20,7 +20,7 @@ export function GroupChatLastTextMessage({
 
   return (
     <Message>
-      <MessageStatus status={message.status} />
+      {message.isFromMe && <MessageStatus status={message.status} />}
 
       <MessageContent>
         <MessageAuthor>{author}</MessageAuthor>
