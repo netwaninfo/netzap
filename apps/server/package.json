@@ -18,7 +18,9 @@
 		"test:e2e:ui": "vitest --ui --config ./vitest.config.e2e.mts",
 		"check:types": "tsc --noEmit",
 		"lint": "biome check --error-on-warnings",
-		"lint:fix": "biome check --write --error-on-warnings"
+		"lint:fix": "biome check --write --error-on-warnings",
+		"clear:tmp": "rm -rf ./tmp/!(.gitkeep)",
+		"clear:wwjs": "rm -rf .wwebjs_auth .wwebjs_cache"
 	},
 	"prisma": {
 		"seed": "tsx prisma/seed.ts"

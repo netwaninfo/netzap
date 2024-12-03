@@ -4,7 +4,11 @@ export function getMessageAuthorName(author: Contact) {
   if (author.isMe) return 'Você:'
 
   const isLargeName = author.name.length > 6
-  const label = isLargeName ? (author.name.split(' ')[0] ?? '') : author.name
+  const authorName = isLargeName
+    ? (author.name.split(' ')[0] ?? '')
+    : author.name
 
-  return label.concat(':')
+  const label = authorName.concat(':')
+
+  return author.isMyContact ? label : '~'.concat(label)
 }

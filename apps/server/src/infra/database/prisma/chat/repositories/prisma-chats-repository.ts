@@ -134,6 +134,7 @@ export class PrismaChatsRepository implements ChatsRepository {
     const raw = await this.prisma.chat.findMany({
       where: {
         instanceId: instanceId.toString(),
+        OR: [{ hasLastMessage: true }, { lastInteractionAt: { not: null } }],
       },
       take,
       skip: Pagination.skip({ limit: take, page }),
@@ -153,6 +154,7 @@ export class PrismaChatsRepository implements ChatsRepository {
     const rows = await this.prisma.chat.count({
       where: {
         instanceId: instanceId.toString(),
+        OR: [{ hasLastMessage: true }, { lastInteractionAt: { not: null } }],
       },
     })
 

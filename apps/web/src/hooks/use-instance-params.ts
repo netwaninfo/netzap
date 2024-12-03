@@ -1,5 +1,5 @@
+import { useParsedParams } from '@/hooks/use-parsed-params'
 import { z } from 'zod'
-import { useParsedParams } from './use-parsed-params'
 
 const instanceParamsSchema = z.object({ instanceId: z.string() })
 

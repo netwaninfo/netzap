@@ -1,5 +1,6 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { SetNonNullable } from 'type-fest'
 import type { Message } from '../types/message'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 
@@ -8,7 +9,7 @@ export interface ChatProps {
   instanceId: UniqueEntityID
   unreadCount: number
   lastMessage: Message | null
-  lastInteractionAt: Date
+  lastInteractionAt: Date | null
 }
 
 export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
@@ -26,6 +27,13 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
 
   get lastInteractionAt() {
     return this.props.lastInteractionAt
+  }
+
+  hasLastInteractionAt(): this is SetNonNullable<
+    ChatProps,
+    'lastInteractionAt'
+  > {
+    return !!this.lastInteractionAt
   }
 
   read() {

@@ -6,7 +6,7 @@ interface UseFetchInstancesParams {
   query: FetchInstancesRequestQuery
 }
 
-export function useFetchInstances({ query }: UseFetchInstancesParams) {
+function useFetchInstances({ query }: UseFetchInstancesParams) {
   const { data, ...rest } = useSuspenseQuery({
     queryKey: ['instances', query],
     queryFn: () => netzapAPI.instances.fetch({ query }),
@@ -20,3 +20,5 @@ export function useFetchInstances({ query }: UseFetchInstancesParams) {
 
   return [data, rest] as const
 }
+
+export { useFetchInstances }

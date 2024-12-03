@@ -20,6 +20,7 @@ import { WWJSChatMapper } from './mappers/wwjs-chat-mapper'
 import { WWJSMessageMapper } from './mappers/wwjs-message-mapper'
 import { ChatUtils } from './utils/chat'
 import { ContactUtils } from './utils/contact'
+import { MessageUtils } from './utils/message'
 
 @Injectable()
 export class WWJSChatService extends RunSafely implements WhatsAppService {
@@ -175,11 +176,15 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
 
         for (const chat of chunk) {
           const messages = await chat.fetchMessages({
-            limit: 50,
+            limit: 70,
           })
 
+          const currentMessages = messages.filter(
+            message => !MessageUtils.canIgnore(message.type)
+          )
+
           const currentChunksOfMessages = await ChunkProcessor.fromArray({
-            array: messages,
+            array: currentMessages,
           }).processChunk(async chunk => {
             const currentWAMessages: WAMessage[] = []
 

@@ -3,10 +3,7 @@
 import { GroupChat } from '@netzap/entities/chat'
 
 import { Users } from 'lucide-react'
-
-import { useInstanceParams } from '@/hooks/use-instance-params'
-import { formatRelativeDate } from '@/utils/format-relative-date'
-import { useRouter } from 'next/navigation'
+import { useChatItem } from '../../hooks/use-chat-item'
 import { GroupChatLastMessage } from '../messages/group/message'
 import {
   Chat,
@@ -25,19 +22,8 @@ interface GroupChatItemProps {
 }
 
 export function GroupChatItem({ chat }: GroupChatItemProps) {
-  const router = useRouter()
-  const { instanceId } = useInstanceParams()
-
-  const relativeDate = formatRelativeDate({
-    date: chat.lastMessage?.createdAt ?? chat.lastInteractionAt,
-  })
-
-  const canShowUnreadCounter = chat.unreadCount !== 0
-  const hasUnreadCount = chat.unreadCount > 0
-
-  function handleSelect() {
-    router.push(`/wa/${instanceId}/chats/${chat.waChatId}`)
-  }
+  const { canShowUnreadCounter, handleSelect, hasUnreadCount, relativeDate } =
+    useChatItem({ chat })
 
   return (
     <Chat onClick={handleSelect}>
@@ -55,9 +41,11 @@ export function GroupChatItem({ chat }: GroupChatItemProps) {
         <ChatContentGroup>
           <ChatName>{chat.group.name}</ChatName>
 
-          <ChatTime dateTime={relativeDate.datetime}>
-            {relativeDate.display}
-          </ChatTime>
+          {relativeDate && (
+            <ChatTime dateTime={relativeDate.datetime}>
+              {relativeDate.display}
+            </ChatTime>
+          )}
         </ChatContentGroup>
 
         <ChatContentGroup>

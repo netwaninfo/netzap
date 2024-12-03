@@ -43,10 +43,10 @@ const ContactAvatar = React.forwardRef<AvatarRef, AvatarProps>(
 ContactAvatar.displayName = 'ContactAvatar'
 
 const ContactAvatarImage = AvatarImage
-ContactAvatarImage.displayName = 'ContactAvatarImage'
+ContactAvatarImage.displayName = AvatarImage.displayName
 
 const ContactAvatarFallback = AvatarFallback
-ContactAvatarFallback.displayName = 'ContactAvatarFallback'
+ContactAvatarFallback.displayName = AvatarFallback.displayName
 
 const ContactContent = React.forwardRef<
   HTMLDivElement,

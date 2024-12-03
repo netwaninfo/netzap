@@ -29,7 +29,7 @@ export class FetchMessagesUseCase {
   ): Promise<FetchMessagesUseCaseResponse> {
     const { instanceId, waChatId, page } = request
 
-    const take = Pagination.limit(100)
+    const take = Pagination.limit(request.limit ?? 100)
 
     const [rows, messages] = await Promise.all([
       this.messagesRepository.countByInstanceIdAndWAChatId({

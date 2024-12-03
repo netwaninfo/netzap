@@ -10,7 +10,7 @@ interface UseFetchContactsParams {
   query: FetchContactsRequestQuery
 }
 
-export function useFetchContacts({
+function useFetchContacts({
   params,
   query = { page: 1 },
 }: UseFetchContactsParams) {
@@ -30,3 +30,5 @@ export function useFetchContacts({
 
   return [data, rest] as const
 }
+
+export { useFetchContacts }

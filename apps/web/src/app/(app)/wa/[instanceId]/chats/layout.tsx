@@ -3,7 +3,7 @@ import { ChatsSidebar } from './components/chats-sidebar'
 
 interface LayoutProps extends PropsWithChildren {}
 
-export default function ChartsLayout({ children }: LayoutProps) {
+export default function ChatsLayout({ children }: LayoutProps) {
   return (
     <div className="flex flex-1 w-full h-full">
       <ChatsSidebar />

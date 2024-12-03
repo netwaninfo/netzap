@@ -1,7 +1,7 @@
 import { netzapAPI } from '@/services/container'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
-export function useGetMe() {
+function useGetMe() {
   const { data, ...rest } = useSuspenseQuery({
     queryKey: ['users', 'me'],
     queryFn: () => netzapAPI.users.getMe(),
@@ -15,3 +15,5 @@ export function useGetMe() {
 
   return [data, rest] as const
 }
+
+export { useGetMe }

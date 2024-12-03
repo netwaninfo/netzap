@@ -27,7 +27,7 @@ export class FetchChatsUseCase {
   ): Promise<FetchChatsUseCaseResponse> {
     const { instanceId, page } = request
 
-    const take = Pagination.limit(100)
+    const take = Pagination.limit(request.limit ?? 100)
 
     const [rows, chats] = await Promise.all([
       this.chatsRepository.countByInstanceId({

@@ -25,9 +25,9 @@ export class FetchInstancesUseCase {
   async execute(
     request: FetchInstancesUseCaseRequest
   ): Promise<FetchInstancesUseCaseResponse> {
-    const { attendantId, page, limit } = request
+    const { attendantId, page } = request
 
-    const take = Pagination.limit(limit)
+    const take = Pagination.limit(request.limit)
 
     const [rows, instances] = await Promise.all([
       this.instancesRepository.countByAttendantId({ attendantId }),

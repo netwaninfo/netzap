@@ -1,0 +1,120 @@
+import {
+  H4,
+  H4Props,
+  H4Ref,
+  Muted,
+  MutedProps,
+  MutedRef,
+} from '@/components/custom/typography'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  AvatarProps,
+  AvatarRef,
+} from '@/components/ui/avatar'
+import { cn } from '@/lib/utils'
+import React from 'react'
+
+const Chat = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn('flex flex-col w-full h-full', className)}
+    {...props}
+  />
+))
+Chat.displayName = 'Chat'
+
+const ChatHeader = React.forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement>
+>(({ className, ...props }, ref) => (
+  <header
+    ref={ref}
+    className={cn(
+      'px-4 py-2.5 border-b space-x-4 h-16 flex items-center',
+      className
+    )}
+    {...props}
+  />
+))
+ChatHeader.displayName = 'ChatHeader'
+
+const ChatAvatar = React.forwardRef<AvatarRef, AvatarProps>(
+  ({ className, ...props }, ref) => (
+    <Avatar
+      ref={ref}
+      className={cn('size-10 rounded-full', className)}
+      {...props}
+    />
+  )
+)
+ChatAvatar.displayName = 'ChatAvatar'
+
+const ChatAvatarImage = AvatarImage
+ChatAvatarImage.displayName = AvatarImage.displayName
+
+const ChatAvatarFallback = AvatarFallback
+ChatAvatarFallback.displayName = AvatarFallback.displayName
+
+const ChatHeaderGroup = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn(className)} {...props} />
+))
+ChatHeaderGroup.displayName = 'ChatHeaderGroup'
+
+const ChatTitle = React.forwardRef<H4Ref, H4Props>(
+  ({ className, ...props }, ref) => (
+    <H4
+      ref={ref}
+      className={cn('font-medium text-base leading-relaxed', className)}
+      {...props}
+    />
+  )
+)
+ChatTitle.displayName = 'ChatTitle'
+
+const ChatPhone = React.forwardRef<MutedRef, MutedProps>(
+  ({ className, ...props }, ref) => (
+    <Muted ref={ref} className={cn('leading-tight', className)} {...props} />
+  )
+)
+ChatPhone.displayName = 'ChatPhone'
+
+const ChatContent = React.forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement>
+>(({ className, ...props }, ref) => (
+  <section
+    ref={ref}
+    className={cn('flex-1 bg-accent p-4', className)}
+    {...props}
+  />
+))
+ChatContent.displayName = 'ChatContent'
+
+const ChatFooter = React.forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement>
+>(({ className, ...props }, ref) => (
+  <footer ref={ref} className={cn('border-t p-4', className)} {...props} />
+))
+ChatFooter.displayName = 'ChatFooter'
+
+export {
+  Chat,
+  ChatHeader,
+  ChatAvatar,
+  ChatAvatarImage,
+  ChatAvatarFallback,
+  ChatHeaderGroup,
+  ChatTitle,
+  ChatPhone,
+  ChatContent,
+  ChatFooter,
+}

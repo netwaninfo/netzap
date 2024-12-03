@@ -36,10 +36,10 @@ const ChatAvatar = React.forwardRef<AvatarRef, AvatarProps>(
 ChatAvatar.displayName = 'ChatAvatar'
 
 const ChatAvatarImage = AvatarImage
-ChatAvatarImage.displayName = 'ChatAvatarImage'
+ChatAvatarImage.displayName = AvatarImage.displayName
 
 const ChatAvatarFallback = AvatarFallback
-ChatAvatarFallback.displayName = 'ChatAvatarFallback'
+ChatAvatarFallback.displayName = AvatarFallback.displayName
 
 const ChatContent = React.forwardRef<
   HTMLDivElement,

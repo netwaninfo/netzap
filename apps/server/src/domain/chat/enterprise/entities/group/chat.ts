@@ -31,7 +31,7 @@ export class GroupChat extends Chat<GroupChatProps> {
       {
         ...props,
         lastMessage: props.lastMessage ?? null,
-        lastInteractionAt: props.lastInteractionAt ?? new Date(),
+        lastInteractionAt: props.lastInteractionAt ?? null,
       },
       id
     )

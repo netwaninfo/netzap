@@ -10,10 +10,7 @@ interface UseFetchChatsParams {
   query: FetchChatsRequestQuery
 }
 
-export function useFetchChats({
-  params,
-  query = { page: 1 },
-}: UseFetchChatsParams) {
+function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsParams) {
   const { data, ...rest } = useSuspenseInfiniteQuery({
     queryKey: ['chats', params, query],
     queryFn: () => netzapAPI.chats.fetch({ params, query }),
@@ -30,3 +27,5 @@ export function useFetchChats({
 
   return [data, rest] as const
 }
+
+export { useFetchChats }

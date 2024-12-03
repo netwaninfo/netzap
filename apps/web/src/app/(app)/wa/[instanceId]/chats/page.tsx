@@ -3,7 +3,7 @@ import { Rocket } from 'lucide-react'
 import { Code, H3, Paragraph } from '@/components/custom/typography'
 import { Badge } from '@/components/ui/badge'
 
-export default function Page() {
+export default function ChatsPage() {
   return (
     <div className="flex items-center justify-center h-full relative">
       <header className="space-y-2 text-center">
@@ -21,7 +21,7 @@ export default function Page() {
       </header>
 
       <footer className="absolute bottom-8">
-        <Badge className="px-4 py-2 uppercase">
+        <Badge className="px-4 py-2 uppercase select-none">
           <Rocket className="size-4 mr-2" />
           Em construção
         </Badge>
