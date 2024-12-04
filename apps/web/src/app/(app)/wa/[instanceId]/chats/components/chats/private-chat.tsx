@@ -13,8 +13,8 @@ import {
   ChatContent,
   ChatContentGroup,
   ChatCounter,
+  ChatDate,
   ChatName,
-  ChatTime,
 } from '../ui/chat'
 
 interface PrivateChatItemProps {
@@ -22,11 +22,16 @@ interface PrivateChatItemProps {
 }
 
 export function PrivateChatItem({ chat }: PrivateChatItemProps) {
-  const { canShowUnreadCounter, handleSelect, hasUnreadCount, relativeDate } =
-    useChatItem({ chat })
+  const {
+    canShowUnreadCounter,
+    handleSelect,
+    hasUnreadCount,
+    relativeDate,
+    isCurrentChat,
+  } = useChatItem({ chat })
 
   return (
-    <Chat onClick={handleSelect}>
+    <Chat onClick={handleSelect} active={isCurrentChat}>
       <ChatAvatar>
         {chat.contact.imageUrl && (
           <ChatAvatarImage src={chat.contact.imageUrl} alt="" />
@@ -42,9 +47,9 @@ export function PrivateChatItem({ chat }: PrivateChatItemProps) {
           <ChatName>{chat.contact.name}</ChatName>
 
           {relativeDate && (
-            <ChatTime dateTime={relativeDate.datetime}>
+            <ChatDate dateTime={relativeDate.datetime}>
               {relativeDate.display}
-            </ChatTime>
+            </ChatDate>
           )}
         </ChatContentGroup>
 

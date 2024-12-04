@@ -5,6 +5,7 @@ import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor'
 import { Injectable } from '@nestjs/common'
 import { WWJSGroupChat } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
+import { MessageUtils } from '../../utils/message'
 import { WWJSPrivateContactMapper } from '../private/wwjs-private-contact-mapper'
 import { WWJSGroupContactMapper } from './wwjs-group-contact-mapper'
 import { WWJSGroupMessageMapper } from './wwjs-group-message-mapper'
@@ -32,6 +33,7 @@ export class WWJSGroupChatMapper {
         client,
       }),
       !!chat.lastMessage?.timestamp &&
+        !MessageUtils.canIgnore(chat.lastMessage.type) &&
         this.messageMapper.toDomain({
           client,
           message: chat.lastMessage,

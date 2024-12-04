@@ -47,7 +47,7 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
       )
     }
 
-    if (ChatUtils.canIgnore(waChatId.node)) {
+    if (ChatUtils.canIgnoreByServer(waChatId.node)) {
       return failure(
         new ServiceUnavailableError({ name: WWJSChatService.name })
       )
@@ -132,9 +132,7 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
 
     return this.runSafely(async () => {
       const allChats = await client.raw.getChats()
-      const chats = allChats.filter(
-        chat => !ChatUtils.canIgnore(chat.id.server)
-      )
+      const chats = allChats.filter(chat => !ChatUtils.canIgnore(chat))
 
       const chunksOfWaChats = await ChunkProcessor.fromArray({
         array: chats,
@@ -167,7 +165,8 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
     }
 
     return this.runSafely(async () => {
-      const chats = await client.raw.getChats()
+      const allChats = await client.raw.getChats()
+      const chats = allChats.filter(chat => !ChatUtils.canIgnore(chat))
 
       const chunksOfMessages = await ChunkProcessor.fromArray({
         array: chats,

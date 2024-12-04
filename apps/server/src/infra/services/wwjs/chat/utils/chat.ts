@@ -5,7 +5,11 @@ export class ChatUtils {
     return chat.isGroup
   }
 
-  static canIgnore(chatServer: string) {
-    return ['lid', 'broadcast'].includes(chatServer)
+  static canIgnoreByServer(server: string) {
+    return ['lid', 'broadcast'].includes(server)
+  }
+
+  static canIgnore(chat: WWJSChat) {
+    return !chat.timestamp || ChatUtils.canIgnoreByServer(chat.id.server)
   }
 }

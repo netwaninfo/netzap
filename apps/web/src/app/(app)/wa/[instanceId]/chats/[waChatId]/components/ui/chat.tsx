@@ -90,13 +90,24 @@ const ChatContent = React.forwardRef<
   HTMLElement,
   React.HTMLAttributes<HTMLElement>
 >(({ className, ...props }, ref) => (
-  <section
+  <section ref={ref} className={cn('min-h-0 flex-1', className)} {...props} />
+))
+ChatContent.displayName = 'ChatContent'
+
+const ChatContentWrapper = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
     ref={ref}
-    className={cn('flex-1 bg-accent p-4', className)}
+    className={cn(
+      'p-4 space-y-3 min-w-96 max-w-screen-lg mx-auto w-full',
+      className
+    )}
     {...props}
   />
 ))
-ChatContent.displayName = 'ChatContent'
+ChatContentWrapper.displayName = 'ChatContentWrapper'
 
 const ChatFooter = React.forwardRef<
   HTMLElement,
@@ -116,5 +127,6 @@ export {
   ChatTitle,
   ChatPhone,
   ChatContent,
+  ChatContentWrapper,
   ChatFooter,
 }

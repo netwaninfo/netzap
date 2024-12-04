@@ -5,14 +5,14 @@ import { GroupChatHeader } from './group-chat-header'
 import { PrivateChatHeader } from './private-chat-header'
 
 export function PageHeader() {
-  const { currentChat } = usePageContext()
+  const { chat } = usePageContext()
 
-  switch (currentChat.type) {
+  switch (chat.type) {
     case 'private':
-      return <PrivateChatHeader contact={currentChat.contact} />
+      return <PrivateChatHeader contact={chat.contact} />
 
     case 'group':
-      return <GroupChatHeader group={currentChat.group} />
+      return <GroupChatHeader group={chat.group} />
 
     default:
       return null

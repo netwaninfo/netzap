@@ -24,7 +24,7 @@ export class WWJSHandleMessageReceived implements WWJSHandler {
       if (MessageUtils.canIgnore(message.type)) return
 
       const chat = await message.getChat()
-      if (ChatUtils.canIgnore(chat.id.server)) return
+      if (ChatUtils.canIgnore(chat)) return
 
       const [waChat, waMessage] = await Promise.all([
         this.chatMapper.toDomain({

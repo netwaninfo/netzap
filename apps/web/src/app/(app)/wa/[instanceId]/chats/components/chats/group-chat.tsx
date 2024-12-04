@@ -13,8 +13,8 @@ import {
   ChatContent,
   ChatContentGroup,
   ChatCounter,
+  ChatDate,
   ChatName,
-  ChatTime,
 } from '../ui/chat'
 
 interface GroupChatItemProps {
@@ -22,11 +22,16 @@ interface GroupChatItemProps {
 }
 
 export function GroupChatItem({ chat }: GroupChatItemProps) {
-  const { canShowUnreadCounter, handleSelect, hasUnreadCount, relativeDate } =
-    useChatItem({ chat })
+  const {
+    canShowUnreadCounter,
+    handleSelect,
+    hasUnreadCount,
+    relativeDate,
+    isCurrentChat,
+  } = useChatItem({ chat })
 
   return (
-    <Chat onClick={handleSelect}>
+    <Chat onClick={handleSelect} active={isCurrentChat}>
       <ChatAvatar>
         {chat.group.imageUrl && (
           <ChatAvatarImage src={chat.group.imageUrl} alt="" />
@@ -42,9 +47,9 @@ export function GroupChatItem({ chat }: GroupChatItemProps) {
           <ChatName>{chat.group.name}</ChatName>
 
           {relativeDate && (
-            <ChatTime dateTime={relativeDate.datetime}>
+            <ChatDate dateTime={relativeDate.datetime}>
               {relativeDate.display}
-            </ChatTime>
+            </ChatDate>
           )}
         </ChatContentGroup>
 

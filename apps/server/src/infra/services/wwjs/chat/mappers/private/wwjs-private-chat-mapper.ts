@@ -3,6 +3,7 @@ import { WAPrivateChat } from '@/domain/chat/enterprise/entities/wa/private/chat
 import { Injectable } from '@nestjs/common'
 import { WWJSChat } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
+import { MessageUtils } from '../../utils/message'
 import { WWJSPrivateContactMapper } from './wwjs-private-contact-mapper'
 import { WWJSPrivateMessageMapper } from './wwjs-private-message-mapper'
 
@@ -28,6 +29,7 @@ export class WWJSPrivateChatMapper {
         client,
       }),
       !!chat.lastMessage?.timestamp &&
+        !MessageUtils.canIgnore(chat.lastMessage.type) &&
         this.messageMapper.toDomain({
           client,
           message: chat.lastMessage,

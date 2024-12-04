@@ -1,3 +1,6 @@
+import { VariantProps, cva } from 'class-variance-authority'
+import React from 'react'
+
 import { H4, H4Props, H4Ref } from '@/components/custom/typography'
 import {
   Avatar,
@@ -7,21 +10,35 @@ import {
   AvatarRef,
 } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
-import React from 'react'
 
-const Chat = React.forwardRef<
-  HTMLButtonElement,
-  React.HTMLAttributes<HTMLButtonElement>
->(({ className, ...props }, ref) => (
-  <button
-    ref={ref}
-    className={cn(
-      'w-full flex py-2 px-4 hover:bg-border/40 items-center space-x-4 rounded-lg ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed select-none',
-      className
-    )}
-    {...props}
-  />
-))
+const chatVariants = cva(
+  'w-full flex py-2 px-4 items-center space-x-4 rounded-lg ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed select-none',
+  {
+    variants: {
+      active: {
+        false: 'hover:bg-border/40',
+        true: 'bg-border/40',
+      },
+    },
+    defaultVariants: {
+      active: false,
+    },
+  }
+)
+
+type ChatRef = HTMLButtonElement
+type ChatProps = React.HTMLAttributes<HTMLButtonElement> &
+  VariantProps<typeof chatVariants>
+
+const Chat = React.forwardRef<ChatRef, ChatProps>(
+  ({ className, active, ...props }, ref) => (
+    <button
+      ref={ref}
+      className={cn(chatVariants({ active, className }))}
+      {...props}
+    />
+  )
+)
 Chat.displayName = 'Chat'
 
 const ChatAvatar = React.forwardRef<AvatarRef, AvatarProps>(
@@ -68,7 +85,7 @@ const ChatName = React.forwardRef<H4Ref, H4Props>(
 )
 ChatName.displayName = 'ChatName'
 
-const ChatTime = React.forwardRef<
+const ChatDate = React.forwardRef<
   HTMLTimeElement,
   React.TimeHTMLAttributes<HTMLTimeElement>
 >(({ className, ...props }, ref) => (
@@ -78,7 +95,7 @@ const ChatTime = React.forwardRef<
     {...props}
   />
 ))
-ChatTime.displayName = 'ChatTime'
+ChatDate.displayName = 'ChatDate'
 
 const ChatCounter = React.forwardRef<
   HTMLSpanElement,
@@ -103,6 +120,6 @@ export {
   ChatContent,
   ChatContentGroup,
   ChatName,
-  ChatTime,
+  ChatDate,
   ChatCounter,
 }

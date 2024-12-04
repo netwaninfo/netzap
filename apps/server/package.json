@@ -19,7 +19,6 @@
 		"check:types": "tsc --noEmit",
 		"lint": "biome check --error-on-warnings",
 		"lint:fix": "biome check --write --error-on-warnings",
-		"clear:tmp": "rm -rf ./tmp/!(.gitkeep)",
 		"clear:wwjs": "rm -rf .wwebjs_auth .wwebjs_cache"
 	},
 	"prisma": {
@@ -41,7 +40,7 @@
 		"fastify": "^4.28.1",
 		"lodash.merge": "^4.6.2",
 		"mongodb": "^6.10.0",
-		"prisma": "^6.0.0",
+		"prisma": "^6.0.1",
 		"supertest": "^7.0.0",
 		"tsx": "^4.19.2",
 		"type-fest": "^4.26.1",
@@ -67,7 +66,7 @@
 		"@netzap/entities": "workspace:^",
 		"@netzap/http": "workspace:^",
 		"@netzap/websocket": "workspace:^",
-		"@prisma/client": "^6.0.0",
+		"@prisma/client": "^6.0.1",
 		"bson-objectid": "^2.0.4",
 		"dayjs": "^1.11.13",
 		"mime-types": "^2.1.35",

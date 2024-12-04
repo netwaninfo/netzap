@@ -1,35 +1,22 @@
 'use client'
 
-import { PropsWithChildren, createContext, useContext } from 'react'
-
-import { useFetchChats } from '@/hooks/queries/use-fetch-chats'
+import { useGetChat } from '@/hooks/queries/use-get-chat'
 import { useChatParams } from '@/hooks/use-chat-params'
 import { Chat } from '@netzap/entities/chat'
-import { useRouter } from 'next/navigation'
+import { PropsWithChildren, createContext, useContext } from 'react'
 
 interface PageContextValue {
-  currentChat: Chat
+  chat: Chat
 }
 
 const PageContext = createContext({} as PageContextValue)
 
 export function PageProvider({ children }: PropsWithChildren) {
-  const router = useRouter()
   const { instanceId, waChatId } = useChatParams()
-
-  const [data] = useFetchChats({ params: { instanceId }, query: { page: 1 } })
-
-  const chats = data.pages.flatMap(page => page.data)
-  const currentChat = chats.find(chat => chat.waChatId === waChatId)
-
-  if (!currentChat) {
-    return router.replace(`/wa/${instanceId}/chats`)
-  }
+  const [{ data: chat }] = useGetChat({ params: { instanceId, waChatId } })
 
   return (
-    <PageContext.Provider value={{ currentChat }}>
-      {children}
-    </PageContext.Provider>
+    <PageContext.Provider value={{ chat }}>{children}</PageContext.Provider>
   )
 }
 
