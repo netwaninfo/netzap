@@ -5,12 +5,12 @@ import {
 } from '@netzap/http/chat'
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 
-interface UseFetchChatsParams {
+interface UseFetchChatsProps {
   params: FetchChatsRequestParams
-  query: FetchChatsRequestQuery
+  query?: FetchChatsRequestQuery
 }
 
-function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsParams) {
+function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
   const { data, ...rest } = useSuspenseInfiniteQuery({
     queryKey: ['chats', params, query],
     queryFn: () => netzapAPI.chats.fetch({ params, query }),

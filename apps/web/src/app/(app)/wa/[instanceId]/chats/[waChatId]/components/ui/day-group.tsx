@@ -2,7 +2,7 @@ import { badgeVariants } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import React from 'react'
 
-const Group = React.forwardRef<
+const DayGroup = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -12,17 +12,17 @@ const Group = React.forwardRef<
     {...props}
   />
 ))
-Group.displayName = 'Group'
+DayGroup.displayName = 'DayGroup'
 
-const GroupHeader = React.forwardRef<
+const DayGroupHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn('flex justify-center', className)} {...props} />
 ))
-GroupHeader.displayName = 'GroupHeader'
+DayGroupHeader.displayName = 'DayGroupHeader'
 
-const GroupDate = React.forwardRef<
+const DayGroupDate = React.forwardRef<
   HTMLTimeElement,
   React.TimeHTMLAttributes<HTMLTimeElement>
 >(({ className, ...props }, ref) => (
@@ -36,14 +36,18 @@ const GroupDate = React.forwardRef<
     {...props}
   />
 ))
-GroupDate.displayName = 'GroupDate'
+DayGroupDate.displayName = 'DayGroupDate'
 
-const GroupContent = React.forwardRef<
+const DayGroupContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('flex flex-col', className)} {...props} />
+  <div
+    ref={ref}
+    className={cn('flex flex-col space-y-0.5', className)}
+    {...props}
+  />
 ))
-GroupContent.displayName = 'GroupContent'
+DayGroupContent.displayName = 'DayGroupContent'
 
-export { Group, GroupHeader, GroupDate, GroupContent }
+export { DayGroup, DayGroupHeader, DayGroupDate, DayGroupContent }

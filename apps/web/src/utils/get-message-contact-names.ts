@@ -1,6 +1,6 @@
 import { Contact } from '@netzap/entities/chat'
 
-export function getMessageContactNames(contacts: Contact[]) {
+function getMessageContactNames(contacts: Contact[]) {
   const names = contacts.map(contact => contact.name)
 
   const label = names
@@ -10,3 +10,5 @@ export function getMessageContactNames(contacts: Contact[]) {
 
   return label
 }
+
+export { getMessageContactNames }

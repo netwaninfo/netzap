@@ -2,11 +2,11 @@ import { netzapAPI } from '@/services/container'
 import { GetChatRequestParams } from '@netzap/http/chat'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
-interface UseGetChatParams {
+interface UseGetChatProps {
   params: GetChatRequestParams
 }
 
-function useGetChat({ params }: UseGetChatParams) {
+function useGetChat({ params }: UseGetChatProps) {
   const { data, ...rest } = useSuspenseQuery({
     queryKey: ['chats', params],
     queryFn: () => netzapAPI.chats.get({ params }),

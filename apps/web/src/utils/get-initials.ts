@@ -3,7 +3,7 @@ interface GetInitialsParams {
   length?: number
 }
 
-export function getInitials({ value, length = 2 }: GetInitialsParams) {
+function getInitials({ value, length = 2 }: GetInitialsParams) {
   return value
     .replace(/[-|\/]/, '')
     .replace(/\s+/, ' ')
@@ -12,3 +12,5 @@ export function getInitials({ value, length = 2 }: GetInitialsParams) {
     .map(chunk => chunk.at(0)?.toUpperCase())
     .join('')
 }
+
+export { getInitials }

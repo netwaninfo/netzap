@@ -1,6 +1,6 @@
 'use client'
 
-import { usePageContext } from '../providers/page-provider'
+import { usePageContext } from '../../providers/page-provider'
 import { GroupChatHeader } from './group-chat-header'
 import { PrivateChatHeader } from './private-chat-header'
 

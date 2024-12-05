@@ -1,10 +1,20 @@
 import { dayjs } from '@/lib/dayjs'
 
-interface FormatRelativeDateProps {
-  date: Date
+interface FormatKeys {
+  sameDay: string
+  nextDay: string
+  nextWeek: string
+  lastDay: string
+  lastWeek: string
+  sameElse: string
 }
 
-export function formatRelativeDate({ date }: FormatRelativeDateProps) {
+interface FormatRelativeDateParams {
+  date: Date
+  formats?: Partial<FormatKeys>
+}
+
+function formatRelativeDate({ date, formats }: FormatRelativeDateParams) {
   const ref = dayjs(date)
 
   return {
@@ -14,6 +24,9 @@ export function formatRelativeDate({ date }: FormatRelativeDateProps) {
       lastDay: '[Ontem]',
       sameElse: 'L',
       lastWeek: 'L',
+      ...formats,
     }),
   }
 }
+
+export { formatRelativeDate, type FormatRelativeDateParams }

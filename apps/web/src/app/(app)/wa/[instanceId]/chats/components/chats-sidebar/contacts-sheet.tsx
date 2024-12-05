@@ -6,7 +6,7 @@ import { BookUser, Search } from 'lucide-react'
 import { InputGroup, InputLeftAddon } from '@/components/custom/input-group'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area'
 import {
   Sheet,
   SheetContent,
@@ -58,11 +58,13 @@ export function ContactsSheet() {
 
         <div className="min-h-0 flex-1 -my-2 -ml-3 -mr-6">
           <ScrollArea className="h-full">
-            <div className="space-y-1 pb-6 pr-4">
-              <Suspense fallback={<ContactsListSkeleton />}>
-                <ContactsList search={debouncedSearch} />
-              </Suspense>
-            </div>
+            <ScrollAreaViewport>
+              <div className="space-y-1 pb-6 pr-4">
+                <Suspense fallback={<ContactsListSkeleton />}>
+                  <ContactsList search={debouncedSearch} />
+                </Suspense>
+              </div>
+            </ScrollAreaViewport>
           </ScrollArea>
         </div>
       </SheetContent>

@@ -4,7 +4,7 @@ import {
   SidebarHeader,
 } from '@/components/custom/sidebar'
 import { H4 } from '@/components/custom/typography'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area'
 import { Suspense } from 'react'
 import { ChatsList } from './chats-list'
 import { ChatsListSkeleton } from './chats-list-skeleton'
@@ -23,11 +23,13 @@ export function ChatsSidebar() {
 
       <SidebarContent className="min-h-0">
         <ScrollArea className="h-full">
-          <div className="space-y-1 py-2 px-3">
-            <Suspense fallback={<ChatsListSkeleton />}>
-              <ChatsList />
-            </Suspense>
-          </div>
+          <ScrollAreaViewport>
+            <div className="space-y-1 py-2 px-3">
+              <Suspense fallback={<ChatsListSkeleton />}>
+                <ChatsList />
+              </Suspense>
+            </div>
+          </ScrollAreaViewport>
         </ScrollArea>
       </SidebarContent>
     </Sidebar>

@@ -7,7 +7,7 @@ import {
   ChatHeader,
   ChatHeaderGroup,
   ChatTitle,
-} from './ui/chat'
+} from '../ui/chat'
 
 interface GroupChatHeaderProps {
   group: Group

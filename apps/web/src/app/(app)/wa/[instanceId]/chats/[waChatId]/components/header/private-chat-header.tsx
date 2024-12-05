@@ -8,7 +8,7 @@ import {
   ChatHeaderGroup,
   ChatPhone,
   ChatTitle,
-} from './ui/chat'
+} from '../ui/chat'
 
 interface PrivateChatHeaderProps {
   contact: Contact
