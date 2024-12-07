@@ -51,13 +51,14 @@ export class PrivateAudioMessage extends PrivateMessage<PrivateAudioMessageProps
         | 'createdAt'
         | 'media'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new PrivateAudioMessage(
       {
         ...props,
+        chatType: 'private',
         type: 'audio',
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',

@@ -1,28 +1,20 @@
-import { Message as MessageEntity } from '@netzap/entities/chat'
-import { useMessageItem } from '../../hooks/use-message-item'
-import { MessageBody } from '../ui/message'
-import {
-  MessageReceived,
-  MessageReceivedContent,
-  MessageReceivedDate,
-} from '../ui/message-received'
+import { Message } from '@netzap/entities/chat'
+import { ReceivedGroupMessage } from './group/received/message'
+import { ReceivedPrivateMessage } from './private/received/message'
 
 interface MessageItemReceivedProps {
-  message: MessageEntity
+  message: Message
 }
 
 export function MessageItemReceived({ message }: MessageItemReceivedProps) {
-  const { formattedDate } = useMessageItem({ message })
+  switch (message.chatType) {
+    case 'private':
+      return <ReceivedPrivateMessage message={message} />
 
-  return (
-    <MessageReceived>
-      <MessageReceivedContent>
-        <MessageBody>Hey, how's it going?</MessageBody>
+    case 'group':
+      return <ReceivedGroupMessage message={message} />
 
-        <MessageReceivedDate dateTime={formattedDate.datetime}>
-          {formattedDate.display}
-        </MessageReceivedDate>
-      </MessageReceivedContent>
-    </MessageReceived>
-  )
+    default:
+      return null
+  }
 }

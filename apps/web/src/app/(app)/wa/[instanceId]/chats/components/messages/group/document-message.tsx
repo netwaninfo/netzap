@@ -26,7 +26,7 @@ export function GroupChatLastDocumentMessage({
       {message.isFromMe && <MessageStatus status={message.status} />}
 
       <MessageContent>
-        <MessageAuthor>{author}</MessageAuthor>
+        <MessageAuthor>{author}:</MessageAuthor>
 
         <MessageContentGroup>
           <MessageIcon>

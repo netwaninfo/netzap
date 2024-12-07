@@ -9,6 +9,7 @@ function formatGroupMessageDate({ date }: FormatGroupMessageDateParams) {
     date,
     formats: {
       sameDay: '[Hoje]',
+      lastWeek: 'dddd',
     },
   })
 }

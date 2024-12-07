@@ -58,13 +58,14 @@ export class GroupVideoMessage extends GroupMessage<GroupVideoMessageProps> {
         | 'body'
         | 'media'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new GroupVideoMessage(
       {
         ...props,
+        chatType: 'group',
         type: 'video',
         body: props.body?.trim() ? props.body : null,
         quoted: props.quoted ?? null,

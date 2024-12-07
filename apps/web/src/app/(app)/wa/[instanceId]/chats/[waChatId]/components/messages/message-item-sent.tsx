@@ -1,28 +1,21 @@
-import { Message as MessageEntity } from '@netzap/entities/chat'
-import { useMessageItem } from '../../hooks/use-message-item'
-import { MessageBody } from '../ui/message'
-import {
-  MessageSent,
-  MessageSentContent,
-  MessageSentDate,
-} from '../ui/message-sent'
+import { Message } from '@netzap/entities/chat'
+
+import { SentGroupMessage } from './group/sent/message'
+import { SentPrivateMessage } from './private/sent/message'
 
 interface MessageItemSentProps {
-  message: MessageEntity
+  message: Message
 }
 
 export function MessageItemSent({ message }: MessageItemSentProps) {
-  const { formattedDate } = useMessageItem({ message })
+  switch (message.chatType) {
+    case 'private':
+      return <SentPrivateMessage message={message} />
 
-  return (
-    <MessageSent>
-      <MessageSentContent>
-        <MessageBody>Not bad, just working on a new project. You?</MessageBody>
+    case 'group':
+      return <SentGroupMessage message={message} />
 
-        <MessageSentDate dateTime={formattedDate.datetime}>
-          {formattedDate.display}
-        </MessageSentDate>
-      </MessageSentContent>
-    </MessageSent>
-  )
+    default:
+      return null
+  }
 }

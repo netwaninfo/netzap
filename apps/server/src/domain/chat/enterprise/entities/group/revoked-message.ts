@@ -41,13 +41,14 @@ export class GroupRevokedMessage extends GroupMessage<GroupRevokedMessageProps> 
         | 'revokedAt'
         | 'revokedBy'
       >,
-      'type' | 'quoted'
+      'type' | 'quoted' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new GroupRevokedMessage(
       {
         ...props,
+        chatType: 'group',
         type: 'revoked',
         quoted: null,
         status: props.status ?? 'pending',

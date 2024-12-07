@@ -45,13 +45,14 @@ export class PrivateUnknownMessage extends PrivateMessage<PrivateUnknownMessageP
         | 'sentBy'
         | 'createdAt'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new PrivateUnknownMessage(
       {
         ...props,
+        chatType: 'private',
         type: 'unknown',
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',

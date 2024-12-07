@@ -1,6 +1,10 @@
 import { Entity } from '@/core/entities/entity'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { MessageStatus, MessageType } from '@netzap/entities/chat'
+import type {
+  ChatType,
+  MessageStatus,
+  MessageType,
+} from '@netzap/entities/chat'
 import type { WAEntityID } from './value-objects/wa-entity-id'
 import type { WAMessageID } from './value-objects/wa-message-id'
 
@@ -9,6 +13,7 @@ import type { SetNonNullable } from 'type-fest'
 export interface MessageProps<Quoted = unknown> {
   waMessageId: WAMessageID
   waChatId: WAEntityID
+  chatType: ChatType
   instanceId: UniqueEntityID
   chatId: UniqueEntityID
   quoted: Quoted | null

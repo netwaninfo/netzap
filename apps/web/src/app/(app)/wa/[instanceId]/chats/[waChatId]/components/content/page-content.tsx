@@ -6,19 +6,19 @@ import { ChatContentWrapper } from '../ui/chat'
 import { GroupMessagesList } from './group-message-list'
 
 export function PageContent() {
-  const scrollViewportRef = useRef<HTMLDivElement>(null)
+  const areaViewportRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // https://github.com/radix-ui/primitives/discussions/990
-    const scrollViewport = scrollViewportRef.current
-    if (scrollViewport) {
-      scrollViewport.scrollTo({ top: scrollViewport.scrollHeight })
+    const areaViewport = areaViewportRef.current
+    if (areaViewport) {
+      areaViewport.scrollTo({ top: areaViewport.scrollHeight })
     }
   }, [])
 
   return (
     <ScrollArea className="h-full">
-      <ScrollAreaViewport ref={scrollViewportRef}>
+      <ScrollAreaViewport ref={areaViewportRef}>
         <ChatContentWrapper>
           <Suspense fallback="Loading...">
             <GroupMessagesList />

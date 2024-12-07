@@ -47,13 +47,14 @@ export class GroupVCardMessage extends GroupMessage<GroupVCardMessageProps> {
         | 'sentBy'
         | 'createdAt'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new GroupVCardMessage(
       {
         ...props,
+        chatType: 'group',
         type: 'vcard',
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',

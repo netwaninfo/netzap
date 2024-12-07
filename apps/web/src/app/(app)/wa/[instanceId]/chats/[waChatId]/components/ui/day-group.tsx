@@ -18,7 +18,11 @@ const DayGroupHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('flex justify-center', className)} {...props} />
+  <div
+    ref={ref}
+    className={cn('flex justify-center sticky top-3 z-[1]', className)}
+    {...props}
+  />
 ))
 DayGroupHeader.displayName = 'DayGroupHeader'
 

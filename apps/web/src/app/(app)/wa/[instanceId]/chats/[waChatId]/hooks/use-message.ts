@@ -1,11 +1,18 @@
 import { dayjs } from '@/lib/dayjs'
 import { Message } from '@netzap/entities/chat'
 
-interface useMessageItemProps {
+interface useMessageProps {
   message: Message
 }
 
-function useMessageItem({ message }: useMessageItemProps) {
+interface UseMessageReturn {
+  formattedDate: {
+    datetime: string
+    display: string
+  }
+}
+
+function useMessage({ message }: useMessageProps): UseMessageReturn {
   const dateRef = dayjs(message.createdAt)
 
   const formattedDate = {
@@ -18,4 +25,4 @@ function useMessageItem({ message }: useMessageItemProps) {
   }
 }
 
-export { useMessageItem }
+export { useMessage, type useMessageProps, type UseMessageReturn }

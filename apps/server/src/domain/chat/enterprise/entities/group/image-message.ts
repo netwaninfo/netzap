@@ -58,13 +58,14 @@ export class GroupImageMessage extends GroupMessage<GroupImageMessageProps> {
         | 'body'
         | 'media'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new GroupImageMessage(
       {
         ...props,
+        chatType: 'group',
         type: 'image',
         body: props.body?.trim() ? props.body : null,
         quoted: props.quoted ?? null,

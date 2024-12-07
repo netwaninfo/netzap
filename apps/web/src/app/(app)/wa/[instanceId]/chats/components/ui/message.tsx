@@ -1,4 +1,4 @@
-import { Check, CheckCheck } from 'lucide-react'
+import { Check, CheckCheck, Clock2 } from 'lucide-react'
 
 import {
   Paragraph,
@@ -36,7 +36,7 @@ const MessageStatusSent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <MessageStatus ref={ref} className={cn(className)} {...props}>
+  <MessageStatus ref={ref} className={cn('', className)} {...props}>
     <CheckCheck className="size-4" />
   </MessageStatus>
 ))
@@ -46,17 +46,27 @@ const MessageStatusRead = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <MessageStatus ref={ref} className={cn(className)} {...props}>
-    <CheckCheck className="size-4 text-blue-700" />
+  <MessageStatus ref={ref} className={cn('', className)} {...props}>
+    <CheckCheck className="size-4 text-blue-500" />
   </MessageStatus>
 ))
 MessageStatusRead.displayName = 'MessageStatusRead'
+
+const MessageStatusPending = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <MessageStatus ref={ref} className={cn('', className)} {...props}>
+    <Clock2 className="size-4" />
+  </MessageStatus>
+))
+MessageStatusPending.displayName = 'MessageStatusPending'
 
 const MessageStatusDefault = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <MessageStatus ref={ref} className={cn(className)} {...props}>
+  <MessageStatus ref={ref} className={cn('', className)} {...props}>
     <Check className="size-4" />
   </MessageStatus>
 ))
@@ -117,6 +127,7 @@ export {
   Message,
   MessageStatusSent,
   MessageStatusDefault,
+  MessageStatusPending,
   MessageStatusRead,
   MessageContent,
   MessageContentGroup,

@@ -46,13 +46,14 @@ export class GroupTextMessage extends GroupMessage<GroupTextMessageProps> {
         | 'sentBy'
         | 'createdAt'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new GroupTextMessage(
       {
         ...props,
+        chatType: 'group',
         type: 'text',
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',

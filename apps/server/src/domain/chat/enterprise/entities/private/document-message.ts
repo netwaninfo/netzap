@@ -57,13 +57,14 @@ export class PrivateDocumentMessage extends PrivateMessage<PrivateDocumentMessag
         | 'body'
         | 'media'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new PrivateDocumentMessage(
       {
         ...props,
+        chatType: 'private',
         type: 'document',
         body: props.body?.trim() ? props.body : null,
         quoted: props.quoted ?? null,

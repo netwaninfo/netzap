@@ -41,13 +41,14 @@ export class PrivateRevokedMessage extends PrivateMessage<PrivateRevokedMessageP
         | 'revokedAt'
         | 'revokedBy'
       >,
-      'type' | 'quoted'
+      'type' | 'quoted' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new PrivateRevokedMessage(
       {
         ...props,
+        chatType: 'private',
         type: 'revoked',
         quoted: null,
         status: props.status ?? 'pending',

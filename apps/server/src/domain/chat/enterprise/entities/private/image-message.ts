@@ -57,13 +57,14 @@ export class PrivateImageMessage extends PrivateMessage<PrivateImageMessageProps
         | 'body'
         | 'media'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new PrivateImageMessage(
       {
         ...props,
+        chatType: 'private',
         type: 'image',
         body: props.body?.trim() ? props.body : null,
         quoted: props.quoted ?? null,

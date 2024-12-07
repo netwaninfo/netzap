@@ -4,6 +4,7 @@ import type { Contact } from '../contact'
 import { Message, type MessageProps } from '../message'
 
 export interface GroupMessageProps extends MessageProps {
+  chatType: 'group'
   author: Contact
   quoted: Except<QuotedMessage, 'quoted'> | null
 }
@@ -13,6 +14,10 @@ type GroupMessageWithQuoted = SetNonNullable<GroupMessageProps, 'quoted'>
 export abstract class GroupMessage<
   Props extends GroupMessageProps,
 > extends Message<Props> {
+  get chatType() {
+    return this.props.chatType
+  }
+
   get author() {
     return this.props.author
   }

@@ -57,13 +57,14 @@ export class PrivateVideoMessage extends PrivateMessage<PrivateVideoMessageProps
         | 'body'
         | 'media'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new PrivateVideoMessage(
       {
         ...props,
+        chatType: 'private',
         type: 'video',
         body: props.body?.trim() ? props.body : null,
         quoted: props.quoted ?? null,

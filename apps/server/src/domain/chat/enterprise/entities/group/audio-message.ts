@@ -52,13 +52,14 @@ export class GroupAudioMessage extends GroupMessage<GroupAudioMessageProps> {
         | 'createdAt'
         | 'media'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new GroupAudioMessage(
       {
         ...props,
+        chatType: 'group',
         type: 'audio',
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',

@@ -99,4 +99,9 @@
   .inset-x-center {
     @apply -translate-x-1/2 left-1/2;
   }
+
+	.break-words {
+		overflow-wrap: break-word;
+		word-break: break-word;
+	}
 }

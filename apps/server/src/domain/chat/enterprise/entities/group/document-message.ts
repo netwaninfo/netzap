@@ -58,13 +58,14 @@ export class GroupDocumentMessage extends GroupMessage<GroupDocumentMessageProps
         | 'body'
         | 'media'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new GroupDocumentMessage(
       {
         ...props,
+        chatType: 'group',
         type: 'document',
         body: props.body?.trim() ? props.body : null,
         quoted: props.quoted ?? null,

@@ -3,9 +3,9 @@ import React from 'react'
 
 import {
   Message,
-  MessageContent,
-  MessageContentProps,
-  MessageContentRef,
+  MessageBox,
+  MessageBoxProps,
+  MessageBoxRef,
   MessageDate,
   MessageDateProps,
   MessageDateRef,
@@ -20,17 +20,16 @@ const MessageSent = React.forwardRef<MessageRef, MessageProps>(
 )
 MessageSent.displayName = 'MessageSent'
 
-const MessageSentContent = React.forwardRef<
-  MessageContentRef,
-  MessageContentProps
->(({ className, ...props }, ref) => (
-  <MessageContent
-    ref={ref}
-    className={cn('bg-primary text-primary-foreground', className)}
-    {...props}
-  />
-))
-MessageSentContent.displayName = 'MessageSentContent'
+const MessageSentBox = React.forwardRef<MessageBoxRef, MessageBoxProps>(
+  ({ className, ...props }, ref) => (
+    <MessageBox
+      ref={ref}
+      className={cn('bg-primary text-primary-foreground', className)}
+      {...props}
+    />
+  )
+)
+MessageSentBox.displayName = 'MessageSentBox'
 
 const MessageSentDate = React.forwardRef<MessageDateRef, MessageDateProps>(
   ({ className, ...props }, ref) => (
@@ -43,4 +42,4 @@ const MessageSentDate = React.forwardRef<MessageDateRef, MessageDateProps>(
 )
 MessageSentDate.displayName = 'MessageSentDate'
 
-export { MessageSent, MessageSentContent, MessageSentDate }
+export { MessageSent, MessageSentBox, MessageSentDate }

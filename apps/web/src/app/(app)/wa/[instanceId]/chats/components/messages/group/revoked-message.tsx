@@ -23,7 +23,7 @@ export function GroupChatLastRevokedMessage({
   return (
     <Message>
       <MessageContent>
-        <MessageAuthor>{author}</MessageAuthor>
+        <MessageAuthor>{author}:</MessageAuthor>
 
         <MessageContentGroup>
           <MessageIcon>

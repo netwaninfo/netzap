@@ -19,7 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/pages/chats/*": ["./src/app/(app)/wa/[instanceId]/chats/*"],
+      "@/pages/chat/*": ["./src/app/(app)/wa/[instanceId]/chats/[waChatId]/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

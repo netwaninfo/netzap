@@ -5,6 +5,7 @@ import type { PrivateMessage as QuotedMessage } from '../../types/message'
 
 export interface PrivateMessageProps extends MessageProps {
   quoted: Except<QuotedMessage, 'quoted'> | null
+  chatType: 'private'
 }
 
 type PrivateMessageWithQuoted = SetNonNullable<PrivateMessageProps, 'quoted'>
@@ -12,6 +13,10 @@ type PrivateMessageWithQuoted = SetNonNullable<PrivateMessageProps, 'quoted'>
 export abstract class PrivateMessage<
   Props extends PrivateMessageProps,
 > extends Message<Props> {
+  get chatType() {
+    return this.props.chatType
+  }
+
   get quoted() {
     return this.props.quoted
   }

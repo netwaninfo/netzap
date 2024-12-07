@@ -9,6 +9,7 @@ export class PrivateQuotedMultiVCardMessagePresenter {
       id: message.id.toString(),
       chatId: message.chatId.toString(),
       waChatId: message.waChatId.toString(),
+      chatType: message.chatType,
       instanceId: message.instanceId.toString(),
       waMessageId: message.waMessageId.toString(),
       type: message.type,

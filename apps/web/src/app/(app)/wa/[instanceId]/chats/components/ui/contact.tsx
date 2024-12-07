@@ -69,7 +69,7 @@ ContactName.displayName = 'ContactName'
 
 const ContactPhone = React.forwardRef<MutedRef, MutedProps>(
   ({ className, ...props }, ref) => (
-    <Muted ref={ref} className={cn(className)} {...props} />
+    <Muted ref={ref} className={cn('', className)} {...props} />
   )
 )
 ContactPhone.displayName = 'ContactPhone'

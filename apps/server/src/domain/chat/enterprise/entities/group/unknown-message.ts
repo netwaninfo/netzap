@@ -46,13 +46,14 @@ export class GroupUnknownMessage extends GroupMessage<GroupUnknownMessageProps> 
         | 'sentBy'
         | 'createdAt'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new GroupUnknownMessage(
       {
         ...props,
+        chatType: 'group',
         type: 'unknown',
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',

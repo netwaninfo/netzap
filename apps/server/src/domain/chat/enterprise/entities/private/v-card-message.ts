@@ -46,13 +46,14 @@ export class PrivateVCardMessage extends PrivateMessage<PrivateVCardMessageProps
         | 'sentBy'
         | 'createdAt'
       >,
-      'type'
+      'type' | 'chatType'
     >,
     id?: UniqueEntityID
   ) {
     return new PrivateVCardMessage(
       {
         ...props,
+        chatType: 'private',
         type: 'vcard',
         quoted: props.quoted ?? null,
         status: props.status ?? 'pending',
