@@ -1,37 +1,43 @@
-import { PrivateTextMessage } from '@netzap/entities/chat'
+import { PrivateRevokedMessage } from '@netzap/entities/chat'
+import { Ban } from 'lucide-react'
 
 import {
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
+  MessageGroup,
 } from '@/pages/chat/components/ui/message'
 import {
   MessageSent,
   MessageSentBox,
   MessageSentDate,
 } from '@/pages/chat/components/ui/message-sent'
-import { useMessage } from '@/pages/chat/hooks/use-message'
 import { MessageStatus } from '@/pages/chats/components/messages/message-status'
 
-interface SentPrivateTextMessageProps {
-  message: PrivateTextMessage
+import { useMessage } from '@/pages/chat/hooks/use-message'
+
+interface SentPrivateRevokedMessageProps {
+  message: PrivateRevokedMessage
 }
 
-export function SentPrivateTextMessage({
+export function SentPrivateRevokedMessage({
   message,
-}: SentPrivateTextMessageProps) {
+}: SentPrivateRevokedMessageProps) {
   const { formattedDate } = useMessage({ message })
 
   return (
     <MessageSent>
       <MessageSentBox>
         <MessageContent>
-          <MessageBody>
-            {message.body}
+          <MessageGroup>
+            <Ban className="size-4" />
 
-            <MessageBodySpacer />
-          </MessageBody>
+            <MessageBody>
+              Mensagem apagada
+              <MessageBodySpacer />
+            </MessageBody>
+          </MessageGroup>
 
           <MessageFooter>
             <MessageSentDate dateTime={formattedDate.datetime}>

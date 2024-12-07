@@ -2,39 +2,34 @@ import { GroupUnknownMessage } from '@netzap/entities/chat'
 import { CircleHelp } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
-  MessageReceived,
-  MessageReceivedBox,
-  MessageReceivedDate,
-} from '@/pages/chat/components/ui/message-received'
+  MessageSent,
+  MessageSentBox,
+  MessageSentDate,
+} from '@/pages/chat/components/ui/message-sent'
 
 import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+import { MessageStatus } from '../../../../../components/messages/message-status'
 
-interface ReceivedGroupUnknownMessageProps {
+interface SentGroupUnknownMessageProps {
   message: GroupUnknownMessage
 }
 
-export function ReceivedGroupUnknownMessage({
+export function SentGroupUnknownMessage({
   message,
-}: ReceivedGroupUnknownMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: SentGroupUnknownMessageProps) {
+  const { formattedDate } = useGroupMessage({ message })
 
   return (
-    <MessageReceived>
-      <MessageReceivedBox>
+    <MessageSent>
+      <MessageSentBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           <MessageGroup>
             <CircleHelp className="size-4" />
 
@@ -44,12 +39,14 @@ export function ReceivedGroupUnknownMessage({
           </MessageGroup>
 
           <MessageFooter>
-            <MessageReceivedDate dateTime={formattedDate.datetime}>
+            <MessageSentDate dateTime={formattedDate.datetime}>
               {formattedDate.display}
-            </MessageReceivedDate>
+            </MessageSentDate>
+
+            <MessageStatus status={message.status} />
           </MessageFooter>
         </MessageContent>
-      </MessageReceivedBox>
-    </MessageReceived>
+      </MessageSentBox>
+    </MessageSent>
   )
 }

@@ -1,5 +1,5 @@
-import { GroupUnknownMessage } from '@netzap/entities/chat'
-import { CircleHelp } from 'lucide-react'
+import { GroupRevokedMessage } from '@netzap/entities/chat'
+import { Ban } from 'lucide-react'
 
 import {
   MessageAuthor,
@@ -18,13 +18,13 @@ import {
 
 import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
 
-interface ReceivedGroupUnknownMessageProps {
-  message: GroupUnknownMessage
+interface ReceivedGroupRevokedMessageProps {
+  message: GroupRevokedMessage
 }
 
-export function ReceivedGroupUnknownMessage({
+export function ReceivedGroupRevokedMessage({
   message,
-}: ReceivedGroupUnknownMessageProps) {
+}: ReceivedGroupRevokedMessageProps) {
   const { formattedDate, author } = useGroupMessage({ message })
 
   return (
@@ -36,10 +36,11 @@ export function ReceivedGroupUnknownMessage({
           </MessageHeader>
 
           <MessageGroup>
-            <CircleHelp className="size-4" />
+            <Ban className="size-4" />
 
             <MessageBody>
-              Mensagem não disponível <MessageBodySpacer />
+              Mensagem apagada
+              <MessageBodySpacer />
             </MessageBody>
           </MessageGroup>
 

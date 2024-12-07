@@ -1,37 +1,31 @@
-import { PrivateTextMessage } from '@netzap/entities/chat'
-
 import {
-  MessageBody,
-  MessageBodySpacer,
   MessageContent,
   MessageFooter,
 } from '@/pages/chat/components/ui/message'
 import {
   MessageSent,
-  MessageSentBox,
   MessageSentDate,
+  MessageSentMediaBox,
 } from '@/pages/chat/components/ui/message-sent'
 import { useMessage } from '@/pages/chat/hooks/use-message'
 import { MessageStatus } from '@/pages/chats/components/messages/message-status'
+import { PrivateVCardMessage } from '@netzap/entities/chat'
+import { SentContactItem } from '../../sent-contact-item'
 
-interface SentPrivateTextMessageProps {
-  message: PrivateTextMessage
+interface SentPrivateVCardMessageProps {
+  message: PrivateVCardMessage
 }
 
-export function SentPrivateTextMessage({
+export function SentPrivateVCardMessage({
   message,
-}: SentPrivateTextMessageProps) {
+}: SentPrivateVCardMessageProps) {
   const { formattedDate } = useMessage({ message })
 
   return (
     <MessageSent>
-      <MessageSentBox>
-        <MessageContent>
-          <MessageBody>
-            {message.body}
-
-            <MessageBodySpacer />
-          </MessageBody>
+      <MessageSentMediaBox>
+        <MessageContent className="mb-5">
+          <SentContactItem contact={message.contact} />
 
           <MessageFooter>
             <MessageSentDate dateTime={formattedDate.datetime}>
@@ -41,7 +35,7 @@ export function SentPrivateTextMessage({
             <MessageStatus status={message.status} />
           </MessageFooter>
         </MessageContent>
-      </MessageSentBox>
+      </MessageSentMediaBox>
     </MessageSent>
   )
 }

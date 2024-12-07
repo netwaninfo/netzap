@@ -1,14 +1,12 @@
-import { GroupDocumentMessage } from '@netzap/entities/chat'
+import { PrivateDocumentMessage } from '@netzap/entities/chat'
 import { File, FileX2 } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
   MessageShape,
 } from '@/pages/chat/components/ui/message'
 import {
@@ -16,27 +14,22 @@ import {
   MessageReceivedDate,
   MessageReceivedMediaBox,
 } from '@/pages/chat/components/ui/message-received'
-
-import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+import { useMessage } from '@/pages/chat/hooks/use-message'
 import Link from 'next/link'
 
-interface ReceivedGroupDocumentMessageProps {
-  message: GroupDocumentMessage
+interface ReceivedPrivateDocumentMessageProps {
+  message: PrivateDocumentMessage
 }
 
-export function ReceivedGroupDocumentMessage({
+export function ReceivedPrivateDocumentMessage({
   message,
-}: ReceivedGroupDocumentMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: ReceivedPrivateDocumentMessageProps) {
+  const { formattedDate } = useMessage({ message })
 
   return (
     <MessageReceived>
       <MessageReceivedMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <Link
               href={message.media.url}

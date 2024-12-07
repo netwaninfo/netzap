@@ -19,7 +19,7 @@ function useParamsState<T>({ schema }: UseParamsStateProps<T>) {
   const params = useParsedParams(schema)
   const searchParams = useSearchParams()
 
-  const setParamsState = useCallback(
+  const setParams = useCallback(
     (newParams: NewParams<typeof schema>) => {
       const entries = Object.entries(newParams) as Array<
         [NewParamsKey<typeof schema>, NewParamsValue<typeof schema>]
@@ -36,7 +36,7 @@ function useParamsState<T>({ schema }: UseParamsStateProps<T>) {
     [router, pathname, params, searchParams]
   )
 
-  return [params, setParamsState] as const
+  return { params, setParams }
 }
 
 export { useParamsState }

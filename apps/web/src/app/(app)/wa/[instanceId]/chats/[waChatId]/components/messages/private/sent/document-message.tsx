@@ -1,42 +1,36 @@
-import { GroupDocumentMessage } from '@netzap/entities/chat'
+import { PrivateDocumentMessage } from '@netzap/entities/chat'
 import { File, FileX2 } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
   MessageShape,
 } from '@/pages/chat/components/ui/message'
 import {
-  MessageReceived,
-  MessageReceivedDate,
-  MessageReceivedMediaBox,
-} from '@/pages/chat/components/ui/message-received'
-
-import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+  MessageSent,
+  MessageSentDate,
+  MessageSentMediaBox,
+} from '@/pages/chat/components/ui/message-sent'
+import { useMessage } from '@/pages/chat/hooks/use-message'
+import { MessageStatus } from '@/pages/chats/components/messages/message-status'
 import Link from 'next/link'
 
-interface ReceivedGroupDocumentMessageProps {
-  message: GroupDocumentMessage
+interface SentPrivateDocumentMessageProps {
+  message: PrivateDocumentMessage
 }
 
-export function ReceivedGroupDocumentMessage({
+export function SentPrivateDocumentMessage({
   message,
-}: ReceivedGroupDocumentMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: SentPrivateDocumentMessageProps) {
+  const { formattedDate } = useMessage({ message })
 
   return (
-    <MessageReceived>
-      <MessageReceivedMediaBox>
+    <MessageSent>
+      <MessageSentMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <Link
               href={message.media.url}
@@ -62,12 +56,14 @@ export function ReceivedGroupDocumentMessage({
           )}
 
           <MessageFooter>
-            <MessageReceivedDate dateTime={formattedDate.datetime}>
+            <MessageSentDate dateTime={formattedDate.datetime}>
               {formattedDate.display}
-            </MessageReceivedDate>
+            </MessageSentDate>
+
+            <MessageStatus status={message.status} />
           </MessageFooter>
         </MessageContent>
-      </MessageReceivedMediaBox>
-    </MessageReceived>
+      </MessageSentMediaBox>
+    </MessageSent>
   )
 }

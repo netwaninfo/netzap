@@ -2,41 +2,36 @@ import { GroupDocumentMessage } from '@netzap/entities/chat'
 import { File, FileX2 } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
   MessageShape,
 } from '@/pages/chat/components/ui/message'
 import {
-  MessageReceived,
-  MessageReceivedDate,
-  MessageReceivedMediaBox,
-} from '@/pages/chat/components/ui/message-received'
+  MessageSent,
+  MessageSentDate,
+  MessageSentMediaBox,
+} from '@/pages/chat/components/ui/message-sent'
 
 import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
 import Link from 'next/link'
+import { MessageStatus } from '../../../../../components/messages/message-status'
 
-interface ReceivedGroupDocumentMessageProps {
+interface SentGroupDocumentMessageProps {
   message: GroupDocumentMessage
 }
 
-export function ReceivedGroupDocumentMessage({
+export function SentGroupDocumentMessage({
   message,
-}: ReceivedGroupDocumentMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: SentGroupDocumentMessageProps) {
+  const { formattedDate } = useGroupMessage({ message })
 
   return (
-    <MessageReceived>
-      <MessageReceivedMediaBox>
+    <MessageSent>
+      <MessageSentMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <Link
               href={message.media.url}
@@ -62,12 +57,14 @@ export function ReceivedGroupDocumentMessage({
           )}
 
           <MessageFooter>
-            <MessageReceivedDate dateTime={formattedDate.datetime}>
+            <MessageSentDate dateTime={formattedDate.datetime}>
               {formattedDate.display}
-            </MessageReceivedDate>
+            </MessageSentDate>
+
+            <MessageStatus status={message.status} />
           </MessageFooter>
         </MessageContent>
-      </MessageReceivedMediaBox>
-    </MessageReceived>
+      </MessageSentMediaBox>
+    </MessageSent>
   )
 }

@@ -1,41 +1,35 @@
-import { GroupImageMessage } from '@netzap/entities/chat'
+import { PrivateImageMessage } from '@netzap/entities/chat'
 import { ImageOff } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
-  MessageReceived,
-  MessageReceivedDate,
-  MessageReceivedMediaBox,
-} from '@/pages/chat/components/ui/message-received'
-
-import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+  MessageSent,
+  MessageSentDate,
+  MessageSentMediaBox,
+} from '@/pages/chat/components/ui/message-sent'
+import { useMessage } from '@/pages/chat/hooks/use-message'
+import { MessageStatus } from '@/pages/chats/components/messages/message-status'
 import Link from 'next/link'
 
-interface ReceivedGroupImageMessageProps {
-  message: GroupImageMessage
+interface SentPrivateImageMessageProps {
+  message: PrivateImageMessage
 }
 
-export function ReceivedGroupImageMessage({
+export function SentPrivateImageMessage({
   message,
-}: ReceivedGroupImageMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: SentPrivateImageMessageProps) {
+  const { formattedDate } = useMessage({ message })
 
   return (
-    <MessageReceived>
-      <MessageReceivedMediaBox>
+    <MessageSent>
+      <MessageSentMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <MessageGroup className="flex-col space-x-0 space-y-1">
               <Link
@@ -71,12 +65,14 @@ export function ReceivedGroupImageMessage({
           )}
 
           <MessageFooter>
-            <MessageReceivedDate dateTime={formattedDate.datetime}>
+            <MessageSentDate dateTime={formattedDate.datetime}>
               {formattedDate.display}
-            </MessageReceivedDate>
+            </MessageSentDate>
+
+            <MessageStatus status={message.status} />
           </MessageFooter>
         </MessageContent>
-      </MessageReceivedMediaBox>
-    </MessageReceived>
+      </MessageSentMediaBox>
+    </MessageSent>
   )
 }

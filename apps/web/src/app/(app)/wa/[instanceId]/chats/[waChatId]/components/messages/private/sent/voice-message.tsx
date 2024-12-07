@@ -1,40 +1,34 @@
-import { GroupVoiceMessage } from '@netzap/entities/chat'
+import { PrivateVoiceMessage } from '@netzap/entities/chat'
 import { MicOff } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
-  MessageReceived,
-  MessageReceivedDate,
-  MessageReceivedMediaBox,
-} from '@/pages/chat/components/ui/message-received'
+  MessageSent,
+  MessageSentDate,
+  MessageSentMediaBox,
+} from '@/pages/chat/components/ui/message-sent'
+import { useMessage } from '@/pages/chat/hooks/use-message'
+import { MessageStatus } from '@/pages/chats/components/messages/message-status'
 
-import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
-
-interface ReceivedGroupVoiceMessageProps {
-  message: GroupVoiceMessage
+interface SentPrivateVoiceMessageProps {
+  message: PrivateVoiceMessage
 }
 
-export function ReceivedGroupVoiceMessage({
+export function SentPrivateVoiceMessage({
   message,
-}: ReceivedGroupVoiceMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: SentPrivateVoiceMessageProps) {
+  const { formattedDate } = useMessage({ message })
 
   return (
-    <MessageReceived>
-      <MessageReceivedMediaBox>
+    <MessageSent>
+      <MessageSentMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <audio controls>
               <source src={message.media.url} type={message.media.mimeType} />
@@ -52,12 +46,14 @@ export function ReceivedGroupVoiceMessage({
           )}
 
           <MessageFooter>
-            <MessageReceivedDate dateTime={formattedDate.datetime}>
+            <MessageSentDate dateTime={formattedDate.datetime}>
               {formattedDate.display}
-            </MessageReceivedDate>
+            </MessageSentDate>
+
+            <MessageStatus status={message.status} />
           </MessageFooter>
         </MessageContent>
-      </MessageReceivedMediaBox>
-    </MessageReceived>
+      </MessageSentMediaBox>
+    </MessageSent>
   )
 }

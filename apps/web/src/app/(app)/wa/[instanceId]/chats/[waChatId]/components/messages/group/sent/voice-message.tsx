@@ -2,39 +2,32 @@ import { GroupVoiceMessage } from '@netzap/entities/chat'
 import { MicOff } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
-  MessageReceived,
-  MessageReceivedDate,
-  MessageReceivedMediaBox,
-} from '@/pages/chat/components/ui/message-received'
+  MessageSent,
+  MessageSentDate,
+  MessageSentMediaBox,
+} from '@/pages/chat/components/ui/message-sent'
 
 import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+import { MessageStatus } from '../../../../../components/messages/message-status'
 
-interface ReceivedGroupVoiceMessageProps {
+interface SentGroupVoiceMessageProps {
   message: GroupVoiceMessage
 }
 
-export function ReceivedGroupVoiceMessage({
-  message,
-}: ReceivedGroupVoiceMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+export function SentGroupVoiceMessage({ message }: SentGroupVoiceMessageProps) {
+  const { formattedDate } = useGroupMessage({ message })
 
   return (
-    <MessageReceived>
-      <MessageReceivedMediaBox>
+    <MessageSent>
+      <MessageSentMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <audio controls>
               <source src={message.media.url} type={message.media.mimeType} />
@@ -52,12 +45,14 @@ export function ReceivedGroupVoiceMessage({
           )}
 
           <MessageFooter>
-            <MessageReceivedDate dateTime={formattedDate.datetime}>
+            <MessageSentDate dateTime={formattedDate.datetime}>
               {formattedDate.display}
-            </MessageReceivedDate>
+            </MessageSentDate>
+
+            <MessageStatus status={message.status} />
           </MessageFooter>
         </MessageContent>
-      </MessageReceivedMediaBox>
-    </MessageReceived>
+      </MessageSentMediaBox>
+    </MessageSent>
   )
 }

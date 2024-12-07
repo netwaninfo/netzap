@@ -9,8 +9,14 @@ import {
   MessageDate,
   MessageDateProps,
   MessageDateRef,
+  MessageMediaBox,
+  MessageMediaBoxProps,
+  MessageMediaBoxRef,
   MessageProps,
   MessageRef,
+  MessageShape,
+  MessageShapeProps,
+  MessageShapeRef,
 } from './message'
 
 const MessageReceived = React.forwardRef<MessageRef, MessageProps>(
@@ -20,16 +26,44 @@ const MessageReceived = React.forwardRef<MessageRef, MessageProps>(
 )
 MessageReceived.displayName = 'MessageReceived'
 
-const MessageReceivedBox = React.forwardRef<MessageBoxRef, MessageBoxProps>(
-  ({ className, ...props }, ref) => (
-    <MessageBox
-      ref={ref}
-      className={cn('bg-muted text-muted-foreground', className)}
-      {...props}
-    />
-  )
-)
+type MessageReceivedBoxRef = MessageBoxRef
+type MessageReceivedBoxProps = MessageBoxProps
+
+const MessageReceivedBox = React.forwardRef<
+  MessageReceivedBoxRef,
+  MessageReceivedBoxProps
+>(({ className, ...props }, ref) => (
+  <MessageBox
+    ref={ref}
+    className={cn('bg-muted text-muted-foreground', className)}
+    {...props}
+  />
+))
 MessageReceivedBox.displayName = 'MessageReceivedBox'
+
+const MessageReceivedMediaBox = React.forwardRef<
+  MessageMediaBoxRef,
+  MessageMediaBoxProps
+>(({ className, ...props }, ref) => (
+  <MessageMediaBox
+    ref={ref}
+    className={cn('bg-muted text-muted-foreground', className)}
+    {...props}
+  />
+))
+MessageReceivedMediaBox.displayName = 'MessageReceivedMediaBox'
+
+const MessageReceivedShape = React.forwardRef<
+  MessageShapeRef,
+  MessageShapeProps
+>(({ className, ...props }, ref) => (
+  <MessageShape
+    ref={ref}
+    className={cn('bg-primary/5', className)}
+    {...props}
+  />
+))
+MessageReceivedShape.displayName = 'MessageReceivedShape'
 
 const MessageReceivedDate = React.forwardRef<MessageDateRef, MessageDateProps>(
   ({ className, ...props }, ref) => (
@@ -42,4 +76,10 @@ const MessageReceivedDate = React.forwardRef<MessageDateRef, MessageDateProps>(
 )
 MessageReceivedDate.displayName = 'MessageReceivedDate'
 
-export { MessageReceived, MessageReceivedBox, MessageReceivedDate }
+export {
+  MessageReceived,
+  MessageReceivedBox,
+  MessageReceivedMediaBox,
+  MessageReceivedShape,
+  MessageReceivedDate,
+}

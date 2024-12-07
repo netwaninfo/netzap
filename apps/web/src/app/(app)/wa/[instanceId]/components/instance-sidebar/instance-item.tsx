@@ -11,7 +11,10 @@ interface InstanceItemProps {
 }
 
 export function InstanceItem({ item }: InstanceItemProps) {
-  const [{ instanceId: currentInstanceId }, setParams] = useParamsState({
+  const {
+    params: { instanceId: currentInstanceId },
+    setParams,
+  } = useParamsState({
     schema: instanceParamsSchema,
   })
 

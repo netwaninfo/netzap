@@ -1,40 +1,33 @@
-import { GroupAudioMessage } from '@netzap/entities/chat'
+import { PrivateAudioMessage } from '@netzap/entities/chat'
 import { HeadphoneOff } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
   MessageReceived,
   MessageReceivedDate,
   MessageReceivedMediaBox,
 } from '@/pages/chat/components/ui/message-received'
+import { useMessage } from '@/pages/chat/hooks/use-message'
 
-import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
-
-interface ReceivedGroupAudioMessageProps {
-  message: GroupAudioMessage
+interface ReceivedPrivateAudioMessageProps {
+  message: PrivateAudioMessage
 }
 
-export function ReceivedGroupAudioMessage({
+export function ReceivedPrivateAudioMessage({
   message,
-}: ReceivedGroupAudioMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: ReceivedPrivateAudioMessageProps) {
+  const { formattedDate } = useMessage({ message })
 
   return (
     <MessageReceived>
       <MessageReceivedMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <audio controls>
               <source src={message.media.url} type={message.media.mimeType} />

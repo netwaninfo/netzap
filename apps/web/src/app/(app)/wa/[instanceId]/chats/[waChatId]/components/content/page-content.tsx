@@ -4,6 +4,7 @@ import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area'
 import { Suspense, useEffect, useRef } from 'react'
 import { ChatContentWrapper } from '../ui/chat'
 import { GroupMessagesList } from './group-message-list'
+import { GroupMessagesListSkeleton } from './group-message-list-skeleton'
 
 export function PageContent() {
   const areaViewportRef = useRef<HTMLDivElement>(null)
@@ -20,7 +21,7 @@ export function PageContent() {
     <ScrollArea className="h-full">
       <ScrollAreaViewport ref={areaViewportRef}>
         <ChatContentWrapper>
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<GroupMessagesListSkeleton />}>
             <GroupMessagesList />
           </Suspense>
         </ChatContentWrapper>

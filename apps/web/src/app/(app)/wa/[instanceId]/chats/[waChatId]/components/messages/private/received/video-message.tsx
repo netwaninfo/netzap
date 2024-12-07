@@ -1,14 +1,12 @@
-import { GroupVideoMessage } from '@netzap/entities/chat'
+import { PrivateVideoMessage } from '@netzap/entities/chat'
 import { Play, VideoOff } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
   MessageReceived,
@@ -16,26 +14,22 @@ import {
   MessageReceivedMediaBox,
 } from '@/pages/chat/components/ui/message-received'
 
-import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+import { useMessage } from '@/pages/chat/hooks/use-message'
 import Link from 'next/link'
 
-interface ReceivedGroupVideoMessageProps {
-  message: GroupVideoMessage
+interface ReceivedPrivateVideoMessageProps {
+  message: PrivateVideoMessage
 }
 
-export function ReceivedGroupVideoMessage({
+export function ReceivedPrivateVideoMessage({
   message,
-}: ReceivedGroupVideoMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: ReceivedPrivateVideoMessageProps) {
+  const { formattedDate } = useMessage({ message })
 
   return (
     <MessageReceived>
       <MessageReceivedMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <MessageGroup className="flex-col space-x-0 space-y-1">
               <div className="relative">

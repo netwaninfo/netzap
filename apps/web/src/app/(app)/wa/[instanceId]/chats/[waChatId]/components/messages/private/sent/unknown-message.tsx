@@ -1,37 +1,42 @@
-import { PrivateTextMessage } from '@netzap/entities/chat'
+import { PrivateUnknownMessage } from '@netzap/entities/chat'
+import { CircleHelp } from 'lucide-react'
 
 import {
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
+  MessageGroup,
 } from '@/pages/chat/components/ui/message'
 import {
   MessageSent,
   MessageSentBox,
   MessageSentDate,
 } from '@/pages/chat/components/ui/message-sent'
-import { useMessage } from '@/pages/chat/hooks/use-message'
 import { MessageStatus } from '@/pages/chats/components/messages/message-status'
 
-interface SentPrivateTextMessageProps {
-  message: PrivateTextMessage
+import { useMessage } from '@/pages/chat/hooks/use-message'
+
+interface SentPrivateUnknownMessageProps {
+  message: PrivateUnknownMessage
 }
 
-export function SentPrivateTextMessage({
+export function SentPrivateUnknownMessage({
   message,
-}: SentPrivateTextMessageProps) {
+}: SentPrivateUnknownMessageProps) {
   const { formattedDate } = useMessage({ message })
 
   return (
     <MessageSent>
       <MessageSentBox>
         <MessageContent>
-          <MessageBody>
-            {message.body}
+          <MessageGroup>
+            <CircleHelp className="size-4" />
 
-            <MessageBodySpacer />
-          </MessageBody>
+            <MessageBody>
+              Mensagem não disponível <MessageBodySpacer />
+            </MessageBody>
+          </MessageGroup>
 
           <MessageFooter>
             <MessageSentDate dateTime={formattedDate.datetime}>

@@ -1,14 +1,12 @@
-import { GroupUnknownMessage } from '@netzap/entities/chat'
+import { PrivateUnknownMessage } from '@netzap/entities/chat'
 import { CircleHelp } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
   MessageReceived,
@@ -16,25 +14,21 @@ import {
   MessageReceivedDate,
 } from '@/pages/chat/components/ui/message-received'
 
-import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+import { useMessage } from '@/pages/chat/hooks/use-message'
 
-interface ReceivedGroupUnknownMessageProps {
-  message: GroupUnknownMessage
+interface ReceivedPrivateUnknownMessageProps {
+  message: PrivateUnknownMessage
 }
 
-export function ReceivedGroupUnknownMessage({
+export function ReceivedPrivateUnknownMessage({
   message,
-}: ReceivedGroupUnknownMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: ReceivedPrivateUnknownMessageProps) {
+  const { formattedDate } = useMessage({ message })
 
   return (
     <MessageReceived>
       <MessageReceivedBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           <MessageGroup>
             <CircleHelp className="size-4" />
 

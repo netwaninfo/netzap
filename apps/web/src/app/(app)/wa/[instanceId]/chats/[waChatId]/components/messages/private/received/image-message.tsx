@@ -1,41 +1,34 @@
-import { GroupImageMessage } from '@netzap/entities/chat'
+import { PrivateImageMessage } from '@netzap/entities/chat'
 import { ImageOff } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
   MessageReceived,
   MessageReceivedDate,
   MessageReceivedMediaBox,
 } from '@/pages/chat/components/ui/message-received'
-
-import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+import { useMessage } from '@/pages/chat/hooks/use-message'
 import Link from 'next/link'
 
-interface ReceivedGroupImageMessageProps {
-  message: GroupImageMessage
+interface ReceivedPrivateImageMessageProps {
+  message: PrivateImageMessage
 }
 
-export function ReceivedGroupImageMessage({
+export function ReceivedPrivateImageMessage({
   message,
-}: ReceivedGroupImageMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: ReceivedPrivateImageMessageProps) {
+  const { formattedDate } = useMessage({ message })
 
   return (
     <MessageReceived>
       <MessageReceivedMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <MessageGroup className="flex-col space-x-0 space-y-1">
               <Link

@@ -6,7 +6,7 @@ function getMessageContactNames(contacts: Contact[]) {
   const label = names
     .slice(0, names.length - 1)
     .join(', ')
-    .concat(`e ${names.at(-1)}`)
+    .concat(` e ${names.at(-1)}`)
 
   return label
 }

@@ -2,40 +2,33 @@ import { GroupImageMessage } from '@netzap/entities/chat'
 import { ImageOff } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
-  MessageReceived,
-  MessageReceivedDate,
-  MessageReceivedMediaBox,
-} from '@/pages/chat/components/ui/message-received'
+  MessageSent,
+  MessageSentDate,
+  MessageSentMediaBox,
+} from '@/pages/chat/components/ui/message-sent'
 
 import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
 import Link from 'next/link'
+import { MessageStatus } from '../../../../../components/messages/message-status'
 
-interface ReceivedGroupImageMessageProps {
+interface SentGroupImageMessageProps {
   message: GroupImageMessage
 }
 
-export function ReceivedGroupImageMessage({
-  message,
-}: ReceivedGroupImageMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+export function SentGroupImageMessage({ message }: SentGroupImageMessageProps) {
+  const { formattedDate } = useGroupMessage({ message })
 
   return (
-    <MessageReceived>
-      <MessageReceivedMediaBox>
+    <MessageSent>
+      <MessageSentMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <MessageGroup className="flex-col space-x-0 space-y-1">
               <Link
@@ -71,12 +64,14 @@ export function ReceivedGroupImageMessage({
           )}
 
           <MessageFooter>
-            <MessageReceivedDate dateTime={formattedDate.datetime}>
+            <MessageSentDate dateTime={formattedDate.datetime}>
               {formattedDate.display}
-            </MessageReceivedDate>
+            </MessageSentDate>
+
+            <MessageStatus status={message.status} />
           </MessageFooter>
         </MessageContent>
-      </MessageReceivedMediaBox>
-    </MessageReceived>
+      </MessageSentMediaBox>
+    </MessageSent>
   )
 }

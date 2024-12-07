@@ -1,14 +1,12 @@
-import { GroupAudioMessage } from '@netzap/entities/chat'
-import { HeadphoneOff } from 'lucide-react'
+import { PrivateVoiceMessage } from '@netzap/entities/chat'
+import { MicOff } from 'lucide-react'
 
 import {
-  MessageAuthor,
   MessageBody,
   MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
-  MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
   MessageReceived,
@@ -16,25 +14,21 @@ import {
   MessageReceivedMediaBox,
 } from '@/pages/chat/components/ui/message-received'
 
-import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+import { useMessage } from '@/pages/chat/hooks/use-message'
 
-interface ReceivedGroupAudioMessageProps {
-  message: GroupAudioMessage
+interface ReceivedPrivateVoiceMessageProps {
+  message: PrivateVoiceMessage
 }
 
-export function ReceivedGroupAudioMessage({
+export function ReceivedPrivateVoiceMessage({
   message,
-}: ReceivedGroupAudioMessageProps) {
-  const { formattedDate, author } = useGroupMessage({ message })
+}: ReceivedPrivateVoiceMessageProps) {
+  const { formattedDate } = useMessage({ message })
 
   return (
     <MessageReceived>
       <MessageReceivedMediaBox>
         <MessageContent>
-          <MessageHeader>
-            <MessageAuthor>{author}</MessageAuthor>
-          </MessageHeader>
-
           {message.media ? (
             <audio controls>
               <source src={message.media.url} type={message.media.mimeType} />
@@ -42,7 +36,7 @@ export function ReceivedGroupAudioMessage({
             </audio>
           ) : (
             <MessageGroup>
-              <HeadphoneOff className="size-4" />
+              <MicOff className="size-4" />
 
               <MessageBody>
                 Audio não disponível

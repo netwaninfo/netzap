@@ -1,10 +1,8 @@
-import { GroupUnknownMessage } from '@netzap/entities/chat'
-import { CircleHelp } from 'lucide-react'
+import { GroupMultiVCardMessage } from '@netzap/entities/chat'
 
+import { Each } from '@/components/utilities/each'
 import {
   MessageAuthor,
-  MessageBody,
-  MessageBodySpacer,
   MessageContent,
   MessageFooter,
   MessageGroup,
@@ -12,35 +10,34 @@ import {
 } from '@/pages/chat/components/ui/message'
 import {
   MessageReceived,
-  MessageReceivedBox,
   MessageReceivedDate,
+  MessageReceivedMediaBox,
 } from '@/pages/chat/components/ui/message-received'
-
 import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+import { ReceivedContactItem } from '../../received-contact-item'
 
-interface ReceivedGroupUnknownMessageProps {
-  message: GroupUnknownMessage
+interface ReceivedGroupMultiVCardMessageProps {
+  message: GroupMultiVCardMessage
 }
 
-export function ReceivedGroupUnknownMessage({
+export function ReceivedGroupMultiVCardMessage({
   message,
-}: ReceivedGroupUnknownMessageProps) {
+}: ReceivedGroupMultiVCardMessageProps) {
   const { formattedDate, author } = useGroupMessage({ message })
 
   return (
     <MessageReceived>
-      <MessageReceivedBox>
-        <MessageContent>
+      <MessageReceivedMediaBox>
+        <MessageContent className="mb-5">
           <MessageHeader>
             <MessageAuthor>{author}</MessageAuthor>
           </MessageHeader>
 
-          <MessageGroup>
-            <CircleHelp className="size-4" />
-
-            <MessageBody>
-              Mensagem não disponível <MessageBodySpacer />
-            </MessageBody>
+          <MessageGroup className="block space-x-0 space-y-2">
+            <Each
+              items={message.contacts}
+              render={({ item }) => <ReceivedContactItem contact={item} />}
+            />
           </MessageGroup>
 
           <MessageFooter>
@@ -49,7 +46,7 @@ export function ReceivedGroupUnknownMessage({
             </MessageReceivedDate>
           </MessageFooter>
         </MessageContent>
-      </MessageReceivedBox>
+      </MessageReceivedMediaBox>
     </MessageReceived>
   )
 }

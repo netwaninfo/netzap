@@ -1,47 +1,36 @@
-import { GroupUnknownMessage } from '@netzap/entities/chat'
-import { CircleHelp } from 'lucide-react'
-
 import {
   MessageAuthor,
-  MessageBody,
-  MessageBodySpacer,
   MessageContent,
   MessageFooter,
-  MessageGroup,
   MessageHeader,
 } from '@/pages/chat/components/ui/message'
 import {
   MessageReceived,
-  MessageReceivedBox,
   MessageReceivedDate,
+  MessageReceivedMediaBox,
 } from '@/pages/chat/components/ui/message-received'
-
 import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
+import { GroupVCardMessage } from '@netzap/entities/chat'
+import { ReceivedContactItem } from '../../received-contact-item'
 
-interface ReceivedGroupUnknownMessageProps {
-  message: GroupUnknownMessage
+interface ReceivedGroupVCardMessageProps {
+  message: GroupVCardMessage
 }
 
-export function ReceivedGroupUnknownMessage({
+export function ReceivedGroupVCardMessage({
   message,
-}: ReceivedGroupUnknownMessageProps) {
+}: ReceivedGroupVCardMessageProps) {
   const { formattedDate, author } = useGroupMessage({ message })
 
   return (
     <MessageReceived>
-      <MessageReceivedBox>
-        <MessageContent>
+      <MessageReceivedMediaBox>
+        <MessageContent className="mb-5">
           <MessageHeader>
             <MessageAuthor>{author}</MessageAuthor>
           </MessageHeader>
 
-          <MessageGroup>
-            <CircleHelp className="size-4" />
-
-            <MessageBody>
-              Mensagem não disponível <MessageBodySpacer />
-            </MessageBody>
-          </MessageGroup>
+          <ReceivedContactItem contact={message.contact} />
 
           <MessageFooter>
             <MessageReceivedDate dateTime={formattedDate.datetime}>
@@ -49,7 +38,7 @@ export function ReceivedGroupUnknownMessage({
             </MessageReceivedDate>
           </MessageFooter>
         </MessageContent>
-      </MessageReceivedBox>
+      </MessageReceivedMediaBox>
     </MessageReceived>
   )
 }

@@ -9,8 +9,14 @@ import {
   MessageDate,
   MessageDateProps,
   MessageDateRef,
+  MessageMediaBox,
+  MessageMediaBoxProps,
+  MessageMediaBoxRef,
   MessageProps,
   MessageRef,
+  MessageShape,
+  MessageShapeProps,
+  MessageShapeRef,
 } from './message'
 
 const MessageSent = React.forwardRef<MessageRef, MessageProps>(
@@ -31,6 +37,29 @@ const MessageSentBox = React.forwardRef<MessageBoxRef, MessageBoxProps>(
 )
 MessageSentBox.displayName = 'MessageSentBox'
 
+const MessageSentMediaBox = React.forwardRef<
+  MessageMediaBoxRef,
+  MessageMediaBoxProps
+>(({ className, ...props }, ref) => (
+  <MessageMediaBox
+    ref={ref}
+    className={cn('bg-primary text-primary-foreground', className)}
+    {...props}
+  />
+))
+MessageSentMediaBox.displayName = 'MessageSentMediaBox'
+
+const MessageSentShape = React.forwardRef<MessageShapeRef, MessageShapeProps>(
+  ({ className, ...props }, ref) => (
+    <MessageShape
+      ref={ref}
+      className={cn('bg-secondary/10', className)}
+      {...props}
+    />
+  )
+)
+MessageSentShape.displayName = 'MessageSentShape'
+
 const MessageSentDate = React.forwardRef<MessageDateRef, MessageDateProps>(
   ({ className, ...props }, ref) => (
     <MessageDate
@@ -42,4 +71,10 @@ const MessageSentDate = React.forwardRef<MessageDateRef, MessageDateProps>(
 )
 MessageSentDate.displayName = 'MessageSentDate'
 
-export { MessageSent, MessageSentBox, MessageSentDate }
+export {
+  MessageSent,
+  MessageSentBox,
+  MessageSentMediaBox,
+  MessageSentShape,
+  MessageSentDate,
+}
