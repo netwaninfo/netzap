@@ -7,7 +7,7 @@ export function GroupMessageItemSkeleton() {
   return (
     <DayGroup>
       <DayGroupHeader>
-        <Skeleton className="w-24 h-10" />
+        <Skeleton className="w-20 h-7" />
       </DayGroupHeader>
 
       <DayGroupContent>

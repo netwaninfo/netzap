@@ -1,5 +1,12 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { MessageItemReceivedSkeleton } from './message-item-received-skeleton'
+import { MessageItemSentSkeleton } from './message-item-sent-skeleton'
 
 export function MessageItemSkelton() {
-  return <Skeleton className="w-80 h-20 rounded-md" />
+  const isFromMe = Math.random() >= 0.5
+
+  if (isFromMe) {
+    return <MessageItemSentSkeleton />
+  }
+
+  return <MessageItemReceivedSkeleton />
 }
