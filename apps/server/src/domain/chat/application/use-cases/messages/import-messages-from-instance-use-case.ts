@@ -48,7 +48,7 @@ export class ImportMessagesFromInstanceUseCase {
             waMessage,
           })
 
-          if (response.isFailure()) return
+          if (response.isFailure()) continue
           const { message } = response.value
 
           messages.push(message)
