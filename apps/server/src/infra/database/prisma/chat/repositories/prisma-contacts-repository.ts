@@ -115,19 +115,27 @@ export class PrismaContactsRepository implements ContactsRepository {
     const rows = await this.prisma.contactInstance.count({
       where: {
         instanceId: instanceId.toString(),
+        isMyContact: true,
         contact: {
-          OR: [
-            {
-              name: {
-                contains: query,
+          waContactId: {
+            endsWith: '@c.us',
+          },
+          ...(query && {
+            OR: [
+              {
+                name: {
+                  contains: query,
+                  mode: 'insensitive',
+                },
               },
-            },
-            {
-              phone: {
-                contains: query,
+              {
+                phone: {
+                  contains: query,
+                  mode: 'insensitive',
+                },
               },
-            },
-          ],
+            ],
+          }),
         },
       },
     })

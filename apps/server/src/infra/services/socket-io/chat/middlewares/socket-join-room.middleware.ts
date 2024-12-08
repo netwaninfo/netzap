@@ -7,7 +7,7 @@ import { Middleware } from '../../decorators/middleware.decorator'
 import { SocketMiddleware, SocketMiddlewareNext } from '../../types/middleware'
 
 const querySchema = z.object({
-  instanceId: z.string(),
+  instanceId: z.string().min(1),
 })
 
 @Middleware()
@@ -17,7 +17,7 @@ export class SocketJoinRoomMiddleware implements SocketMiddleware {
     const parsed = querySchema.safeParse(rawQuery)
 
     if (!parsed.success) {
-      throw new WsException(fromZodError(parsed.error))
+      return next(new WsException(fromZodError(parsed.error)))
     }
 
     const query = parsed.data

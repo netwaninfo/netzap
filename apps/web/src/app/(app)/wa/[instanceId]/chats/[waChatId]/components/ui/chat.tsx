@@ -101,7 +101,7 @@ const ChatContentWrapper = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'p-4 space-y-3 min-w-96 max-w-screen-lg mx-auto w-full',
+      'p-4 space-y-3 min-w-96 max-w-screen-lg mx-auto w-full h-full',
       className
     )}
     {...props}

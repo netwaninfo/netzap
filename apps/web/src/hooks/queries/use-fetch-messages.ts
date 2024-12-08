@@ -1,4 +1,5 @@
 import { netzapAPI } from '@/services/container'
+import { FetchPagination } from '@/utils/fetch-pagination'
 import {
   FetchMessagesRequestParams,
   FetchMessagesRequestQuery,
@@ -14,12 +15,18 @@ function useFetchMessages({
   params,
   query = { page: 1 },
 }: UseFetchMessagesProps) {
+  const { page, ...queryParams } = query
+
   const { data, ...rest } = useSuspenseInfiniteQuery({
-    queryKey: ['messages', params, query],
-    queryFn: () => netzapAPI.messages.fetch({ params, query }),
-    initialPageParam: query.page,
-    getNextPageParam: page => page.pagination.next,
-    getPreviousPageParam: page => page.pagination.prev,
+    queryKey: ['messages', params, queryParams],
+    queryFn: ({ pageParam }) => {
+      return netzapAPI.messages.fetch({
+        params,
+        query: { ...queryParams, page: pageParam },
+      })
+    },
+    initialPageParam: page,
+    getNextPageParam: page => FetchPagination.getNextPage(page.pagination),
   })
 
   const { error, isFetching } = rest

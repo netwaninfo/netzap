@@ -10,6 +10,8 @@ import { ChatsList } from './chats-list'
 import { ChatsListSkeleton } from './chats-list-skeleton'
 import { ContactsSheet } from './contacts-sheet'
 
+const FETCH_LIMIT = 100
+
 export function ChatsSidebar() {
   return (
     <Sidebar className="w-96">
@@ -24,11 +26,9 @@ export function ChatsSidebar() {
       <SidebarContent className="min-h-0">
         <ScrollArea className="h-full">
           <ScrollAreaViewport>
-            <div className="space-y-1 py-2 px-3">
-              <Suspense fallback={<ChatsListSkeleton />}>
-                <ChatsList />
-              </Suspense>
-            </div>
+            <Suspense fallback={<ChatsListSkeleton amount={FETCH_LIMIT} />}>
+              <ChatsList limit={FETCH_LIMIT} />
+            </Suspense>
           </ScrollAreaViewport>
         </ScrollArea>
       </SidebarContent>

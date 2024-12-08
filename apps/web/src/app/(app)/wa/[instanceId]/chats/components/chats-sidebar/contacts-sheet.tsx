@@ -19,6 +19,8 @@ import { ChangeEvent, Suspense, useState } from 'react'
 import { ContactsList } from './contacts-list'
 import { ContactsListSkeleton } from './contacts-list-skeleton'
 
+const FETCH_LIMIT = 100
+
 export function ContactsSheet() {
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 300)
@@ -59,11 +61,11 @@ export function ContactsSheet() {
         <div className="min-h-0 flex-1 -my-2 -ml-3 -mr-6">
           <ScrollArea className="h-full">
             <ScrollAreaViewport>
-              <div className="space-y-1 pb-6 pr-4">
-                <Suspense fallback={<ContactsListSkeleton />}>
-                  <ContactsList search={debouncedSearch} />
-                </Suspense>
-              </div>
+              <Suspense
+                fallback={<ContactsListSkeleton amount={FETCH_LIMIT} />}
+              >
+                <ContactsList search={debouncedSearch} limit={FETCH_LIMIT} />
+              </Suspense>
             </ScrollAreaViewport>
           </ScrollArea>
         </div>

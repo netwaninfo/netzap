@@ -7,6 +7,7 @@ import {
 
 import { AppModule } from './app.module'
 import { EnvService } from './env/env.service'
+import { SocketIOAdapter } from './services/socket-io/adapter'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -20,6 +21,8 @@ async function bootstrap() {
     origin: [envService.get('NETZAP_DOMAIN_URL')],
     credentials: true,
   })
+
+  app.useWebSocketAdapter(new SocketIOAdapter(app, envService))
 
   app.enableShutdownHooks()
   await app.register(fastifyCookie)

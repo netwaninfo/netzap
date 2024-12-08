@@ -1,15 +1,42 @@
 'use client'
 
+import { useIntersectionObserver } from '@uidotdev/usehooks'
+import { useEffect } from 'react'
+
 import { Each } from '@/components/utilities/each'
 import { useFetchChats } from '@/hooks/queries/use-fetch-chats'
 import { useInstanceParams } from '@/hooks/use-instance-params'
 import { ChatItem } from '../chats/chat-item'
+import { ChatListWrapper } from './chat-list-wrapper'
 
-export function ChatsList() {
+interface ChatsListProps {
+  limit: number
+}
+
+export function ChatsList({ limit }: ChatsListProps) {
   const { instanceId } = useInstanceParams()
-  const [data] = useFetchChats({ params: { instanceId }, query: { page: 1 } })
+  const [data, { fetchNextPage, hasNextPage, isFetchingNextPage }] =
+    useFetchChats({
+      params: { instanceId },
+      query: { page: 1, limit },
+    })
+
+  const [triggerRef, entry] = useIntersectionObserver({
+    threshold: 1,
+  })
 
   const chats = data.pages.flatMap(page => page.data)
+  const isCanFetchNextPage = entry?.isIntersecting && hasNextPage
 
-  return <Each items={chats} render={({ item }) => <ChatItem chat={item} />} />
+  useEffect(() => {
+    if (isCanFetchNextPage) fetchNextPage()
+  }, [isCanFetchNextPage, fetchNextPage])
+
+  return (
+    <ChatListWrapper>
+      <Each items={chats} render={({ item }) => <ChatItem chat={item} />} />
+
+      <span ref={triggerRef} />
+    </ChatListWrapper>
+  )
 }

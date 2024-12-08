@@ -10,6 +10,7 @@ export const env = createEnv({
   client: {
     // NetZap
     NEXT_PUBLIC_NETZAP_API_URL: z.string().url(),
+    NEXT_PUBLIC_NETZAP_SOCKET_URL: z.string().url(),
 
     // Clerk
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
@@ -19,6 +20,7 @@ export const env = createEnv({
   runtimeEnv: {
     // NetZap
     NEXT_PUBLIC_NETZAP_API_URL: process.env.NEXT_PUBLIC_NETZAP_API_URL,
+    NEXT_PUBLIC_NETZAP_SOCKET_URL: process.env.NEXT_PUBLIC_NETZAP_SOCKET_URL,
 
     // Clerk
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,

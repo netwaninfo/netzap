@@ -1,11 +1,15 @@
 import { SkeletonList } from '@/components/custom/skeleton-list'
-import { Skeleton } from '@/components/ui/skeleton'
+import { ChatItemSkeleton } from '../chats/chat-item-skeleton'
+import { ChatListWrapper } from './chat-list-wrapper'
 
-export function ChatsListSkeleton() {
+interface ChatsListSkeletonProps {
+  amount: number
+}
+
+export function ChatsListSkeleton({ amount }: ChatsListSkeletonProps) {
   return (
-    <SkeletonList
-      amount={20}
-      render={() => <Skeleton className="w-full h-16 rounded-lg" />}
-    />
+    <ChatListWrapper>
+      <SkeletonList amount={amount} render={() => <ChatItemSkeleton />} />
+    </ChatListWrapper>
   )
 }

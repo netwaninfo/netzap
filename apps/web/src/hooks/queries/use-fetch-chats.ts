@@ -1,4 +1,5 @@
 import { netzapAPI } from '@/services/container'
+import { FetchPagination } from '@/utils/fetch-pagination'
 import {
   FetchChatsRequestParams,
   FetchChatsRequestQuery,
@@ -11,12 +12,18 @@ interface UseFetchChatsProps {
 }
 
 function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
+  const { page, ...queryParams } = query
+
   const { data, ...rest } = useSuspenseInfiniteQuery({
-    queryKey: ['chats', params, query],
-    queryFn: () => netzapAPI.chats.fetch({ params, query }),
-    initialPageParam: query.page,
-    getNextPageParam: page => page.pagination.next,
-    getPreviousPageParam: page => page.pagination.prev,
+    queryKey: ['chats', params, queryParams],
+    queryFn: ({ pageParam }) => {
+      return netzapAPI.chats.fetch({
+        params,
+        query: { ...queryParams, page: pageParam },
+      })
+    },
+    initialPageParam: page,
+    getNextPageParam: page => FetchPagination.getNextPage(page.pagination),
   })
 
   const { error, isFetching } = rest

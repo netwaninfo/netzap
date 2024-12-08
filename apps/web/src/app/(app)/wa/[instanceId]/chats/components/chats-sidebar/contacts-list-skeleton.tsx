@@ -1,11 +1,15 @@
 import { SkeletonList } from '@/components/custom/skeleton-list'
-import { Skeleton } from '@/components/ui/skeleton'
+import { ContactItemSkeleton } from './contact-item-skeleton'
+import { ContactsListWrapper } from './contacts-list-wrapper'
 
-export function ContactsListSkeleton() {
+interface ContactsListSkeletonProps {
+  amount: number
+}
+
+export function ContactsListSkeleton({ amount }: ContactsListSkeletonProps) {
   return (
-    <SkeletonList
-      amount={20}
-      render={() => <Skeleton className="w-full h-16 rounded-lg" />}
-    />
+    <ContactsListWrapper>
+      <SkeletonList amount={amount} render={() => <ContactItemSkeleton />} />
+    </ContactsListWrapper>
   )
 }
