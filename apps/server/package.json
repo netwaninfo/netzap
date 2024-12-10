@@ -19,7 +19,8 @@
 		"check:types": "tsc --noEmit",
 		"lint": "biome check --error-on-warnings",
 		"lint:fix": "biome check --write --error-on-warnings",
-		"clear:wwjs": "rm -rf .wwebjs_auth .wwebjs_cache"
+		"clear:wwjs": "rm -rf .wwebjs_auth .wwebjs_cache",
+		"clear:tmp": "find ./tmp -type f ! -name '.gitkeep' -delete"
 	},
 	"prisma": {
 		"seed": "tsx prisma/seed.ts"
@@ -61,7 +62,6 @@
 		"@nestjs/core": "^10.4.7",
 		"@nestjs/platform-fastify": "^10.4.7",
 		"@nestjs/platform-socket.io": "^10.4.7",
-		"@nestjs/serve-static": "^4.0.2",
 		"@nestjs/websockets": "^10.4.7",
 		"@netzap/entities": "workspace:^",
 		"@netzap/http": "workspace:^",

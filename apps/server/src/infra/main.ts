@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import fastifyCookie from '@fastify/cookie'
 import { NestFactory } from '@nestjs/core'
 import {
@@ -20,6 +22,11 @@ async function bootstrap() {
   app.enableCors({
     origin: [envService.get('NETZAP_DOMAIN_URL')],
     credentials: true,
+  })
+
+  app.useStaticAssets({
+    root: path.resolve(process.cwd(), 'tmp'),
+    prefix: envService.get('MEDIA_PUBLIC_PATH'),
   })
 
   app.useWebSocketAdapter(new SocketIOAdapter(app, envService))

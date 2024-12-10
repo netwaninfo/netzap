@@ -47,7 +47,10 @@ export class FileSystemStorageService
       })
     })
 
-    const fileUrl = `${this.env.get('MEDIA_PUBLIC_PATH')}/${fileKey}`
+    const fileUrl = new URL(
+      `${this.env.get('MEDIA_PUBLIC_PATH')}/${fileKey}`,
+      this.env.get('PUBLIC_URL')
+    ).toString()
 
     const storageObject = StorageObject.create({
       mimeType,
