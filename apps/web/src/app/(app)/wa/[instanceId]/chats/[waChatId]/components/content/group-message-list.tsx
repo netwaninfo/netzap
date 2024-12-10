@@ -1,10 +1,12 @@
 'use client'
 
+import { CircleFadingPlus, Loader2 } from 'lucide-react'
+import { useEffect } from 'react'
+
+import { Button } from '@/components/ui/button'
 import { Each } from '@/components/utilities/each'
 import { useChatParams } from '@/hooks/use-chat-params'
 import { useGroupedMessages } from '@/hooks/use-grouped-messages'
-import { useIntersectionObserver } from '@uidotdev/usehooks'
-import { useEffect } from 'react'
 import { ChatContentWrapper } from '../ui/chat'
 import { GroupMessageItem } from './group-message-item'
 
@@ -22,16 +24,7 @@ export function GroupMessagesList({ onMount, limit }: GroupMessagesListProps) {
       query: { page: 1, limit },
     })
 
-  const [triggerRef, entry] = useIntersectionObserver({
-    threshold: 0,
-  })
-
-  const isCanFetchNextPage =
-    !!entry?.isIntersecting && hasNextPage && !isFetching
-
-  useEffect(() => {
-    if (isCanFetchNextPage) fetchNextPage()
-  }, [isCanFetchNextPage, fetchNextPage])
+  const handleFetchNextPage = () => fetchNextPage()
 
   useEffect(() => {
     onMount()
@@ -39,12 +32,28 @@ export function GroupMessagesList({ onMount, limit }: GroupMessagesListProps) {
 
   return (
     <ChatContentWrapper>
+      {hasNextPage && (
+        <div className="flex justify-center">
+          <Button
+            variant="secondary"
+            disabled={isFetching}
+            onClick={handleFetchNextPage}
+          >
+            {isFetching ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <CircleFadingPlus />
+            )}
+
+            {isFetching ? 'Carregando' : 'Carregar mais'}
+          </Button>
+        </div>
+      )}
+
       <Each
         items={groups}
         render={({ item }) => <GroupMessageItem group={item} />}
       />
-
-      <span ref={triggerRef} />
     </ChatContentWrapper>
   )
 }

@@ -1,11 +1,12 @@
+import { Suspense } from 'react'
+
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
 } from '@/components/custom/sidebar'
 import { H4 } from '@/components/custom/typography'
-import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area'
-import { Suspense } from 'react'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { ChatsList } from './chats-list'
 import { ChatsListSkeleton } from './chats-list-skeleton'
 import { ContactsSheet } from './contacts-sheet'
@@ -25,11 +26,9 @@ export function ChatsSidebar() {
 
       <SidebarContent className="min-h-0">
         <ScrollArea className="h-full">
-          <ScrollAreaViewport>
-            <Suspense fallback={<ChatsListSkeleton amount={FETCH_LIMIT} />}>
-              <ChatsList limit={FETCH_LIMIT} />
-            </Suspense>
-          </ScrollAreaViewport>
+          <Suspense fallback={<ChatsListSkeleton amount={FETCH_LIMIT} />}>
+            <ChatsList limit={FETCH_LIMIT} />
+          </Suspense>
         </ScrollArea>
       </SidebarContent>
     </Sidebar>

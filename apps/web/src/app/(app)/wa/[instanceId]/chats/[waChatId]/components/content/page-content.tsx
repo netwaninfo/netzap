@@ -1,13 +1,13 @@
 'use client'
 
-import { ScrollArea, ScrollAreaViewport } from '@/components/ui/scroll-area'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { Suspense, useCallback, useRef } from 'react'
 import { GroupMessagesList } from './group-message-list'
 import { GroupMessagesListSkeleton } from './group-message-list-skeleton'
 
-const FETCH_LIMIT = 20
+const FETCH_LIMIT = 100
 
-const SKELETON_AMOUNT = Math.floor(100 / (Math.random() * 100))
+const SKELETON_AMOUNT = Math.floor(FETCH_LIMIT / (Math.random() * 100))
 
 export function PageContent() {
   const areaViewportRef = useRef<HTMLDivElement>(null)
@@ -21,17 +21,12 @@ export function PageContent() {
   }, [])
 
   return (
-    <ScrollArea className="h-full">
-      <ScrollAreaViewport ref={areaViewportRef}>
-        <Suspense
-          fallback={<GroupMessagesListSkeleton amount={SKELETON_AMOUNT} />}
-        >
-          <GroupMessagesList
-            onMount={handleLoadedMessages}
-            limit={FETCH_LIMIT}
-          />
-        </Suspense>
-      </ScrollAreaViewport>
+    <ScrollArea className="h-full" ref={areaViewportRef}>
+      <Suspense
+        fallback={<GroupMessagesListSkeleton amount={SKELETON_AMOUNT} />}
+      >
+        <GroupMessagesList onMount={handleLoadedMessages} limit={FETCH_LIMIT} />
+      </Suspense>
     </ScrollArea>
   )
 }

@@ -30,7 +30,7 @@ export function SentGroupImageMessage({ message }: SentGroupImageMessageProps) {
       <MessageSentMediaBox>
         <MessageContent>
           {message.media ? (
-            <MessageGroup className="flex-col space-x-0 space-y-1">
+            <MessageGroup className="flex-col items-start space-x-0 space-y-1">
               <Link
                 href={message.media.url}
                 target="_blank"

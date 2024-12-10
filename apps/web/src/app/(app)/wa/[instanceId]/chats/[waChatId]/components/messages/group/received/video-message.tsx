@@ -37,7 +37,7 @@ export function ReceivedGroupVideoMessage({
           </MessageHeader>
 
           {message.media ? (
-            <MessageGroup className="flex-col space-x-0 space-y-1">
+            <MessageGroup className="flex-col items-start space-x-0 space-y-1">
               <div className="relative">
                 <div className="absolute inset-x-center inset-y-center">
                   <Play className="size-4" />
