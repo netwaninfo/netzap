@@ -15,11 +15,10 @@ interface ChatsListProps {
 
 export function ChatsList({ limit }: ChatsListProps) {
   const { instanceId } = useInstanceParams()
-  const [data, { fetchNextPage, hasNextPage, isFetchingNextPage }] =
-    useFetchChats({
-      params: { instanceId },
-      query: { page: 1, limit },
-    })
+  const [data, { fetchNextPage, hasNextPage }] = useFetchChats({
+    params: { instanceId },
+    query: { page: 1, limit },
+  })
 
   const [triggerRef, entry] = useIntersectionObserver({
     threshold: 1,

@@ -12,7 +12,7 @@ import { PropsWithChildren, useState } from 'react'
 const config: QueryClientConfig = {
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 min
+      staleTime: Number.POSITIVE_INFINITY,
     },
   },
 }

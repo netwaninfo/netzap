@@ -52,6 +52,7 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
     this.set({
       lastMessage: message,
       lastInteractionAt: message.createdAt,
+      unreadCount: this.unreadCount + 1,
     })
   }
 

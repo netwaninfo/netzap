@@ -1,18 +1,22 @@
 'use client'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Suspense, useCallback, useRef } from 'react'
+import { delay } from '@/utils/delay'
+import { Suspense, useCallback, useEffect, useRef } from 'react'
+import { useSocketContext } from '../../../../providers/socket-provider'
 import { GroupMessagesList } from './group-message-list'
 import { GroupMessagesListSkeleton } from './group-message-list-skeleton'
 
-const FETCH_LIMIT = 100
+const FETCH_LIMIT = 2
 
 const SKELETON_AMOUNT = Math.floor(FETCH_LIMIT / (Math.random() * 100))
 
 export function PageContent() {
+  const { socket } = useSocketContext()
+
   const areaViewportRef = useRef<HTMLDivElement>(null)
 
-  const handleLoadedMessages = useCallback(() => {
+  const scrollToLastMessage = useCallback(() => {
     const areaViewport = areaViewportRef.current
     if (!areaViewport) return
 
@@ -20,12 +24,23 @@ export function PageContent() {
     areaViewport.scrollTo({ top: areaViewport.scrollHeight })
   }, [])
 
+  useEffect(() => {
+    socket.on('message:create', async () => {
+      await delay(150)
+      scrollToLastMessage()
+    })
+
+    return () => {
+      socket.off('message:create')
+    }
+  }, [socket, scrollToLastMessage])
+
   return (
     <ScrollArea className="h-full" ref={areaViewportRef}>
       <Suspense
         fallback={<GroupMessagesListSkeleton amount={SKELETON_AMOUNT} />}
       >
-        <GroupMessagesList onMount={handleLoadedMessages} limit={FETCH_LIMIT} />
+        <GroupMessagesList onMount={scrollToLastMessage} limit={FETCH_LIMIT} />
       </Suspense>
     </ScrollArea>
   )

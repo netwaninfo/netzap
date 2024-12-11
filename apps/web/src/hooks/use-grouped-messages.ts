@@ -17,7 +17,16 @@ interface UseGroupedMessagesProps extends UseFetchMessagesProps {}
 function useGroupedMessages({ params, query }: UseGroupedMessagesProps) {
   const [data, rest] = useFetchMessages({ params, query })
 
-  const messages = data.pages.flatMap(page => page.data).reverse()
+  const allMessages = data.pages.flatMap(page => page.data).reverse()
+  const messages = Array.from(
+    allMessages
+      .reduce((map, message) => {
+        map.set(message.id, message)
+        return map
+      }, new Map())
+      .values()
+  )
+
   const messagesGroupedByDate = Object.groupBy(messages, item =>
     dayjs(item.createdAt).format('YYYY-MM-DD')
   )
