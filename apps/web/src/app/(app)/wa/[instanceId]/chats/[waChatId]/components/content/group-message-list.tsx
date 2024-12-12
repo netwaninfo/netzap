@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Each } from '@/components/utilities/each'
 import { useChatParams } from '@/hooks/use-chat-params'
 import { useGroupedMessages } from '@/hooks/use-grouped-messages'
+import { useSocketContext } from '../../../../providers/socket-provider'
 import { ChatContentWrapper } from '../ui/chat'
 import { GroupMessageItem } from './group-message-item'
 
@@ -17,6 +18,7 @@ interface GroupMessagesListProps {
 
 export function GroupMessagesList({ onMount, limit }: GroupMessagesListProps) {
   const { instanceId, waChatId } = useChatParams()
+  const { socket } = useSocketContext()
 
   const [groups, { fetchNextPage, hasNextPage, isFetching }] =
     useGroupedMessages({

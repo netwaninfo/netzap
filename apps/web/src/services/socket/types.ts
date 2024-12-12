@@ -1,7 +1,7 @@
-import { ServerEvents } from '@netzap/websocket/chat'
+import { ClientEvents, ServerEvents } from '@netzap/websocket/chat'
 import { Socket } from 'socket.io-client'
 
-type SocketIO = Socket<ServerEvents>
+type SocketIO = Socket<ServerEvents, ClientEvents>
 
 interface SocketReservedEvents {
   connect: () => void

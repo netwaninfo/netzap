@@ -73,12 +73,12 @@ function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
   )
 
   useEffect(() => {
-    socket.on('chat:create', ({ chat }) => updateChatItem(chat))
-    socket.on('chat:change', ({ chat }) => updateChatItem(chat))
+    socket?.on('chat:create', ({ chat }) => updateChatItem(chat))
+    socket?.on('chat:change', ({ chat }) => updateChatItem(chat))
 
     return () => {
-      socket.off('chat:create')
-      socket.off('chat:change')
+      socket?.off('chat:create')
+      socket?.off('chat:change')
     }
   }, [socket, updateChatItem])
 

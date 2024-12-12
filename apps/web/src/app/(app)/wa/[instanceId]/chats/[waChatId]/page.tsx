@@ -1,5 +1,5 @@
-import { Input } from '@/components/ui/input'
 import { PageContent } from './components/content/page-content'
+import { PageFooter } from './components/content/page-footer'
 import { PageHeader } from './components/header/page-header'
 import { Chat, ChatContent, ChatFooter } from './components/ui/chat'
 
@@ -13,7 +13,7 @@ export default function Page() {
       </ChatContent>
 
       <ChatFooter>
-        <Input placeholder="Mensagem" />
+        <PageFooter />
       </ChatFooter>
     </Chat>
   )

@@ -102,14 +102,14 @@ function useFetchMessages({
   )
 
   useEffect(() => {
-    socket.on('message:create', ({ message }) => createMessageItem(message))
-    socket.on('message:change', ({ message }) => updateMessageItem(message))
-    socket.on('message:revoked', ({ message }) => updateMessageItem(message))
+    socket?.on('message:create', ({ message }) => createMessageItem(message))
+    socket?.on('message:change', ({ message }) => updateMessageItem(message))
+    socket?.on('message:revoked', ({ message }) => updateMessageItem(message))
 
     return () => {
-      socket.off('message:create')
-      socket.off('message:change')
-      socket.off('message:revoked')
+      socket?.off('message:create')
+      socket?.off('message:change')
+      socket?.off('message:revoked')
     }
   }, [socket, updateMessageItem, createMessageItem])
 

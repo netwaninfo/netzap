@@ -1,15 +1,21 @@
 'use client'
-
-import { useAuth } from '@clerk/nextjs'
 import { io } from 'socket.io-client'
 
 import { env } from '@/env'
 import { useInstanceParams } from '@/hooks/use-instance-params'
 import { SocketIO } from '@/services/socket/types'
-import { PropsWithChildren, createContext, useContext, useRef } from 'react'
+import { useAuth } from '@clerk/nextjs'
+import {
+  PropsWithChildren,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 
 interface SocketContextValue {
-  socket: SocketIO
+  socket: SocketIO | null
 }
 
 const SocketContext = createContext({} as SocketContextValue)
@@ -20,16 +26,23 @@ const SOCKET_URL = new URL('/wa', env.NEXT_PUBLIC_NETZAP_SOCKET_URL)
 
 export function SocketProvider({ children }: SocketProviderProps) {
   const { instanceId } = useInstanceParams()
-  const { sessionId } = useAuth()
+  const { getToken } = useAuth()
 
-  const socketRef = useRef<SocketIO>(
-    io(SOCKET_URL.toString(), {
+  const [socket, setSocket] = useState<SocketIO | null>(null)
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  const createSocketClient = useCallback(async () => {
+    const socket = io(SOCKET_URL.toString(), {
       query: { instanceId },
-      auth: { __session: sessionId },
+      auth: { __session: await getToken() },
     })
-  )
 
-  const socket = socketRef.current
+    setSocket(socket)
+  }, [])
+
+  useEffect(() => {
+    createSocketClient()
+  }, [createSocketClient])
 
   return (
     <SocketContext.Provider value={{ socket }}>

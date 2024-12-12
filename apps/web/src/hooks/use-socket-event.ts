@@ -23,10 +23,10 @@ function useSocketListener<
 >({ event, listener, socket }: UseSocketListenerProps<T, Event>) {
   useEffect(() => {
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    socket.on(event, listener as any)
+    socket?.on(event, listener as any)
 
     return () => {
-      socket.off(event)
+      socket?.off(event)
     }
   }, [socket, listener, event])
 }
