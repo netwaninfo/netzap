@@ -5,6 +5,7 @@ import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-alre
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
+import { Injectable } from '@nestjs/common'
 import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
 import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id'
 import type { Chat } from '../../enterprise/types/chat'
@@ -12,10 +13,10 @@ import type { Message } from '../../enterprise/types/message'
 import { ChatEmitter } from '../emitters/chat-emitter'
 import { MessageEmitter } from '../emitters/message-emitter'
 import { AttendantsRepository } from '../repositories/attendants-repository'
-import type { ChatsRepository } from '../repositories/chats-repository'
-import type { WhatsAppService } from '../services/whats-app-service'
+import { ChatsRepository } from '../repositories/chats-repository'
+import { WhatsAppService } from '../services/whats-app-service'
 import { CreateChatFromWAChatUseCase } from '../use-cases/chats/create-chat-from-wa-chat-use-case'
-import type { CreateTextMessageFromWAMessageUseCase } from '../use-cases/messages/create-text-message-from-wa-message-use-case'
+import { CreateTextMessageFromWAMessageUseCase } from '../use-cases/messages/create-text-message-from-wa-message-use-case'
 
 interface HandleSendTextMessageRequest {
   instanceId: UniqueEntityID
@@ -38,6 +39,7 @@ type HandleSendTextMessageResponse = Either<
   }
 >
 
+@Injectable()
 export class HandleSendTextMessage {
   constructor(
     private chatsRepository: ChatsRepository,

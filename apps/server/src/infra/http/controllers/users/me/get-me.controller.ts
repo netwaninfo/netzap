@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { GetUserUseCase } from '@/domain/users/application/use-cases/users/get-user-use-case'
-import { UserId } from '@/infra/auth/decorators/user-id.decorator'
+import { HttpUserId } from '@/infra/auth/decorators/http-user-id.decorator'
 import { UserPresenter } from '@/infra/presenters/users/user-presenter'
 import {
   BadRequestException,
@@ -17,7 +17,7 @@ export class GetMeController {
   constructor(private getUser: GetUserUseCase) {}
 
   @Get()
-  async handle(@UserId() userId: string): Promise<GetMeResponseBody> {
+  async handle(@HttpUserId() userId: string): Promise<GetMeResponseBody> {
     const response = await this.getUser.execute({
       userId: UniqueEntityID.create(userId),
     })

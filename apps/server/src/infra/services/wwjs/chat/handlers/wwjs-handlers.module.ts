@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { Module, forwardRef } from '@nestjs/common'
 
 import { HandleChangeWAChatUnreadCount } from '@/domain/chat/application/handlers/handle-change-wa-chat-unread-count'
 import { HandleChangeWAMessageACK } from '@/domain/chat/application/handlers/handle-change-wa-message-ack'
@@ -44,7 +44,12 @@ import { WWJSHandleMessageReceived } from './wwjs-handle-message-received'
 import { WWJSHandleMessageRevokedEveryone } from './wwjs-handle-message-revoked-everyone'
 
 @Module({
-  imports: [SocketModule, UtilitiesModule, StorageModule, WWJSMappersModule],
+  imports: [
+    forwardRef(() => SocketModule),
+    UtilitiesModule,
+    StorageModule,
+    WWJSMappersModule,
+  ],
   providers: [
     WWJSHandleMessageReceived,
     HandleReceivedWAMessage,

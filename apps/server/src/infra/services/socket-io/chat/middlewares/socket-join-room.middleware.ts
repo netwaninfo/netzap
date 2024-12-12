@@ -24,7 +24,7 @@ export class SocketJoinRoomMiddleware implements SocketMiddleware {
     const roomId = query.instanceId
 
     socket.join(roomId)
-    socket.handshake.query = Object.assign(rawQuery, query)
+    socket.instanceId = roomId
 
     return next()
   }

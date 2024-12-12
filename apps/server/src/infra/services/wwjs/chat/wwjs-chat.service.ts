@@ -4,6 +4,7 @@ import {
   WhatsAppServiceGetChatByWAChatIdParams,
   WhatsAppServiceGetContactsFromInstanceParams,
   WhatsAppServiceGetMessagesFromInstanceParams,
+  WhatsAppServiceSendChatSeenParams,
   WhatsAppServiceSendTextMessageParams,
 } from '@/domain/chat/application/services/whats-app-service'
 import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
@@ -62,6 +63,9 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
 
   async sendTextMessage({
     instanceId,
+    waChatId,
+    body,
+    quotedId,
   }: WhatsAppServiceSendTextMessageParams): Promise<
     Either<UnhandledError, WAMessage>
   > {
@@ -73,7 +77,13 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
       )
     }
 
-    throw new Error('Method not implemented.')
+    return this.runSafely(async () => {
+      const message = await client.raw.sendMessage(waChatId.toString(), body, {
+        quotedMessageId: quotedId?.toString(),
+      })
+
+      return this.messageMapper.toDomain({ message, client })
+    })
   }
 
   async getContactsFromInstance({
@@ -204,5 +214,22 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
 
       return chunksOfMessages.flat(1)
     })
+  }
+
+  async sendChatSeen({
+    instanceId,
+    waChatId,
+  }: WhatsAppServiceSendChatSeenParams): Promise<
+    Either<UnhandledError | ServiceUnavailableError, boolean>
+  > {
+    const client = this.wwjsService.getAvailableClient(instanceId)
+
+    if (!client) {
+      return failure(
+        new ServiceUnavailableError({ name: WWJSChatService.name })
+      )
+    }
+
+    return this.runSafely(() => client.raw.sendSeen(waChatId.toString()))
   }
 }

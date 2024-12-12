@@ -4,6 +4,7 @@ import type {
   WhatsAppServiceGetChatByWAChatIdParams,
   WhatsAppServiceGetContactsFromInstanceParams,
   WhatsAppServiceGetMessagesFromInstanceParams,
+  WhatsAppServiceSendChatSeenParams,
   WhatsAppServiceSendTextMessageParams,
 } from '@/domain/chat/application/services/whats-app-service'
 import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
@@ -27,6 +28,7 @@ interface WhatsAppServiceSendGroupTextMessageParams
 export class FakeWhatsAppService implements WhatsAppService {
   contacts: WAPrivateContact[] = []
   chats: WAChat[] = []
+  chatsSeen: WAEntityID[] = []
   messages: WAMessage[] = []
 
   async getChatByWAChatId({
@@ -117,5 +119,16 @@ export class FakeWhatsAppService implements WhatsAppService {
     return success(
       this.messages.filter(message => message.instanceId.equals(instanceId))
     )
+  }
+
+  async sendChatSeen({
+    instanceId,
+    waChatId,
+  }: WhatsAppServiceSendChatSeenParams): Promise<
+    Either<UnhandledError | ServiceUnavailableError, boolean>
+  > {
+    this.chatsSeen = this.chatsSeen.concat(waChatId)
+
+    return success(true)
   }
 }

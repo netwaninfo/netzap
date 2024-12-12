@@ -6,7 +6,7 @@ import {
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ImportFromInstanceUseCase } from '@/domain/chat/application/use-cases/instances/import-from-instance-use-case'
-import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
+import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-http-validation.pipe'
 
 const paramsSchema = new ZodHttpValidationPipe(importFromInstanceParamsSchema)
 

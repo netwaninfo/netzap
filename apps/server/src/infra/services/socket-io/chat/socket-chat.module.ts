@@ -4,11 +4,12 @@ import { Module } from '@nestjs/common'
 import { UtilitiesModule } from '../../utilities/utilities.module'
 import { SocketChatEmitter } from './emitters/socket-chat-emitter'
 import { SocketMessageEmitter } from './emitters/socket-message-emitter'
+import { SocketHandlersModule } from './handlers/socket-handlers.module'
 import { SocketJoinRoomMiddleware } from './middlewares/socket-join-room.middleware'
 import { SocketChatGateway } from './socket-chat.gateway'
 
 @Module({
-  imports: [UtilitiesModule],
+  imports: [UtilitiesModule, SocketHandlersModule],
   providers: [
     SocketChatGateway,
     SocketJoinRoomMiddleware,
