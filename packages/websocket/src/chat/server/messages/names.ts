@@ -1,9 +1,11 @@
 import { z } from 'zod'
 
-export const messageEventsNamesSchema = z.enum([
+export const messageServerEventsNamesSchema = z.enum([
   'message:change',
   'message:revoked',
   'message:create',
 ])
 
-export type MessageEventsNames = z.infer<typeof messageEventsNamesSchema>
+export type MessageServerEventsNames = z.infer<
+  typeof messageServerEventsNamesSchema
+>

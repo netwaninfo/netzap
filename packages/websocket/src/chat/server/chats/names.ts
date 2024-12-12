@@ -1,5 +1,8 @@
 import { z } from 'zod'
 
-export const chatEventsNamesSchema = z.enum(['chat:change', 'chat:create'])
+export const chatServerEventsNamesSchema = z.enum([
+  'chat:change',
+  'chat:create',
+])
 
-export type ChatEventsNames = z.infer<typeof chatEventsNamesSchema>
+export type ChatServerEventsNames = z.infer<typeof chatServerEventsNamesSchema>

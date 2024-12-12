@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { emitterFunction } from '@/shared'
-import { chatEventsNamesSchema } from '../names'
+import { chatServerEventsNamesSchema } from '../names'
 import { chatServerEventPayloadSchema } from '../payload'
 
 const payloadSchema = chatServerEventPayloadSchema
@@ -23,7 +23,7 @@ export type ChatCreateServerEventPayload = z.infer<
 >
 
 const eventSchema = z.object({
-  [chatEventsNamesSchema.Values['chat:create']]: emitterFunction.args(
+  [chatServerEventsNamesSchema.Values['chat:create']]: emitterFunction.args(
     chatCreateServerEventPayloadSchema
   ),
 })

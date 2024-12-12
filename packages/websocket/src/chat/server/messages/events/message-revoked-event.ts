@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { emitterFunction } from '@/shared'
-import { messageEventsNamesSchema } from '../names'
+import { messageServerEventsNamesSchema } from '../names'
 import { messageServerEventPayloadSchema } from '../payload'
 
 const payloadSchema = messageServerEventPayloadSchema
@@ -23,9 +23,8 @@ export type MessageRevokedServerEventPayload = z.infer<
 >
 
 const eventSchema = z.object({
-  [messageEventsNamesSchema.Values['message:revoked']]: emitterFunction.args(
-    messageRevokedServerEventPayloadSchema
-  ),
+  [messageServerEventsNamesSchema.Values['message:revoked']]:
+    emitterFunction.args(messageRevokedServerEventPayloadSchema),
 })
 
 // TS7056
