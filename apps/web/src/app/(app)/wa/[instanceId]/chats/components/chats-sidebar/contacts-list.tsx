@@ -16,7 +16,8 @@ interface ContactsListProps {
 
 export function ContactsList({ search, limit }: ContactsListProps) {
   const { instanceId } = useInstanceParams()
-  const [data, { fetchNextPage, hasNextPage }] = useFetchContacts({
+
+  const [contacts, { fetchNextPage, hasNextPage }] = useFetchContacts({
     params: { instanceId },
     query: { page: 1, ...(search?.trim() && { q: search }), limit },
   })
@@ -25,7 +26,6 @@ export function ContactsList({ search, limit }: ContactsListProps) {
     threshold: 1,
   })
 
-  const contacts = data.pages.flatMap(page => page.data)
   const isCanFetchNextPage = entry?.isIntersecting && hasNextPage
 
   useEffect(() => {

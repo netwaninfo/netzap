@@ -30,9 +30,8 @@ export function SocketProvider({ children }: SocketProviderProps) {
 
   const [socket, setSocket] = useState<SocketIO | null>(null)
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const createSocketClient = useCallback(async () => {
-    const socket = io(SOCKET_URL.toString(), {
+    const socket: SocketIO = io(SOCKET_URL.toString(), {
       query: { instanceId },
       auth: { __session: await getToken() },
     })

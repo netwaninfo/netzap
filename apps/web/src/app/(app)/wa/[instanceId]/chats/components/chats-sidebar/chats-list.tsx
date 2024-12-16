@@ -15,7 +15,7 @@ interface ChatsListProps {
 
 export function ChatsList({ limit }: ChatsListProps) {
   const { instanceId } = useInstanceParams()
-  const [data, { fetchNextPage, hasNextPage }] = useFetchChats({
+  const [chats, { fetchNextPage, hasNextPage }] = useFetchChats({
     params: { instanceId },
     query: { page: 1, limit },
   })
@@ -24,7 +24,6 @@ export function ChatsList({ limit }: ChatsListProps) {
     threshold: 1,
   })
 
-  const chats = data.pages.flatMap(page => page.data)
   const isCanFetchNextPage = entry?.isIntersecting && hasNextPage
 
   useEffect(() => {

@@ -5,15 +5,38 @@ import {
   FetchMessagesResponseBody,
 } from '@netzap/http/chat'
 import {
+  MessageChangeServerEventPayload,
+  MessageCreateServerEventPayload,
+  MessageRevokedServerEventPayload,
+} from '@netzap/websocket/chat'
+import {
   InfiniteData,
   useQueryClient,
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 
-import { useSocketContext } from '@/app/(app)/wa/[instanceId]/providers/socket-provider'
+import { useSocketEvent } from '../socket/use-socket-event'
+
+import { dayjs } from '@/lib/dayjs'
+import { remeda } from '@/lib/remeda'
+
 import { netzapAPI } from '@/services/container'
 import { FetchPagination } from '@/utils/fetch-pagination'
+
+interface CreateQueryKeyParams {
+  params: FetchMessagesRequestParams
+  query?: FetchMessagesRequestQuery
+}
+
+function createQueryKey({ params, query }: CreateQueryKeyParams) {
+  return ['messages', params, query]
+}
+
+interface GroupMessage {
+  date: Date
+  messages: Message[]
+}
 
 interface UseFetchMessagesProps {
   params: FetchMessagesRequestParams
@@ -24,24 +47,39 @@ function useFetchMessages({
   params,
   query = { page: 1 },
 }: UseFetchMessagesProps) {
-  const { page, ...queryParams } = query
-  const { waChatId } = params
-
-  const QUERY_KEY = ['messages', params, queryParams]
-
   const queryClient = useQueryClient()
-  const { socket } = useSocketContext()
 
   const { data, ...rest } = useSuspenseInfiniteQuery({
-    queryKey: QUERY_KEY,
+    queryKey: createQueryKey({ params, query }),
     queryFn: ({ pageParam }) => {
       return netzapAPI.messages.fetch({
         params,
-        query: { ...queryParams, page: pageParam },
+        query: { ...query, page: pageParam },
       })
     },
-    initialPageParam: page,
+    initialPageParam: query.page,
     getNextPageParam: page => FetchPagination.getNextPage(page.pagination),
+    select({ pages }) {
+      const uniqueMessages = remeda
+        .uniqueBy(
+          pages.flatMap(page => page.data),
+          item => item.id
+        )
+        .reverse()
+
+      const groupedMessages = remeda.groupBy(uniqueMessages, item =>
+        dayjs(item.createdAt).format('YYYY-MM-DD')
+      )
+
+      const groups: GroupMessage[] = Object.entries(groupedMessages).map(
+        ([date, messages]) => ({
+          date: dayjs(date).toDate(),
+          messages,
+        })
+      )
+
+      return groups
+    },
   })
 
   const { error, isFetching } = rest
@@ -50,70 +88,72 @@ function useFetchMessages({
     throw error
   }
 
-  const updateMessageItem = useCallback(
+  const createQueryKeyFromMessage = useCallback(
     (message: Message) => {
-      if (message.waChatId !== waChatId) return
+      return createQueryKey({
+        params: { instanceId: message.instanceId, waChatId: message.waChatId },
+        query,
+      })
+    },
+    [query]
+  )
+
+  const handleMessageCreate = useCallback(
+    (payload: MessageCreateServerEventPayload) => {
+      const { message } = payload
 
       queryClient.setQueryData<InfiniteData<FetchMessagesResponseBody>>(
-        QUERY_KEY,
+        createQueryKeyFromMessage(message),
         prev => {
           if (!prev) return prev
-          const prevPages = Array.from(prev.pages)
+          const currentPages = [...prev.pages]
 
-          const newPages = prevPages.map(({ data, ...page }) => ({
-            ...page,
-            data: data.map(item => {
+          const firstPage = currentPages[0]
+          firstPage.data.unshift(message)
+
+          return { ...prev, pages: currentPages }
+        }
+      )
+    },
+    [queryClient, createQueryKeyFromMessage]
+  )
+
+  const handleMessageChangeOrRevoked = useCallback(
+    (
+      payload:
+        | MessageChangeServerEventPayload
+        | MessageRevokedServerEventPayload
+    ) => {
+      const { message } = payload
+
+      queryClient.setQueryData<InfiniteData<FetchMessagesResponseBody>>(
+        createQueryKeyFromMessage(message),
+        prev => {
+          if (!prev) return prev
+          const previousPages = [...prev.pages]
+
+          const updatedPages = previousPages.map(({ data, ...page }) => {
+            const updatedData = data.map(item => {
               if (item.id !== message.id) return item
 
               return { ...item, ...message }
-            }),
-          }))
+            })
 
-          return { ...prev, pages: newPages }
+            return { ...page, data: updatedData }
+          })
+
+          return { ...prev, pages: updatedPages }
         }
       )
     },
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    [queryClient, waChatId, QUERY_KEY]
+    [queryClient, createQueryKeyFromMessage]
   )
 
-  const createMessageItem = useCallback(
-    (message: Message) => {
-      if (message.waChatId !== waChatId) return
-
-      queryClient.setQueryData<InfiniteData<FetchMessagesResponseBody>>(
-        QUERY_KEY,
-        prev => {
-          if (!prev) return prev
-          const prevPages = Array.from(prev.pages)
-
-          const firstPage = prevPages.at(0)
-          if (!firstPage) return prev
-
-          firstPage.data.unshift(message)
-          const newPages = [firstPage, ...prevPages.slice(1, prevPages.length)]
-
-          return { ...prev, pages: newPages }
-        }
-      )
-    },
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    [queryClient, waChatId, QUERY_KEY]
-  )
-
-  useEffect(() => {
-    socket?.on('message:create', ({ message }) => createMessageItem(message))
-    socket?.on('message:change', ({ message }) => updateMessageItem(message))
-    socket?.on('message:revoked', ({ message }) => updateMessageItem(message))
-
-    return () => {
-      socket?.off('message:create')
-      socket?.off('message:change')
-      socket?.off('message:revoked')
-    }
-  }, [socket, updateMessageItem, createMessageItem])
+  useSocketEvent('message:create', handleMessageCreate, [])
+  useSocketEvent('message:change', handleMessageChangeOrRevoked, [])
+  useSocketEvent('message:revoked', handleMessageChangeOrRevoked, [])
 
   return [data, rest] as const
 }
 
-export { useFetchMessages, type UseFetchMessagesProps }
+export { useFetchMessages, createQueryKey, type GroupMessage }

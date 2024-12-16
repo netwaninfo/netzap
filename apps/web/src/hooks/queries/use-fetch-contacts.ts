@@ -27,6 +27,9 @@ function useFetchContacts({
     },
     initialPageParam: page,
     getNextPageParam: page => FetchPagination.getNextPage(page.pagination),
+    select({ pages }) {
+      return pages.flatMap(page => page.data)
+    },
   })
 
   const { error, isFetching } = rest

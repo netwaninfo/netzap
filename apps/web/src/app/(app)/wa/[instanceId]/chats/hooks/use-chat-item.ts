@@ -5,7 +5,6 @@ import { useInstanceParams } from '@/hooks/use-instance-params'
 import { useParsedParams } from '@/hooks/use-parsed-params'
 import { formatRelativeDate } from '@/utils/format-relative-date'
 import { z } from 'zod'
-import { useSocketContext } from '../../providers/socket-provider'
 
 interface UseChatItemParams {
   chat: Chat
@@ -20,7 +19,6 @@ const chatsParams = z.object({
 
 export function useChatItem({ chat }: UseChatItemParams) {
   const router = useRouter()
-  const { socket } = useSocketContext()
 
   const { instanceId } = useInstanceParams()
   const { waChatId } = useParsedParams(chatsParams)
@@ -36,12 +34,13 @@ export function useChatItem({ chat }: UseChatItemParams) {
   const canShowUnreadCounter = chat.unreadCount !== 0
   const hasUnreadCount = chat.unreadCount > 0
 
-  function handleSelect() {
-    router.push(`/wa/${instanceId}/chats/${chat.waChatId}`)
-    socket?.emit('chat:read', { waChatId: chat.waChatId })
-  }
-
   const isCurrentChat = waChatId === chat.waChatId
+
+  function handleSelect() {
+    if (isCurrentChat) return
+
+    return router.push(`/wa/${instanceId}/chats/${chat.waChatId}`)
+  }
 
   return {
     relativeDate,

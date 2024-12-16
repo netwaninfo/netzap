@@ -1,7 +1,10 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  // transpilePackages: ['@netzap/entities', '@netzap/http'],
+  reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 export default nextConfig

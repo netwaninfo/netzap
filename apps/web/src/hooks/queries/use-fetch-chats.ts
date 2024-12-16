@@ -1,19 +1,35 @@
-import { Chat } from '@netzap/entities/chat'
+import { remeda } from '@/lib/remeda'
+import { netzapAPI } from '@/services/container'
+import { FetchPagination } from '@/utils/fetch-pagination'
+import { Chat, Message } from '@netzap/entities/chat'
 import {
   FetchChatsRequestParams,
   FetchChatsRequestQuery,
   FetchChatsResponseBody,
 } from '@netzap/http/chat'
 import {
+  ChatChangeServerEventPayload,
+  ChatCreateServerEventPayload,
+  MessageChangeServerEventPayload,
+  MessageCreateServerEventPayload,
+  MessageRevokedServerEventPayload,
+} from '@netzap/websocket/chat'
+import {
   InfiniteData,
   useQueryClient,
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
+import { useSocketEvent } from '../socket/use-socket-event'
 
-import { useSocketContext } from '@/app/(app)/wa/[instanceId]/providers/socket-provider'
-import { netzapAPI } from '@/services/container'
-import { FetchPagination } from '@/utils/fetch-pagination'
+interface CreateQueryKeyParams {
+  params: FetchChatsRequestParams
+  query?: FetchChatsRequestQuery
+}
+
+function createQueryKey({ params, query }: CreateQueryKeyParams) {
+  return ['chats', params, query]
+}
 
 interface UseFetchChatsProps {
   params: FetchChatsRequestParams
@@ -21,23 +37,24 @@ interface UseFetchChatsProps {
 }
 
 function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
-  const { page, ...queryParams } = query
-
-  const QUERY_KEY = ['chats', params, queryParams]
-
   const queryClient = useQueryClient()
-  const { socket } = useSocketContext()
 
   const { data, ...rest } = useSuspenseInfiniteQuery({
-    queryKey: QUERY_KEY,
+    queryKey: createQueryKey({ params, query }),
     queryFn: ({ pageParam }) => {
       return netzapAPI.chats.fetch({
         params,
-        query: { ...queryParams, page: pageParam },
+        query: { ...query, page: pageParam },
       })
     },
-    initialPageParam: page,
+    initialPageParam: query.page,
     getNextPageParam: page => FetchPagination.getNextPage(page.pagination),
+    select({ pages }) {
+      return remeda.uniqueBy(
+        pages.flatMap(page => page.data),
+        item => item.id
+      )
+    },
   })
 
   const { error, isFetching } = rest
@@ -46,43 +63,147 @@ function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
     throw error
   }
 
-  const updateChatItem = useCallback(
+  const createQueryKeyFromChat = useCallback(
     (chat: Chat) => {
+      return createQueryKey({ params: { instanceId: chat.instanceId }, query })
+    },
+    [query]
+  )
+
+  const handleChatCreate = useCallback(
+    (payload: ChatCreateServerEventPayload) => {
+      const { chat } = payload
+
       queryClient.setQueryData<InfiniteData<FetchChatsResponseBody>>(
-        QUERY_KEY,
+        createQueryKeyFromChat(chat),
         prev => {
           if (!prev) return prev
-          const prevPages = Array.from(prev.pages)
+          const currentPages = [...prev.pages]
 
-          const newPages = prevPages.map(({ data, ...page }) => ({
-            ...page,
-            data: data.filter(item => item.id !== chat.id),
-          }))
-
-          const firstPage = newPages.at(0)
-          if (!firstPage) return prev
-
+          const firstPage = currentPages[0]
           firstPage.data.unshift(chat)
 
-          return { ...prev, pages: newPages }
+          return { ...prev, pages: currentPages }
         }
       )
     },
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    [queryClient, QUERY_KEY]
+    [queryClient, createQueryKeyFromChat]
   )
 
-  useEffect(() => {
-    socket?.on('chat:create', ({ chat }) => updateChatItem(chat))
-    socket?.on('chat:change', ({ chat }) => updateChatItem(chat))
+  const handleChatChange = useCallback(
+    (payload: ChatChangeServerEventPayload) => {
+      const { chat } = payload
 
-    return () => {
-      socket?.off('chat:create')
-      socket?.off('chat:change')
-    }
-  }, [socket, updateChatItem])
+      queryClient.setQueryData<InfiniteData<FetchChatsResponseBody>>(
+        createQueryKeyFromChat(chat),
+        prev => {
+          if (!prev) return prev
+          const previousPages = [...prev.pages]
+
+          const updatedPages = previousPages.map(({ data, ...page }) => {
+            const updatedData = data.map(item => {
+              if (item.id !== chat.id) return item
+
+              return { ...item, ...chat }
+            })
+
+            return { ...page, data: updatedData }
+          })
+
+          return { ...prev, pages: updatedPages }
+        }
+      )
+    },
+    [queryClient, createQueryKeyFromChat]
+  )
+
+  useSocketEvent('chat:create', handleChatCreate, [])
+  useSocketEvent('chat:change', handleChatChange, [])
+
+  const createQueryKeyFromMessage = useCallback(
+    (message: Message) => {
+      return createQueryKey({
+        params: { instanceId: message.instanceId },
+        query,
+      })
+    },
+    [query]
+  )
+
+  const handleMessageCreate = useCallback(
+    (payload: MessageCreateServerEventPayload) => {
+      const { message } = payload
+
+      queryClient.setQueryData<InfiniteData<FetchChatsResponseBody>>(
+        createQueryKeyFromMessage(message),
+        prev => {
+          if (!prev) return prev
+          const previousPages = [...prev.pages]
+
+          const chat = previousPages
+            .flatMap(item => item.data)
+            .find(item => item.id === message.chatId)
+
+          if (!chat) return prev
+
+          const updatedPages = previousPages.map(({ data, ...page }) => {
+            const updatedData = data.filter(item => item.id !== message.chatId)
+
+            return { ...page, data: updatedData }
+          })
+
+          const firstPage = updatedPages.at(0)
+          firstPage?.data.unshift({
+            ...chat,
+            lastMessage: { ...(chat.lastMessage ?? {}), ...message },
+          } as Chat)
+
+          return { ...prev, pages: updatedPages }
+        }
+      )
+    },
+    [queryClient, createQueryKeyFromMessage]
+  )
+
+  const handleMessageChangeOrRevoked = useCallback(
+    (
+      payload:
+        | MessageChangeServerEventPayload
+        | MessageRevokedServerEventPayload
+    ) => {
+      const { message } = payload
+
+      queryClient.setQueryData<InfiniteData<FetchChatsResponseBody>>(
+        createQueryKeyFromMessage(message),
+        prev => {
+          if (!prev) return prev
+          const previousPages = [...prev.pages]
+
+          const updatedPages = previousPages.map(({ data, ...page }) => {
+            const updatedData = data.map(item => {
+              if (item.id !== message.chatId) return item
+
+              return {
+                ...item,
+                lastMessage: { ...(item.lastMessage ?? {}), ...message },
+              }
+            }) as FetchChatsResponseBody['data']
+
+            return { ...page, data: updatedData }
+          })
+
+          return { ...prev, pages: updatedPages }
+        }
+      )
+    },
+    [queryClient, createQueryKeyFromMessage]
+  )
+
+  useSocketEvent('message:create', handleMessageCreate, [])
+  useSocketEvent('message:change', handleMessageChangeOrRevoked, [])
+  useSocketEvent('message:revoked', handleMessageChangeOrRevoked, [])
 
   return [data, rest] as const
 }
 
-export { useFetchChats }
+export { useFetchChats, createQueryKey }

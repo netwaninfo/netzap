@@ -1,29 +1,25 @@
 'use client'
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { instanceParamsSchema } from '@/hooks/use-instance-params'
-import { useParamsState } from '@/hooks/use-params-state'
+import { useInstanceParams } from '@/hooks/use-instance-params'
 import { cn } from '@/lib/utils'
 import { Instance } from '@netzap/entities/chat'
+import { useRouter } from 'next/navigation'
 
 interface InstanceItemProps {
   item: Instance
 }
 
 export function InstanceItem({ item }: InstanceItemProps) {
-  const {
-    params: { instanceId: currentInstanceId },
-    setParams,
-  } = useParamsState({
-    schema: instanceParamsSchema,
-  })
+  const router = useRouter()
+  const { instanceId } = useInstanceParams()
 
-  const isCurrentInstanceId = item.id === currentInstanceId
+  const isCurrentInstanceId = item.id === instanceId
 
   function handleSelect() {
     if (isCurrentInstanceId) return
 
-    setParams({ instanceId: item.id })
+    router.push(`/wa/${item.id}/chats`)
   }
 
   return (

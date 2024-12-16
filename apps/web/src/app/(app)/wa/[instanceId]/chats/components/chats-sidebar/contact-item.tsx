@@ -6,7 +6,7 @@ import { User } from 'lucide-react'
 
 import { SheetClose } from '@/components/ui/sheet'
 import { useInstanceParams } from '@/hooks/use-instance-params'
-import { delay } from '@/utils/delay'
+import { remeda } from '@/lib/remeda'
 import { useRouter } from 'next/navigation'
 import {
   Contact,
@@ -27,8 +27,12 @@ export function ContactItem({ contact }: ContactItemProps) {
   const { instanceId } = useInstanceParams()
 
   async function handleSelect() {
-    await delay(150)
-    router.push(`/wa/${instanceId}/chats/${contact.waContactId}`)
+    remeda
+      .debounce(
+        () => router.push(`/wa/${instanceId}/chats/${contact.waContactId}`),
+        { waitMs: 150 }
+      )
+      .call()
   }
 
   return (

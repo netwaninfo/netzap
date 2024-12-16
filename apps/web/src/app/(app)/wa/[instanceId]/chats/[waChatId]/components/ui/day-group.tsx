@@ -33,8 +33,8 @@ const DayGroupDate = React.forwardRef<
   <time
     ref={ref}
     className={cn(
-      badgeVariants({ variant: 'default' }),
-      'rounded-sm py-1',
+      badgeVariants({ variant: 'secondary' }),
+      'rounded-sm py-1 shadow',
       className
     )}
     {...props}
