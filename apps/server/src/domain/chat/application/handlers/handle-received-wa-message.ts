@@ -66,7 +66,12 @@ export class HandleReceivedWAMessage {
     const { message } = response.value
 
     chat.interact(message)
-    await this.chatsRepository.setMessage(chat)
+    chat.incrementUnread()
+
+    await Promise.all([
+      this.chatsRepository.setMessage(chat),
+      this.chatsRepository.setUnreadCount(chat),
+    ])
 
     if (!hasPreviousChat) {
       this.chatEmitter.emitCreate({ chat })

@@ -59,12 +59,16 @@ export class CreatePrivateChatFromWAChatUseCase {
       contact = response.value.contact
     }
 
+    const lastInteractionAt = waChat.hasTimestamp()
+      ? this.dateService.fromUnix(waChat.timestamp).toDate()
+      : null
+
     const chat = PrivateChat.create({
       contact,
+      lastInteractionAt,
       instanceId: waChat.instanceId,
       unreadCount: waChat.unreadCount,
       waChatId: waChat.id,
-      lastInteractionAt: this.dateService.fromUnix(waChat.timestamp).toDate(),
     })
 
     await this.chatsRepository.create(chat)

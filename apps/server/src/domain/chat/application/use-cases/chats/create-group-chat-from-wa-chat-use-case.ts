@@ -67,12 +67,16 @@ export class CreateGroupChatFromWAChatUseCase {
 
     if (response.isFailure()) return failure(response.value)
 
+    const lastInteractionAt = waChat.hasTimestamp()
+      ? this.dateService.fromUnix(waChat.timestamp).toDate()
+      : null
+
     const chat = GroupChat.create({
       group,
+      lastInteractionAt,
       instanceId: waChat.instanceId,
       unreadCount: waChat.unreadCount,
       waChatId: waChat.id,
-      lastInteractionAt: this.dateService.fromUnix(waChat.timestamp).toDate(),
     })
 
     await this.chatsRepository.create(chat)

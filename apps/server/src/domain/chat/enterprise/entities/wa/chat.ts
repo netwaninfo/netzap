@@ -1,11 +1,12 @@
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { WAEntity } from '@/core/entities/wa-entity'
+import { SetRequired } from 'type-fest'
 import type { WAEntityID } from '../value-objects/wa-entity-id'
 
 export interface WAChatProps {
   instanceId: UniqueEntityID
   name: string
-  timestamp: number
+  timestamp?: number
   unreadCount: number
   imageUrl: string | null
   isGroup: boolean
@@ -25,6 +26,10 @@ export abstract class WAChat<Props extends WAChatProps> extends WAEntity<
 
   get timestamp() {
     return this.props.timestamp
+  }
+
+  hasTimestamp(): this is SetRequired<WAChatProps, 'timestamp'> {
+    return !!this.timestamp
   }
 
   get unreadCount() {

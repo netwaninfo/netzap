@@ -17,7 +17,7 @@ export class SocketChatGateway implements OnGatewayInit {
       })
 
     for (const middleware of middlewares) {
-      io.use(middleware.execute)
+      io.use(middleware.execute.bind(middleware))
     }
   }
 }

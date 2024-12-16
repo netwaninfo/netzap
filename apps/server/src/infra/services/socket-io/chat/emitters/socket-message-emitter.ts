@@ -1,6 +1,5 @@
 import { WebSocketServer } from '@nestjs/websockets'
-import { MessageServerEvents } from '@netzap/websocket/chat'
-import { DefaultEventsMap, Server } from 'socket.io'
+import {} from 'socket.io'
 
 import {
   MessageEmitter,
@@ -8,12 +7,13 @@ import {
 } from '@/domain/chat/application/emitters/message-emitter'
 import { Message } from '@/domain/chat/enterprise/types/message'
 import { MessagePresenter } from '@/infra/presenters/chat/message-presenter'
+import type { SocketServer } from '../../types/socket-server'
 import { SocketGateway } from '../decorators/socket-gateway.decorator'
 
 @SocketGateway()
 export class SocketMessageEmitter implements MessageEmitter {
   @WebSocketServer()
-  private io!: Server<DefaultEventsMap, MessageServerEvents>
+  private io!: SocketServer
 
   private getRoom(message: Message) {
     return message.instanceId.toString()

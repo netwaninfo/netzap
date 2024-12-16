@@ -5,6 +5,7 @@ import { UtilitiesModule } from '../../utilities/utilities.module'
 import { SocketChatEmitter } from './emitters/socket-chat-emitter'
 import { SocketMessageEmitter } from './emitters/socket-message-emitter'
 import { SocketHandlersModule } from './handlers/socket-handlers.module'
+import { SocketAuthenticateUserMiddleware } from './middlewares/socket-authenticate-user.middleware'
 import { SocketJoinRoomMiddleware } from './middlewares/socket-join-room.middleware'
 import { SocketChatGateway } from './socket-chat.gateway'
 
@@ -13,6 +14,8 @@ import { SocketChatGateway } from './socket-chat.gateway'
   providers: [
     SocketChatGateway,
     SocketJoinRoomMiddleware,
+    SocketAuthenticateUserMiddleware,
+
     {
       provide: ChatEmitter,
       useClass: SocketChatEmitter,
