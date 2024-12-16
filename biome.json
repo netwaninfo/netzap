@@ -11,7 +11,8 @@
 				"noStaticOnlyClass": "off"
 			},
 			"correctness": {
-				"noUnusedImports": "error"
+				"noUnusedImports": "error",
+				"useExhaustiveDependencies": "off"
 			},
 			"style": {
 				"useImportType": "off"
