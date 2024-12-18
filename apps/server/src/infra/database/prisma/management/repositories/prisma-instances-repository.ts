@@ -26,13 +26,15 @@ export class PrismaInstancesRepository implements InstancesRepository {
   }
 
   async save(instance: Instance): Promise<void> {
-    await this.prisma.$transaction([
-      this.prisma.instance.update({
-        data: PrismaInstanceMapper.toPrisma(instance),
-        where: {
-          id: instance.id.toString(),
-        },
-      }),
-    ])
+    try {
+      await this.prisma.$transaction([
+        this.prisma.instance.update({
+          data: PrismaInstanceMapper.toPrisma(instance),
+          where: {
+            id: instance.id.toString(),
+          },
+        }),
+      ])
+    } catch (error) {}
   }
 }

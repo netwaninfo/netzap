@@ -144,20 +144,24 @@ export class PrismaContactsRepository implements ContactsRepository {
   }
 
   async create(contact: Contact): Promise<void> {
-    await this.prisma.$transaction([
-      this.prisma.contact.create({
-        data: PrismaContactMapper.toPrismaCreate(contact),
-      }),
-    ])
+    try {
+      await this.prisma.$transaction([
+        this.prisma.contact.create({
+          data: PrismaContactMapper.toPrismaCreate(contact),
+        }),
+      ])
+    } catch (error) {}
   }
 
   async createMany(contacts: Contact[]): Promise<void> {
-    await this.prisma.$transaction(
-      contacts.map(contact =>
-        this.prisma.contact.create({
-          data: PrismaContactMapper.toPrismaCreate(contact),
-        })
+    try {
+      await this.prisma.$transaction(
+        contacts.map(contact =>
+          this.prisma.contact.create({
+            data: PrismaContactMapper.toPrismaCreate(contact),
+          })
+        )
       )
-    )
+    } catch (error) {}
   }
 }

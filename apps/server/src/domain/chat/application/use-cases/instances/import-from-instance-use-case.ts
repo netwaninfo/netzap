@@ -25,11 +25,19 @@ export class ImportFromInstanceUseCase {
   ): Promise<ImportFromInstanceUseCaseResponse> {
     const { instanceId } = request
 
+    console.time('IMPORT')
+    console.log('START')
     this.importContacts
       .execute({ instanceId })
       .then(() => this.importChats.execute({ instanceId }))
       .then(() => this.importMessages.execute({ instanceId }))
-      .then(() => console.log('FINISHED'))
+      .then(() => {
+        console.log('FINISHED')
+        console.timeEnd('IMPORT')
+      })
+      .catch(err => {
+        console.log(err)
+      })
 
     return success({})
   }

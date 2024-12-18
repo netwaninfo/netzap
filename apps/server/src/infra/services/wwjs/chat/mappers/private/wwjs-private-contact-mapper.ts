@@ -2,6 +2,7 @@ import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-e
 import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
 import { WWJSContact } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
+import { ContactUtils } from '../../utils/contact'
 
 interface WWJSPrivateContactMapperToDomainParams {
   contact: WWJSContact
@@ -14,7 +15,7 @@ export class WWJSPrivateContactMapper {
     contact,
   }: WWJSPrivateContactMapperToDomainParams): Promise<WAPrivateContact> {
     const [imageUrl, formattedNumber] = await Promise.all([
-      contact.getProfilePicUrl(),
+      ContactUtils.getProfilePicUrlOrNull(contact),
       contact.getFormattedNumber(),
     ])
 
@@ -28,7 +29,7 @@ export class WWJSPrivateContactMapper {
         isWAContact: contact.isWAContact,
         number: contact.number,
         isInstance: contact.isMe,
-        imageUrl: imageUrl ?? null,
+        imageUrl,
         name: contact.name,
         pushName: contact.pushname,
         shortName: contact.shortName,

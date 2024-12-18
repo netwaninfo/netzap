@@ -3,6 +3,7 @@ import { WAGroupContact } from '@/domain/chat/enterprise/entities/wa/group/conta
 import { Injectable } from '@nestjs/common'
 import { WWJSContact } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
+import { ContactUtils } from '../../utils/contact'
 
 interface WWJSGroupContactMapperToDomainParams {
   contact: WWJSContact
@@ -16,7 +17,7 @@ export class WWJSGroupContactMapper {
     contact,
   }: WWJSGroupContactMapperToDomainParams): Promise<WAGroupContact> {
     const [imageUrl, formattedNumber] = await Promise.all([
-      contact.getProfilePicUrl(),
+      ContactUtils.getProfilePicUrlOrNull(contact),
       contact.getFormattedNumber(),
     ])
 
@@ -25,7 +26,7 @@ export class WWJSGroupContactMapper {
         formattedNumber,
         instanceId: client.instanceId,
         number: contact.number,
-        imageUrl: imageUrl ?? null,
+        imageUrl,
         name: contact.name,
         pushName: contact.pushname,
         shortName: contact.shortName,

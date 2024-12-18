@@ -162,32 +162,38 @@ export class PrismaChatsRepository implements ChatsRepository {
   }
 
   async create(chat: Chat): Promise<void> {
-    await this.prisma.$transaction([
-      this.prisma.chat.create({
-        data: PrismaChatMapper.toPrismaCreate(chat),
-      }),
-    ])
+    try {
+      await this.prisma.$transaction([
+        this.prisma.chat.create({
+          data: PrismaChatMapper.toPrismaCreate(chat),
+        }),
+      ])
+    } catch (error) {}
   }
 
   async setMessage(chat: Chat): Promise<void> {
-    await this.prisma.$transaction([
-      this.prisma.chat.update({
-        data: PrismaChatMapper.toPrismaSetMessage(chat),
-        where: {
-          id: chat.id.toString(),
-        },
-      }),
-    ])
+    try {
+      await this.prisma.$transaction([
+        this.prisma.chat.update({
+          data: PrismaChatMapper.toPrismaSetMessage(chat),
+          where: {
+            id: chat.id.toString(),
+          },
+        }),
+      ])
+    } catch (error) {}
   }
 
   async setUnreadCount(chat: Chat): Promise<void> {
-    await this.prisma.$transaction([
-      this.prisma.chat.update({
-        data: PrismaChatMapper.toPrismaSetUnreadCount(chat),
-        where: {
-          id: chat.id.toString(),
-        },
-      }),
-    ])
+    try {
+      await this.prisma.$transaction([
+        this.prisma.chat.update({
+          data: PrismaChatMapper.toPrismaSetUnreadCount(chat),
+          where: {
+            id: chat.id.toString(),
+          },
+        }),
+      ])
+    } catch (error) {}
   }
 }
