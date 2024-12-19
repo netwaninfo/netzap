@@ -6,6 +6,7 @@ import { Chat } from '@/domain/chat/enterprise/types/chat'
 import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
 import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
+import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor'
 import { WhatsAppService } from '../../services/whats-app-service'
 import { CreateChatFromWAChatUseCase } from './create-chat-from-wa-chat-use-case'
 import { LinkChatLastMessageFromWAMessageUseCase } from './link-chat-last-message-from-wa-message-use-case'
@@ -43,27 +44,31 @@ export class ImportChatsFromInstanceUseCase {
     const waChats = response.value
     const chats: Chat[] = []
 
-    for (const waChat of waChats) {
-      const createChatResponse = await this.createChatFromWAChat.execute({
-        waChat,
-      })
-
-      if (createChatResponse.isFailure()) continue
-      let chat: Chat = createChatResponse.value.chat
-
-      if (waChat.hasLastMessage()) {
-        const linkChatResponse =
-          await this.linkChatLastMessageFromWAMessage.execute({
-            chat,
-            waMessage: waChat.lastMessage,
+    await ChunkProcessor.fromArray({ array: waChats }).processChunk(
+      async chunk => {
+        for (const waChat of chunk) {
+          const createChatResponse = await this.createChatFromWAChat.execute({
+            waChat,
           })
 
-        if (linkChatResponse.isFailure()) continue
-        chat = linkChatResponse.value.chat
-      }
+          if (createChatResponse.isFailure()) continue
+          let chat: Chat = createChatResponse.value.chat
 
-      chats.push(chat)
-    }
+          if (waChat.hasLastMessage()) {
+            const linkChatResponse =
+              await this.linkChatLastMessageFromWAMessage.execute({
+                chat,
+                waMessage: waChat.lastMessage,
+              })
+
+            if (linkChatResponse.isFailure()) continue
+            chat = linkChatResponse.value.chat
+          }
+
+          chats.push(chat)
+        }
+      }
+    )
 
     return success({ chats })
   }
