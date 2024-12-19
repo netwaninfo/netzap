@@ -33,12 +33,14 @@ export class CreateContactsFromWAContactsUseCase {
         waContactIds: waContacts.map(waContact => waContact.id),
       })
 
-    const waContactsAreNotCreated = waContacts.filter(
-      waContact =>
-        !contactsAreCreated.some(contact =>
-          contact.waContactId.equals(waContact.id)
+    const waContactsAreNotCreated = !contactsAreCreated.length
+      ? waContacts
+      : waContacts.filter(
+          waContact =>
+            !contactsAreCreated.some(contact =>
+              contact.waContactId.equals(waContact.id)
+            )
         )
-    )
 
     const newContacts = waContactsAreNotCreated.map(waContact => {
       return Contact.create({
