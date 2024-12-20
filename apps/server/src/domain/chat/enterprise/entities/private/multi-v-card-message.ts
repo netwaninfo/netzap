@@ -18,6 +18,10 @@ export class PrivateMultiVCardMessage extends PrivateMessage<PrivateMultiVCardMe
     return this.props.contacts
   }
 
+  hasContacts() {
+    return !!this.contacts.length
+  }
+
   revoke(): PrivateRevokedMessage {
     return PrivateRevokedMessage.create(
       {

@@ -18,6 +18,10 @@ export class GroupMultiVCardMessage extends GroupMessage<GroupMultiVCardMessageP
     return this.props.contacts
   }
 
+  hasContacts() {
+    return !!this.contacts.length
+  }
+
   revoke(): GroupRevokedMessage {
     return GroupRevokedMessage.create(
       {

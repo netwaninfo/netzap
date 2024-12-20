@@ -17,6 +17,10 @@ export abstract class Entity<Props> {
     return this._id
   }
 
+  set id(newId: UniqueEntityID) {
+    this._id = newId
+  }
+
   equals(entity: Entity<unknown>) {
     if (entity === this) {
       return true

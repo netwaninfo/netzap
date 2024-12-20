@@ -3,6 +3,7 @@ import { Contact } from '@/domain/chat/enterprise/entities/contact'
 import { ContactPhone } from '@/domain/chat/enterprise/entities/value-objects/contact-phone'
 import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import {
+  Prisma,
   Contact as PrismaContact,
   type ContactInstance as PrismaContactInstance,
 } from '@prisma/client'
@@ -31,5 +32,16 @@ export class PrismaContactInstanceMapper {
       },
       UniqueEntityID.create(contact.id)
     )
+  }
+
+  static toPrismaCreate(
+    contact: Contact
+  ): Prisma.ContactInstanceUncheckedCreateInput {
+    return {
+      contactId: contact.id.toString(),
+      instanceId: contact.instanceId.toString(),
+      isMe: contact.isMe,
+      isMyContact: contact.isMyContact,
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   ContactsRepository,
   ContactsRepositoryCountByInstanceIdParams,
@@ -154,14 +155,55 @@ export class PrismaContactsRepository implements ContactsRepository {
   }
 
   async createMany(contacts: Contact[]): Promise<void> {
-    try {
-      await this.prisma.$transaction(
-        contacts.map(contact =>
-          this.prisma.contact.create({
-            data: PrismaContactMapper.toPrismaCreate(contact),
-          })
+    const currentContacts = await this.prisma.contact.findMany({
+      where: {
+        waContactId: {
+          in: contacts.map(contact => contact.waContactId.toString()),
+        },
+      },
+      select: {
+        id: true,
+        waContactId: true,
+        name: true,
+      },
+    })
+
+    const contactsToCreateInstance = contacts
+      .map(contact => {
+        const existingContact = currentContacts.find(
+          item => item.waContactId === contact.waContactId.toString()
         )
-      )
+
+        if (existingContact) {
+          contact.id = UniqueEntityID.create(existingContact.id)
+        }
+
+        return { contact, createNewInstance: !!existingContact }
+      })
+      .filter(({ createNewInstance }) => createNewInstance)
+      .map(({ contact }) => contact)
+
+    const contactsToCreate = contacts.filter(
+      contact =>
+        !contactsToCreateInstance.some(contactToCreate =>
+          contactToCreate.id.equals(contact.id)
+        )
+    )
+
+    try {
+      await this.prisma.$transaction([
+        ...contactsToCreateInstance.map(
+          contact =>
+            this.prisma.contactInstance.create({
+              data: PrismaContactInstanceMapper.toPrismaCreate(contact),
+            }),
+          ...contactsToCreate.map(contact =>
+            this.prisma.contact.create({
+              data: PrismaContactMapper.toPrismaCreate(contact),
+            })
+          )
+        ),
+      ])
     } catch (error) {}
   }
 }

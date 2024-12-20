@@ -48,18 +48,10 @@ export class PrismaContactMapper {
       waContactId: contact.waContactId.toString(),
       imageUrl: contact.imageUrl,
       instances: {
-        connectOrCreate: {
-          create: {
-            instanceId: contact.instanceId.toString(),
-            isMe: contact.isMe,
-            isMyContact: contact.isMyContact,
-          },
-          where: {
-            contactId_instanceId: {
-              contactId: contact.id.toString(),
-              instanceId: contact.instanceId.toString(),
-            },
-          },
+        create: {
+          instanceId: contact.instanceId.toString(),
+          isMe: contact.isMe,
+          isMyContact: contact.isMyContact,
         },
       },
     }
