@@ -1,4 +1,3 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   ChatsRepository,
   ChatsRepositoryCountByInstanceIdParams,
@@ -22,7 +21,7 @@ import { PrismaPrivateChatMapper } from '../mappers/private/chat-mapper'
 export class PrismaChatsRepository implements ChatsRepository {
   constructor(private prisma: PrismaService) {}
 
-  private getChatIncludes(instanceId: UniqueEntityID) {
+  private getChatIncludes() {
     return {
       message: {
         include: {
@@ -40,11 +39,7 @@ export class PrismaChatsRepository implements ChatsRepository {
       },
       contact: {
         include: {
-          instances: {
-            where: {
-              instanceId: instanceId.toString(),
-            },
-          },
+          contact: true,
         },
       },
       group: true,
@@ -72,7 +67,7 @@ export class PrismaChatsRepository implements ChatsRepository {
           },
         }),
       },
-      include: this.getChatIncludes(instanceId),
+      include: this.getChatIncludes(),
     })
 
     if (!raw) return null
@@ -95,7 +90,7 @@ export class PrismaChatsRepository implements ChatsRepository {
           isNot: null,
         },
       },
-      include: this.getChatIncludes(instanceId),
+      include: this.getChatIncludes(),
     })
 
     if (!raw) return null
@@ -118,7 +113,7 @@ export class PrismaChatsRepository implements ChatsRepository {
           isNot: null,
         },
       },
-      include: this.getChatIncludes(instanceId),
+      include: this.getChatIncludes(),
     })
 
     if (!raw) return null
@@ -138,7 +133,7 @@ export class PrismaChatsRepository implements ChatsRepository {
       },
       take,
       skip: Pagination.skip({ limit: take, page }),
-      include: this.getChatIncludes(instanceId),
+      include: this.getChatIncludes(),
       orderBy: [
         { message: { createdAt: 'desc' } },
         { lastInteractionAt: 'desc' },

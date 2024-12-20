@@ -40,20 +40,12 @@ export class PrismaContactMapper {
 
   static toPrismaCreate(contact: Contact): Prisma.ContactUncheckedCreateInput {
     return {
-      id: contact.id.toString(),
       formattedPhone: contact.phone.formattedNumber,
       phone: contact.phone.number,
       isInstance: contact.isInstance,
       name: contact.name,
       waContactId: contact.waContactId.toString(),
       imageUrl: contact.imageUrl,
-      instances: {
-        create: {
-          instanceId: contact.instanceId.toString(),
-          isMe: contact.isMe,
-          isMyContact: contact.isMyContact,
-        },
-      },
     }
   }
 }

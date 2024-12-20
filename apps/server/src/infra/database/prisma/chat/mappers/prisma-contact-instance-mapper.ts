@@ -7,6 +7,7 @@ import {
   Contact as PrismaContact,
   type ContactInstance as PrismaContactInstance,
 } from '@prisma/client'
+import { PrismaContactMapper } from './prisma-contact-mapper'
 
 export type Raw = PrismaContactInstance & {
   contact: PrismaContact
@@ -30,18 +31,24 @@ export class PrismaContactInstanceMapper {
         isMe: raw.isMe,
         isMyContact: raw.isMyContact,
       },
-      UniqueEntityID.create(contact.id)
+      UniqueEntityID.create(raw.id)
     )
   }
 
-  static toPrismaCreate(
-    contact: Contact
-  ): Prisma.ContactInstanceUncheckedCreateInput {
+  static toPrismaCreate(contact: Contact): Prisma.ContactInstanceCreateInput {
     return {
-      contactId: contact.id.toString(),
+      id: contact.id.toString(),
       instanceId: contact.instanceId.toString(),
       isMe: contact.isMe,
       isMyContact: contact.isMyContact,
+      contact: {
+        connectOrCreate: {
+          where: {
+            waContactId: contact.waContactId.toString(),
+          },
+          create: PrismaContactMapper.toPrismaCreate(contact),
+        },
+      },
     }
   }
 }

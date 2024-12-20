@@ -57,12 +57,13 @@ model ContactInstance {
   isMe        Boolean @map("is_me")
   isMyContact Boolean @map("is_my_contact")
 
-  vCardMessageIds String[] @default([]) @db.ObjectId
+  vCardMessageIds String[] @map("v_card_message_ids") @db.ObjectId
 
   contact       Contact   @relation(fields: [contactId], references: [id])
   vCardMessages Message[] @relation(fields: [vCardMessageIds], references: [id], "ContactVCardMessages")
 
   messages Message[] @relation("ContactMessagesAuthor")
+  chats    Chat[]
 
   @@unique([contactId, instanceId])
   @@map("contacts_instances")
@@ -72,7 +73,7 @@ model Contact {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   waContactId    String @unique @map("wa_contact_id")
-  phone          String
+  phone          String @unique
   formattedPhone String @map("formatted_phone")
   name           String
 
@@ -80,9 +81,7 @@ model Contact {
   isInstance Boolean @map("is_instance")
 
   instances ContactInstance[]
-  chats     Chat[]
 
-  @@unique([phone])
   @@map("contacts")
 }
 
@@ -117,9 +116,9 @@ model Chat {
   lastMessageId  String?  @unique @map("last_message_id") @db.ObjectId
   hasLastMessage Boolean  @default(false) @map("has_last_message")
 
-  group   Group?   @relation(fields: [recipientId], references: [id])
-  contact Contact? @relation(fields: [recipientId], references: [id])
-  message Message? @relation(fields: [lastMessageId], references: [id])
+  group   Group?           @relation(fields: [recipientId], references: [id])
+  contact ContactInstance? @relation(fields: [recipientId], references: [id])
+  message Message?         @relation(fields: [lastMessageId], references: [id])
 
   @@unique([instanceId, waChatId])
   @@index([instanceId])

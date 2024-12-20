@@ -5,14 +5,14 @@ import { Prisma, Chat as PrismaChat } from '@prisma/client'
 import { Except } from 'type-fest'
 import { PrismaChatMapper } from '../prisma-chat-mapper'
 import {
-  PrismaContactMapper,
-  Raw as RawContact,
-} from '../prisma-contact-mapper'
+  PrismaContactInstanceMapper,
+  Raw as RawContactInstance,
+} from '../prisma-contact-instance-mapper'
 import { PrismaPrivateMessageMapper, RawPrivateMessage } from './message-mapper'
 
 export type RawPrivateChat = PrismaChat & {
   message?: Except<RawPrivateMessage, 'quoted'> | null
-  contact: RawContact | null
+  contact: RawContactInstance | null
 }
 
 export class PrismaPrivateChatMapper {
@@ -23,7 +23,7 @@ export class PrismaPrivateChatMapper {
 
     return PrivateChat.create(
       {
-        contact: PrismaContactMapper.toDomain(raw.contact),
+        contact: PrismaContactInstanceMapper.toDomain(raw.contact),
         instanceId: UniqueEntityID.create(raw.instanceId),
         unreadCount: raw.unreadCount,
         waChatId: WAEntityID.createFromString(raw.waChatId),
