@@ -7,6 +7,7 @@ import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-alre
 import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor'
+import { ParallelProcessor } from '@/domain/shared/processors/parallel-processor'
 import { WhatsAppService } from '../../services/whats-app-service'
 import { CreateChatFromWAChatUseCase } from './create-chat-from-wa-chat-use-case'
 import { LinkChatLastMessageFromWAMessageUseCase } from './link-chat-last-message-from-wa-message-use-case'
@@ -44,29 +45,31 @@ export class ImportChatsFromInstanceUseCase {
     const waChats = response.value
     const chats: Chat[] = []
 
-    await ChunkProcessor.fromArray({ array: waChats }).processChunk(
+    await ChunkProcessor.fromAmount({ array: waChats }).processChunk(
       async chunk => {
-        for (const waChat of chunk) {
-          const createChatResponse = await this.createChatFromWAChat.execute({
-            waChat,
-          })
+        await ParallelProcessor.create({ items: chunk }).processItem(
+          async waChat => {
+            const createChatResponse = await this.createChatFromWAChat.execute({
+              waChat,
+            })
 
-          if (createChatResponse.isFailure()) continue
-          let chat: Chat = createChatResponse.value.chat
+            if (createChatResponse.isFailure()) return
+            let chat: Chat = createChatResponse.value.chat
 
-          if (waChat.hasLastMessage()) {
-            const linkChatResponse =
-              await this.linkChatLastMessageFromWAMessage.execute({
-                chat,
-                waMessage: waChat.lastMessage,
-              })
+            if (waChat.hasLastMessage()) {
+              const linkChatResponse =
+                await this.linkChatLastMessageFromWAMessage.execute({
+                  chat,
+                  waMessage: waChat.lastMessage,
+                })
 
-            if (linkChatResponse.isFailure()) continue
-            chat = linkChatResponse.value.chat
+              if (linkChatResponse.isFailure()) return
+              chat = linkChatResponse.value.chat
+            }
+
+            chats.push(chat)
           }
-
-          chats.push(chat)
-        }
+        )
       }
     )
 

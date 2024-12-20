@@ -7,6 +7,7 @@ import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-alre
 import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor'
+import { ParallelProcessor } from '@/domain/shared/processors/parallel-processor'
 import { WhatsAppService } from '../../services/whats-app-service'
 import { CreateMessageFromWAMessageUseCase } from './create-message-from-wa-message-use-case'
 
@@ -41,18 +42,20 @@ export class ImportMessagesFromInstanceUseCase {
     const waMessages = response.value
 
     const messages: Message[] = []
-    await ChunkProcessor.fromArray({ array: waMessages }).processChunk(
+    await ChunkProcessor.fromAmount({ array: waMessages }).processChunk(
       async chunk => {
-        for (const waMessage of chunk) {
-          const response = await this.createMessageFromWAMessage.execute({
-            waMessage,
-          })
+        await ParallelProcessor.create({ items: chunk }).processItem(
+          async waMessage => {
+            const response = await this.createMessageFromWAMessage.execute({
+              waMessage,
+            })
 
-          if (response.isFailure()) continue
-          const { message } = response.value
+            if (response.isFailure()) return
+            const { message } = response.value
 
-          messages.push(message)
-        }
+            messages.push(message)
+          }
+        )
       }
     )
 

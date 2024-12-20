@@ -1,6 +1,11 @@
-interface ChunkProcessorFromArrayParams<T> {
+interface ChunkProcessorFromAmountParams<T> {
   array: T[]
   amount?: number
+}
+
+interface ChunkProcessorFromSizeParams<T> {
+  array: T[]
+  size?: number
 }
 
 type ChunkProcessorMethod<T, R> = (item: T) => Promise<R>
@@ -24,12 +29,25 @@ export class ChunkProcessor<T> {
     return await Promise.all(this.chunks.map(chunk => method(chunk)))
   }
 
-  static fromArray<T>({ array, amount = 3 }: ChunkProcessorFromArrayParams<T>) {
+  static fromAmount<T>({
+    array,
+    amount = 3,
+  }: ChunkProcessorFromAmountParams<T>) {
     const chunks: T[][] = []
     const chunkSize = Math.ceil(array.length / amount)
 
     for (let i = 0; i < array.length; i += chunkSize) {
       chunks.push(array.slice(i, i + chunkSize))
+    }
+
+    return new ChunkProcessor({ chunks })
+  }
+
+  static fromSize<T>({ array, size = 300 }: ChunkProcessorFromSizeParams<T>) {
+    const chunks: T[][] = []
+
+    for (let i = 0; i < array.length; i += size) {
+      chunks.push(array.slice(i, i + size))
     }
 
     return new ChunkProcessor({ chunks })

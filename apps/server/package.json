@@ -72,6 +72,7 @@
 		"bson-objectid": "^2.0.4",
 		"dayjs": "^1.11.13",
 		"mime-types": "^2.1.35",
+		"p-limit": "^6.2.0",
 		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7.8.1",
 		"socket.io": "^4.8.1",

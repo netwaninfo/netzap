@@ -2,6 +2,7 @@ import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-e
 import { WAGroupChat } from '@/domain/chat/enterprise/entities/wa/group/chat'
 import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
 import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor'
+import { ParallelProcessor } from '@/domain/shared/processors/parallel-processor'
 import { Injectable } from '@nestjs/common'
 import { WWJSGroupChat } from '../../../types/wwjs-entities'
 import { WWJSClient } from '../../../wwjs-client'
@@ -40,23 +41,25 @@ export class WWJSGroupChatMapper {
         }),
     ])
 
-    const chunksOfParticipants = await ChunkProcessor.fromArray({
+    const chunksOfParticipants = await ChunkProcessor.fromAmount({
       array: chat.participants,
     }).processChunk(async chunk => {
       const waContacts: WAPrivateContact[] = []
 
-      for (const participant of chunk) {
-        const contact = await client.raw.getContactById(
-          participant.id._serialized
-        )
+      await ParallelProcessor.create({ items: chunk }).processItem(
+        async participant => {
+          const contact = await client.raw.getContactById(
+            participant.id._serialized
+          )
 
-        const waContact = await this.privateContactMapper.toDomain({
-          contact,
-          client,
-        })
+          const waContact = await this.privateContactMapper.toDomain({
+            contact,
+            client,
+          })
 
-        waContacts.push(waContact)
-      }
+          waContacts.push(waContact)
+        }
+      )
 
       return waContacts
     })

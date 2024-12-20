@@ -13,6 +13,7 @@ import { WAMessage } from '@/domain/chat/enterprise/types/wa-message'
 import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
 import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor'
+import { ParallelProcessor } from '@/domain/shared/processors/parallel-processor'
 import { Injectable } from '@nestjs/common'
 import { RunSafely } from '../../shared/run-safely'
 import { WWJSService } from '../wwjs.service'
@@ -106,19 +107,21 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
         ContactUtils.isMyContact(contact)
       )
 
-      const chunksOfContacts = await ChunkProcessor.fromArray({
+      const chunksOfContacts = await ChunkProcessor.fromAmount({
         array: contacts,
       }).processChunk(async chunk => {
         const waContacts: WAPrivateContact[] = []
 
-        for (const contact of chunk) {
-          const waContact = await this.contactMapper.toDomain({
-            contact,
-            client,
-          })
+        await ParallelProcessor.create({ items: chunk }).processItem(
+          async contact => {
+            const waContact = await this.contactMapper.toDomain({
+              contact,
+              client,
+            })
 
-          waContacts.push(waContact)
-        }
+            waContacts.push(waContact)
+          }
+        )
 
         return waContacts
       })
@@ -144,15 +147,17 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
       const allChats = await client.raw.getChats()
       const chats = allChats.filter(chat => !ChatUtils.canIgnore(chat))
 
-      const chunksOfWaChats = await ChunkProcessor.fromArray({
+      const chunksOfWaChats = await ChunkProcessor.fromAmount({
         array: chats,
       }).processChunk(async chunk => {
         const waChats: WAChat[] = []
 
-        for (const chat of chunk) {
-          const waChat = await this.chatMapper.toDomain({ chat, client })
-          waChats.push(waChat)
-        }
+        await ParallelProcessor.create({ items: chunk }).processItem(
+          async chat => {
+            const waChat = await this.chatMapper.toDomain({ chat, client })
+            waChats.push(waChat)
+          }
+        )
 
         return waChats
       })
@@ -178,36 +183,43 @@ export class WWJSChatService extends RunSafely implements WhatsAppService {
       const allChats = await client.raw.getChats()
       const chats = allChats.filter(chat => !ChatUtils.canIgnore(chat))
 
-      const chunksOfMessages = await ChunkProcessor.fromArray({
+      const chunksOfMessages = await ChunkProcessor.fromAmount({
         array: chats,
       }).processChunk(async chunk => {
         const waMessages: WAMessage[] = []
 
-        for (const chat of chunk) {
-          const messages = await chat.fetchMessages({
-            limit: 70,
-          })
+        await ParallelProcessor.create({ items: chunk }).processItem(
+          async chat => {
+            const messages = await chat.fetchMessages({
+              limit: 70,
+            })
 
-          const currentMessages = messages.filter(
-            message => !MessageUtils.canIgnore(message.type)
-          )
+            const currentMessages = messages.filter(
+              message => !MessageUtils.canIgnore(message.type)
+            )
 
-          const currentChunksOfMessages = await ChunkProcessor.fromArray({
-            array: currentMessages,
-          }).processChunk(async chunk => {
-            const currentWAMessages: WAMessage[] = []
+            const currentChunksOfMessages = await ChunkProcessor.fromAmount({
+              array: currentMessages,
+            }).processChunk(async chunk => {
+              const currentWAMessages: WAMessage[] = []
 
-            for (const message of chunk) {
-              currentWAMessages.push(
-                await this.messageMapper.toDomain({ client, message })
+              await ParallelProcessor.create({ items: chunk }).processItem(
+                async message => {
+                  const waMessage = await this.messageMapper.toDomain({
+                    client,
+                    message,
+                  })
+
+                  currentWAMessages.push(waMessage)
+                }
               )
-            }
 
-            return currentWAMessages
-          })
+              return currentWAMessages
+            })
 
-          waMessages.push(...currentChunksOfMessages.flat(1))
-        }
+            waMessages.push(...currentChunksOfMessages.flat(1))
+          }
+        )
 
         return waMessages
       })
