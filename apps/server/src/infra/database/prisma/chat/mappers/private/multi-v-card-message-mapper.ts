@@ -56,10 +56,8 @@ export class PrismaPrivateMultiVCardMessageMapper {
       ...(message.hasContacts() && {
         contacts: {
           connect: message.contacts.map(contact => ({
-            contactId_instanceId: {
-              contactId: contact.id.toString(),
-              instanceId: message.instanceId.toString(),
-            },
+            id: contact.id.toString(),
+            instanceId: message.instanceId.toString(),
           })),
         },
       }),

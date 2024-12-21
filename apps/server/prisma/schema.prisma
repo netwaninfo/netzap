@@ -155,7 +155,7 @@ type MessageMedia {
 model Message {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  waMessageId String @unique @map("wa_message_id")
+  waMessageId String @map("wa_message_id")
   waChatId    String @map("wa_chat_id")
 
   instanceId String   @map("instance_id") @db.ObjectId
@@ -185,7 +185,7 @@ model Message {
 
   sentBy    Attendant?       @relation("AttendantSentMessages", fields: [senderId], references: [id])
   revokedBy Attendant?       @relation("AttendantRevokedMessages", fields: [revokerId], references: [id])
-  author    ContactInstance? @relation("ContactMessagesAuthor", fields: [authorId, instanceId], references: [contactId, instanceId])
+  author    ContactInstance? @relation("ContactMessagesAuthor", fields: [authorId], references: [id])
 
   contacts ContactInstance[] @relation("ContactVCardMessages", fields: [contactInstanceIds], references: [id])
 
@@ -194,6 +194,7 @@ model Message {
 
   @@unique([chatId, waMessageId])
   @@unique([instanceId, waMessageId])
+  @@index([waMessageId])
   @@index([instanceId, waChatId, createdAt])
   @@index([instanceId, waChatId])
   @@index([quotedId])

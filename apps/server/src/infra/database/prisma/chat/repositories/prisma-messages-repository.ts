@@ -171,38 +171,32 @@ export class PrismaMessagesRepository implements MessagesRepository {
   }
 
   async create(message: Message): Promise<void> {
-    try {
-      await this.prisma.$transaction([
-        this.prisma.message.create({
-          data: PrismaMessageMapper.toPrismaCreate(message),
-        }),
-      ])
-    } catch (error) {}
+    await this.prisma.$transaction([
+      this.prisma.message.create({
+        data: PrismaMessageMapper.toPrismaCreate(message),
+      }),
+    ])
   }
 
   async setStatus(message: Message): Promise<void> {
-    try {
-      await this.prisma.$transaction([
-        this.prisma.message.update({
-          data: PrismaMessageMapper.toPrismaSetStatus(message),
-          where: {
-            id: message.id.toString(),
-          },
-        }),
-      ])
-    } catch (error) {}
+    await this.prisma.$transaction([
+      this.prisma.message.update({
+        data: PrismaMessageMapper.toPrismaSetStatus(message),
+        where: {
+          id: message.id.toString(),
+        },
+      }),
+    ])
   }
 
   async setRevoked(message: RevokedMessage): Promise<void> {
-    try {
-      await this.prisma.$transaction([
-        this.prisma.message.update({
-          data: PrismaMessageMapper.toPrismaSetRevoked(message),
-          where: {
-            id: message.id.toString(),
-          },
-        }),
-      ])
-    } catch (error) {}
+    await this.prisma.$transaction([
+      this.prisma.message.update({
+        data: PrismaMessageMapper.toPrismaSetRevoked(message),
+        where: {
+          id: message.id.toString(),
+        },
+      }),
+    ])
   }
 }

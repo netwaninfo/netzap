@@ -62,10 +62,8 @@ export class PrismaPrivateVCardMessageMapper {
       createdAt: message.createdAt,
       contacts: {
         connect: {
-          contactId_instanceId: {
-            contactId: message.contact.id.toString(),
-            instanceId: message.instanceId.toString(),
-          },
+          id: message.contact.id.toString(),
+          instanceId: message.instanceId.toString(),
         },
       },
     }
