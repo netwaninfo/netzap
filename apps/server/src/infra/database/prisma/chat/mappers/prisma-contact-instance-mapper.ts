@@ -21,7 +21,7 @@ export class PrismaContactInstanceMapper {
       {
         instanceId: UniqueEntityID.create(raw.instanceId),
         waContactId: WAEntityID.createFromString(contact.waContactId),
-        name: contact.name,
+        name: raw.name,
         phone: ContactPhone.create({
           formattedNumber: contact.formattedPhone,
           number: contact.phone,
@@ -41,6 +41,7 @@ export class PrismaContactInstanceMapper {
       instanceId: contact.instanceId.toString(),
       isMe: contact.isMe,
       isMyContact: contact.isMyContact,
+      name: contact.name,
       contact: {
         connectOrCreate: {
           where: {
