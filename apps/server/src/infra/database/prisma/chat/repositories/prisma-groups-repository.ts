@@ -30,10 +30,12 @@ export class PrismaGroupsRepository implements GroupsRepository {
   }
 
   async create(group: Group): Promise<void> {
-    await this.prisma.$transaction([
-      this.prisma.group.create({
-        data: PrismaGroupMapper.toPrismaCreate(group),
-      }),
-    ])
+    try {
+      await this.prisma.$transaction([
+        this.prisma.group.create({
+          data: PrismaGroupMapper.toPrismaCreate(group),
+        }),
+      ])
+    } catch (error) {}
   }
 }
