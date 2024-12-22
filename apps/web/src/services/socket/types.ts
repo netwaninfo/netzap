@@ -1,5 +1,5 @@
-import { ClientEvents, ServerEvents } from '@netzap/websocket/chat'
-import { Socket } from 'socket.io-client'
+import type { ClientEvents, ServerEvents } from '@netzap/websocket/chat'
+import type { Socket } from 'socket.io-client'
 
 type SocketIO = Socket<ServerEvents, ClientEvents>
 

@@ -1,4 +1,4 @@
-import { PrivateVoiceMessage } from '@netzap/entities/chat'
+import type { PrivateVoiceMessage } from '@netzap/entities/chat'
 
 import { Mic } from 'lucide-react'
 import {

@@ -1,7 +1,7 @@
 import { dayjs } from '@/lib/dayjs'
 import { getMessageAuthorName } from '@/utils/get-message-author-name'
-import { GroupMessage } from '@netzap/entities/chat'
-import { UseMessageReturn, useMessageProps } from './use-message'
+import type { GroupMessage } from '@netzap/entities/chat'
+import type { UseMessageReturn, useMessageProps } from './use-message'
 
 interface useGroupMessageProps extends useMessageProps {
   message: GroupMessage

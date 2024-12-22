@@ -1,6 +1,6 @@
 import { ptBR } from '@clerk/localizations'
 import { ClerkProvider as Provider } from '@clerk/nextjs'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 
 interface ClerkProviderProps extends PropsWithChildren {}
 

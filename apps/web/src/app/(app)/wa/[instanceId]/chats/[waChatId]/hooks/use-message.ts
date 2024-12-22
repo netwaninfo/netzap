@@ -1,5 +1,5 @@
 import { dayjs } from '@/lib/dayjs'
-import { Message } from '@netzap/entities/chat'
+import type { Message } from '@netzap/entities/chat'
 
 interface useMessageProps {
   message: Message

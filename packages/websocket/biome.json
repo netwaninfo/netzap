@@ -1,0 +1,4 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "extends": ["./node_modules/@netzap/biome-config/pkg.json"]
+}

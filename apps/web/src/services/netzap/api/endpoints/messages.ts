@@ -1,7 +1,7 @@
 import {
-  FetchMessagesRequestParams,
-  FetchMessagesRequestQuery,
-  FetchMessagesResponseBody,
+  type FetchMessagesRequestParams,
+  type FetchMessagesRequestQuery,
+  type FetchMessagesResponseBody,
   fetchMessagesResponseBodySchema,
 } from '@netzap/http/chat'
 import { AbstractEndpoint } from './abstract'

@@ -3,10 +3,10 @@ import { io } from 'socket.io-client'
 
 import { env } from '@/env'
 import { useInstanceParams } from '@/hooks/use-instance-params'
-import { SocketIO } from '@/services/socket/types'
+import type { SocketIO } from '@/services/socket/types'
 import { useAuth } from '@clerk/nextjs'
 import {
-  PropsWithChildren,
+  type PropsWithChildren,
   createContext,
   useCallback,
   useContext,

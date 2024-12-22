@@ -1,4 +1,4 @@
-import { GroupDocumentMessage } from '@netzap/entities/chat'
+import type { GroupDocumentMessage } from '@netzap/entities/chat'
 import { File, FileX2 } from 'lucide-react'
 
 import {

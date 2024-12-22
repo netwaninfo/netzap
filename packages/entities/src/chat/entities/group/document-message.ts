@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import type { z } from 'zod'
 
 import { baseGroupDocumentMessageSchema } from '../base/group'
 import { groupQuotedMessageSchema } from './quoted-message'

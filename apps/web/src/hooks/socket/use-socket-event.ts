@@ -1,9 +1,9 @@
 import { useSocketContext } from '@/app/(app)/wa/[instanceId]/providers/socket-provider'
-import { ServerEvents } from '@netzap/websocket/chat'
-import { DependencyList, useEffect } from 'react'
+import type { ServerEvents } from '@netzap/websocket/chat'
+import { type DependencyList, useEffect } from 'react'
 
-import { SocketReservedEvents } from '@/services/socket/types'
-import {
+import type { SocketReservedEvents } from '@/services/socket/types'
+import type {
   ReservedOrUserEventNames,
   ReservedOrUserListener,
 } from '@socket.io/component-emitter'

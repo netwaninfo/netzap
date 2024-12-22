@@ -1,13 +1,13 @@
-import { VariantProps, cva } from 'class-variance-authority'
+import { type VariantProps, cva } from 'class-variance-authority'
 import React from 'react'
 
-import { H4, H4Props, H4Ref } from '@/components/custom/typography'
+import { H4, type H4Props, type H4Ref } from '@/components/custom/typography'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  AvatarProps,
-  AvatarRef,
+  type AvatarProps,
+  type AvatarRef,
 } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 

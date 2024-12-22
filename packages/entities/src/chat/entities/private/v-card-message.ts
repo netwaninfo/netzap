@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import type { z } from 'zod'
 
 import { basePrivateVCardMessageSchema } from '../base/private'
 import { privateQuotedMessageSchema } from './quoted-message'

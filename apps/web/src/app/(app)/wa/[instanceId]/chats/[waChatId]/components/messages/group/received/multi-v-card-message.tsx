@@ -1,4 +1,4 @@
-import { GroupMultiVCardMessage } from '@netzap/entities/chat'
+import type { GroupMultiVCardMessage } from '@netzap/entities/chat'
 
 import { Each } from '@/components/utilities/each'
 import {

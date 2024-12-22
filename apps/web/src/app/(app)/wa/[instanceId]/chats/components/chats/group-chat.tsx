@@ -1,6 +1,6 @@
 'use client'
 
-import { GroupChat } from '@netzap/entities/chat'
+import type { GroupChat } from '@netzap/entities/chat'
 
 import { Users } from 'lucide-react'
 import { useChatItem } from '../../hooks/use-chat-item'

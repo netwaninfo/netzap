@@ -1,9 +1,9 @@
 import {
-  FetchChatsRequestParams,
-  FetchChatsRequestQuery,
-  FetchChatsResponseBody,
-  GetChatRequestParams,
-  GetChatResponseBody,
+  type FetchChatsRequestParams,
+  type FetchChatsRequestQuery,
+  type FetchChatsResponseBody,
+  type GetChatRequestParams,
+  type GetChatResponseBody,
   fetchChatsResponseBodySchema,
   getChatResponseBodySchema,
 } from '@netzap/http/chat'

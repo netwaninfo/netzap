@@ -1,5 +1,5 @@
 import { netzapAPI } from '@/services/container'
-import { GetChatRequestParams } from '@netzap/http/chat'
+import type { GetChatRequestParams } from '@netzap/http/chat'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
 interface UseGetChatProps {

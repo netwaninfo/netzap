@@ -1,4 +1,4 @@
-import { GroupVCardMessage } from '@netzap/entities/chat'
+import type { GroupVCardMessage } from '@netzap/entities/chat'
 import { UserRound } from 'lucide-react'
 
 import { getMessageAuthorName } from '@/utils/get-message-author-name'

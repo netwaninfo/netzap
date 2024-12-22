@@ -1,4 +1,4 @@
-import { GroupTextMessage } from '@netzap/entities/chat'
+import type { GroupTextMessage } from '@netzap/entities/chat'
 
 import { getMessageAuthorName } from '@/utils/get-message-author-name'
 import {

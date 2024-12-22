@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'

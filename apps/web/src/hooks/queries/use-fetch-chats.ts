@@ -1,13 +1,13 @@
 import { remeda } from '@/lib/remeda'
 import { netzapAPI } from '@/services/container'
 import { FetchPagination } from '@/utils/fetch-pagination'
-import { Chat, Message } from '@netzap/entities/chat'
-import {
+import type { Chat, Message } from '@netzap/entities/chat'
+import type {
   FetchChatsRequestParams,
   FetchChatsRequestQuery,
   FetchChatsResponseBody,
 } from '@netzap/http/chat'
-import {
+import type {
   ChatChangeServerEventPayload,
   ChatCreateServerEventPayload,
   MessageChangeServerEventPayload,
@@ -15,7 +15,7 @@ import {
   MessageRevokedServerEventPayload,
 } from '@netzap/websocket/chat'
 import {
-  InfiniteData,
+  type InfiniteData,
   useQueryClient,
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query'

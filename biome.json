@@ -1,22 +1,12 @@
 {
-	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"organizeImports": {
 		"enabled": true
 	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true,
-			"complexity": {
-				"noStaticOnlyClass": "off"
-			},
-			"correctness": {
-				"noUnusedImports": "error",
-				"useExhaustiveDependencies": "off"
-			},
-			"style": {
-				"useImportType": "off"
-			}
+			"recommended": true
 		}
 	},
 	"formatter": {
@@ -32,19 +22,6 @@
 			"semicolons": "asNeeded",
 			"trailingCommas": "es5",
 			"bracketSpacing": true
-		},
-		"parser": {
-			"unsafeParameterDecoratorsEnabled": true
 		}
-	},
-	"files": {
-		"ignore": [
-			"dist",
-			"coverage",
-			".docker",
-			"package.json",
-			".wwebjs_auth",
-			".wwebjs_cache"
-		]
 	}
 }

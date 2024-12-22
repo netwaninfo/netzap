@@ -2,9 +2,10 @@
 
 import { useGetChat } from '@/hooks/queries/use-get-chat'
 import { useChatParams } from '@/hooks/use-chat-params'
-import { Chat } from '@netzap/entities/chat'
-import React, {
-  PropsWithChildren,
+import type { Chat } from '@netzap/entities/chat'
+import type React from 'react'
+import {
+  type PropsWithChildren,
   createContext,
   useContext,
   useRef,

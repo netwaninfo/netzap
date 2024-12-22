@@ -1,4 +1,4 @@
-import { PrivateVCardMessage } from '@netzap/entities/chat'
+import type { PrivateVCardMessage } from '@netzap/entities/chat'
 import { UserRound } from 'lucide-react'
 
 import {

@@ -1,5 +1,5 @@
-import { ClientEvents } from '@netzap/websocket/chat'
-import { EventNames, EventParams } from '@socket.io/component-emitter'
+import type { ClientEvents } from '@netzap/websocket/chat'
+import type { EventNames, EventParams } from '@socket.io/component-emitter'
 import { useCallback } from 'react'
 
 import { useSocketContext } from '@/app/(app)/wa/[instanceId]/providers/socket-provider'

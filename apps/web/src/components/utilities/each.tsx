@@ -1,6 +1,6 @@
 import {
   Children,
-  ReactElement,
+  type ReactElement,
   type ReactNode,
   cloneElement,
   useId,

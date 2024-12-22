@@ -1,4 +1,4 @@
-import { GroupDocumentMessage } from '@netzap/entities/chat'
+import type { GroupDocumentMessage } from '@netzap/entities/chat'
 
 import { getMessageAuthorName } from '@/utils/get-message-author-name'
 import { FileText } from 'lucide-react'

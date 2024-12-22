@@ -1,4 +1,4 @@
-import { GroupRevokedMessage } from '@netzap/entities/chat'
+import type { GroupRevokedMessage } from '@netzap/entities/chat'
 
 import { getMessageAuthorName } from '@/utils/get-message-author-name'
 import { Ban } from 'lucide-react'

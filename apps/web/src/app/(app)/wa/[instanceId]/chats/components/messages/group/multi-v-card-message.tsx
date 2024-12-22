@@ -1,4 +1,4 @@
-import { GroupMultiVCardMessage } from '@netzap/entities/chat'
+import type { GroupMultiVCardMessage } from '@netzap/entities/chat'
 
 import { getMessageAuthorName } from '@/utils/get-message-author-name'
 import { getMessageContactNames } from '@/utils/get-message-contact-names'

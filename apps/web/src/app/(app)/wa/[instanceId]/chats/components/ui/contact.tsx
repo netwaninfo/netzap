@@ -1,17 +1,17 @@
 import {
   H4,
-  H4Props,
-  H4Ref,
+  type H4Props,
+  type H4Ref,
   Muted,
-  MutedProps,
-  MutedRef,
+  type MutedProps,
+  type MutedRef,
 } from '@/components/custom/typography'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  AvatarProps,
-  AvatarRef,
+  type AvatarProps,
+  type AvatarRef,
 } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import React from 'react'

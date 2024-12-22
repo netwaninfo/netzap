@@ -1,6 +1,6 @@
 'use client'
 
-import { Contact as ContactEntity } from '@netzap/entities/chat'
+import type { Contact as ContactEntity } from '@netzap/entities/chat'
 
 import { User } from 'lucide-react'
 

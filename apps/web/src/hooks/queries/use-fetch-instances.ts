@@ -1,5 +1,5 @@
 import { netzapAPI } from '@/services/container'
-import { FetchInstancesRequestQuery } from '@netzap/http/chat'
+import type { FetchInstancesRequestQuery } from '@netzap/http/chat'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
 interface UseFetchInstancesProps {

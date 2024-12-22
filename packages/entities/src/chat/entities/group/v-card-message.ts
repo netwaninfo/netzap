@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import type { z } from 'zod'
 
 import { baseGroupVCardMessageSchema } from '../base/group'
 import { groupQuotedMessageSchema } from './quoted-message'

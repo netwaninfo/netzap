@@ -1,4 +1,4 @@
-import { GroupMessage } from '@netzap/entities/chat'
+import type { GroupMessage } from '@netzap/entities/chat'
 import { GroupChatLastAudioMessage } from './audio-message'
 import { GroupChatLastDocumentMessage } from './document-message'
 import { GroupChatLastImageMessage } from './image-message'

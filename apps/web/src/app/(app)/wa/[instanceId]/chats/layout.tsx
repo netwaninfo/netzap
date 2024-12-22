@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { ChatsSidebar } from './components/chats-sidebar'
 
 interface LayoutProps extends PropsWithChildren {}

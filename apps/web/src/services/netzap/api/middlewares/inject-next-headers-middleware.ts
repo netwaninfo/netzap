@@ -1,5 +1,5 @@
 import { isSSR } from '@/utils/is-ssr'
-import { ConfiguredMiddleware, WretchOptions } from 'wretch'
+import type { ConfiguredMiddleware, WretchOptions } from 'wretch'
 
 export function injectNextHeadersMiddleware(): ConfiguredMiddleware {
   return next => {

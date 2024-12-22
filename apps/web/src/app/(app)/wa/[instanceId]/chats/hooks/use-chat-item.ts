@@ -1,4 +1,4 @@
-import { Chat } from '@netzap/entities/chat'
+import type { Chat } from '@netzap/entities/chat'
 import { useRouter } from 'next/navigation'
 
 import { useInstanceParams } from '@/hooks/use-instance-params'

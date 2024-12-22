@@ -1,4 +1,4 @@
-import { GroupVideoMessage } from '@netzap/entities/chat'
+import type { GroupVideoMessage } from '@netzap/entities/chat'
 import { Play, VideoOff } from 'lucide-react'
 
 import {

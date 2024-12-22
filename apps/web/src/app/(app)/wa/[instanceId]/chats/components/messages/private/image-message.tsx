@@ -1,4 +1,4 @@
-import { PrivateImageMessage } from '@netzap/entities/chat'
+import type { PrivateImageMessage } from '@netzap/entities/chat'
 
 import { Image } from 'lucide-react'
 import {

@@ -1,4 +1,4 @@
-import { GroupVoiceMessage } from '@netzap/entities/chat'
+import type { GroupVoiceMessage } from '@netzap/entities/chat'
 
 import { getMessageAuthorName } from '@/utils/get-message-author-name'
 import { Mic } from 'lucide-react'

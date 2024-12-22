@@ -1,6 +1,6 @@
 'use client'
 
-import { MessageCreateServerEventPayload } from '@netzap/websocket/chat'
+import type { MessageCreateServerEventPayload } from '@netzap/websocket/chat'
 import { CircleFadingPlus, Loader2 } from 'lucide-react'
 import { useCallback, useEffect } from 'react'
 

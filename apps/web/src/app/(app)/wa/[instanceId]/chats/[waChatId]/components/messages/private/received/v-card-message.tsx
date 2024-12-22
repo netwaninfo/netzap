@@ -8,7 +8,7 @@ import {
   MessageReceivedMediaBox,
 } from '@/pages/chat/components/ui/message-received'
 import { useMessage } from '@/pages/chat/hooks/use-message'
-import { PrivateVCardMessage } from '@netzap/entities/chat'
+import type { PrivateVCardMessage } from '@netzap/entities/chat'
 import { ReceivedContactItem } from '../../received-contact-item'
 
 interface ReceivedPrivateVCardMessageProps {

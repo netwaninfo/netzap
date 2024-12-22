@@ -1,16 +1,16 @@
-import { Message } from '@netzap/entities/chat'
-import {
+import type { Message } from '@netzap/entities/chat'
+import type {
   FetchMessagesRequestParams,
   FetchMessagesRequestQuery,
   FetchMessagesResponseBody,
 } from '@netzap/http/chat'
-import {
+import type {
   MessageChangeServerEventPayload,
   MessageCreateServerEventPayload,
   MessageRevokedServerEventPayload,
 } from '@netzap/websocket/chat'
 import {
-  InfiniteData,
+  type InfiniteData,
   useQueryClient,
   useSuspenseInfiniteQuery,
 } from '@tanstack/react-query'

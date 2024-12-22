@@ -1,4 +1,4 @@
-import { PaginationResponse } from '@netzap/http/shared'
+import type { PaginationResponse } from '@netzap/http/shared'
 
 export class FetchPagination {
   static getNextPage(pagination: PaginationResponse) {

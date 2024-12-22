@@ -1,4 +1,4 @@
-import { GroupVideoMessage } from '@netzap/entities/chat'
+import type { GroupVideoMessage } from '@netzap/entities/chat'
 
 import { getMessageAuthorName } from '@/utils/get-message-author-name'
 import { Video } from 'lucide-react'

@@ -1,4 +1,4 @@
-import { Message } from '@netzap/entities/chat'
+import type { Message } from '@netzap/entities/chat'
 import { ReceivedGroupMessage } from './group/received/message'
 import { ReceivedPrivateMessage } from './private/received/message'
 

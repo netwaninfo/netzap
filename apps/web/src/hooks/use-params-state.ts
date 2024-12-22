@@ -1,6 +1,6 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
-import { ZodSchema, z } from 'zod'
+import type { ZodSchema, z } from 'zod'
 import { useParsedParams } from './use-parsed-params'
 
 // nups

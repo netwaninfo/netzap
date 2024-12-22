@@ -1,4 +1,4 @@
-import { GroupRevokedMessage } from '@netzap/entities/chat'
+import type { GroupRevokedMessage } from '@netzap/entities/chat'
 import { Ban } from 'lucide-react'
 
 import {

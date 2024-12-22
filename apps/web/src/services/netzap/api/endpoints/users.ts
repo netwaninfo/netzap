@@ -1,4 +1,7 @@
-import { GetMeResponseBody, getMeResponseBodySchema } from '@netzap/http/users'
+import {
+  type GetMeResponseBody,
+  getMeResponseBodySchema,
+} from '@netzap/http/users'
 import { AbstractEndpoint } from './abstract'
 
 export class UsersAPI extends AbstractEndpoint {

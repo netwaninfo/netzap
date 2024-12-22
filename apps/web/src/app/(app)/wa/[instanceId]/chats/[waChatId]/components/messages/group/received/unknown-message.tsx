@@ -1,4 +1,4 @@
-import { GroupUnknownMessage } from '@netzap/entities/chat'
+import type { GroupUnknownMessage } from '@netzap/entities/chat'
 import { CircleHelp } from 'lucide-react'
 
 import {

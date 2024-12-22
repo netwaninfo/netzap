@@ -1,10 +1,10 @@
 import {
   Paragraph,
-  ParagraphProps,
-  ParagraphRef,
+  type ParagraphProps,
+  type ParagraphRef,
   Small,
-  SmallProps,
-  SmallRef,
+  type SmallProps,
+  type SmallRef,
 } from '@/components/custom/typography'
 import { cn } from '@/lib/utils'
 import React from 'react'

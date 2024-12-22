@@ -1,7 +1,7 @@
 import {
-  FetchContactsRequestParams,
-  FetchContactsRequestQuery,
-  FetchContactsResponseBody,
+  type FetchContactsRequestParams,
+  type FetchContactsRequestQuery,
+  type FetchContactsResponseBody,
   fetchContactsResponseBodySchema,
 } from '@netzap/http/chat'
 import { AbstractEndpoint } from './abstract'

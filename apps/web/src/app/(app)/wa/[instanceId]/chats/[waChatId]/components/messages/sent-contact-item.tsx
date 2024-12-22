@@ -1,6 +1,6 @@
 'use client'
 
-import { Contact } from '@netzap/entities/chat'
+import type { Contact } from '@netzap/entities/chat'
 import { User } from 'lucide-react'
 
 import { useInstanceParams } from '@/hooks/use-instance-params'

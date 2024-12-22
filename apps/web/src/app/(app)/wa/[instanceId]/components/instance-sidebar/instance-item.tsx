@@ -3,7 +3,7 @@
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { useInstanceParams } from '@/hooks/use-instance-params'
 import { cn } from '@/lib/utils'
-import { Instance } from '@netzap/entities/chat'
+import type { Instance } from '@netzap/entities/chat'
 import { useRouter } from 'next/navigation'
 
 interface InstanceItemProps {

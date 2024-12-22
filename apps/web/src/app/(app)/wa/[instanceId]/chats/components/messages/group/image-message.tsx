@@ -1,4 +1,4 @@
-import { GroupImageMessage } from '@netzap/entities/chat'
+import type { GroupImageMessage } from '@netzap/entities/chat'
 
 import { getMessageAuthorName } from '@/utils/get-message-author-name'
 import { Image } from 'lucide-react'

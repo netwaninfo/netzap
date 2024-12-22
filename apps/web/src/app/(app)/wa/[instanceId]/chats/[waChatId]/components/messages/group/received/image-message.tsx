@@ -1,4 +1,4 @@
-import { GroupImageMessage } from '@netzap/entities/chat'
+import type { GroupImageMessage } from '@netzap/entities/chat'
 import { ImageOff } from 'lucide-react'
 
 import {

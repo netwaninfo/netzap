@@ -1,4 +1,4 @@
-import { PrivateTextMessage } from '@netzap/entities/chat'
+import type { PrivateTextMessage } from '@netzap/entities/chat'
 
 import { Message, MessageBody, MessageContent } from '../../ui/message'
 import { MessageStatus } from '../message-status'

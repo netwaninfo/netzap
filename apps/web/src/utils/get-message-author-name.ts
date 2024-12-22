@@ -1,4 +1,4 @@
-import { Contact } from '@netzap/entities/chat'
+import type { Contact } from '@netzap/entities/chat'
 
 function getMessageAuthorName(author: Contact) {
   if (author.isMe) return 'Você'

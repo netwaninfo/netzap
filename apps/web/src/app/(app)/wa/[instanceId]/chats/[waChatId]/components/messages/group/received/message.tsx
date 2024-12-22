@@ -1,4 +1,4 @@
-import { GroupMessage } from '@netzap/entities/chat'
+import type { GroupMessage } from '@netzap/entities/chat'
 import { ReceivedGroupAudioMessage } from './audio-message'
 import { ReceivedGroupDocumentMessage } from './document-message'
 import { ReceivedGroupImageMessage } from './image-message'

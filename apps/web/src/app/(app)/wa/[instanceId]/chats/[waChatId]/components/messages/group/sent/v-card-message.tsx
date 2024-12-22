@@ -8,7 +8,7 @@ import {
   MessageSentMediaBox,
 } from '@/pages/chat/components/ui/message-sent'
 import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
-import { GroupVCardMessage } from '@netzap/entities/chat'
+import type { GroupVCardMessage } from '@netzap/entities/chat'
 import { MessageStatus } from '../../../../../components/messages/message-status'
 import { SentContactItem } from '../../sent-contact-item'
 

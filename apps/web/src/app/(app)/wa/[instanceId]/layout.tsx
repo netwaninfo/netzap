@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { InstanceSidebar } from './components/instance-sidebar'
 import { SocketProvider } from './providers/socket-provider'
 

@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation'
-import { ZodSchema, z } from 'zod'
+import type { ZodSchema, z } from 'zod'
 import { fromError } from 'zod-validation-error'
 
 function useParsedParams<T>(schema: ZodSchema<T>): z.output<typeof schema> {

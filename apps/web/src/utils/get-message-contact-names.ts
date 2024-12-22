@@ -1,4 +1,4 @@
-import { Contact } from '@netzap/entities/chat'
+import type { Contact } from '@netzap/entities/chat'
 
 function getMessageContactNames(contacts: Contact[]) {
   const names = contacts.map(contact => contact.name)

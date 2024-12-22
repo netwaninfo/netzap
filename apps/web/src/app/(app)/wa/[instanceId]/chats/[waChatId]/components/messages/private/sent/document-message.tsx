@@ -1,4 +1,4 @@
-import { PrivateDocumentMessage } from '@netzap/entities/chat'
+import type { PrivateDocumentMessage } from '@netzap/entities/chat'
 import { File, FileX2 } from 'lucide-react'
 
 import {

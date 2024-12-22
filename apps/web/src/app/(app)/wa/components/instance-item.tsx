@@ -1,6 +1,6 @@
 'use client'
 
-import { Instance } from '@netzap/entities/chat'
+import type { Instance } from '@netzap/entities/chat'
 import { useRouter } from 'next/navigation'
 
 import { Paragraph } from '@/components/custom/typography'

@@ -1,4 +1,4 @@
-import { Group } from '@netzap/entities/chat'
+import type { Group } from '@netzap/entities/chat'
 import { Users } from 'lucide-react'
 import {
   ChatAvatar,

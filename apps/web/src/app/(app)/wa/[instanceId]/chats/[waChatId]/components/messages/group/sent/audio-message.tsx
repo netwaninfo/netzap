@@ -1,4 +1,4 @@
-import { GroupAudioMessage } from '@netzap/entities/chat'
+import type { GroupAudioMessage } from '@netzap/entities/chat'
 import { HeadphoneOff } from 'lucide-react'
 
 import {

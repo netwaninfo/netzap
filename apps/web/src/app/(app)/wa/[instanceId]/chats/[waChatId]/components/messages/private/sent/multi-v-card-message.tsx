@@ -1,4 +1,4 @@
-import { PrivateMultiVCardMessage } from '@netzap/entities/chat'
+import type { PrivateMultiVCardMessage } from '@netzap/entities/chat'
 
 import { Each } from '@/components/utilities/each'
 import {

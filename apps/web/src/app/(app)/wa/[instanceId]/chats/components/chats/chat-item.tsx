@@ -1,4 +1,4 @@
-import { Chat as ChatEntity } from '@netzap/entities/chat'
+import type { Chat as ChatEntity } from '@netzap/entities/chat'
 import { GroupChatItem } from './group-chat'
 import { PrivateChatItem } from './private-chat'
 

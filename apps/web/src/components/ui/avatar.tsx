@@ -2,7 +2,7 @@
 
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import * as React from 'react'
-import { OverrideProperties } from 'type-fest'
+import type { OverrideProperties } from 'type-fest'
 
 import { cn } from '@/lib/utils'
 import { getInitials } from '@/utils/get-initials'

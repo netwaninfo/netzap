@@ -10,7 +10,7 @@ import {
   MessageReceivedMediaBox,
 } from '@/pages/chat/components/ui/message-received'
 import { useGroupMessage } from '@/pages/chat/hooks/use-group-message'
-import { GroupVCardMessage } from '@netzap/entities/chat'
+import type { GroupVCardMessage } from '@netzap/entities/chat'
 import { ReceivedContactItem } from '../../received-contact-item'
 
 interface ReceivedGroupVCardMessageProps {

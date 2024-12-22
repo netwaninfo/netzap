@@ -1,6 +1,6 @@
 import { netzapAPI } from '@/services/container'
 import { FetchPagination } from '@/utils/fetch-pagination'
-import {
+import type {
   FetchContactsRequestParams,
   FetchContactsRequestQuery,
 } from '@netzap/http/chat'

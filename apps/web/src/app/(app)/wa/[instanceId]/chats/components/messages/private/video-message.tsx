@@ -1,4 +1,4 @@
-import { PrivateVideoMessage } from '@netzap/entities/chat'
+import type { PrivateVideoMessage } from '@netzap/entities/chat'
 
 import { Video } from 'lucide-react'
 import {

@@ -9,7 +9,7 @@ import {
 } from '@/pages/chat/components/ui/message-sent'
 import { useMessage } from '@/pages/chat/hooks/use-message'
 import { MessageStatus } from '@/pages/chats/components/messages/message-status'
-import { PrivateVCardMessage } from '@netzap/entities/chat'
+import type { PrivateVCardMessage } from '@netzap/entities/chat'
 import { SentContactItem } from '../../sent-contact-item'
 
 interface SentPrivateVCardMessageProps {

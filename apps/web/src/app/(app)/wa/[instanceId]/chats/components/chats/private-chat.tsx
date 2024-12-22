@@ -1,6 +1,6 @@
 'use client'
 
-import { PrivateChat } from '@netzap/entities/chat'
+import type { PrivateChat } from '@netzap/entities/chat'
 
 import { User } from 'lucide-react'
 import { useChatItem } from '../../hooks/use-chat-item'

@@ -15,7 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { ChangeEvent, Suspense, useState } from 'react'
+import { type ChangeEvent, Suspense, useState } from 'react'
 import { ContactsList } from './contacts-list'
 import { ContactsListSkeleton } from './contacts-list-skeleton'
 

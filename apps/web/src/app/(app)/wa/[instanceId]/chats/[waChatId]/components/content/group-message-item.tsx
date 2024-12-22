@@ -1,5 +1,5 @@
 import { Each } from '@/components/utilities/each'
-import { GroupMessage } from '@/hooks/queries/use-fetch-messages'
+import type { GroupMessage } from '@/hooks/queries/use-fetch-messages'
 import { formatGroupMessageDate } from '@/utils/format-group-message-date'
 import { MessageItem } from '../messages/message-item'
 import {

@@ -1,4 +1,4 @@
-import { GroupVoiceMessage } from '@netzap/entities/chat'
+import type { GroupVoiceMessage } from '@netzap/entities/chat'
 import { MicOff } from 'lucide-react'
 
 import {

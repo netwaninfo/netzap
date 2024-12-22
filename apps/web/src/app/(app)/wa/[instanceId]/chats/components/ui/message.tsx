@@ -2,8 +2,8 @@ import { Check, CheckCheck, Clock2 } from 'lucide-react'
 
 import {
   Paragraph,
-  ParagraphProps,
-  ParagraphRef,
+  type ParagraphProps,
+  type ParagraphRef,
 } from '@/components/custom/typography'
 import { cn } from '@/lib/utils'
 import React from 'react'

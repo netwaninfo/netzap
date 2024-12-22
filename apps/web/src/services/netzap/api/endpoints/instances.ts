@@ -1,6 +1,6 @@
 import {
-  FetchInstancesRequestQuery,
-  FetchInstancesResponseBody,
+  type FetchInstancesRequestQuery,
+  type FetchInstancesResponseBody,
   fetchInstancesResponseBodySchema,
 } from '@netzap/http/chat'
 import { AbstractEndpoint } from './abstract'

@@ -1,4 +1,4 @@
-import { GroupAudioMessage } from '@netzap/entities/chat'
+import type { GroupAudioMessage } from '@netzap/entities/chat'
 
 import { getMessageAuthorName } from '@/utils/get-message-author-name'
 import { Headphones } from 'lucide-react'

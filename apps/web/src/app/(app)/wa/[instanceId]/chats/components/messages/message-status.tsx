@@ -1,4 +1,4 @@
-import { MessageStatus as Status } from '@netzap/entities/chat'
+import type { MessageStatus as Status } from '@netzap/entities/chat'
 
 import { MessageStatusError } from '@/components/custom/message-status'
 import {

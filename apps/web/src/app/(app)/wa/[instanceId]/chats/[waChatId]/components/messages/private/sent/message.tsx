@@ -1,4 +1,4 @@
-import { PrivateMessage } from '@netzap/entities/chat'
+import type { PrivateMessage } from '@netzap/entities/chat'
 import { SentPrivateAudioMessage } from './audio-message'
 import { SentPrivateDocumentMessage } from './document-message'
 import { SentPrivateImageMessage } from './image-message'
