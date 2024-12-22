@@ -2,6 +2,8 @@
 	"name": "@netwan/netzap",
 	"version": "1.0.0",
 	"scripts": {
+		"bump:all": "turbo run bump",
+		"bump:pack": "turbo run bump --filter=./packages/*",
 		"prepack": "turbo run build --filter=./packages/*",
 		"prepack:dev": "turbo run dev --filter=./packages/*",
 		"lint": "turbo run lint",
@@ -15,6 +17,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@biomejs/cli-win32-x64": "^1.9.4",
+		"npm-check-updates": "^17.1.12",
 		"turbo": "^2.3.3"
 	},
 	"packageManager": "pnpm@9.14.1"

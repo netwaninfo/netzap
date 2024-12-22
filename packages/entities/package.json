@@ -4,6 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"bump": "ncu --upgrade --target minor -p pnpm --install always",
 		"dev": "tsup --watch",
 		"build": "tsup --silent",
 		"lint": "biome check --error-on-warnings",
@@ -32,13 +33,13 @@
 		}
 	},
 	"devDependencies": {
-		"@arethetypeswrong/cli": "^0.16.4",
+		"@arethetypeswrong/cli": "^0.17.2",
 		"@netzap/biome-config": "workspace:^",
 		"@netzap/ts-config": "workspace:^",
 		"tsup": "^8.3.5",
-		"typescript": "^5.6.3"
+		"typescript": "^5.7.2"
 	},
 	"dependencies": {
-		"zod": "^3.23.8"
+		"zod": "^3.24.1"
 	}
 }
