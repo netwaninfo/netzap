@@ -44,10 +44,6 @@ export abstract class Chat<Props extends ChatProps> extends Entity<Props> {
     this.set({ unreadCount: -1 })
   }
 
-  incrementUnread() {
-    this.set({ unreadCount: this.unreadCount + 1 })
-  }
-
   setUnreadCount(unreadCount: number) {
     this.set({ unreadCount })
   }

@@ -1,3 +1,5 @@
+import timers from 'node:timers/promises'
+
 import { HandleReceivedWAMessage } from '@/domain/chat/application/handlers/handle-received-wa-message'
 import { Handler } from '../../decorators/handler.decorator'
 import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
@@ -22,6 +24,9 @@ export class WWJSHandleMessageReceived implements WWJSHandler {
   register(client: WWJSClient): WWJSListener {
     return async (message: WWJSMessage) => {
       if (MessageUtils.canIgnore(message.type)) return
+
+      // Used to ensure chat information has loaded
+      await timers.setTimeout(150)
 
       const chat = await message.getChat()
       if (ChatUtils.canIgnore(chat)) return
