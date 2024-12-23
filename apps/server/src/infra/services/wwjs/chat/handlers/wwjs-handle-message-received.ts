@@ -26,7 +26,7 @@ export class WWJSHandleMessageReceived implements WWJSHandler {
       if (MessageUtils.canIgnore(message.type)) return
 
       // Used to ensure chat information has loaded
-      await timers.setTimeout(150)
+      await timers.setTimeout(300)
 
       const chat = await message.getChat()
       if (ChatUtils.canIgnore(chat)) return
