@@ -27,6 +27,7 @@ export class PrismaGroupChatMapper {
         ...(raw.message && {
           lastMessage: PrismaGroupMessageMapper.toDomain(raw.message),
         }),
+        lastInteractionAt: raw.lastInteractionAt,
       },
       UniqueEntityID.create(raw.id)
     )
@@ -42,6 +43,7 @@ export class PrismaGroupChatMapper {
       unreadCount: chat.unreadCount,
       lastMessageId: PrismaChatMapper.getLastMessageIDFromChat(chat),
       hasLastMessage: chat.hasLastMessage(),
+      lastInteractionAt: chat.lastInteractionAt,
     }
   }
 
