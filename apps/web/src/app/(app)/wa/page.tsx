@@ -9,7 +9,7 @@ import { InstancesList } from './components/instances-list'
 
 export default async function WAOverviewPage() {
   const { data: instances } = await netzapAPI.instances.fetch({
-    query: { page: 1, limit: 1, status: 'connected' },
+    query: { page: 1, limit: 2, status: 'connected' },
   })
 
   const hasSomeInstance = !!instances.length
