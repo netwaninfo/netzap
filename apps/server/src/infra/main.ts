@@ -36,8 +36,7 @@ async function bootstrap() {
   await app.register(fastifyCookie as any)
 
   const port = envService.get('PORT')
-  await app.listen(port)
-  // await app.listen(port, '0.0.0.0')
+  await app.listen(port, '0.0.0.0')
 }
 
 bootstrap()
