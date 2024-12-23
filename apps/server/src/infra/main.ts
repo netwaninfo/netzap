@@ -32,7 +32,8 @@ async function bootstrap() {
   app.useWebSocketAdapter(new SocketIOAdapter(app, envService))
 
   app.enableShutdownHooks()
-  await app.register(fastifyCookie)
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  await app.register(fastifyCookie as any)
 
   const port = envService.get('PORT')
   await app.listen(port)

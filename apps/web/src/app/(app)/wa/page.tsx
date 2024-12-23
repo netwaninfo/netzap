@@ -8,19 +8,23 @@ import { InstanceListSkeleton } from './components/instance-list-skeleton'
 import { InstancesList } from './components/instances-list'
 
 export default async function WAOverviewPage() {
-  const { data: user } = await netzapAPI.users.getMe()
+  const { data: instances } = await netzapAPI.instances.fetch({
+    query: { page: 1, limit: 1, status: 'connected' },
+  })
 
-  const hasSomeInstance = !!user.instances.length
+  const hasSomeInstance = !!instances.length
   if (!hasSomeInstance) {
     return redirect('/auth/sign-out', RedirectType.replace)
   }
 
-  const hasOnlyOneInstance = user.instances.length === 1
-  const firstInstanceId = user.instances.at(0)
+  const hasOnlyOneInstance = instances.length === 1
+  const firstInstanceId = instances.at(0)?.id
 
   if (hasOnlyOneInstance && firstInstanceId) {
     return redirect(`/wa/${firstInstanceId}/chats`, RedirectType.replace)
   }
+
+  const { data: user } = await netzapAPI.users.getMe()
 
   return (
     <div className="flex h-full items-center justify-center">
@@ -39,7 +43,7 @@ export default async function WAOverviewPage() {
         <CardContent>
           <ul className="space-y-2">
             <Suspense
-              fallback={<InstanceListSkeleton amount={user.instances.length} />}
+              fallback={<InstanceListSkeleton amount={instances.length} />}
             >
               <InstancesList />
             </Suspense>

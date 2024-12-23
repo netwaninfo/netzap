@@ -16,7 +16,6 @@ export function InstanceItem({ item }: InstanceItemProps) {
   const router = useRouter()
 
   const initials = getInitials({ value: item.name })
-  const isConnected = item.status === 'connected'
 
   function handleSelect() {
     router.push(`/wa/${item.id}/chats`)
@@ -27,7 +26,6 @@ export function InstanceItem({ item }: InstanceItemProps) {
       variant="outline"
       className="w-full justify-between p-4 h-auto"
       onClick={handleSelect}
-      disabled={!isConnected}
     >
       <div className="flex items-center space-x-2">
         <div className="size-8 bg-primary rounded-sm text-primary-foreground flex items-center justify-center">
@@ -37,9 +35,7 @@ export function InstanceItem({ item }: InstanceItemProps) {
         <Paragraph className="font-medium">{item.name}</Paragraph>
       </div>
 
-      <Badge variant={isConnected ? 'default' : 'secondary'}>
-        {isConnected ? 'Conectado' : 'Desconectado'}
-      </Badge>
+      <Badge>Conectado</Badge>
     </Button>
   )
 }

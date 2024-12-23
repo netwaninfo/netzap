@@ -4,9 +4,11 @@ import { Instance } from '@/domain/chat/enterprise/entities/instance'
 import { Pagination } from '@/domain/shared/entities/pagination'
 import { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
 import { Injectable } from '@nestjs/common'
+import type { InstanceStatus } from '@netzap/entities/management'
 import { InstancesRepository } from '../../repositories/instances-repository'
 
 interface FetchInstancesUseCaseRequest extends PaginationRequest {
+  status?: InstanceStatus
   attendantId: UniqueEntityID
 }
 
@@ -25,16 +27,17 @@ export class FetchInstancesUseCase {
   async execute(
     request: FetchInstancesUseCaseRequest
   ): Promise<FetchInstancesUseCaseResponse> {
-    const { attendantId, page } = request
+    const { attendantId, page, status } = request
 
     const take = Pagination.limit(request.limit)
 
     const [rows, instances] = await Promise.all([
-      this.instancesRepository.countByAttendantId({ attendantId }),
+      this.instancesRepository.countByAttendantId({ attendantId, status }),
       this.instancesRepository.findManyByAttendantId({
         attendantId,
         page,
         take,
+        status,
       }),
     ])
 

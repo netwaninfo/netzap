@@ -20,7 +20,9 @@ import { InstanceItem } from './instance-item'
 
 export function SelectInstance() {
   const { instanceId } = useInstanceParams()
-  const [{ data: instances }] = useFetchInstances({ query: { page: 1 } })
+  const [{ data: instances }] = useFetchInstances({
+    query: { page: 1, status: 'connected' },
+  })
 
   const currentInstance = instances.find(instance => instance.id === instanceId)
 

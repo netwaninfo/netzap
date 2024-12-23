@@ -5,7 +5,9 @@ import { useFetchInstances } from '@/hooks/queries/use-fetch-instances'
 import { InstanceItem } from './instance-item'
 
 export function InstancesList() {
-  const [{ data: instances }] = useFetchInstances({ query: { page: 1 } })
+  const [{ data: instances }] = useFetchInstances({
+    query: { page: 1, status: 'connected' },
+  })
 
   return (
     <Each

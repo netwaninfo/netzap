@@ -22,12 +22,13 @@ export class FetchInstancesController {
     @HttpUserId() userId: string,
     @Query(querySchema) query: FetchInstancesRequestQuery
   ): Promise<FetchInstancesResponseBody> {
-    const { page, limit } = query
+    const { page, limit, status } = query
 
     const response = await this.fetchInstances.execute({
       attendantId: UniqueEntityID.create(userId),
       page,
       limit,
+      status,
     })
 
     if (response.isFailure()) {

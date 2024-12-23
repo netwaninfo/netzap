@@ -17,6 +17,7 @@ export class PrismaInstancesRepository implements InstancesRepository {
     attendantId,
     page,
     take,
+    status,
   }: InstancesRepositoryFindManyByAttendantIdParams): Promise<Instance[]> {
     const raw = await this.prisma.instance.findMany({
       select: {
@@ -28,6 +29,7 @@ export class PrismaInstancesRepository implements InstancesRepository {
         attendantIds: true,
       },
       where: {
+        ...(status && { status }),
         attendantIds: {
           hasSome: [attendantId.toString()],
         },
@@ -45,9 +47,11 @@ export class PrismaInstancesRepository implements InstancesRepository {
 
   async countByAttendantId({
     attendantId,
+    status,
   }: InstancesRepositoryCountByAttendantIdParams): Promise<number> {
     const rows = await this.prisma.instance.count({
       where: {
+        ...(status && { status }),
         attendantIds: {
           hasSome: [attendantId.toString()],
         },
