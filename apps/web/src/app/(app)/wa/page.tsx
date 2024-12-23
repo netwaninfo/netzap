@@ -43,7 +43,7 @@ export default async function WAOverviewPage() {
         <CardContent>
           <ul className="space-y-2">
             <Suspense
-              fallback={<InstanceListSkeleton amount={instances.length} />}
+              fallback={<InstanceListSkeleton amount={user.instances.length} />}
             >
               <InstancesList />
             </Suspense>
