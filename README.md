@@ -1,6 +1,6 @@
 # NetZap
 
-NetZap é uma plataforma que permite a utilização simultânea do WhatsApp por múltiplos usuários, seja com uma única conta ou com várias. O projeto ainda está em desenvolvimento, com melhorias e funcionalidades sendo continuamente implementadas.
+NetZap é uma plataforma que permite a utilização simultânea do **WhatsApp** por múltiplos usuários, seja com uma única conta ou com várias. O projeto ainda está em desenvolvimento, com melhorias e funcionalidades sendo continuamente implementadas.
 
 ## Arquitetura
 
@@ -9,7 +9,7 @@ O NetZap foi construído com base na biblioteca [WWebJS](https://github.com/pedr
 ![Simples Arquitetura do NetZap](./.github/media/netzap-simples-arquitetura.jpg)
 
 - O **WWebJS** opera com um sistema de eventos.
-	- Quando uma mensagem é recebida, o status (ou visibilidade) da mensagem é atualizado e um evento é disparado.
+	- Quando uma mensagem é recebida ou seu status (ou visibilidade) é atualizado, um evento é disparado.
 	- Esse evento é capturado pelo back-end (**Server**), que processa os dados e cria uma referência no **MongoDB**.
 	- Posteriormente, essa referência é utilizada para enviar dados ao front-end (**Web**) por meio de **HTTP** ou **WebSocket** ([Socket.IO](https://socket.io/)).
 
