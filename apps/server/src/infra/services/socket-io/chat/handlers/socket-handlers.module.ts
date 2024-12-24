@@ -4,6 +4,7 @@ import { UtilitiesModule } from '@/infra/services/utilities/utilities.module'
 import { WWJSModule } from '@/infra/services/wwjs/wwjs.module'
 
 import { HandleChatRead } from '@/domain/chat/application/handlers/handle-chat-read'
+import { HandleChatUnread } from '@/domain/chat/application/handlers/handle-chat-unread'
 import { HandleSendTextMessage } from '@/domain/chat/application/handlers/handle-send-text-message'
 import { CreateChatFromWAChatUseCase } from '@/domain/chat/application/use-cases/chats/create-chat-from-wa-chat-use-case'
 import { CreateGroupChatFromWAChatUseCase } from '@/domain/chat/application/use-cases/chats/create-group-chat-from-wa-chat-use-case'
@@ -17,6 +18,7 @@ import { CreatePrivateTextMessageFromWAMessageUseCase } from '@/domain/chat/appl
 
 import { SocketChatModule } from '../socket-chat.module'
 import { SocketHandleChatRead } from './socket-handle-chat-read'
+import { SocketHandleChatUnread } from './socket-handle-chat-unread'
 import { SocketHandleSendTextMessage } from './socket-handle-send-text-message'
 
 @Module({
@@ -24,6 +26,9 @@ import { SocketHandleSendTextMessage } from './socket-handle-send-text-message'
   providers: [
     SocketHandleChatRead,
     HandleChatRead,
+
+    SocketHandleChatUnread,
+    HandleChatUnread,
 
     SocketHandleSendTextMessage,
     HandleSendTextMessage,
