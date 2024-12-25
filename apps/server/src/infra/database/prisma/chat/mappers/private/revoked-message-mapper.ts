@@ -61,12 +61,20 @@ export class PrismaPrivateRevokedMessageMapper {
     message: PrivateRevokedMessage
   ): Prisma.MessageUncheckedUpdateInput {
     return {
+      chatType: 'private',
+      chatId: message.chatId.toString(),
+      waChatId: message.waChatId.toString(),
+      waMessageId: message.waMessageId.toString(),
+      instanceId: message.instanceId.toString(),
+      senderId: message.sentBy?.toString(),
+      type: message.type,
+      status: message.status,
+      isForwarded: message.isForwarded,
+      isFromMe: message.isFromMe,
+      createdAt: message.createdAt,
       revokerId: message.revokedBy?.toString(),
       revokedAt: message.revokedAt,
       quotedId: {
-        unset: true,
-      },
-      authorId: {
         unset: true,
       },
       body: {
@@ -75,6 +83,13 @@ export class PrismaPrivateRevokedMessageMapper {
       media: {
         unset: true,
       },
+      contactInstanceIds: {
+        set: [],
+      },
+      replies: {
+        set: [],
+      },
+      payload: null,
     }
   }
 }
