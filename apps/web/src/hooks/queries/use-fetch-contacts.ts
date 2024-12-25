@@ -1,4 +1,4 @@
-import { netzapAPI } from '@/services/container'
+import { api } from '@/services/api/client'
 import { FetchPagination } from '@/utils/fetch-pagination'
 import type {
   FetchContactsRequestParams,
@@ -20,7 +20,7 @@ function useFetchContacts({
   const { data, ...rest } = useSuspenseInfiniteQuery({
     queryKey: ['contacts', params, queryParams],
     queryFn: ({ pageParam }) => {
-      return netzapAPI.contacts.fetch({
+      return api.contacts.fetch({
         params,
         query: { ...queryParams, page: pageParam },
       })

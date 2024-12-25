@@ -1,0 +1,20 @@
+{
+	"$schema": "https://ui.shadcn.com/schema.json",
+	"style": "default",
+	"rsc": true,
+	"tsx": true,
+	"tailwind": {
+		"config": "tailwind.config.ts",
+		"css": "src/styles/globals.css",
+		"baseColor": "neutral",
+		"cssVariables": true
+	},
+	"iconLibrary": "lucide",
+	"aliases": {
+		"components": "@netzap/ui/components",
+		"utils": "@netzap/ui/lib/utils",
+		"hooks": "@netzap/ui/hooks",
+		"lib": "@netzap/ui/lib",
+		"ui": "@netzap/ui/components"
+	}
+}

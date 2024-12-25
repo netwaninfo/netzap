@@ -1,5 +1,6 @@
+import { useSocketContext } from '@/app/wa/[instanceId]/providers/socket-provider'
 import { remeda } from '@/lib/remeda'
-import { netzapAPI } from '@/services/container'
+import { api } from '@/services/api/client'
 import { FetchPagination } from '@/utils/fetch-pagination'
 import type { Chat, Message } from '@netzap/entities/chat'
 import type {
@@ -38,11 +39,12 @@ interface UseFetchChatsProps {
 
 function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
   const queryClient = useQueryClient()
+  const socket = useSocketContext()
 
   const { data, ...rest } = useSuspenseInfiniteQuery({
     queryKey: createQueryKey({ params, query }),
     queryFn: ({ pageParam }) => {
-      return netzapAPI.chats.fetch({
+      return api.chats.fetch({
         params,
         query: { ...query, page: pageParam },
       })
@@ -80,10 +82,10 @@ function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
           if (!prev) return prev
           const currentPages = [...prev.pages]
 
-          const firstPage = currentPages[0]
-          firstPage.data.unshift(chat)
+          const firstPage = currentPages.at(0)
+          firstPage?.data.unshift(chat)
 
-          return { ...prev, pages: currentPages }
+          return remeda.merge(prev, { pages: currentPages })
         }
       )
     },
@@ -104,21 +106,27 @@ function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
             const updatedData = data.map(item => {
               if (item.id !== chat.id) return item
 
-              return { ...item, ...chat }
+              const updatedChat = remeda.pipe(
+                item,
+                remeda.merge(chat),
+                remeda.merge({ lastMessage: item.lastMessage })
+              )
+
+              return updatedChat as Chat
             })
 
-            return { ...page, data: updatedData }
+            return remeda.merge(page, { data: updatedData })
           })
 
-          return { ...prev, pages: updatedPages }
+          return remeda.merge(prev, { pages: updatedPages })
         }
       )
     },
     [queryClient, createQueryKeyFromChat]
   )
 
-  useSocketEvent('chat:create', handleChatCreate, [])
-  useSocketEvent('chat:change', handleChatChange, [])
+  useSocketEvent(socket, 'chat:create', handleChatCreate)
+  useSocketEvent(socket, 'chat:change', handleChatChange)
 
   const createQueryKeyFromMessage = useCallback(
     (message: Message) => {
@@ -149,16 +157,17 @@ function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
           const updatedPages = previousPages.map(({ data, ...page }) => {
             const updatedData = data.filter(item => item.id !== message.chatId)
 
-            return { ...page, data: updatedData }
+            return remeda.merge(page, { data: updatedData })
           })
 
           const firstPage = updatedPages.at(0)
-          firstPage?.data.unshift({
-            ...chat,
-            lastMessage: { ...(chat.lastMessage ?? {}), ...message },
-          } as Chat)
+          const updatedChat = remeda.merge(chat, {
+            lastMessage: remeda.merge(chat.lastMessage ?? {}, message),
+          })
 
-          return { ...prev, pages: updatedPages }
+          firstPage?.data.unshift(updatedChat as Chat)
+
+          return remeda.merge(prev, { pages: updatedPages })
         }
       )
     },
@@ -181,27 +190,33 @@ function useFetchChats({ params, query = { page: 1 } }: UseFetchChatsProps) {
 
           const updatedPages = previousPages.map(({ data, ...page }) => {
             const updatedData = data.map(item => {
-              if (item.id !== message.chatId) return item
-
-              return {
-                ...item,
-                lastMessage: { ...(item.lastMessage ?? {}), ...message },
+              if (
+                item.id !== message.chatId ||
+                item.lastMessage?.id !== message.id
+              ) {
+                return item
               }
-            }) as FetchChatsResponseBody['data']
 
-            return { ...page, data: updatedData }
+              const updatedChat = remeda.merge(item, {
+                lastMessage: { ...(item.lastMessage ?? {}), ...message },
+              }) as Chat
+
+              return updatedChat
+            })
+
+            return remeda.merge(page, { data: updatedData })
           })
 
-          return { ...prev, pages: updatedPages }
+          return remeda.merge(prev, { pages: updatedPages })
         }
       )
     },
     [queryClient, createQueryKeyFromMessage]
   )
 
-  useSocketEvent('message:create', handleMessageCreate, [])
-  useSocketEvent('message:change', handleMessageChangeOrRevoked, [])
-  useSocketEvent('message:revoked', handleMessageChangeOrRevoked, [])
+  useSocketEvent(socket, 'message:create', handleMessageCreate)
+  useSocketEvent(socket, 'message:change', handleMessageChangeOrRevoked)
+  useSocketEvent(socket, 'message:revoked', handleMessageChangeOrRevoked)
 
   return [data, rest] as const
 }

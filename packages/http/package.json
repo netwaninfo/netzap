@@ -13,7 +13,8 @@
 		"check:exports": "attw --pack ."
 	},
 	"files": [
-		"dist"
+		"dist",
+		"package.json"
 	],
 	"exports": {
 		"./users": {

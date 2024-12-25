@@ -1,6 +1,7 @@
-import { netzapAPI } from '@/services/container'
 import type { FetchInstancesRequestQuery } from '@netzap/http/chat'
 import { useSuspenseQuery } from '@tanstack/react-query'
+
+import { api } from '@/services/api/client'
 
 interface UseFetchInstancesProps {
   query?: FetchInstancesRequestQuery
@@ -9,7 +10,7 @@ interface UseFetchInstancesProps {
 function useFetchInstances({ query = { page: 1 } }: UseFetchInstancesProps) {
   const { data, ...rest } = useSuspenseQuery({
     queryKey: ['instances', query],
-    queryFn: () => netzapAPI.instances.fetch({ query }),
+    queryFn: () => api.instances.fetch({ query }),
   })
 
   const { error, isFetching } = rest

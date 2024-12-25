@@ -1,0 +1,11 @@
+{
+  "extends": ["@netzap/ts-config/react"],
+  "compilerOptions": {
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@netzap/ui/*": ["./src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

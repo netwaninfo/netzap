@@ -1,0 +1,26 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "PKG",
+	"extends": "./base.json",
+	"compilerOptions": {
+		"module": "preserve",
+		"declaration": true,
+		"declarationMap": true,
+		"incremental": false,
+		"lib": [
+			"es2022",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"jsx": "react-jsx"
+	},
+	"include": [
+		"${configDir}/src/**/*"
+	],
+	"exclude": [
+		"${configDir}/coverage",
+		"${configDir}/dist",
+		"${configDir}/docs",
+		"${configDir}/node_modules"
+	]
+}

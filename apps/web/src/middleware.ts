@@ -9,13 +9,18 @@ const isRouteToRedirectWhenAuthenticated = createRouteMatcher([
 ])
 
 export default clerkMiddleware(async (auth, request) => {
-  const { userId, redirectToSignIn } = await auth()
+  const { userId, redirectToSignIn, getToken } = await auth()
 
   if (!userId && !isPublicRoute(request)) {
     return redirectToSignIn()
   }
 
   if (userId && isRouteToRedirectWhenAuthenticated(request)) {
+    const token = await getToken()
+    if (!token) {
+      return NextResponse.redirect(new URL('/auth/sign-out', request.url))
+    }
+
     return NextResponse.redirect(new URL('/wa', request.url))
   }
 })

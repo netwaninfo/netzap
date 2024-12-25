@@ -1,5 +1,7 @@
-import { useParsedParams } from '@/hooks/use-parsed-params'
 import { z } from 'zod'
+
+import { useParsedParams } from '@netzap/ui/hooks/use-parsed-params'
+
 import { instanceParamsSchema } from './use-instance-params'
 
 const chatParamsSchema = instanceParamsSchema.extend({
@@ -7,9 +9,7 @@ const chatParamsSchema = instanceParamsSchema.extend({
 })
 
 function useChatParams() {
-  const params = useParsedParams(chatParamsSchema)
-
-  return params
+  return useParsedParams(chatParamsSchema)
 }
 
 export { useChatParams, chatParamsSchema }

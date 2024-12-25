@@ -20,8 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/pages/chats/*": ["./src/app/(app)/wa/[instanceId]/chats/*"],
-      "@/pages/chat/*": ["./src/app/(app)/wa/[instanceId]/chats/[waChatId]/*"]
+      "@netzap/ui/*": ["../../packages/ui/src/*"],
+      "@/pages/instanceId/*": ["./src/app/wa/[instanceId]/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
