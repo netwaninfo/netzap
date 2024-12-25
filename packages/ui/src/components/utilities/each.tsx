@@ -1,4 +1,5 @@
-import React, { Children } from 'react'
+import type React from 'react'
+import { Children } from 'react'
 
 type EachRenderItem<T> = (item: T, index: number) => React.ReactNode
 

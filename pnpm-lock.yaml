@@ -383,6 +383,9 @@ importers:
         specifier: ^3.4.0
         version: 3.4.0(zod@3.24.1)
     devDependencies:
+      '@netzap/biome-config':
+        specifier: workspace:^
+        version: link:../../config/biome-config
       '@netzap/ts-config':
         specifier: workspace:*
         version: link:../../config/ts-config
@@ -725,7 +728,6 @@ packages:
   '@biomejs/cli-win32-x64@1.9.4':
     resolution: {integrity: sha512-8Y5wMhVIPaWe6jw2H+KlEm4wP/f7EW3810ZLmDlrEEy5KvBsb9ECEfu/kMWD484ijfQ8+nIi0giMgu9g1UAuuA==}
     engines: {node: '>=14.21.3'}
-    cpu: [x64]
     os: [win32]
 
   '@clerk/backend@1.21.4':

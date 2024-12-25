@@ -5,7 +5,7 @@ import { Slot } from '@radix-ui/react-slot'
 import React, {
   Children,
   createContext,
-  ReactElement,
+  type ReactElement,
   useContext,
   useEffect,
 } from 'react'

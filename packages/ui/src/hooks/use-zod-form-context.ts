@@ -1,7 +1,7 @@
 import { useFormContext } from 'react-hook-form'
-import { ZodSchema, z } from 'zod'
+import type { ZodSchema, z } from 'zod'
 
-import { UseZodFormReturn } from './use-zod-form'
+import type { UseZodFormReturn } from './use-zod-form'
 
 type UseZodFormContextReturn<Schema extends ZodSchema> =
   UseZodFormReturn<Schema>

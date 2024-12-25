@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react'
+import { type ChangeEvent, useCallback, useState } from 'react'
 
 function useControlledInput(defaultValue = '') {
   const [value, setValue] = useState(defaultValue)
