@@ -58,7 +58,7 @@ export function DailyMessagesList({ limit }: DailyMessagesListProps) {
     [isDocumentVisible, handleScrollToLastMessage]
   )
 
-  useSocketEvent(socket, 'message:create', handleMessageCreate, [])
+  useSocketEvent(socket, 'message:create', handleMessageCreate)
 
   const handleFetchNextPage = useCallback(
     () => fetchNextPage(),
