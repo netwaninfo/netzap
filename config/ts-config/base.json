@@ -1,6 +1,5 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"display": "Base",
 	"compilerOptions": {
 		"esModuleInterop": true,
 		"skipLibCheck": true,
@@ -9,25 +8,17 @@
 		"resolveJsonModule": true,
 		"moduleDetection": "force",
 		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
 		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
 		"strictNullChecks": true,
 		"noImplicitAny": true,
-		"noImplicitOverride": true,
-		"noUncheckedIndexedAccess": true,
-		"module": "NodeNext",
-		"outDir": "./dist",
-		"sourceMap": true,
-		"paths": {
-			"@/*": [
-				"./src/*"
-			],
-			"@/test/*": [
-				"./test/*"
-			]
-		}
-	},
-	"exclude": [
-		"node_modules",
-		"dist"
-	]
+		"module": "preserve",
+		"moduleResolution": "bundler",
+		"noEmit": true,
+		"lib": [
+			"es2023"
+		]
+	}
 }

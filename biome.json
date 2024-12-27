@@ -1,12 +1,21 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"organizeImports": {
-		"enabled": true
+		"enabled": true,
+		"ignore": [
+			"dist",
+			"coverage",
+			"node_modules",
+			".next"
+		]
 	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"correctness": {
+				"noUnusedImports": "error"
+			}
 		}
 	},
 	"formatter": {
@@ -23,5 +32,12 @@
 			"trailingCommas": "es5",
 			"bracketSpacing": true
 		}
+	},
+	"files": {
+		"ignore": [
+			"dist",
+			"coverage",
+			"package.json"
+		]
 	}
 }

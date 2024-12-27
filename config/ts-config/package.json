@@ -3,8 +3,9 @@
 	"version": "1.0.0",
 	"private": true,
 	"exports": {
+		"./lib": "./lib.json",
+		"./next": "./next.json",
 		"./node": "./node.json",
-		"./pkg": "./pkg.json",
 		"./react": "./react.json"
 	}
 }

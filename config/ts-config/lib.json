@@ -2,7 +2,8 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "./base.json",
 	"include": [
-		"${configDir}/src/**/*"
+		"${configDir}/src/**/*",
+		"${configDir}/tsup.config.ts"
 	],
 	"exclude": [
 		"${configDir}/coverage",

@@ -1,6 +1,9 @@
 {
-  "extends": ["@netzap/ts-config/pkg"],
+  "extends": ["@netzap/ts-config/lib"],
   "compilerOptions": {
-    "baseUrl": "./"
+    "paths": {
+      "@/*": ["./src/*"],
+      "@netzap/workspace/*": ["../../*"]
+    }
   }
 }

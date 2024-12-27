@@ -1,8 +1,5 @@
 import { defineConfig } from 'tsup'
 
-export default defineConfig({
-  entry: ['src/**/*.ts'],
-  format: ['cjs', 'esm'],
-  dts: true,
-  clean: true,
-})
+import { config } from '@netzap/workspace/tsup-shared.config'
+
+export default defineConfig(config)

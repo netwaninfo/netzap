@@ -33,7 +33,6 @@
 		"@nestjs/cli": "^10.4.9",
 		"@nestjs/schematics": "^10.2.3",
 		"@nestjs/testing": "^10.4.15",
-		"@netzap/biome-config": "workspace:^",
 		"@netzap/ts-config": "workspace:^",
 		"@swc/core": "^1.10.1",
 		"@types/lodash.merge": "^4.6.9",

@@ -1,8 +1,0 @@
-{
-	"name": "@netzap/biome-config",
-	"version": "1.0.0",
-	"private": true,
-	"exports": {
-		"./pkg": "./pkg.json"
-	}
-}

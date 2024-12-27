@@ -9,8 +9,7 @@
 		"build": "tsup --silent",
 		"lint": "biome check --error-on-warnings",
 		"lint:fix": "biome check --write --error-on-warnings",
-		"check:types": "tsc --noEmit",
-		"check:exports": "attw --pack ."
+		"check:types": "tsc --noEmit"
 	},
 	"files": [
 		"dist",
@@ -18,27 +17,26 @@
 	],
 	"exports": {
 		"./users": {
-			"require": "./dist/users/index.cjs",
-			"types": "./dist/users/index.d.ts",
-			"import": "./dist/users/index.js"
+			"import": {
+				"types": "./dist/users/index.d.ts",
+				"default": "./dist/users/index.js"
+			}
 		},
 		"./chat": {
-			"require": "./dist/chat/index.cjs",
-			"types": "./dist/chat/index.d.ts",
-			"import": "./dist/chat/index.js"
+			"import": {
+				"types": "./dist/chat/index.d.ts",
+				"default": "./dist/chat/index.js"
+			}
 		},
 		"./management": {
-			"require": "./dist/management/index.cjs",
-			"types": "./dist/management/index.d.ts",
-			"import": "./dist/management/index.js"
+			"import": {
+				"types": "./dist/management/index.d.ts",
+				"default": "./dist/management/index.js"
+			}
 		}
 	},
 	"devDependencies": {
-		"@arethetypeswrong/cli": "^0.17.2",
-		"@netzap/biome-config": "workspace:^",
-		"@netzap/ts-config": "workspace:^",
-		"tsup": "^8.3.5",
-		"typescript": "^5.7.2"
+		"@netzap/ts-config": "workspace:^"
 	},
 	"dependencies": {
 		"zod": "^3.24.1"

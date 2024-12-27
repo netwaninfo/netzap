@@ -1,13 +1,10 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "extends": ["./node_modules/@netzap/biome-config/pkg.json"],
+  "extends": ["../../biome.json"],
   "linter": {
     "rules": {
       "complexity": {
         "noStaticOnlyClass": "off"
-      },
-      "correctness": {
-        "noUnusedImports": "error"
       },
       "style": {
         "useImportType": "off"
@@ -20,6 +17,6 @@
     }
   },
   "files": {
-    "ignore": [".wwebjs_auth", ".wwebjs_cache"]
+    "ignore": [".wwebjs_auth", ".wwebjs_cache", ".docker"]
   }
 }
