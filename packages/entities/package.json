@@ -7,7 +7,6 @@
 		"bump": "ncu --upgrade --target minor -p pnpm --install always",
 		"dev": "tsup --watch",
 		"build": "tsup --silent",
-		"lint": "biome check --error-on-warnings",
 		"lint:fix": "biome check --write --error-on-warnings",
 		"check:types": "tsc --noEmit"
 	},

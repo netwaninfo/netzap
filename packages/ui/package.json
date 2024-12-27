@@ -4,6 +4,7 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
+		"bump": "ncu --upgrade --target minor -p pnpm --install always",
 		"lint:fix": "biome check --write --error-on-warnings"
 	},
 	"dependencies": {

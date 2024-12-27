@@ -3,11 +3,11 @@
 	"version": "1.0.0",
 	"scripts": {
 		"bump:all": "turbo run bump",
-		"bump:pack": "turbo run bump --filter=./packages/*",
+		"bump:packages": "turbo run bump --filter=./packages/*",
 		"prepack": "turbo run build --filter=./packages/*",
 		"prepack:dev": "turbo run dev --filter=./packages/*",
-		"lint": "turbo run lint",
-		"lint:fix": "turbo run lint:fix"
+		"lint:fix": "turbo run lint:fix",
+		"prepare": "husky"
 	},
 	"workspaces": [
 		"apps/*",
@@ -17,6 +17,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@biomejs/cli-win32-x64": "^1.9.4",
+		"husky": "^9.1.7",
 		"npm-check-updates": "^17.1.12",
 		"tsup": "^8.3.5",
 		"turbo": "^2.3.3",
