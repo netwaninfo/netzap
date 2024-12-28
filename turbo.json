@@ -18,6 +18,7 @@
 			"cache": false,
 			"persistent": true
 		},
-		"lint:fix": {}
+		"lint:fix": {},
+		"check:types": {}
 	}
 }

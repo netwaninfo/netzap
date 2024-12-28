@@ -9,7 +9,8 @@
 		"build": "next build",
 		"start": "next start -p 6565",
 		"lint": "next lint",
-		"lint:fix": "biome check --write"
+		"lint:fix": "biome check --write",
+		"check:types": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@clerk/localizations": "^3.9.5",

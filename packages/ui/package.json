@@ -5,7 +5,8 @@
 	"private": true,
 	"scripts": {
 		"bump": "ncu --upgrade --target minor -p pnpm --install always",
-		"lint:fix": "biome check --write --error-on-warnings"
+		"lint:fix": "biome check --write --error-on-warnings",
+		"check:types": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.9.1",
