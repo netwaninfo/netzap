@@ -1,15 +1,16 @@
-import { PrivateMessage } from '@/domain/chat/enterprise/types/message'
-import { PrivateMessage as Output } from '@netzap/entities/chat'
-import { PrivateAudioMessagePresenter } from './audio-message'
-import { PrivateDocumentMessagePresenter } from './document-message'
-import { PrivateImageMessagePresenter } from './image-message'
-import { PrivateMultiVCardMessagePresenter } from './multi-v-card-message'
-import { PrivateRevokedMessagePresenter } from './revoked-message'
-import { PrivateTextMessagePresenter } from './text-message'
-import { PrivateUnknownMessagePresenter } from './unknown-message'
-import { PrivateVCardMessagePresenter } from './v-card-message'
-import { PrivateVideoMessagePresenter } from './video-message'
-import { PrivateVoiceMessagePresenter } from './voice-message'
+import type { PrivateMessage as Output } from '@netzap/entities/chat'
+
+import type { PrivateMessage } from '@/domain/chat/enterprise/types/message.js'
+import { PrivateAudioMessagePresenter } from './audio-message.js'
+import { PrivateDocumentMessagePresenter } from './document-message.js'
+import { PrivateImageMessagePresenter } from './image-message.js'
+import { PrivateMultiVCardMessagePresenter } from './multi-v-card-message.js'
+import { PrivateRevokedMessagePresenter } from './revoked-message.js'
+import { PrivateTextMessagePresenter } from './text-message.js'
+import { PrivateUnknownMessagePresenter } from './unknown-message.js'
+import { PrivateVCardMessagePresenter } from './v-card-message.js'
+import { PrivateVideoMessagePresenter } from './video-message.js'
+import { PrivateVoiceMessagePresenter } from './voice-message.js'
 
 export class PrivateMessagePresenter {
   static toOutput(message: PrivateMessage): Output {

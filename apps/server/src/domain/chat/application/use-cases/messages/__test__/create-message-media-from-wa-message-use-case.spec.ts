@@ -1,7 +1,7 @@
-import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
-import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
-import { FakeStorageService } from '@/test/services/chat/fake-storage-service'
-import { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-from-wa-message-use-case'
+import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message.js'
+import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media.js'
+import { FakeStorageService } from '@/test/services/chat/fake-storage-service.js'
+import { CreateMessageMediaFromWAMessageUseCase } from '../create-message-media-from-wa-message-use-case.js'
 
 describe('CreateMessageMediaFromWAMessageUseCase', () => {
   let storageService: FakeStorageService

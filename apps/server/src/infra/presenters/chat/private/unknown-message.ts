@@ -1,6 +1,7 @@
-import { PrivateUnknownMessage } from '@/domain/chat/enterprise/entities/private/unknown-message'
-import { PrivateUnknownMessage as Output } from '@netzap/entities/chat'
-import { PrivateQuotedMessagePresenter } from './quoted-message'
+import type { PrivateUnknownMessage as Output } from '@netzap/entities/chat'
+
+import { PrivateUnknownMessage } from '@/domain/chat/enterprise/entities/private/unknown-message.js'
+import { PrivateQuotedMessagePresenter } from './quoted-message.js'
 
 export class PrivateUnknownMessagePresenter {
   static toOutput(message: PrivateUnknownMessage): Output {

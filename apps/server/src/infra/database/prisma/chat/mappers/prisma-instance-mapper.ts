@@ -1,7 +1,8 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Instance } from '@/domain/chat/enterprise/entities/instance'
-import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import type { $Enums } from '@prisma/client'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { Instance } from '@/domain/chat/enterprise/entities/instance.js'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
 
 type Raw = {
   id: string

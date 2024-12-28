@@ -1,18 +1,18 @@
+import { WsException } from '@nestjs/websockets'
 import {
   type MessageSendTextClientEventPayload,
   messageSendTextClientEventPayloadSchema,
 } from '@netzap/websocket/chat'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { HandleSendTextMessage } from '@/domain/chat/application/handlers/handle-send-text-message'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
-import { SocketUserId } from '@/infra/auth/decorators/socket-user-id.decorator'
-import { WsException } from '@nestjs/websockets'
-import { SocketEventPayload } from '../decorators/socket-event-payload.decorator'
-import { SocketGateway } from '../decorators/socket-gateway.decorator'
-import { SocketInstanceId } from '../decorators/socket-instance-id.decorator'
-import { SocketSubscribeEvent } from '../decorators/socket-subscribe-event.decorator'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { HandleSendTextMessage } from '@/domain/chat/application/handlers/handle-send-text-message.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id.js'
+import { SocketUserId } from '@/infra/auth/decorators/socket-user-id.decorator.js'
+import { SocketEventPayload } from '../decorators/socket-event-payload.decorator.js'
+import { SocketGateway } from '../decorators/socket-gateway.decorator.js'
+import { SocketInstanceId } from '../decorators/socket-instance-id.decorator.js'
+import { SocketSubscribeEvent } from '../decorators/socket-subscribe-event.decorator.js'
 
 @SocketGateway()
 export class SocketHandleSendTextMessage {

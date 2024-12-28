@@ -5,15 +5,15 @@ import type {
   ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams,
   ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceIdParams,
   ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceIdParams,
-} from '@/domain/chat/application/repositories/chats-repository'
-import type { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
-import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
+} from '@/domain/chat/application/repositories/chats-repository.js'
+import type { GroupChat } from '@/domain/chat/enterprise/entities/group/chat.js'
+import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat.js'
 import {
   isGroupChat,
   isPrivateChat,
-} from '@/domain/chat/enterprise/type-guards/chat'
-import type { Chat } from '@/domain/chat/enterprise/types/chat'
-import { Pagination } from '@/domain/shared/entities/pagination'
+} from '@/domain/chat/enterprise/type-guards/chat.js'
+import type { Chat } from '@/domain/chat/enterprise/types/chat.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
 
 export class InMemoryChatsRepository implements ChatsRepository {
   items: Chat[] = []

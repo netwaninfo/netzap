@@ -1,6 +1,6 @@
-import { Either, failure, success } from '@/core/either'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
-import { RequestFunction } from './types/request-function'
+import { type Either, failure, success } from '@/core/either.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import type { RequestFunction } from './types/request-function.js'
 
 export abstract class RunSafely {
   protected async runSafely<T>(

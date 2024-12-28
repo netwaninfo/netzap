@@ -1,6 +1,6 @@
-import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
-import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-groups-repository'
-import { CreateGroupFromWAContactUseCase } from '../create-group-from-wa-contact-use-case'
+import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact.js'
+import { InMemoryGroupsRepository } from '@/test/repositories/chat/in-memory-groups-repository.js'
+import { CreateGroupFromWAContactUseCase } from '../create-group-from-wa-contact-use-case.js'
 
 describe('CreateGroupFromWAContactUseCase', () => {
   let groupsRepository: InMemoryGroupsRepository

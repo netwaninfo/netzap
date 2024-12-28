@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 
-import { type Either, failure, success } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Contact } from '@/domain/chat/enterprise/entities/contact'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
-import { WhatsAppService } from '../../services/whats-app-service'
-import { CreateContactsFromWAContactsUseCase } from './create-contacts-from-wa-contacts-use-case'
+import { type Either, failure, success } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { Contact } from '@/domain/chat/enterprise/entities/contact.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import { WhatsAppService } from '../../services/whats-app-service.js'
+import { CreateContactsFromWAContactsUseCase } from './create-contacts-from-wa-contacts-use-case.js'
 
 interface ImportContactsFromInstanceUseCaseRequest {
   instanceId: UniqueEntityID

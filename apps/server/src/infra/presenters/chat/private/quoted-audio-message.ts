@@ -1,7 +1,8 @@
-import { PrivateAudioMessage } from '@/domain/chat/enterprise/entities/private/audio-message'
-import { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
-import { Except } from 'type-fest'
-import { MessageMediaPresenter } from '../message-media-presenter'
+import type { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
+import type { Except } from 'type-fest'
+
+import { PrivateAudioMessage } from '@/domain/chat/enterprise/entities/private/audio-message.js'
+import { MessageMediaPresenter } from '../message-media-presenter.js'
 
 export class PrivateQuotedAudioMessagePresenter {
   static toOutput(message: Except<PrivateAudioMessage, 'quoted'>): Output {

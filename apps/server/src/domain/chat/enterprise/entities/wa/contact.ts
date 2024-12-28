@@ -1,6 +1,6 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { WAEntity } from '@/core/entities/wa-entity'
-import type { WAEntityID } from '../value-objects/wa-entity-id'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { WAEntity } from '@/core/entities/wa-entity.js'
+import type { WAEntityID } from '../value-objects/wa-entity-id.js'
 
 export interface WAContactProps {
   instanceId: UniqueEntityID

@@ -1,8 +1,8 @@
 import type {
   GroupsRepository,
   GroupsRepositoryFindUniqueByWAGroupIdAndInstanceIdParams,
-} from '@/domain/chat/application/repositories/groups-repository'
-import type { Group } from '@/domain/chat/enterprise/entities/group'
+} from '@/domain/chat/application/repositories/groups-repository.js'
+import type { Group } from '@/domain/chat/enterprise/entities/group.js'
 
 export class InMemoryGroupsRepository implements GroupsRepository {
   items: Group[] = []

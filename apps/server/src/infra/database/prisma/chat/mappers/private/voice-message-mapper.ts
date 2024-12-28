@@ -1,11 +1,12 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { PrivateVoiceMessage } from '@/domain/chat/enterprise/entities/private/voice-message'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
-import { Prisma } from '@prisma/client'
-import { PrismaMessageMediaMapper } from '../prisma-message-media-mapper'
-import { RawPrivateMessage } from './message-mapper'
-import { PrismaPrivateMessageMapper } from './message-mapper'
+import type { Prisma } from '@prisma/client'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { PrivateVoiceMessage } from '@/domain/chat/enterprise/entities/private/voice-message.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id.js'
+import { PrismaMessageMediaMapper } from '../prisma-message-media-mapper.js'
+import type { RawPrivateMessage } from './message-mapper.js'
+import { PrismaPrivateMessageMapper } from './message-mapper.js'
 
 type Raw = RawPrivateMessage
 

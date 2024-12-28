@@ -1,8 +1,8 @@
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
-import { WWJSContact } from '../../../types/wwjs-entities'
-import { WWJSClient } from '../../../wwjs-client'
-import { ContactUtils } from '../../utils/contact'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact.js'
+import type { WWJSContact } from '../../../types/wwjs-entities.js'
+import { WWJSClient } from '../../../wwjs-client.js'
+import { ContactUtils } from '../../utils/contact.js'
 
 interface WWJSPrivateContactMapperToDomainParams {
   contact: WWJSContact

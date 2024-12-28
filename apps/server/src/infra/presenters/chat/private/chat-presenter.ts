@@ -1,7 +1,8 @@
-import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
-import { PrivateChat as Output } from '@netzap/entities/chat'
-import { ContactPresenter } from '../contact-presenter'
-import { PrivateMessagePresenter } from './message'
+import type { PrivateChat as Output } from '@netzap/entities/chat'
+
+import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat.js'
+import { ContactPresenter } from '../contact-presenter.js'
+import { PrivateMessagePresenter } from './message.js'
 
 export class PrivateChatPresenter {
   static toOutput(chat: PrivateChat): Output {

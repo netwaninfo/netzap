@@ -1,13 +1,13 @@
-import { type Either, failure, success } from '@/core/either'
-import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
-import type { WAPrivateChat } from '@/domain/chat/enterprise/entities/wa/private/chat'
-import type { Chat } from '@/domain/chat/enterprise/types/chat'
-import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
+import { type Either, failure, success } from '@/core/either.js'
+import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat.js'
+import type { WAPrivateChat } from '@/domain/chat/enterprise/entities/wa/private/chat.js'
+import type { Chat } from '@/domain/chat/enterprise/types/chat.js'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error.js'
 import { Injectable } from '@nestjs/common'
-import { ChatsRepository } from '../../repositories/chats-repository'
-import { ContactsRepository } from '../../repositories/contacts-repository'
-import { DateService } from '../../services/date-service'
-import { CreateContactFromWAContactUseCase } from '../contacts/create-contact-from-wa-contact-use-case'
+import { ChatsRepository } from '../../repositories/chats-repository.js'
+import { ContactsRepository } from '../../repositories/contacts-repository.js'
+import { DateService } from '../../services/date-service.js'
+import { CreateContactFromWAContactUseCase } from '../contacts/create-contact-from-wa-contact-use-case.js'
 
 interface CreatePrivateChatFromWAChatUseCaseRequest {
   waChat: WAPrivateChat

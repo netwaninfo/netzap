@@ -1,14 +1,18 @@
-import { isPrivateMessage } from '@/domain/chat/enterprise/type-guards/message'
-import { Message, RevokedMessage } from '@/domain/chat/enterprise/types/message'
 import { Prisma } from '@prisma/client'
+
+import { isPrivateMessage } from '@/domain/chat/enterprise/type-guards/message.js'
+import type {
+  Message,
+  RevokedMessage,
+} from '@/domain/chat/enterprise/types/message.js'
 import {
   PrismaGroupMessageMapper,
-  RawGroupMessage,
-} from './group/message-mapper'
+  type RawGroupMessage,
+} from './group/message-mapper.js'
 import {
   PrismaPrivateMessageMapper,
-  RawPrivateMessage,
-} from './private/message-mapper'
+  type RawPrivateMessage,
+} from './private/message-mapper.js'
 
 type Raw = RawPrivateMessage | RawGroupMessage
 

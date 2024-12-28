@@ -1,7 +1,8 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Group } from '@/domain/chat/enterprise/entities/group'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { Prisma, Group as PrismaGroup } from '@prisma/client'
+import { Prisma, type Group as PrismaGroup } from '@prisma/client'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { Group } from '@/domain/chat/enterprise/entities/group.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
 
 export type Raw = PrismaGroup
 

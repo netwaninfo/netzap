@@ -1,5 +1,5 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Instance } from '../../enterprise/entities/instance'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { Instance } from '../../enterprise/entities/instance.js'
 
 export interface InstancesRepositoryFindUniqueByInstanceIdParams {
   instanceId: UniqueEntityID

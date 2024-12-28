@@ -1,4 +1,7 @@
-import {
+import { Injectable } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
+
+import type {
   MessagesRepository,
   MessagesRepositoryCountByInstanceIdAndWAChatIdParams,
   MessagesRepositoryFindManyPaginatedByInstanceIdAndWAChatIdParams,
@@ -6,20 +9,18 @@ import {
   MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams,
   MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams,
   MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams,
-} from '@/domain/chat/application/repositories/messages-repository'
-import {
+} from '@/domain/chat/application/repositories/messages-repository.js'
+import type {
   GroupMessage,
   Message,
   PrivateMessage,
   RevokedMessage,
-} from '@/domain/chat/enterprise/types/message'
-import { Pagination } from '@/domain/shared/entities/pagination'
-import { Injectable } from '@nestjs/common'
-import { Prisma } from '@prisma/client'
-import { PrismaService } from '../../prisma.service'
-import { PrismaGroupMessageMapper } from '../mappers/group/message-mapper'
-import { PrismaMessageMapper } from '../mappers/prisma-message-mapper'
-import { PrismaPrivateMessageMapper } from '../mappers/private/message-mapper'
+} from '@/domain/chat/enterprise/types/message.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
+import { PrismaService } from '../../prisma.service.js'
+import { PrismaGroupMessageMapper } from '../mappers/group/message-mapper.js'
+import { PrismaMessageMapper } from '../mappers/prisma-message-mapper.js'
+import { PrismaPrivateMessageMapper } from '../mappers/private/message-mapper.js'
 
 @Injectable()
 export class PrismaMessagesRepository implements MessagesRepository {

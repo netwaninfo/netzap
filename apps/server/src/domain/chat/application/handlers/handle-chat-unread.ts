@@ -1,10 +1,10 @@
-import { type Either, failure, success } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
-import type { Chat } from '../../enterprise/types/chat'
-import { ChatEmitter } from '../emitters/chat-emitter'
-import type { ChatsRepository } from '../repositories/chats-repository'
+import { type Either, failure, success } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
+import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id.js'
+import type { Chat } from '../../enterprise/types/chat.js'
+import { ChatEmitter } from '../emitters/chat-emitter.js'
+import type { ChatsRepository } from '../repositories/chats-repository.js'
 
 interface HandleChatUnreadRequest {
   instanceId: UniqueEntityID

@@ -1,6 +1,6 @@
-import { Contact } from '@/domain/chat/enterprise/entities/contact'
+import type { Contact as Output } from '@netzap/entities/chat'
 
-import { Contact as Output } from '@netzap/entities/chat'
+import { Contact } from '@/domain/chat/enterprise/entities/contact.js'
 
 export class ContactPresenter {
   static toOutput(contact: Contact): Output {

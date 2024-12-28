@@ -1,23 +1,24 @@
-import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message'
+import { Prisma, type Message as PrismaMessage } from '@prisma/client'
+import type { Except, SetNonNullable, SetRequired } from 'type-fest'
+
+import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message.js'
 import {
   isGroupMessageWithContacts,
   isGroupMessageWithMedia,
-} from '@/domain/chat/enterprise/type-guards/message'
-import { GroupMessage } from '@/domain/chat/enterprise/types/message'
-import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
-import { Prisma, Message as PrismaMessage } from '@prisma/client'
-import { Except, SetNonNullable, SetRequired } from 'type-fest'
-import { Raw as RawContactInstance } from '../prisma-contact-instance-mapper'
-import { PrismaGroupAudioMessageMapper } from './audio-message-mapper'
-import { PrismaGroupDocumentMessageMapper } from './document-message-mapper'
-import { PrismaGroupImageMessageMapper } from './image-message-mapper'
-import { PrismaGroupMultiVCardMessageMapper } from './multi-v-card-message-mapper'
-import { PrismaGroupRevokedMessageMapper } from './revoked-message-mapper'
-import { PrismaGroupTextMessageMapper } from './text-message-mapper'
-import { PrismaGroupUnknownMessageMapper } from './unknown-message-mapper'
-import { PrismaGroupVCardMessageMapper } from './v-card-message-mapper'
-import { PrismaGroupVideoMessageMapper } from './video-message-mapper'
-import { PrismaGroupVoiceMessageMapper } from './voice-message-mapper'
+} from '@/domain/chat/enterprise/type-guards/message.js'
+import type { GroupMessage } from '@/domain/chat/enterprise/types/message.js'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
+import type { Raw as RawContactInstance } from '../prisma-contact-instance-mapper.js'
+import { PrismaGroupAudioMessageMapper } from './audio-message-mapper.js'
+import { PrismaGroupDocumentMessageMapper } from './document-message-mapper.js'
+import { PrismaGroupImageMessageMapper } from './image-message-mapper.js'
+import { PrismaGroupMultiVCardMessageMapper } from './multi-v-card-message-mapper.js'
+import { PrismaGroupRevokedMessageMapper } from './revoked-message-mapper.js'
+import { PrismaGroupTextMessageMapper } from './text-message-mapper.js'
+import { PrismaGroupUnknownMessageMapper } from './unknown-message-mapper.js'
+import { PrismaGroupVCardMessageMapper } from './v-card-message-mapper.js'
+import { PrismaGroupVideoMessageMapper } from './video-message-mapper.js'
+import { PrismaGroupVoiceMessageMapper } from './voice-message-mapper.js'
 
 export type RawGroupMessage = PrismaMessage & {
   quoted?: Except<RawGroupMessage, 'quoted'> | null

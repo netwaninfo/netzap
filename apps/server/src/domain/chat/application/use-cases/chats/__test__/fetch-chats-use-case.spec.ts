@@ -1,9 +1,9 @@
-import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat'
-import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
-import { each } from '@/test/utilities/each'
-import { FetchChatsUseCase } from '../fetch-chats-use-case'
+import { makeGroupChat } from '@/test/factories/chat/group/make-group-chat.js'
+import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository.js'
+import { each } from '@/test/utilities/each.js'
+import { FetchChatsUseCase } from '../fetch-chats-use-case.js'
 
 describe('FetchChatsUseCase', () => {
   let chatsRepository: InMemoryChatsRepository

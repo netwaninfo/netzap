@@ -1,10 +1,10 @@
-import { makeGroupTextMessage } from '@/test/factories/chat/group/make-group-text-message'
-import { makePrivateTextMessage } from '@/test/factories/chat/private/make-private-text-message'
-import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
-import { each } from '@/test/utilities/each'
-import { FetchMessagesUseCase } from '../fetch-messages-use-case'
+import { makeGroupTextMessage } from '@/test/factories/chat/group/make-group-text-message.js'
+import { makePrivateTextMessage } from '@/test/factories/chat/private/make-private-text-message.js'
+import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository.js'
+import { each } from '@/test/utilities/each.js'
+import { FetchMessagesUseCase } from '../fetch-messages-use-case.js'
 
 describe('FetchMessagesUseCase', () => {
   let messagesRepository: InMemoryMessagesRepository

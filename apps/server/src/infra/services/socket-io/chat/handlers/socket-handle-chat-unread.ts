@@ -1,16 +1,16 @@
+import { WsException } from '@nestjs/websockets'
 import {
   type ChatUnreadClientEventPayload,
   chatUnreadClientEventPayloadSchema,
 } from '@netzap/websocket/chat'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { HandleChatUnread } from '@/domain/chat/application/handlers/handle-chat-unread'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WsException } from '@nestjs/websockets'
-import { SocketEventPayload } from '../decorators/socket-event-payload.decorator'
-import { SocketGateway } from '../decorators/socket-gateway.decorator'
-import { SocketInstanceId } from '../decorators/socket-instance-id.decorator'
-import { SocketSubscribeEvent } from '../decorators/socket-subscribe-event.decorator'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { HandleChatUnread } from '@/domain/chat/application/handlers/handle-chat-unread.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { SocketEventPayload } from '../decorators/socket-event-payload.decorator.js'
+import { SocketGateway } from '../decorators/socket-gateway.decorator.js'
+import { SocketInstanceId } from '../decorators/socket-instance-id.decorator.js'
+import { SocketSubscribeEvent } from '../decorators/socket-subscribe-event.decorator.js'
 
 @SocketGateway()
 export class SocketHandleChatUnread {

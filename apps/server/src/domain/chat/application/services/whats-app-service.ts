@@ -1,12 +1,12 @@
-import { Either } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
-import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
-import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id'
-import { WAPrivateContact } from '../../enterprise/entities/wa/private/contact'
-import { WAChat } from '../../enterprise/types/wa-chat'
-import type { WAMessage } from '../../enterprise/types/wa-message'
+import type { Either } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id.js'
+import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id.js'
+import { WAPrivateContact } from '../../enterprise/entities/wa/private/contact.js'
+import type { WAChat } from '../../enterprise/types/wa-chat.js'
+import type { WAMessage } from '../../enterprise/types/wa-message.js'
 
 export interface WhatsAppServiceSendTextMessageParams {
   body: string

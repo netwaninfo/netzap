@@ -1,7 +1,7 @@
-import { faker } from '@/test/lib/faker'
+import { faker } from '@/test/lib/faker.js'
 
-import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
-import { WAMessageID } from '../wa-message-id'
+import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id.js'
+import { WAMessageID } from '../wa-message-id.js'
 
 describe('WAMessageID', () => {
   it('should be able to create', () => {

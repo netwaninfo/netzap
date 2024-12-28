@@ -1,7 +1,8 @@
-import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
-import { GroupChat as Output } from '@netzap/entities/chat'
-import { GroupPresenter } from '../group-presenter'
-import { GroupMessagePresenter } from './message'
+import type { GroupChat as Output } from '@netzap/entities/chat'
+
+import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat.js'
+import { GroupPresenter } from '../group-presenter.js'
+import { GroupMessagePresenter } from './message.js'
 
 export class GroupChatPresenter {
   static toOutput(chat: GroupChat): Output {

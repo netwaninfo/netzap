@@ -1,5 +1,5 @@
-import { Entity } from '../entity'
-import { UniqueEntityID } from '../unique-entity-id'
+import { Entity } from '../entity.js'
+import { UniqueEntityID } from '../unique-entity-id.js'
 
 interface RawEntityProps {
   isTrue?: boolean

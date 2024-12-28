@@ -1,1 +1,3 @@
-export { LocalAuth as WWJSLocalAuthStrategy } from 'whatsapp-web.js'
+import WWJS from 'whatsapp-web.js'
+
+export const { LocalAuth: WWJSLocalAuthStrategy } = WWJS

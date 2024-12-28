@@ -1,15 +1,16 @@
-import { GroupMessage } from '@/domain/chat/enterprise/types/message'
-import { GroupQuotedMessage as Output } from '@netzap/entities/chat'
-import { Except } from 'type-fest'
-import { GroupQuotedAudioMessagePresenter } from './quoted-audio-message'
-import { GroupQuotedDocumentMessagePresenter } from './quoted-document-message'
-import { GroupQuotedImageMessagePresenter } from './quoted-image-message'
-import { GroupQuotedMultiVCardMessagePresenter } from './quoted-multi-v-card-message'
-import { GroupQuotedTextMessagePresenter } from './quoted-text-message'
-import { GroupQuotedUnknownMessagePresenter } from './quoted-unknown-message'
-import { GroupQuotedVCardMessagePresenter } from './quoted-v-card-message'
-import { GroupQuotedVideoMessagePresenter } from './quoted-video-message'
-import { GroupQuotedVoiceMessagePresenter } from './quoted-voice-message'
+import type { GroupQuotedMessage as Output } from '@netzap/entities/chat'
+import type { Except } from 'type-fest'
+
+import type { GroupMessage } from '@/domain/chat/enterprise/types/message.js'
+import { GroupQuotedAudioMessagePresenter } from './quoted-audio-message.js'
+import { GroupQuotedDocumentMessagePresenter } from './quoted-document-message.js'
+import { GroupQuotedImageMessagePresenter } from './quoted-image-message.js'
+import { GroupQuotedMultiVCardMessagePresenter } from './quoted-multi-v-card-message.js'
+import { GroupQuotedTextMessagePresenter } from './quoted-text-message.js'
+import { GroupQuotedUnknownMessagePresenter } from './quoted-unknown-message.js'
+import { GroupQuotedVCardMessagePresenter } from './quoted-v-card-message.js'
+import { GroupQuotedVideoMessagePresenter } from './quoted-video-message.js'
+import { GroupQuotedVoiceMessagePresenter } from './quoted-voice-message.js'
 
 export class GroupQuotedMessagePresenter {
   static toOutput(message: Except<GroupMessage, 'quoted'>): Output {

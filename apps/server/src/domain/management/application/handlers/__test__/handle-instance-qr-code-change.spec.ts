@@ -1,8 +1,8 @@
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { makeInstance } from '@/test/factories/management/make-instance'
-import { faker } from '@/test/lib/faker'
-import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository'
-import { HandleInstanceQRCodeChange } from '../handle-instance-qr-code-change'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { makeInstance } from '@/test/factories/management/make-instance.js'
+import { faker } from '@/test/lib/faker.js'
+import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository.js'
+import { HandleInstanceQRCodeChange } from '../handle-instance-qr-code-change.js'
 
 describe('HandleInstanceQRCodeChange', () => {
   let instancesRepository: InMemoryInstancesRepository

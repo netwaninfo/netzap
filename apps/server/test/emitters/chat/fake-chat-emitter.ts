@@ -1,7 +1,7 @@
-import {
+import type {
   ChatEmitter,
   ChatEmitterPayload,
-} from '@/domain/chat/application/emitters/chat-emitter'
+} from '@/domain/chat/application/emitters/chat-emitter.js'
 
 export class FakeChatEmitter implements ChatEmitter {
   items: ChatEmitterPayload[] = []

@@ -1,10 +1,10 @@
-import { OnGatewayInit } from '@nestjs/websockets'
+import type { OnGatewayInit } from '@nestjs/websockets'
 import { type Server } from 'socket.io'
 
-import { DiscoveryService } from '../../utilities/nestjs/discovery.service'
-import { SOCKET_MIDDLEWARE_KEY } from '../constants'
-import { SocketMiddleware } from '../types/middleware'
-import { SocketGateway } from './decorators/socket-gateway.decorator'
+import { DiscoveryService } from '../../utilities/nestjs/discovery.service.js'
+import { SOCKET_MIDDLEWARE_KEY } from '../constants.js'
+import type { SocketMiddleware } from '../types/middleware.js'
+import { SocketGateway } from './decorators/socket-gateway.decorator.js'
 
 @SocketGateway()
 export class SocketChatGateway implements OnGatewayInit {

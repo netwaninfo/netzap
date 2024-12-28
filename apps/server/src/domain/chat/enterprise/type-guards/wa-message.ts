@@ -1,6 +1,6 @@
-import { WAGroupMessage } from '../entities/wa/group/message'
-import { WAPrivateMessage } from '../entities/wa/private/message'
-import type { WAMessage } from '../types/wa-message'
+import { WAGroupMessage } from '../entities/wa/group/message.js'
+import { WAPrivateMessage } from '../entities/wa/private/message.js'
+import type { WAMessage } from '../types/wa-message.js'
 
 export function isWAPrivateMessage(
   message: WAMessage

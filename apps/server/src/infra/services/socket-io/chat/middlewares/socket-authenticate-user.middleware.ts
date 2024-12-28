@@ -2,11 +2,14 @@ import { WsException } from '@nestjs/websockets'
 import { type Socket } from 'socket.io'
 import { z } from 'zod'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { UsersRepository } from '@/domain/auth/application/repositories/users-repository'
-import { ClerkService } from '@/infra/auth/sso/clerk/clerk.service'
-import { Middleware } from '../../decorators/middleware.decorator'
-import { SocketMiddleware, SocketMiddlewareNext } from '../../types/middleware'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { UsersRepository } from '@/domain/auth/application/repositories/users-repository.js'
+import { ClerkService } from '@/infra/auth/sso/clerk/clerk.service.js'
+import { Middleware } from '../../decorators/middleware.decorator.js'
+import type {
+  SocketMiddleware,
+  SocketMiddlewareNext,
+} from '../../types/middleware.js'
 
 const authSchema = z.object({
   __session: z.string().min(1),

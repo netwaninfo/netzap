@@ -1,5 +1,6 @@
 import type { MessageType } from '@netzap/entities/chat'
-import { WWJSMessageTypes } from '../../types/wwjs-enums'
+
+import { WWJSMessageTypes } from '../../types/wwjs-enums.js'
 
 const DOMAIN_MAPPER: Partial<{
   [key in WWJSMessageTypes]: MessageType

@@ -1,15 +1,16 @@
-import { PrivateMessage } from '@/domain/chat/enterprise/types/message'
-import { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
-import { Except } from 'type-fest'
-import { PrivateQuotedAudioMessagePresenter } from './quoted-audio-message'
-import { PrivateQuotedDocumentMessagePresenter } from './quoted-document-message'
-import { PrivateQuotedImageMessagePresenter } from './quoted-image-message'
-import { PrivateQuotedMultiVCardMessagePresenter } from './quoted-multi-v-card-message'
-import { PrivateQuotedTextMessagePresenter } from './quoted-text-message'
-import { PrivateQuotedUnknownMessagePresenter } from './quoted-unknown-message'
-import { PrivateQuotedVCardMessagePresenter } from './quoted-v-card-message'
-import { PrivateQuotedVideoMessagePresenter } from './quoted-video-message'
-import { PrivateQuotedVoiceMessagePresenter } from './quoted-voice-message'
+import type { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
+import type { Except } from 'type-fest'
+
+import type { PrivateMessage } from '@/domain/chat/enterprise/types/message.js'
+import { PrivateQuotedAudioMessagePresenter } from './quoted-audio-message.js'
+import { PrivateQuotedDocumentMessagePresenter } from './quoted-document-message.js'
+import { PrivateQuotedImageMessagePresenter } from './quoted-image-message.js'
+import { PrivateQuotedMultiVCardMessagePresenter } from './quoted-multi-v-card-message.js'
+import { PrivateQuotedTextMessagePresenter } from './quoted-text-message.js'
+import { PrivateQuotedUnknownMessagePresenter } from './quoted-unknown-message.js'
+import { PrivateQuotedVCardMessagePresenter } from './quoted-v-card-message.js'
+import { PrivateQuotedVideoMessagePresenter } from './quoted-video-message.js'
+import { PrivateQuotedVoiceMessagePresenter } from './quoted-voice-message.js'
 
 export class PrivateQuotedMessagePresenter {
   static toOutput(message: Except<PrivateMessage, 'quoted'>): Output {

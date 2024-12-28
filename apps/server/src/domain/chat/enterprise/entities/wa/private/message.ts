@@ -1,6 +1,6 @@
 import type { SetNonNullable, SetOptional } from 'type-fest'
-import type { WAMessageID } from '../../value-objects/wa-message-id'
-import { WAMessage, type WAMessageProps } from '../message'
+import type { WAMessageID } from '../../value-objects/wa-message-id.js'
+import { WAMessage, type WAMessageProps } from '../message.js'
 
 export interface WAPrivateMessageProps extends WAMessageProps {
   quoted: WAPrivateMessage | null

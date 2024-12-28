@@ -1,8 +1,8 @@
 import type {
   AttendantsRepository,
   AttendantsRepositoryFindUniqueByAttendantIdAndInstanceIdParams,
-} from '@/domain/chat/application/repositories/attendants-repository'
-import type { Attendant } from '@/domain/chat/enterprise/entities/attendant'
+} from '@/domain/chat/application/repositories/attendants-repository.js'
+import type { Attendant } from '@/domain/chat/enterprise/entities/attendant.js'
 
 export class InMemoryAttendantsRepository implements AttendantsRepository {
   items: Attendant[] = []

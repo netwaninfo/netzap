@@ -1,10 +1,10 @@
-import { faker } from '@/test/lib/faker'
+import { faker } from '@/test/lib/faker.js'
 
 import {
   WAMessageID,
   type WAMessageIDProps,
-} from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
-import { makeWAEntityID } from './make-wa-entity-id'
+} from '@/domain/chat/enterprise/entities/value-objects/wa-message-id.js'
+import { makeWAEntityID } from './make-wa-entity-id.js'
 
 export function makeWAMessageID(override: Partial<WAMessageIDProps> = {}) {
   return WAMessageID.create({

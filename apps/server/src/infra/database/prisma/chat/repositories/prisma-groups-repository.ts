@@ -1,11 +1,12 @@
-import {
+import { Injectable } from '@nestjs/common'
+
+import type {
   GroupsRepository,
   GroupsRepositoryFindUniqueByWAGroupIdAndInstanceIdParams,
-} from '@/domain/chat/application/repositories/groups-repository'
-import { Group } from '@/domain/chat/enterprise/entities/group'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../prisma.service'
-import { PrismaGroupMapper } from '../mappers/prisma-group-mapper'
+} from '@/domain/chat/application/repositories/groups-repository.js'
+import { Group } from '@/domain/chat/enterprise/entities/group.js'
+import { PrismaService } from '../../prisma.service.js'
+import { PrismaGroupMapper } from '../mappers/prisma-group-mapper.js'
 
 @Injectable()
 export class PrismaGroupsRepository implements GroupsRepository {

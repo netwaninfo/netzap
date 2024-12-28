@@ -1,6 +1,7 @@
-import { FetchMessagesUseCase } from '@/domain/chat/application/use-cases/messages/fetch-messages-use-case'
 import { Module } from '@nestjs/common'
-import { FetchMessagesController } from './fetch-messages.controller'
+
+import { FetchMessagesUseCase } from '@/domain/chat/application/use-cases/messages/fetch-messages-use-case.js'
+import { FetchMessagesController } from './fetch-messages.controller.js'
 
 @Module({
   controllers: [FetchMessagesController],

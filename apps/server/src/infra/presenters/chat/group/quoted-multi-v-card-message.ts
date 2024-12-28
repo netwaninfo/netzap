@@ -1,7 +1,8 @@
-import { GroupMultiVCardMessage } from '@/domain/chat/enterprise/entities/group/multi-v-card-message'
-import { GroupQuotedMessage as Output } from '@netzap/entities/chat'
-import { Except } from 'type-fest'
-import { ContactPresenter } from '../contact-presenter'
+import type { GroupQuotedMessage as Output } from '@netzap/entities/chat'
+import type { Except } from 'type-fest'
+
+import { GroupMultiVCardMessage } from '@/domain/chat/enterprise/entities/group/multi-v-card-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
 
 export class GroupQuotedMultiVCardMessagePresenter {
   static toOutput(message: Except<GroupMultiVCardMessage, 'quoted'>): Output {

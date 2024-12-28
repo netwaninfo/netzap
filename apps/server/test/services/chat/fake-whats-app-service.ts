@@ -1,4 +1,4 @@
-import { Either, success } from '@/core/either'
+import { type Either, success } from '@/core/either.js'
 import type {
   WhatsAppService,
   WhatsAppServiceGetChatByWAChatIdParams,
@@ -6,16 +6,16 @@ import type {
   WhatsAppServiceGetMessagesFromInstanceParams,
   WhatsAppServiceSendChatSeenParams,
   WhatsAppServiceSendTextMessageParams,
-} from '@/domain/chat/application/services/whats-app-service'
-import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
-import { WAChat } from '@/domain/chat/enterprise/types/wa-chat'
-import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
-import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message'
-import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
-import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
+} from '@/domain/chat/application/services/whats-app-service.js'
+import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact.js'
+import type { WAChat } from '@/domain/chat/enterprise/types/wa-chat.js'
+import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import { makeWAGroupMessage } from '@/test/factories/chat/wa/make-wa-group-message.js'
+import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact.js'
+import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message.js'
 
 interface WhatsAppServiceSendPrivateTextMessageParams
   extends WhatsAppServiceSendTextMessageParams {}

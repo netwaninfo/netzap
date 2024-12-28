@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
-import { WWJSHandlersModule } from './handlers/wwjs-handlers.module'
+
+import { WWJSHandlersModule } from './handlers/wwjs-handlers.module.js'
 
 @Module({
   imports: [WWJSHandlersModule],

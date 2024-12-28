@@ -1,5 +1,5 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Attendant } from '../../enterprise/entities/attendant'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { Attendant } from '../../enterprise/entities/attendant.js'
 
 export interface AttendantsRepositoryFindUniqueByAttendantIdAndInstanceIdParams {
   attendantId: UniqueEntityID

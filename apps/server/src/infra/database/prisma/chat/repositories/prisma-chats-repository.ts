@@ -1,21 +1,22 @@
-import {
+import { Injectable } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
+
+import type {
   ChatsRepository,
   ChatsRepositoryCountByInstanceIdParams,
   ChatsRepositoryFindManyPaginatedByInstanceIdParams,
   ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams,
   ChatsRepositoryFindUniqueGroupChatByWAChatIdAndInstanceIdParams,
   ChatsRepositoryFindUniquePrivateChatByWAChatIdAndInstanceIdParams,
-} from '@/domain/chat/application/repositories/chats-repository'
-import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
-import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
-import { Chat } from '@/domain/chat/enterprise/types/chat'
-import { Pagination } from '@/domain/shared/entities/pagination'
-import { Injectable } from '@nestjs/common'
-import { Prisma } from '@prisma/client'
-import { PrismaService } from '../../prisma.service'
-import { PrismaGroupChatMapper } from '../mappers/group/chat-mapper'
-import { PrismaChatMapper } from '../mappers/prisma-chat-mapper'
-import { PrismaPrivateChatMapper } from '../mappers/private/chat-mapper'
+} from '@/domain/chat/application/repositories/chats-repository.js'
+import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat.js'
+import { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat.js'
+import type { Chat } from '@/domain/chat/enterprise/types/chat.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
+import { PrismaService } from '../../prisma.service.js'
+import { PrismaGroupChatMapper } from '../mappers/group/chat-mapper.js'
+import { PrismaChatMapper } from '../mappers/prisma-chat-mapper.js'
+import { PrismaPrivateChatMapper } from '../mappers/private/chat-mapper.js'
 
 @Injectable()
 export class PrismaChatsRepository implements ChatsRepository {

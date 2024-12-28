@@ -1,11 +1,18 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { Prisma, Chat as PrismaChat } from '@prisma/client'
-import { Except } from 'type-fest'
-import { PrismaChatMapper } from '../prisma-chat-mapper'
-import { PrismaGroupMapper, Raw as RawGroup } from '../prisma-group-mapper'
-import { PrismaGroupMessageMapper, RawGroupMessage } from './message-mapper'
+import { Prisma, type Chat as PrismaChat } from '@prisma/client'
+import type { Except } from 'type-fest'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { GroupChat } from '@/domain/chat/enterprise/entities/group/chat.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { PrismaChatMapper } from '../prisma-chat-mapper.js'
+import {
+  PrismaGroupMapper,
+  type Raw as RawGroup,
+} from '../prisma-group-mapper.js'
+import {
+  PrismaGroupMessageMapper,
+  type RawGroupMessage,
+} from './message-mapper.js'
 
 export type RawGroupChat = PrismaChat & {
   message?: Except<RawGroupMessage, 'quoted'> | null

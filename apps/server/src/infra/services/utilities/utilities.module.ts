@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 
-import { UtilitiesDateModule } from './date/utilities-date.module'
-import { UtilitiesNestJSModule } from './nestjs/utilities-nestjs.module'
+import { UtilitiesDateModule } from './date/utilities-date.module.js'
+import { UtilitiesNestJSModule } from './nestjs/utilities-nestjs.module.js'
 
 @Module({
   imports: [UtilitiesNestJSModule, UtilitiesDateModule],

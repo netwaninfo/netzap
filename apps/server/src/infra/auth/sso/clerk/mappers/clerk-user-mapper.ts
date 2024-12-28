@@ -1,6 +1,6 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { User } from '@/domain/auth/enterprise/entities/user'
-import { ClerkUser } from '../types/clerk-user'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { User } from '@/domain/auth/enterprise/entities/user.js'
+import type { ClerkUser } from '../types/clerk-user.js'
 
 export class ClerkUserMapper {
   static toDomain(raw: ClerkUser): User {

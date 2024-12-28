@@ -1,7 +1,7 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import type { Except, SetOptional } from 'type-fest'
-import { PrivateMessage, type PrivateMessageProps } from './message'
-import { PrivateRevokedMessage } from './revoked-message'
+import { PrivateMessage, type PrivateMessageProps } from './message.js'
+import { PrivateRevokedMessage } from './revoked-message.js'
 
 export interface PrivateTextMessageProps extends PrivateMessageProps {
   type: 'text'

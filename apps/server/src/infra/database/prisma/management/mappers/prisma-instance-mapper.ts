@@ -1,6 +1,7 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Instance } from '@/domain/management/enterprise/entities/instance'
 import type { Prisma, Instance as RawInstance } from '@prisma/client'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { Instance } from '@/domain/management/enterprise/entities/instance.js'
 
 export class PrismaInstanceMapper {
   static toDomain(raw: RawInstance): Instance {

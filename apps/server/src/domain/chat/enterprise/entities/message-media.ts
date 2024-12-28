@@ -1,6 +1,6 @@
-import { Entity } from '@/core/entities/entity'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { MimeType } from './value-objects/mime-type'
+import { Entity } from '@/core/entities/entity.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { MimeType } from './value-objects/mime-type.js'
 
 export interface MessageMediaProps {
   url: string

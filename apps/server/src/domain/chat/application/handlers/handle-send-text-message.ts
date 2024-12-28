@@ -1,22 +1,22 @@
-import { type Either, failure, success } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
-import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
+import { type Either, failure, success } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
 import { Injectable } from '@nestjs/common'
-import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
-import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id'
-import type { Chat } from '../../enterprise/types/chat'
-import type { Message } from '../../enterprise/types/message'
-import { ChatEmitter } from '../emitters/chat-emitter'
-import { MessageEmitter } from '../emitters/message-emitter'
-import { AttendantsRepository } from '../repositories/attendants-repository'
-import { ChatsRepository } from '../repositories/chats-repository'
-import { WhatsAppService } from '../services/whats-app-service'
-import { CreateChatFromWAChatUseCase } from '../use-cases/chats/create-chat-from-wa-chat-use-case'
-import { CreateTextMessageFromWAMessageUseCase } from '../use-cases/messages/create-text-message-from-wa-message-use-case'
+import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id.js'
+import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id.js'
+import type { Chat } from '../../enterprise/types/chat.js'
+import type { Message } from '../../enterprise/types/message.js'
+import { ChatEmitter } from '../emitters/chat-emitter.js'
+import { MessageEmitter } from '../emitters/message-emitter.js'
+import { AttendantsRepository } from '../repositories/attendants-repository.js'
+import { ChatsRepository } from '../repositories/chats-repository.js'
+import { WhatsAppService } from '../services/whats-app-service.js'
+import { CreateChatFromWAChatUseCase } from '../use-cases/chats/create-chat-from-wa-chat-use-case.js'
+import { CreateTextMessageFromWAMessageUseCase } from '../use-cases/messages/create-text-message-from-wa-message-use-case.js'
 
 interface HandleSendTextMessageRequest {
   instanceId: UniqueEntityID
@@ -121,6 +121,8 @@ export class HandleSendTextMessage {
 
     if (createTextResponse.isFailure()) return failure(createTextResponse.value)
     const { message } = createTextResponse.value
+
+    if (!chat) return failure(null)
 
     chat.interact(message)
     await this.chatsRepository.setMessage(chat)

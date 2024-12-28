@@ -1,14 +1,15 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { PrivateMultiVCardMessage } from '@/domain/chat/enterprise/entities/private/multi-v-card-message'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
-import { Prisma } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { PrivateMultiVCardMessage } from '@/domain/chat/enterprise/entities/private/multi-v-card-message.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id.js'
 import {
   PrismaContactInstanceMapper,
-  Raw as RawContactInstance,
-} from '../prisma-contact-instance-mapper'
-import { RawPrivateMessage } from './message-mapper'
-import { PrismaPrivateMessageMapper } from './message-mapper'
+  type Raw as RawContactInstance,
+} from '../prisma-contact-instance-mapper.js'
+import type { RawPrivateMessage } from './message-mapper.js'
+import { PrismaPrivateMessageMapper } from './message-mapper.js'
 
 type Raw = RawPrivateMessage & {
   contacts: RawContactInstance[]

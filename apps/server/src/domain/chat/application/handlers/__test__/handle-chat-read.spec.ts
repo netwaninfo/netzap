@@ -1,8 +1,8 @@
-import { FakeChatEmitter } from '@/test/emitters/chat/fake-chat-emitter'
-import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
-import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
-import { FakeWhatsAppService } from '@/test/services/chat/fake-whats-app-service'
-import { HandleChatRead } from '../handle-chat-read'
+import { FakeChatEmitter } from '@/test/emitters/chat/fake-chat-emitter.js'
+import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat.js'
+import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository.js'
+import { FakeWhatsAppService } from '@/test/services/chat/fake-whats-app-service.js'
+import { HandleChatRead } from '../handle-chat-read.js'
 
 describe('HandleChatRead', () => {
   let chatsRepository: InMemoryChatsRepository

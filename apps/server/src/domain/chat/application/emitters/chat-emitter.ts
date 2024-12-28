@@ -1,4 +1,4 @@
-import { Chat } from '../../enterprise/types/chat'
+import type { Chat } from '../../enterprise/types/chat.js'
 
 export interface ChatEmitterPayload {
   chat: Chat

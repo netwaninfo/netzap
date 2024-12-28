@@ -1,13 +1,14 @@
-import { ChatEmitter } from '@/domain/chat/application/emitters/chat-emitter'
-import { MessageEmitter } from '@/domain/chat/application/emitters/message-emitter'
 import { Module } from '@nestjs/common'
-import { UtilitiesModule } from '../../utilities/utilities.module'
-import { SocketChatEmitter } from './emitters/socket-chat-emitter'
-import { SocketMessageEmitter } from './emitters/socket-message-emitter'
-import { SocketHandlersModule } from './handlers/socket-handlers.module'
-import { SocketAuthenticateUserMiddleware } from './middlewares/socket-authenticate-user.middleware'
-import { SocketJoinRoomMiddleware } from './middlewares/socket-join-room.middleware'
-import { SocketChatGateway } from './socket-chat.gateway'
+
+import { ChatEmitter } from '@/domain/chat/application/emitters/chat-emitter.js'
+import { MessageEmitter } from '@/domain/chat/application/emitters/message-emitter.js'
+import { UtilitiesModule } from '../../utilities/utilities.module.js'
+import { SocketChatEmitter } from './emitters/socket-chat-emitter.js'
+import { SocketMessageEmitter } from './emitters/socket-message-emitter.js'
+import { SocketHandlersModule } from './handlers/socket-handlers.module.js'
+import { SocketAuthenticateUserMiddleware } from './middlewares/socket-authenticate-user.middleware.js'
+import { SocketJoinRoomMiddleware } from './middlewares/socket-join-room.middleware.js'
+import { SocketChatGateway } from './socket-chat.gateway.js'
 
 @Module({
   imports: [UtilitiesModule, SocketHandlersModule],

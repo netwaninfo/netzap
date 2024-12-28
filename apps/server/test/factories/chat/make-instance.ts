@@ -1,10 +1,10 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import {
   Instance,
-  InstanceProps,
-} from '@/domain/chat/enterprise/entities/instance'
-import { faker } from '@/test/lib/faker'
-import { makeUniqueEntityID } from '../make-unique-entity-id'
+  type InstanceProps,
+} from '@/domain/chat/enterprise/entities/instance.js'
+import { faker } from '@/test/lib/faker.js'
+import { makeUniqueEntityID } from '../make-unique-entity-id.js'
 
 export function makeInstance(
   override: Partial<InstanceProps> = {},

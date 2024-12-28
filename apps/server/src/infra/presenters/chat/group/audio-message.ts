@@ -1,8 +1,9 @@
-import { GroupAudioMessage } from '@/domain/chat/enterprise/entities/group/audio-message'
-import { GroupAudioMessage as Output } from '@netzap/entities/chat'
-import { ContactPresenter } from '../contact-presenter'
-import { MessageMediaPresenter } from '../message-media-presenter'
-import { GroupQuotedMessagePresenter } from './quoted-message'
+import type { GroupAudioMessage as Output } from '@netzap/entities/chat'
+
+import { GroupAudioMessage } from '@/domain/chat/enterprise/entities/group/audio-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
+import { MessageMediaPresenter } from '../message-media-presenter.js'
+import { GroupQuotedMessagePresenter } from './quoted-message.js'
 
 export class GroupAudioMessagePresenter {
   static toOutput(message: GroupAudioMessage): Output {

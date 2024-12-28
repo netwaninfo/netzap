@@ -1,15 +1,16 @@
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAGroupChat } from '@/domain/chat/enterprise/entities/wa/group/chat'
-import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
-import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor'
-import { ParallelProcessor } from '@/domain/shared/processors/parallel-processor'
 import { Injectable } from '@nestjs/common'
-import { WWJSGroupChat } from '../../../types/wwjs-entities'
-import { WWJSClient } from '../../../wwjs-client'
-import { MessageUtils } from '../../utils/message'
-import { WWJSPrivateContactMapper } from '../private/wwjs-private-contact-mapper'
-import { WWJSGroupContactMapper } from './wwjs-group-contact-mapper'
-import { WWJSGroupMessageMapper } from './wwjs-group-message-mapper'
+
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAGroupChat } from '@/domain/chat/enterprise/entities/wa/group/chat.js'
+import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact.js'
+import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor.js'
+import { ParallelProcessor } from '@/domain/shared/processors/parallel-processor.js'
+import type { WWJSGroupChat } from '../../../types/wwjs-entities.js'
+import { WWJSClient } from '../../../wwjs-client.js'
+import { MessageUtils } from '../../utils/message.js'
+import { WWJSPrivateContactMapper } from '../private/wwjs-private-contact-mapper.js'
+import { WWJSGroupContactMapper } from './wwjs-group-contact-mapper.js'
+import { WWJSGroupMessageMapper } from './wwjs-group-message-mapper.js'
 
 interface WWJSGroupChatMapperToDomainParams {
   chat: WWJSGroupChat

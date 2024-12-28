@@ -1,7 +1,7 @@
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { makeInstance } from '@/test/factories/management/make-instance'
-import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository'
-import { HandleInstanceConnected } from '../handle-instance-connected'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { makeInstance } from '@/test/factories/management/make-instance.js'
+import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository.js'
+import { HandleInstanceConnected } from '../handle-instance-connected.js'
 
 describe('HandleInstanceConnected', () => {
   let instancesRepository: InMemoryInstancesRepository

@@ -1,12 +1,12 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import {
   PrivateChat,
   type PrivateChatProps,
-} from '@/domain/chat/enterprise/entities/private/chat'
-import { faker } from '@/test/lib/faker'
-import { makeUniqueEntityID } from '../../make-unique-entity-id'
-import { makeContact } from '../make-contact'
-import { makeWAEntityID } from '../value-objects/make-wa-entity-id'
+} from '@/domain/chat/enterprise/entities/private/chat.js'
+import { faker } from '@/test/lib/faker.js'
+import { makeUniqueEntityID } from '../../make-unique-entity-id.js'
+import { makeContact } from '../make-contact.js'
+import { makeWAEntityID } from '../value-objects/make-wa-entity-id.js'
 
 export function makePrivateChat(
   override: Partial<PrivateChatProps> = {},

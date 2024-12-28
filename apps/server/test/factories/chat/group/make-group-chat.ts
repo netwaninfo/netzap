@@ -1,12 +1,12 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import {
   GroupChat,
   type GroupChatProps,
-} from '@/domain/chat/enterprise/entities/group/chat'
-import { faker } from '@/test/lib/faker'
-import { makeUniqueEntityID } from '../../make-unique-entity-id'
-import { makeGroup } from '../make-group'
-import { makeWAEntityID } from '../value-objects/make-wa-entity-id'
+} from '@/domain/chat/enterprise/entities/group/chat.js'
+import { faker } from '@/test/lib/faker.js'
+import { makeUniqueEntityID } from '../../make-unique-entity-id.js'
+import { makeGroup } from '../make-group.js'
+import { makeWAEntityID } from '../value-objects/make-wa-entity-id.js'
 
 export function makeGroupChat(
   override: Partial<GroupChatProps> = {},

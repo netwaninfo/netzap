@@ -1,5 +1,6 @@
-import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message'
-import { PrivateRevokedMessage as Output } from '@netzap/entities/chat'
+import type { PrivateRevokedMessage as Output } from '@netzap/entities/chat'
+
+import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message.js'
 
 export class PrivateRevokedMessagePresenter {
   static toOutput(message: PrivateRevokedMessage): Output {

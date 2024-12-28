@@ -1,8 +1,8 @@
 import type { SetOptional } from 'type-fest'
 
-import { Entity } from '@/core/entities/entity'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { WAEntityID } from './value-objects/wa-entity-id'
+import { Entity } from '@/core/entities/entity.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { WAEntityID } from './value-objects/wa-entity-id.js'
 
 export interface GroupProps {
   waGroupId: WAEntityID

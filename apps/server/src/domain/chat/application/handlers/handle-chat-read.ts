@@ -1,12 +1,12 @@
-import { type Either, failure, success } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import { type Either, failure, success } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
 import { Injectable } from '@nestjs/common'
-import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
-import type { Chat } from '../../enterprise/types/chat'
-import { ChatEmitter } from '../emitters/chat-emitter'
-import { ChatsRepository } from '../repositories/chats-repository'
-import { WhatsAppService } from '../services/whats-app-service'
+import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id.js'
+import type { Chat } from '../../enterprise/types/chat.js'
+import { ChatEmitter } from '../emitters/chat-emitter.js'
+import { ChatsRepository } from '../repositories/chats-repository.js'
+import { WhatsAppService } from '../services/whats-app-service.js'
 
 interface HandleChatReadRequest {
   instanceId: UniqueEntityID

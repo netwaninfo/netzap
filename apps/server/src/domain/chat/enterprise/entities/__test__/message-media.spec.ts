@@ -1,7 +1,7 @@
-import { faker } from '@/test/lib/faker'
+import { faker } from '@/test/lib/faker.js'
 
-import { makeMimeType } from '@/test/factories/chat/value-objects/make-mime-type'
-import { MessageMedia } from '../message-media'
+import { makeMimeType } from '@/test/factories/chat/value-objects/make-mime-type.js'
+import { MessageMedia } from '../message-media.js'
 
 describe('MessageMedia', () => {
   it('should be able to create', () => {

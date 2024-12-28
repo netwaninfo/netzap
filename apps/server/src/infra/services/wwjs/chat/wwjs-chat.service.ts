@@ -1,28 +1,29 @@
-import { Either, failure } from '@/core/either'
-import {
+import { Injectable } from '@nestjs/common'
+
+import { type Either, failure } from '@/core/either.js'
+import type {
   WhatsAppService,
   WhatsAppServiceGetChatByWAChatIdParams,
   WhatsAppServiceGetContactsFromInstanceParams,
   WhatsAppServiceGetMessagesFromInstanceParams,
   WhatsAppServiceSendChatSeenParams,
   WhatsAppServiceSendTextMessageParams,
-} from '@/domain/chat/application/services/whats-app-service'
-import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
-import { WAChat } from '@/domain/chat/enterprise/types/wa-chat'
-import { WAMessage } from '@/domain/chat/enterprise/types/wa-message'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
-import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor'
-import { ParallelProcessor } from '@/domain/shared/processors/parallel-processor'
-import { Injectable } from '@nestjs/common'
-import { RunSafely } from '../../shared/run-safely'
-import { WWJSService } from '../wwjs.service'
-import { WWJSPrivateContactMapper } from './mappers/private/wwjs-private-contact-mapper'
-import { WWJSChatMapper } from './mappers/wwjs-chat-mapper'
-import { WWJSMessageMapper } from './mappers/wwjs-message-mapper'
-import { ChatUtils } from './utils/chat'
-import { ContactUtils } from './utils/contact'
-import { MessageUtils } from './utils/message'
+} from '@/domain/chat/application/services/whats-app-service.js'
+import { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact.js'
+import type { WAChat } from '@/domain/chat/enterprise/types/wa-chat.js'
+import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import { ChunkProcessor } from '@/domain/shared/processors/chunk-processor.js'
+import { ParallelProcessor } from '@/domain/shared/processors/parallel-processor.js'
+import { RunSafely } from '../../shared/run-safely.js'
+import { WWJSService } from '../wwjs.service.js'
+import { WWJSPrivateContactMapper } from './mappers/private/wwjs-private-contact-mapper.js'
+import { WWJSChatMapper } from './mappers/wwjs-chat-mapper.js'
+import { WWJSMessageMapper } from './mappers/wwjs-message-mapper.js'
+import { ChatUtils } from './utils/chat.js'
+import { ContactUtils } from './utils/contact.js'
+import { MessageUtils } from './utils/message.js'
 
 @Injectable()
 export class WWJSChatService extends RunSafely implements WhatsAppService {

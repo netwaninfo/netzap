@@ -1,7 +1,7 @@
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { makeInstance } from '@/test/factories/management/make-instance'
-import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository'
-import { HandleInstanceStopped } from '../handle-instance-stopped'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { makeInstance } from '@/test/factories/management/make-instance.js'
+import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository.js'
+import { HandleInstanceStopped } from '../handle-instance-stopped.js'
 
 describe('HandleInstanceStopped', () => {
   let instancesRepository: InMemoryInstancesRepository

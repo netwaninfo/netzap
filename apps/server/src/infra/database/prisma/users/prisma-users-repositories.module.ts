@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 
-import { UsersRepository } from '@/domain/users/application/repositories/users-repository'
-import { PrismaUsersRepository } from './repositories/prisma-users-repository'
+import { UsersRepository } from '@/domain/users/application/repositories/users-repository.js'
+import { PrismaUsersRepository } from './repositories/prisma-users-repository.js'
 
 @Module({
   providers: [

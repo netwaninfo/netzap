@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common'
-import { SSOModule } from './sso/sso.module'
+import { SSOModule } from './sso/sso.module.js'
 
 @Global()
 @Module({

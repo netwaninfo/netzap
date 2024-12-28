@@ -1,14 +1,15 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { EnvService } from '@/infra/env/env.service'
-import { Injectable, OnModuleInit } from '@nestjs/common'
-import { Except } from 'type-fest'
-import { DiscoveryService } from '../utilities/nestjs/discovery.service'
-import { WWJSLocalAuthStrategy } from './auth-strategies/local-auth-strategy'
-import { BROWSER_ARGS, WWJS_EVENT_KEY, WWJS_HANDLER_KEY } from './constants'
-import { WWJSInternalClient } from './internal/client'
-import { WWJSEvent } from './types/wwjs-event'
-import { WWJSHandler } from './types/wwjs-handler'
-import { WWJSClient, WWJSClientProps } from './wwjs-client'
+import { Injectable, type OnModuleInit } from '@nestjs/common'
+import type { Except } from 'type-fest'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { EnvService } from '@/infra/env/env.service.js'
+import { DiscoveryService } from '../utilities/nestjs/discovery.service.js'
+import { WWJSLocalAuthStrategy } from './auth-strategies/local-auth-strategy.js'
+import { BROWSER_ARGS, WWJS_EVENT_KEY, WWJS_HANDLER_KEY } from './constants.js'
+import { WWJSInternalClient } from './internal/client.js'
+import type { WWJSEvent } from './types/wwjs-event.js'
+import { WWJSHandler } from './types/wwjs-handler.js'
+import { WWJSClient, type WWJSClientProps } from './wwjs-client.js'
 
 type WWJSFactoryCreateClientProps = Except<WWJSClientProps, 'raw'>
 

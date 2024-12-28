@@ -1,10 +1,10 @@
-import { type Either, failure, success } from '@/core/either'
-import { Contact } from '@/domain/chat/enterprise/entities/contact'
-import { ContactPhone } from '@/domain/chat/enterprise/entities/value-objects/contact-phone'
-import type { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact'
-import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
+import { type Either, failure, success } from '@/core/either.js'
+import { Contact } from '@/domain/chat/enterprise/entities/contact.js'
+import { ContactPhone } from '@/domain/chat/enterprise/entities/value-objects/contact-phone.js'
+import type { WAPrivateContact } from '@/domain/chat/enterprise/entities/wa/private/contact.js'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error.js'
 import { Injectable } from '@nestjs/common'
-import { ContactsRepository } from '../../repositories/contacts-repository'
+import { ContactsRepository } from '../../repositories/contacts-repository.js'
 
 interface CreateContactFromWAContactUseCaseRequest {
   waContact: WAPrivateContact

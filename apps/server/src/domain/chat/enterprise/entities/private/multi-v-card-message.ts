@@ -1,8 +1,8 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import type { Except, SetOptional } from 'type-fest'
-import type { Contact } from '../contact'
-import { PrivateMessage, type PrivateMessageProps } from './message'
-import { PrivateRevokedMessage } from './revoked-message'
+import type { Contact } from '../contact.js'
+import { PrivateMessage, type PrivateMessageProps } from './message.js'
+import { PrivateRevokedMessage } from './revoked-message.js'
 
 export interface PrivateMultiVCardMessageProps extends PrivateMessageProps {
   type: 'multi_vcard'

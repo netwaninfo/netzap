@@ -1,9 +1,9 @@
 import type { Readable } from 'node:stream'
-import { Either } from '@/core/either'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
-import type { MimeType } from '../../enterprise/entities/value-objects/mime-type'
-import type { StorageObject } from '../../enterprise/entities/value-objects/storage-object'
+import type { Either } from '@/core/either.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import type { MimeType } from '../../enterprise/entities/value-objects/mime-type.js'
+import type { StorageObject } from '../../enterprise/entities/value-objects/storage-object.js'
 
 export interface StorageServicePutParams {
   filename: string

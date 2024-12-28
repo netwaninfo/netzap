@@ -1,8 +1,9 @@
-import { isPrivateMessage } from '@/domain/chat/enterprise/type-guards/message'
-import { Message } from '@/domain/chat/enterprise/types/message'
-import { Message as Output } from '@netzap/entities/chat'
-import { GroupMessagePresenter } from './group/message'
-import { PrivateMessagePresenter } from './private/message'
+import type { Message as Output } from '@netzap/entities/chat'
+
+import { isPrivateMessage } from '@/domain/chat/enterprise/type-guards/message.js'
+import type { Message } from '@/domain/chat/enterprise/types/message.js'
+import { GroupMessagePresenter } from './group/message.js'
+import { PrivateMessagePresenter } from './private/message.js'
 
 export class MessagePresenter {
   static toOutput(message: Message): Output {

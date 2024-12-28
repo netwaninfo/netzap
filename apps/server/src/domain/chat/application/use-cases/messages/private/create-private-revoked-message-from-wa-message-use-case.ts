@@ -1,13 +1,14 @@
-import { type Either, failure, success } from '@/core/either'
-import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message'
-import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
-import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
-import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
-import { ChatsRepository } from '../../../repositories/chats-repository'
-import { MessagesRepository } from '../../../repositories/messages-repository'
-import { DateService } from '../../../services/date-service'
+
+import { type Either, failure, success } from '@/core/either.js'
+import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message.js'
+import type { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message.js'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
+import { ChatsRepository } from '../../../repositories/chats-repository.js'
+import { MessagesRepository } from '../../../repositories/messages-repository.js'
+import { DateService } from '../../../services/date-service.js'
 
 interface CreatePrivateRevokedMessageFromWAMessageUseCaseRequest {
   waMessage: WAPrivateMessage

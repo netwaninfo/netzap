@@ -1,9 +1,9 @@
 import type { Except, SetNonNullable, SetOptional } from 'type-fest'
-import type { WAEntityID } from '../../value-objects/wa-entity-id'
-import { WAChat, type WAChatProps } from '../chat'
-import type { WAPrivateContact } from '../private/contact'
-import type { WAGroupContact } from './contact'
-import type { WAGroupMessage } from './message'
+import type { WAEntityID } from '../../value-objects/wa-entity-id.js'
+import { WAChat, type WAChatProps } from '../chat.js'
+import type { WAPrivateContact } from '../private/contact.js'
+import type { WAGroupContact } from './contact.js'
+import type { WAGroupMessage } from './message.js'
 
 export interface WAGroupChatProps extends WAChatProps {
   isGroup: true

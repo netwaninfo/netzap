@@ -1,8 +1,9 @@
-import { GroupImageMessage } from '@/domain/chat/enterprise/entities/group/image-message'
-import { GroupImageMessage as Output } from '@netzap/entities/chat'
-import { ContactPresenter } from '../contact-presenter'
-import { MessageMediaPresenter } from '../message-media-presenter'
-import { GroupQuotedMessagePresenter } from './quoted-message'
+import type { GroupImageMessage as Output } from '@netzap/entities/chat'
+
+import { GroupImageMessage } from '@/domain/chat/enterprise/entities/group/image-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
+import { MessageMediaPresenter } from '../message-media-presenter.js'
+import { GroupQuotedMessagePresenter } from './quoted-message.js'
 
 export class GroupImageMessagePresenter {
   static toOutput(message: GroupImageMessage): Output {

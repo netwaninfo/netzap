@@ -1,10 +1,10 @@
-import { type Either, success } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Chat } from '@/domain/chat/enterprise/types/chat'
-import { Pagination } from '@/domain/shared/entities/pagination'
-import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
+import { type Either, success } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { Chat } from '@/domain/chat/enterprise/types/chat.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
+import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request.js'
 import { Injectable } from '@nestjs/common'
-import { ChatsRepository } from '../../repositories/chats-repository'
+import { ChatsRepository } from '../../repositories/chats-repository.js'
 
 interface FetchChatsUseCaseRequest extends PaginationRequest {
   instanceId: UniqueEntityID

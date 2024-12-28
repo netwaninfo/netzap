@@ -1,5 +1,5 @@
-import { ValueObject } from '@/core/entities/value-object'
-import type { MimeType } from '../../value-objects/mime-type'
+import { ValueObject } from '@/core/entities/value-object.js'
+import type { MimeType } from '../../value-objects/mime-type.js'
 
 export interface WAMessageMediaProps {
   mimeType: MimeType

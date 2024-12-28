@@ -1,6 +1,6 @@
-import { faker } from '@/test/lib/faker'
+import { faker } from '@/test/lib/faker.js'
 
-import { MimeType } from '../mime-type'
+import { MimeType } from '../mime-type.js'
 
 describe('MimeType', () => {
   it('should be able to create', () => {

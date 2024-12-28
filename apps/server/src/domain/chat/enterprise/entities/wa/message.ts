@@ -1,11 +1,11 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { WAEntity } from '@/core/entities/wa-entity'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { WAEntity } from '@/core/entities/wa-entity.js'
 import type { MessageStatus, MessageType } from '@netzap/entities/chat'
 import type { SetNonNullable } from 'type-fest'
-import type { WAEntityID } from '../value-objects/wa-entity-id'
-import type { WAMessageID } from '../value-objects/wa-message-id'
-import type { WAPrivateContact } from './private/contact'
-import type { WAMessageMedia } from './value-objects/message-media'
+import type { WAEntityID } from '../value-objects/wa-entity-id.js'
+import type { WAMessageID } from '../value-objects/wa-message-id.js'
+import type { WAPrivateContact } from './private/contact.js'
+import type { WAMessageMedia } from './value-objects/message-media.js'
 
 export interface WAMessageProps {
   raw: unknown

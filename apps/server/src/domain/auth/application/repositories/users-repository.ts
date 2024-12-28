@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { User } from '../../enterprise/entities/user'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { User } from '../../enterprise/entities/user.js'
 
 export interface UsersRepositoryFindUniqueBySSOParams {
   refId: UniqueEntityID

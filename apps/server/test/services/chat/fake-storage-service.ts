@@ -1,13 +1,13 @@
-import { Either, success } from '@/core/either'
+import { type Either, success } from '@/core/either.js'
 import type {
   StorageService,
   StorageServicePutParams,
-} from '@/domain/chat/application/services/storage-service'
-import type { StorageObject } from '@/domain/chat/enterprise/entities/value-objects/storage-object'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
-import { makeStorageObject } from '@/test/factories/chat/value-objects/make-storage-object'
-import { faker } from '@/test/lib/faker'
+} from '@/domain/chat/application/services/storage-service.js'
+import type { StorageObject } from '@/domain/chat/enterprise/entities/value-objects/storage-object.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import { makeStorageObject } from '@/test/factories/chat/value-objects/make-storage-object.js'
+import { faker } from '@/test/lib/faker.js'
 
 export class FakeStorageService implements StorageService {
   items: StorageObject[] = []

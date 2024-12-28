@@ -1,10 +1,10 @@
-import { type Either, failure, success } from '@/core/either'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import { type Either, failure, success } from '@/core/either.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
 import { Injectable } from '@nestjs/common'
-import { Chat } from '../../enterprise/types/chat'
-import { WAChat } from '../../enterprise/types/wa-chat'
-import { ChatEmitter } from '../emitters/chat-emitter'
-import { ChatsRepository } from '../repositories/chats-repository'
+import type { Chat } from '../../enterprise/types/chat.js'
+import type { WAChat } from '../../enterprise/types/wa-chat.js'
+import { ChatEmitter } from '../emitters/chat-emitter.js'
+import { ChatsRepository } from '../repositories/chats-repository.js'
 
 interface HandleChangeWAChatUnreadCountRequest {
   waChat: WAChat

@@ -1,12 +1,13 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Contact } from '@/domain/chat/enterprise/entities/contact'
-import { ContactPhone } from '@/domain/chat/enterprise/entities/value-objects/contact-phone'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
 import {
   Prisma,
-  Contact as PrismaContact,
-  ContactInstance as PrismaContactInstance,
+  type Contact as PrismaContact,
+  type ContactInstance as PrismaContactInstance,
 } from '@prisma/client'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { Contact } from '@/domain/chat/enterprise/entities/contact.js'
+import { ContactPhone } from '@/domain/chat/enterprise/entities/value-objects/contact-phone.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
 
 export type Raw = PrismaContact & {
   instances: PrismaContactInstance[]

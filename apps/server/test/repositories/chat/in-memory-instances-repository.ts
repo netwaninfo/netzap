@@ -1,10 +1,10 @@
-import {
+import type {
   InstancesRepository,
   InstancesRepositoryCountByAttendantIdParams,
   InstancesRepositoryFindManyByAttendantIdParams,
-} from '@/domain/chat/application/repositories/instances-repository'
-import { Instance } from '@/domain/chat/enterprise/entities/instance'
-import { Pagination } from '@/domain/shared/entities/pagination'
+} from '@/domain/chat/application/repositories/instances-repository.js'
+import { Instance } from '@/domain/chat/enterprise/entities/instance.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
 
 export class InMemoryInstancesRepository implements InstancesRepository {
   items: Instance[] = []

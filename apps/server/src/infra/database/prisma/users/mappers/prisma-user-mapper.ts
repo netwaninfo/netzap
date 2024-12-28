@@ -1,9 +1,10 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { User } from '@/domain/users/enterprise/entities/user'
-import { UserInstanceList } from '@/domain/users/enterprise/entities/user-instance-list'
-import { ClerkUser } from '@/infra/auth/sso/clerk/types/clerk-user'
-import { Attendant } from '@prisma/client'
-import { PickDeep } from 'type-fest'
+import type { Attendant } from '@prisma/client'
+import type { PickDeep } from 'type-fest'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { UserInstanceList } from '@/domain/users/enterprise/entities/user-instance-list.js'
+import { User } from '@/domain/users/enterprise/entities/user.js'
+import type { ClerkUser } from '@/infra/auth/sso/clerk/types/clerk-user.js'
 
 type RawUser = Attendant & PickDeep<ClerkUser, 'name' | 'email' | 'imageUrl'>
 

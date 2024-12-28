@@ -1,6 +1,6 @@
-import { PipeTransform } from '@nestjs/common'
+import { type PipeTransform } from '@nestjs/common'
 import { WsException } from '@nestjs/websockets'
-import { ZodError, ZodSchema } from 'zod'
+import { ZodError, type ZodSchema } from 'zod'
 import { fromZodError } from 'zod-validation-error'
 
 export class ZodWebSocketValidationPipe implements PipeTransform {

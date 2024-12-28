@@ -1,5 +1,6 @@
-import { Pagination } from '@/domain/shared/entities/pagination'
-import { PaginationResponse as Output } from '@netzap/http/shared'
+import type { PaginationResponse as Output } from '@netzap/http/shared'
+
+import { Pagination } from '@/domain/shared/entities/pagination.js'
 
 export class PaginationPresenter {
   static toOutput(pagination: Pagination): Output {

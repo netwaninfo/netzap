@@ -1,8 +1,8 @@
-import { Entity } from '@/core/entities/entity'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { SetNonNullable } from 'type-fest'
-import type { Message } from '../types/message'
-import type { WAEntityID } from './value-objects/wa-entity-id'
+import { Entity } from '@/core/entities/entity.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { SetNonNullable } from 'type-fest'
+import type { Message } from '../types/message.js'
+import type { WAEntityID } from './value-objects/wa-entity-id.js'
 
 export interface ChatProps {
   waChatId: WAEntityID

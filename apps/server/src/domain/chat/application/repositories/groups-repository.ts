@@ -1,6 +1,6 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Group } from '../../enterprise/entities/group'
-import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { Group } from '../../enterprise/entities/group.js'
+import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id.js'
 
 export interface GroupsRepositoryFindUniqueByWAGroupIdAndInstanceIdParams {
   waGroupId: WAEntityID

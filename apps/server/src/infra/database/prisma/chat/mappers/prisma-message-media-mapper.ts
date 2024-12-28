@@ -1,6 +1,7 @@
-import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
-import { MimeType } from '@/domain/chat/enterprise/entities/value-objects/mime-type'
-import { Prisma, MessageMedia as PrismaMessageMedia } from '@prisma/client'
+import { Prisma, type MessageMedia as PrismaMessageMedia } from '@prisma/client'
+
+import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media.js'
+import { MimeType } from '@/domain/chat/enterprise/entities/value-objects/mime-type.js'
 
 type Raw = PrismaMessageMedia
 

@@ -1,9 +1,3 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { FetchMessagesUseCase } from '@/domain/chat/application/use-cases/messages/fetch-messages-use-case'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-http-validation.pipe'
-import { MessagePresenter } from '@/infra/presenters/chat/message-presenter'
-import { PaginationPresenter } from '@/infra/presenters/pagination-presenter'
 import {
   BadRequestException,
   Controller,
@@ -18,6 +12,13 @@ import {
   fetchMessagesRequestParamsSchema,
   fetchMessagesRequestQuerySchema,
 } from '@netzap/http/chat'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { FetchMessagesUseCase } from '@/domain/chat/application/use-cases/messages/fetch-messages-use-case.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-http-validation.pipe.js'
+import { MessagePresenter } from '@/infra/presenters/chat/message-presenter.js'
+import { PaginationPresenter } from '@/infra/presenters/pagination-presenter.js'
 
 const querySchema = new ZodHttpValidationPipe(fetchMessagesRequestQuerySchema)
 const paramsSchema = new ZodHttpValidationPipe(fetchMessagesRequestParamsSchema)

@@ -1,8 +1,8 @@
-import {
+import type {
   UsersRepository,
   UsersRepositoryFindUniqueByUserIdParams,
-} from '@/domain/users/application/repositories/users-repository'
-import { User } from '@/domain/users/enterprise/entities/user'
+} from '@/domain/users/application/repositories/users-repository.js'
+import { User } from '@/domain/users/enterprise/entities/user.js'
 
 export class InMemoryUsersRepository implements UsersRepository {
   items: User[] = []

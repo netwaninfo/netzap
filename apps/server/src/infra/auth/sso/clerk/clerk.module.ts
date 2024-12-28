@@ -1,7 +1,9 @@
-import { UsersRepository } from '@/domain/auth/application/repositories/users-repository'
 import { Module } from '@nestjs/common'
-import { ClerkService } from './clerk.service'
-import { ClerkUsersRepository } from './repositories/clerk-users-repository'
+
+import { UsersRepository } from '@/domain/auth/application/repositories/users-repository.js'
+
+import { ClerkService } from './clerk.service.js'
+import { ClerkUsersRepository } from './repositories/clerk-users-repository.js'
 
 @Module({
   providers: [

@@ -1,7 +1,7 @@
-import { Entity } from '@/core/entities/entity'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { SetOptional } from 'type-fest'
-import { UserInstanceList } from './user-instance-list'
+import { Entity } from '@/core/entities/entity.js'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { SetOptional } from 'type-fest'
+import { UserInstanceList } from './user-instance-list.js'
 
 export interface UserProps {
   name: string

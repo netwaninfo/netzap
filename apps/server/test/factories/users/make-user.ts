@@ -1,7 +1,10 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { User, UserProps } from '@/domain/users/enterprise/entities/user'
-import { faker } from '@/test/lib/faker'
-import { makeUniqueEntityID } from '../make-unique-entity-id'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import {
+  User,
+  type UserProps,
+} from '@/domain/users/enterprise/entities/user.js'
+import { faker } from '@/test/lib/faker.js'
+import { makeUniqueEntityID } from '../make-unique-entity-id.js'
 
 export const makeUser = (
   override: Partial<UserProps> = {},

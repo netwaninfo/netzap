@@ -1,6 +1,6 @@
-import { WWJSContact } from '../../types/wwjs-entities'
-
 import timers from 'node:timers/promises'
+
+import type { WWJSContact } from '../../types/wwjs-entities.js'
 
 export class ContactUtils {
   static isValid(contact: WWJSContact) {

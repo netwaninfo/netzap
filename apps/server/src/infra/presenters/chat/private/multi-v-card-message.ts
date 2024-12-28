@@ -1,7 +1,8 @@
-import { PrivateMultiVCardMessage } from '@/domain/chat/enterprise/entities/private/multi-v-card-message'
-import { PrivateMultiVCardMessage as Output } from '@netzap/entities/chat'
-import { ContactPresenter } from '../contact-presenter'
-import { PrivateQuotedMessagePresenter } from './quoted-message'
+import type { PrivateMultiVCardMessage as Output } from '@netzap/entities/chat'
+
+import { PrivateMultiVCardMessage } from '@/domain/chat/enterprise/entities/private/multi-v-card-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
+import { PrivateQuotedMessagePresenter } from './quoted-message.js'
 
 export class PrivateMultiVCardMessagePresenter {
   static toOutput(message: PrivateMultiVCardMessage): Output {

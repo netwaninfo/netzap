@@ -7,9 +7,9 @@ import {
   type NestFastifyApplication,
 } from '@nestjs/platform-fastify'
 
-import { AppModule } from './app.module'
-import { EnvService } from './env/env.service'
-import { SocketIOAdapter } from './services/socket-io/adapter'
+import { AppModule } from './app.module.js'
+import { EnvService } from './env/env.service.js'
+import { SocketIOAdapter } from './services/socket-io/adapter.js'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(

@@ -1,12 +1,12 @@
 import timers from 'node:timers/promises'
 import { Client } from 'whatsapp-web.js'
 
-import { RequestFunction } from '../../shared/types/request-function'
+import type { RequestFunction } from '../../shared/types/request-function.js'
 import {
   WWJSInternalEvents,
   WWJSInternalStates,
   WWJSInternalStatus,
-} from '../types/wwjs-enums'
+} from '../types/wwjs-enums.js'
 export class WWJSInternalClient extends Client {
   private async runSafely<T>(request: RequestFunction<T>) {
     try {

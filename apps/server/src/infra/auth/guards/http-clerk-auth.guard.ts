@@ -1,13 +1,13 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { UsersRepository } from '@/domain/auth/application/repositories/users-repository'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { UsersRepository } from '@/domain/auth/application/repositories/users-repository.js'
 import {
-  CanActivate,
-  ExecutionContext,
+  type CanActivate,
+  type ExecutionContext,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common'
-import { FastifyRequest } from 'fastify'
-import { ClerkService } from '../sso/clerk/clerk.service'
+import type { FastifyRequest } from 'fastify'
+import { ClerkService } from '../sso/clerk/clerk.service.js'
 
 @Injectable()
 export class HttpClerkAuthGuard implements CanActivate {
@@ -17,9 +17,6 @@ export class HttpClerkAuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext) {
-    // const skip = true
-    // if (skip) return true
-
     const request = context.switchToHttp().getRequest() as FastifyRequest
 
     const sessionToken = request.cookies.__session

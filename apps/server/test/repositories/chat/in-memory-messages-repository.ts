@@ -6,20 +6,20 @@ import type {
   MessagesRepositoryFindUniqueByWAMessageIdAndInstanceIdParams,
   MessagesRepositoryFindUniqueGroupMessageByChatIAndWAMessageIdParams,
   MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams,
-} from '@/domain/chat/application/repositories/messages-repository'
-import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message'
-import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message'
+} from '@/domain/chat/application/repositories/messages-repository.js'
+import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message.js'
+import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message.js'
 import {
   isGroupMessage,
   isPrivateMessage,
-} from '@/domain/chat/enterprise/type-guards/message'
+} from '@/domain/chat/enterprise/type-guards/message.js'
 import type {
   GroupMessage,
   Message,
   PrivateMessage,
-} from '@/domain/chat/enterprise/types/message'
-import { Pagination } from '@/domain/shared/entities/pagination'
-import dayjs from 'dayjs'
+} from '@/domain/chat/enterprise/types/message.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
+import { dayjs } from '@/test/lib/dayjs.js'
 
 export class InMemoryMessagesRepository implements MessagesRepository {
   items: Message[] = []

@@ -1,15 +1,16 @@
-import {
+import { Injectable } from '@nestjs/common'
+
+import type {
   ContactsRepository,
   ContactsRepositoryCountByInstanceIdParams,
   ContactsRepositoryFindManyByWAContactIdsAndInstanceIdParams,
   ContactsRepositoryFindManyPaginatedByInstanceIdParams,
   ContactsRepositoryFindUniqueByWAContactIdAndInstanceIdParams,
-} from '@/domain/chat/application/repositories/contacts-repository'
-import { Contact } from '@/domain/chat/enterprise/entities/contact'
-import { Pagination } from '@/domain/shared/entities/pagination'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../prisma.service'
-import { PrismaContactInstanceMapper } from '../mappers/prisma-contact-instance-mapper'
+} from '@/domain/chat/application/repositories/contacts-repository.js'
+import { Contact } from '@/domain/chat/enterprise/entities/contact.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
+import { PrismaService } from '../../prisma.service.js'
+import { PrismaContactInstanceMapper } from '../mappers/prisma-contact-instance-mapper.js'
 
 @Injectable()
 export class PrismaContactsRepository implements ContactsRepository {

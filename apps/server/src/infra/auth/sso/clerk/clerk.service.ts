@@ -1,7 +1,7 @@
 import { createClerkClient, verifyToken } from '@clerk/backend'
 import { Injectable } from '@nestjs/common'
 
-import { EnvService } from '@/infra/env/env.service'
+import { EnvService } from '@/infra/env/env.service.js'
 
 @Injectable()
 export class ClerkService {

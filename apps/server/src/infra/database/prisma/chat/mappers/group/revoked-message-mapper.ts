@@ -1,11 +1,12 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { Prisma } from '@prisma/client'
-import { SetNonNullable } from 'type-fest'
-import { PrismaContactInstanceMapper } from '../prisma-contact-instance-mapper'
-import { RawGroupMessage } from './message-mapper'
+import type { SetNonNullable } from 'type-fest'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id.js'
+import { PrismaContactInstanceMapper } from '../prisma-contact-instance-mapper.js'
+import type { RawGroupMessage } from './message-mapper.js'
 
 type Raw = SetNonNullable<RawGroupMessage, 'author'>
 

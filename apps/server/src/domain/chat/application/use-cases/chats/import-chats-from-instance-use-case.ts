@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common'
 
-import { type Either, failure, success } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Chat } from '@/domain/chat/enterprise/types/chat'
-import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
-import { WhatsAppService } from '../../services/whats-app-service'
-import { CreateChatFromWAChatUseCase } from './create-chat-from-wa-chat-use-case'
-import { LinkChatLastMessageFromWAMessageUseCase } from './link-chat-last-message-from-wa-message-use-case'
+import { type Either, failure, success } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { Chat } from '@/domain/chat/enterprise/types/chat.js'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import { WhatsAppService } from '../../services/whats-app-service.js'
+import { CreateChatFromWAChatUseCase } from './create-chat-from-wa-chat-use-case.js'
+import { LinkChatLastMessageFromWAMessageUseCase } from './link-chat-last-message-from-wa-message-use-case.js'
 
 interface ImportChatsFromInstanceUseCaseRequest {
   instanceId: UniqueEntityID

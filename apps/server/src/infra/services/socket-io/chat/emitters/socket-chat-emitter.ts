@@ -1,14 +1,13 @@
 import { WebSocketServer } from '@nestjs/websockets'
-import {} from 'socket.io'
 
-import {
+import type {
   ChatEmitter,
   ChatEmitterPayload,
-} from '@/domain/chat/application/emitters/chat-emitter'
-import { Chat } from '@/domain/chat/enterprise/types/chat'
-import { ChatPresenter } from '@/infra/presenters/chat/chat-presenter'
-import type { SocketServer } from '../../types/socket-server'
-import { SocketGateway } from '../decorators/socket-gateway.decorator'
+} from '@/domain/chat/application/emitters/chat-emitter.js'
+import type { Chat } from '@/domain/chat/enterprise/types/chat.js'
+import { ChatPresenter } from '@/infra/presenters/chat/chat-presenter.js'
+import type { SocketServer } from '../../types/socket-server.js'
+import { SocketGateway } from '../decorators/socket-gateway.decorator.js'
 
 @SocketGateway()
 export class SocketChatEmitter implements ChatEmitter {

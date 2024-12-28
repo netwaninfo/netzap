@@ -1,22 +1,23 @@
-import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message'
+import type { Prisma, Message as PrismaMessage } from '@prisma/client'
+import type { Except, SetNonNullable, SetRequired } from 'type-fest'
+
+import { PrivateRevokedMessage } from '@/domain/chat/enterprise/entities/private/revoked-message.js'
 import {
   isPrivateMessageWithContacts,
   isPrivateMessageWithMedia,
-} from '@/domain/chat/enterprise/type-guards/message'
-import { PrivateMessage } from '@/domain/chat/enterprise/types/message'
-import { Prisma, Message as PrismaMessage } from '@prisma/client'
-import { Except, SetNonNullable, SetRequired } from 'type-fest'
-import { Raw as RawContactInstance } from '../prisma-contact-instance-mapper'
-import { PrismaPrivateAudioMessageMapper } from './audio-message-mapper'
-import { PrismaPrivateDocumentMessageMapper } from './document-message-mapper'
-import { PrismaPrivateImageMessageMapper } from './image-message-mapper'
-import { PrismaPrivateMultiVCardMessageMapper } from './multi-v-card-message-mapper'
-import { PrismaPrivateRevokedMessageMapper } from './revoked-message-mapper'
-import { PrismaPrivateTextMessageMapper } from './text-message-mapper'
-import { PrismaPrivateUnknownMessageMapper } from './unknown-message-mapper'
-import { PrismaPrivateVCardMessageMapper } from './v-card-message-mapper'
-import { PrismaPrivateVideoMessageMapper } from './video-message-mapper'
-import { PrismaPrivateVoiceMessageMapper } from './voice-message-mapper'
+} from '@/domain/chat/enterprise/type-guards/message.js'
+import type { PrivateMessage } from '@/domain/chat/enterprise/types/message.js'
+import type { Raw as RawContactInstance } from '../prisma-contact-instance-mapper.js'
+import { PrismaPrivateAudioMessageMapper } from './audio-message-mapper.js'
+import { PrismaPrivateDocumentMessageMapper } from './document-message-mapper.js'
+import { PrismaPrivateImageMessageMapper } from './image-message-mapper.js'
+import { PrismaPrivateMultiVCardMessageMapper } from './multi-v-card-message-mapper.js'
+import { PrismaPrivateRevokedMessageMapper } from './revoked-message-mapper.js'
+import { PrismaPrivateTextMessageMapper } from './text-message-mapper.js'
+import { PrismaPrivateUnknownMessageMapper } from './unknown-message-mapper.js'
+import { PrismaPrivateVCardMessageMapper } from './v-card-message-mapper.js'
+import { PrismaPrivateVideoMessageMapper } from './video-message-mapper.js'
+import { PrismaPrivateVoiceMessageMapper } from './voice-message-mapper.js'
 
 export type RawPrivateMessage = PrismaMessage & {
   quoted?: Except<RawPrivateMessage, 'quoted'> | null

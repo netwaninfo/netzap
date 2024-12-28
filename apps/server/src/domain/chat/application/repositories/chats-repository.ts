@@ -1,9 +1,9 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { PaginationParams } from '@/domain/shared/repositories/pagination-params'
-import type { GroupChat } from '../../enterprise/entities/group/chat'
-import type { PrivateChat } from '../../enterprise/entities/private/chat'
-import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
-import type { Chat } from '../../enterprise/types/chat'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { PaginationParams } from '@/domain/shared/repositories/pagination-params.js'
+import type { GroupChat } from '../../enterprise/entities/group/chat.js'
+import type { PrivateChat } from '../../enterprise/entities/private/chat.js'
+import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id.js'
+import type { Chat } from '../../enterprise/types/chat.js'
 
 export interface ChatsRepositoryFindUniqueByWAChatIdAndInstanceIdParams {
   waChatId: WAEntityID

@@ -1,8 +1,8 @@
 import type {
   InstancesRepository,
   InstancesRepositoryFindUniqueByInstanceIdParams,
-} from '@/domain/management/application/repositories/instances-repository'
-import type { Instance } from '@/domain/management/enterprise/entities/instance'
+} from '@/domain/management/application/repositories/instances-repository.js'
+import type { Instance } from '@/domain/management/enterprise/entities/instance.js'
 
 export class InMemoryInstancesRepository implements InstancesRepository {
   items: Instance[] = []

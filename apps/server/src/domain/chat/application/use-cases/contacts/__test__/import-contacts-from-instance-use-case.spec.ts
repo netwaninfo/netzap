@@ -1,10 +1,10 @@
-import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
-import { FakeWhatsAppService } from '@/test/services/chat/fake-whats-app-service'
-import { each } from '@/test/utilities/each'
-import { CreateContactsFromWAContactsUseCase } from '../create-contacts-from-wa-contacts-use-case'
-import { ImportContactsFromInstanceUseCase } from '../import-contacts-from-instance-use-case'
+import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository.js'
+import { FakeWhatsAppService } from '@/test/services/chat/fake-whats-app-service.js'
+import { each } from '@/test/utilities/each.js'
+import { CreateContactsFromWAContactsUseCase } from '../create-contacts-from-wa-contacts-use-case.js'
+import { ImportContactsFromInstanceUseCase } from '../import-contacts-from-instance-use-case.js'
 
 describe('ImportContactsFromInstanceUseCase', () => {
   let contactsRepository: InMemoryContactsRepository

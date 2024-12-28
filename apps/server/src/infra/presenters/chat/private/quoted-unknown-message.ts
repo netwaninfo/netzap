@@ -1,6 +1,7 @@
-import { PrivateUnknownMessage } from '@/domain/chat/enterprise/entities/private/unknown-message'
-import { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
-import { Except } from 'type-fest'
+import type { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
+import type { Except } from 'type-fest'
+
+import { PrivateUnknownMessage } from '@/domain/chat/enterprise/entities/private/unknown-message.js'
 
 export class PrivateQuotedUnknownMessagePresenter {
   static toOutput(message: Except<PrivateUnknownMessage, 'quoted'>): Output {

@@ -1,7 +1,8 @@
-import { PrivateImageMessage } from '@/domain/chat/enterprise/entities/private/image-message'
-import { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
-import { Except } from 'type-fest'
-import { MessageMediaPresenter } from '../message-media-presenter'
+import type { PrivateQuotedMessage as Output } from '@netzap/entities/chat'
+import type { Except } from 'type-fest'
+
+import { PrivateImageMessage } from '@/domain/chat/enterprise/entities/private/image-message.js'
+import { MessageMediaPresenter } from '../message-media-presenter.js'
 
 export class PrivateQuotedImageMessagePresenter {
   static toOutput(message: Except<PrivateImageMessage, 'quoted'>): Output {

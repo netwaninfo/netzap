@@ -1,7 +1,7 @@
 import type { Except, SetNonNullable } from 'type-fest'
-import type { GroupMessage as QuotedMessage } from '../../types/message'
-import type { Contact } from '../contact'
-import { Message, type MessageProps } from '../message'
+import type { GroupMessage as QuotedMessage } from '../../types/message.js'
+import type { Contact } from '../contact.js'
+import { Message, type MessageProps } from '../message.js'
 
 export interface GroupMessageProps extends MessageProps {
   chatType: 'group'

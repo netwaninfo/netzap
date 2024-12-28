@@ -1,7 +1,8 @@
-import { GroupVCardMessage } from '@/domain/chat/enterprise/entities/group/v-card-message'
-import { GroupVCardMessage as Output } from '@netzap/entities/chat'
-import { ContactPresenter } from '../contact-presenter'
-import { GroupQuotedMessagePresenter } from './quoted-message'
+import type { GroupVCardMessage as Output } from '@netzap/entities/chat'
+
+import { GroupVCardMessage } from '@/domain/chat/enterprise/entities/group/v-card-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
+import { GroupQuotedMessagePresenter } from './quoted-message.js'
 
 export class GroupVCardMessagePresenter {
   static toOutput(message: GroupVCardMessage): Output {

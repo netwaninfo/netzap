@@ -1,11 +1,11 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import {
   PrivateRevokedMessage,
   type PrivateRevokedMessageProps,
-} from '@/domain/chat/enterprise/entities/private/revoked-message'
-import { makeUniqueEntityID } from '../../make-unique-entity-id'
-import { makeWAEntityID } from '../value-objects/make-wa-entity-id'
-import { makeWAMessageID } from '../value-objects/make-wa-message-id'
+} from '@/domain/chat/enterprise/entities/private/revoked-message.js'
+import { makeUniqueEntityID } from '../../make-unique-entity-id.js'
+import { makeWAEntityID } from '../value-objects/make-wa-entity-id.js'
+import { makeWAMessageID } from '../value-objects/make-wa-message-id.js'
 
 export function makePrivateRevokedMessage(
   override: Partial<PrivateRevokedMessageProps> = {},

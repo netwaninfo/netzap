@@ -1,11 +1,11 @@
-import { type Either, success } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { Contact } from '@/domain/chat/enterprise/entities/contact'
-import { Pagination } from '@/domain/shared/entities/pagination'
-import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
-import type { SearchRequest } from '@/domain/shared/use-cases/search-request'
+import { type Either, success } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { Contact } from '@/domain/chat/enterprise/entities/contact.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
+import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request.js'
+import type { SearchRequest } from '@/domain/shared/use-cases/search-request.js'
 import { Injectable } from '@nestjs/common'
-import { ContactsRepository } from '../../repositories/contacts-repository'
+import { ContactsRepository } from '../../repositories/contacts-repository.js'
 
 interface FetchContactsUseCaseRequest extends PaginationRequest, SearchRequest {
   instanceId: UniqueEntityID

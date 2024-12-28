@@ -1,8 +1,8 @@
-import { faker } from '@/test/lib/faker'
+import { faker } from '@/test/lib/faker.js'
 
-import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { Group } from '../group'
+import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { Group } from '../group.js'
 
 describe('Group', () => {
   it('should be able to create', () => {

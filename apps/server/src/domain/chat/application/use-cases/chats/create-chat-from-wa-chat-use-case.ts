@@ -1,11 +1,11 @@
-import { type Either, failure, success } from '@/core/either'
-import { isWAGroupChat } from '@/domain/chat/enterprise/type-guards/wa-chat'
-import type { Chat } from '@/domain/chat/enterprise/types/chat'
-import type { WAChat } from '@/domain/chat/enterprise/types/wa-chat'
-import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
+import { type Either, failure, success } from '@/core/either.js'
+import { isWAGroupChat } from '@/domain/chat/enterprise/type-guards/wa-chat.js'
+import type { Chat } from '@/domain/chat/enterprise/types/chat.js'
+import type { WAChat } from '@/domain/chat/enterprise/types/wa-chat.js'
+import type { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error.js'
 import { Injectable } from '@nestjs/common'
-import { CreateGroupChatFromWAChatUseCase } from './create-group-chat-from-wa-chat-use-case'
-import { CreatePrivateChatFromWAChatUseCase } from './create-private-chat-from-wa-chat-use-case'
+import { CreateGroupChatFromWAChatUseCase } from './create-group-chat-from-wa-chat-use-case.js'
+import { CreatePrivateChatFromWAChatUseCase } from './create-private-chat-from-wa-chat-use-case.js'
 
 interface CreateChatFromWAChatUseCaseRequest {
   waChat: WAChat

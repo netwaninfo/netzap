@@ -4,9 +4,9 @@ import {
   importFromInstanceParamsSchema,
 } from '@netzap/http/chat'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ImportFromInstanceUseCase } from '@/domain/chat/application/use-cases/instances/import-from-instance-use-case'
-import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-http-validation.pipe'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { ImportFromInstanceUseCase } from '@/domain/chat/application/use-cases/instances/import-from-instance-use-case.js'
+import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-http-validation.pipe.js'
 
 const paramsSchema = new ZodHttpValidationPipe(importFromInstanceParamsSchema)
 

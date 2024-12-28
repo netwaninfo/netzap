@@ -1,5 +1,5 @@
-import { faker } from '@/test/lib/faker'
-import { Attendant } from '../attendant'
+import { faker } from '@/test/lib/faker.js'
+import { Attendant } from '../attendant.js'
 
 describe('Attendant', () => {
   it('should be able to create', () => {

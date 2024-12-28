@@ -1,13 +1,14 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { GroupVideoMessage } from '@/domain/chat/enterprise/entities/group/video-message'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
 import { Prisma } from '@prisma/client'
-import { SetNonNullable } from 'type-fest'
-import { PrismaContactInstanceMapper } from '../prisma-contact-instance-mapper'
-import { PrismaMessageMediaMapper } from '../prisma-message-media-mapper'
-import { RawGroupMessage } from './message-mapper'
-import { PrismaGroupMessageMapper } from './message-mapper'
+import type { SetNonNullable } from 'type-fest'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { GroupVideoMessage } from '@/domain/chat/enterprise/entities/group/video-message.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id.js'
+import { PrismaContactInstanceMapper } from '../prisma-contact-instance-mapper.js'
+import { PrismaMessageMediaMapper } from '../prisma-message-media-mapper.js'
+import type { RawGroupMessage } from './message-mapper.js'
+import { PrismaGroupMessageMapper } from './message-mapper.js'
 
 type Raw = SetNonNullable<RawGroupMessage, 'author'>
 

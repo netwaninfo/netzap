@@ -1,9 +1,16 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { isPrivateChat } from '@/domain/chat/enterprise/type-guards/chat'
-import { Chat } from '@/domain/chat/enterprise/types/chat'
 import { Prisma } from '@prisma/client'
-import { PrismaGroupChatMapper, RawGroupChat } from './group/chat-mapper'
-import { PrismaPrivateChatMapper, RawPrivateChat } from './private/chat-mapper'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { isPrivateChat } from '@/domain/chat/enterprise/type-guards/chat.js'
+import type { Chat } from '@/domain/chat/enterprise/types/chat.js'
+import {
+  PrismaGroupChatMapper,
+  type RawGroupChat,
+} from './group/chat-mapper.js'
+import {
+  PrismaPrivateChatMapper,
+  type RawPrivateChat,
+} from './private/chat-mapper.js'
 
 type Raw = RawPrivateChat | RawGroupChat
 

@@ -1,7 +1,8 @@
-import { PrivateImageMessage } from '@/domain/chat/enterprise/entities/private/image-message'
-import { PrivateImageMessage as Output } from '@netzap/entities/chat'
-import { MessageMediaPresenter } from '../message-media-presenter'
-import { PrivateQuotedMessagePresenter } from './quoted-message'
+import type { PrivateImageMessage as Output } from '@netzap/entities/chat'
+
+import { PrivateImageMessage } from '@/domain/chat/enterprise/entities/private/image-message.js'
+import { MessageMediaPresenter } from '../message-media-presenter.js'
+import { PrivateQuotedMessagePresenter } from './quoted-message.js'
 
 export class PrivateImageMessagePresenter {
   static toOutput(message: PrivateImageMessage): Output {

@@ -1,9 +1,10 @@
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAGroupContact } from '@/domain/chat/enterprise/entities/wa/group/contact'
 import { Injectable } from '@nestjs/common'
-import { WWJSContact } from '../../../types/wwjs-entities'
-import { WWJSClient } from '../../../wwjs-client'
-import { ContactUtils } from '../../utils/contact'
+
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAGroupContact } from '@/domain/chat/enterprise/entities/wa/group/contact.js'
+import type { WWJSContact } from '../../../types/wwjs-entities.js'
+import { WWJSClient } from '../../../wwjs-client.js'
+import { ContactUtils } from '../../utils/contact.js'
 
 interface WWJSGroupContactMapperToDomainParams {
   contact: WWJSContact

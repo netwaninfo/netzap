@@ -1,8 +1,8 @@
-import { makeInstance } from '@/test/factories/chat/make-instance'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { InMemoryInstancesRepository } from '@/test/repositories/chat/in-memory-instances-repository'
-import { each } from '@/test/utilities/each'
-import { FetchInstancesUseCase } from '../fetch-instances-use-case'
+import { makeInstance } from '@/test/factories/chat/make-instance.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { InMemoryInstancesRepository } from '@/test/repositories/chat/in-memory-instances-repository.js'
+import { each } from '@/test/utilities/each.js'
+import { FetchInstancesUseCase } from '../fetch-instances-use-case.js'
 
 describe('FetchInstancesUseCase', () => {
   let instancesRepository: InMemoryInstancesRepository

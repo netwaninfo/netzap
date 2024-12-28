@@ -1,6 +1,7 @@
-import { StorageService } from '@/domain/chat/application/services/storage-service'
 import { Module } from '@nestjs/common'
-import { FileSystemStorageService } from './filesystem/filesystem-storage.service'
+
+import { StorageService } from '@/domain/chat/application/services/storage-service.js'
+import { FileSystemStorageService } from './filesystem/filesystem-storage.service.js'
 
 @Module({
   providers: [

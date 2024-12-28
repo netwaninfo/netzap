@@ -1,18 +1,18 @@
 import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
+import { Injectable } from '@nestjs/common'
 
-import { Either, failure, success } from '@/core/either'
-import {
+import { type Either, failure, success } from '@/core/either.js'
+import type {
   StorageService,
   StorageServicePutParams,
-} from '@/domain/chat/application/services/storage-service'
-import { StorageObject } from '@/domain/chat/enterprise/entities/value-objects/storage-object'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
-import { EnvService } from '@/infra/env/env.service'
-import { Injectable } from '@nestjs/common'
-import { RunSafely } from '../../shared/run-safely'
+} from '@/domain/chat/application/services/storage-service.js'
+import { StorageObject } from '@/domain/chat/enterprise/entities/value-objects/storage-object.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import { EnvService } from '@/infra/env/env.service.js'
+import { RunSafely } from '../../shared/run-safely.js'
 
 @Injectable()
 export class FileSystemStorageService

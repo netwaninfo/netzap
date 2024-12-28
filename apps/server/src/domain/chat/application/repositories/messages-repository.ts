@@ -1,13 +1,13 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { PaginationParams } from '@/domain/shared/repositories/pagination-params'
-import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
-import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { PaginationParams } from '@/domain/shared/repositories/pagination-params.js'
+import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id.js'
+import type { WAMessageID } from '../../enterprise/entities/value-objects/wa-message-id.js'
 import type {
   GroupMessage,
   Message,
   PrivateMessage,
   RevokedMessage,
-} from '../../enterprise/types/message'
+} from '../../enterprise/types/message.js'
 
 export interface MessagesRepositoryFindUniquePrivateMessageByChatIAndWAMessageIdParams {
   chatId: UniqueEntityID

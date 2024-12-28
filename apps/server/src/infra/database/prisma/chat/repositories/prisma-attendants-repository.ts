@@ -1,11 +1,12 @@
-import {
+import { Injectable } from '@nestjs/common'
+
+import type {
   AttendantsRepository,
   AttendantsRepositoryFindUniqueByAttendantIdAndInstanceIdParams,
-} from '@/domain/chat/application/repositories/attendants-repository'
-import { Attendant } from '@/domain/chat/enterprise/entities/attendant'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../prisma.service'
-import { PrismaAttendantMapper } from '../mappers/prisma-attendant-mapper'
+} from '@/domain/chat/application/repositories/attendants-repository.js'
+import { Attendant } from '@/domain/chat/enterprise/entities/attendant.js'
+import { PrismaService } from '../../prisma.service.js'
+import { PrismaAttendantMapper } from '../mappers/prisma-attendant-mapper.js'
 
 @Injectable()
 export class PrismaAttendantsRepository implements AttendantsRepository {

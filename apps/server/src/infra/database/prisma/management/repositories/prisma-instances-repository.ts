@@ -1,11 +1,12 @@
+import { Injectable } from '@nestjs/common'
+
 import type {
   InstancesRepository,
   InstancesRepositoryFindUniqueByInstanceIdParams,
-} from '@/domain/management/application/repositories/instances-repository'
-import type { Instance } from '@/domain/management/enterprise/entities/instance'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../prisma.service'
-import { PrismaInstanceMapper } from '../mappers/prisma-instance-mapper'
+} from '@/domain/management/application/repositories/instances-repository.js'
+import type { Instance } from '@/domain/management/enterprise/entities/instance.js'
+import { PrismaService } from '../../prisma.service.js'
+import { PrismaInstanceMapper } from '../mappers/prisma-instance-mapper.js'
 
 @Injectable()
 export class PrismaInstancesRepository implements InstancesRepository {

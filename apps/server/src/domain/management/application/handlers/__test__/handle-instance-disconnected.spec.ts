@@ -1,7 +1,7 @@
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { makeInstance } from '@/test/factories/management/make-instance'
-import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository'
-import { HandleInstanceDisconnected } from '../handle-instance-disconnected'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { makeInstance } from '@/test/factories/management/make-instance.js'
+import { InMemoryInstancesRepository } from '@/test/repositories/management/in-memory-instances-repository.js'
+import { HandleInstanceDisconnected } from '../handle-instance-disconnected.js'
 
 describe('HandleInstanceDisconnected', () => {
   let instancesRepository: InMemoryInstancesRepository

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
 
-import { type Either, failure, success } from '@/core/either'
-import { Chat } from '@/domain/chat/enterprise/types/chat'
-import { WAMessage } from '@/domain/chat/enterprise/types/wa-message'
-import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
-import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import { ChatsRepository } from '../../repositories/chats-repository'
-import { CreateMessageFromWAMessageUseCase } from '../messages/create-message-from-wa-message-use-case'
+import { type Either, failure, success } from '@/core/either.js'
+import type { Chat } from '@/domain/chat/enterprise/types/chat.js'
+import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message.js'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
+import { ChatsRepository } from '../../repositories/chats-repository.js'
+import { CreateMessageFromWAMessageUseCase } from '../messages/create-message-from-wa-message-use-case.js'
 
 interface LinkChatLastMessageFromWAMessageUseCaseRequest {
   chat: Chat

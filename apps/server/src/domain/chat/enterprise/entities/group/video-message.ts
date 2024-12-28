@@ -1,8 +1,8 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import type { Except, SetNonNullable, SetOptional } from 'type-fest'
-import type { MessageMedia } from '../message-media'
-import { GroupMessage, type GroupMessageProps } from './message'
-import { GroupRevokedMessage } from './revoked-message'
+import type { MessageMedia } from '../message-media.js'
+import { GroupMessage, type GroupMessageProps } from './message.js'
+import { GroupRevokedMessage } from './revoked-message.js'
 
 export interface GroupVideoMessageProps extends GroupMessageProps {
   type: 'video'

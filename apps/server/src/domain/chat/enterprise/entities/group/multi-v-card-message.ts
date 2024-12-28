@@ -1,8 +1,8 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import type { Except, SetOptional } from 'type-fest'
-import type { Contact } from '../contact'
-import { GroupMessage, type GroupMessageProps } from './message'
-import { GroupRevokedMessage } from './revoked-message'
+import type { Contact } from '../contact.js'
+import { GroupMessage, type GroupMessageProps } from './message.js'
+import { GroupRevokedMessage } from './revoked-message.js'
 
 export interface GroupMultiVCardMessageProps extends GroupMessageProps {
   type: 'multi_vcard'

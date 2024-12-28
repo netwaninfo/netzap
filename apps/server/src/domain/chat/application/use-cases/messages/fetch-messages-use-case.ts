@@ -1,11 +1,12 @@
-import { type Either, success } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import type { Message } from '@/domain/chat/enterprise/types/message'
-import { Pagination } from '@/domain/shared/entities/pagination'
-import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
 import { Injectable } from '@nestjs/common'
-import { MessagesRepository } from '../../repositories/messages-repository'
+
+import { type Either, success } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import type { Message } from '@/domain/chat/enterprise/types/message.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
+import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request.js'
+import { MessagesRepository } from '../../repositories/messages-repository.js'
 
 interface FetchMessagesUseCaseRequest extends PaginationRequest {
   instanceId: UniqueEntityID

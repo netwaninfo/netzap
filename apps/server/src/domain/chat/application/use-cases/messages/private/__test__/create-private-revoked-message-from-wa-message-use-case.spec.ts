@@ -1,11 +1,11 @@
-import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat'
-import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat'
-import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
-import { faker } from '@/test/lib/faker'
-import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
-import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
-import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreatePrivateRevokedMessageFromWAMessageUseCase } from '../create-private-revoked-message-from-wa-message-use-case'
+import type { PrivateChat } from '@/domain/chat/enterprise/entities/private/chat.js'
+import { makePrivateChat } from '@/test/factories/chat/private/make-private-chat.js'
+import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message.js'
+import { faker } from '@/test/lib/faker.js'
+import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository.js'
+import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository.js'
+import { FakeDateService } from '@/test/services/chat/fake-date-service.js'
+import { CreatePrivateRevokedMessageFromWAMessageUseCase } from '../create-private-revoked-message-from-wa-message-use-case.js'
 
 describe('CreatePrivateRevokedMessageFromWAMessageUseCase', () => {
   let chatsRepository: InMemoryChatsRepository

@@ -1,8 +1,9 @@
-import { GroupVideoMessage } from '@/domain/chat/enterprise/entities/group/video-message'
-import { GroupQuotedMessage as Output } from '@netzap/entities/chat'
-import { Except } from 'type-fest'
-import { ContactPresenter } from '../contact-presenter'
-import { MessageMediaPresenter } from '../message-media-presenter'
+import type { GroupQuotedMessage as Output } from '@netzap/entities/chat'
+import type { Except } from 'type-fest'
+
+import { GroupVideoMessage } from '@/domain/chat/enterprise/entities/group/video-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
+import { MessageMediaPresenter } from '../message-media-presenter.js'
 
 export class GroupQuotedVideoMessagePresenter {
   static toOutput(message: Except<GroupVideoMessage, 'quoted'>): Output {

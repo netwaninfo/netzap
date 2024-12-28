@@ -4,9 +4,9 @@ import type {
   ContactsRepositoryFindManyByWAContactIdsAndInstanceIdParams,
   ContactsRepositoryFindManyPaginatedByInstanceIdParams,
   ContactsRepositoryFindUniqueByWAContactIdAndInstanceIdParams,
-} from '@/domain/chat/application/repositories/contacts-repository'
-import type { Contact } from '@/domain/chat/enterprise/entities/contact'
-import { Pagination } from '@/domain/shared/entities/pagination'
+} from '@/domain/chat/application/repositories/contacts-repository.js'
+import type { Contact } from '@/domain/chat/enterprise/entities/contact.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
 
 export class InMemoryContactsRepository implements ContactsRepository {
   items: Contact[] = []

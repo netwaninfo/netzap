@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common'
-import { PrismaChatRepositories } from './chat/prisma-chat-repositories.module'
-import { PrismaManagementRepositories } from './management/prisma-management-repositories.module'
-import { PrismaService } from './prisma.service'
-import { PrismaUsersRepositories } from './users/prisma-users-repositories.module'
+
+import { PrismaChatRepositories } from './chat/prisma-chat-repositories.module.js'
+import { PrismaManagementRepositories } from './management/prisma-management-repositories.module.js'
+import { PrismaService } from './prisma.service.js'
+import { PrismaUsersRepositories } from './users/prisma-users-repositories.module.js'
 
 @Module({
   imports: [

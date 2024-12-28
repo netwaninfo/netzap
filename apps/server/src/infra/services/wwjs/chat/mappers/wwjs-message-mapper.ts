@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
 
-import { WAMessage } from '@/domain/chat/enterprise/types/wa-message'
-import { WWJSMessage } from '../../types/wwjs-entities'
-import { WWJSClient } from '../../wwjs-client'
-import { MessageUtils } from '../utils/message'
-import { WWJSGroupMessageMapper } from './group/wwjs-group-message-mapper'
-import { WWJSPrivateMessageMapper } from './private/wwjs-private-message-mapper'
+import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message.js'
+import type { WWJSMessage } from '../../types/wwjs-entities.js'
+import { WWJSClient } from '../../wwjs-client.js'
+import { MessageUtils } from '../utils/message.js'
+import { WWJSGroupMessageMapper } from './group/wwjs-group-message-mapper.js'
+import { WWJSPrivateMessageMapper } from './private/wwjs-private-message-mapper.js'
 
 interface WWJSMessageMapperToDomainParams {
   message: WWJSMessage

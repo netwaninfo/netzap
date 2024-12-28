@@ -1,9 +1,9 @@
 import type { SetNonNullable, SetOptional } from 'type-fest'
 
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { GroupMessage } from '../../types/message'
-import { Chat, type ChatProps } from '../chat'
-import { Group } from '../group'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { GroupMessage } from '../../types/message.js'
+import { Chat, type ChatProps } from '../chat.js'
+import { Group } from '../group.js'
 
 export interface GroupChatProps extends ChatProps {
   group: Group

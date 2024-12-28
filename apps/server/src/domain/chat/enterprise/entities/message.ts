@@ -1,12 +1,12 @@
-import { Entity } from '@/core/entities/entity'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { Entity } from '@/core/entities/entity.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import type {
   ChatType,
   MessageStatus,
   MessageType,
 } from '@netzap/entities/chat'
-import type { WAEntityID } from './value-objects/wa-entity-id'
-import type { WAMessageID } from './value-objects/wa-message-id'
+import type { WAEntityID } from './value-objects/wa-entity-id.js'
+import type { WAMessageID } from './value-objects/wa-message-id.js'
 
 import type { SetNonNullable } from 'type-fest'
 

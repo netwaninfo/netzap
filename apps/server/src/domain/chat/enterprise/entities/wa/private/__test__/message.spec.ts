@@ -1,12 +1,11 @@
-import { faker } from '@faker-js/faker'
-
-import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
-import { makeWAMessageID } from '@/test/factories/chat/value-objects/make-wa-message-id'
-import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
-import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
-import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { WAPrivateMessage } from '../message'
+import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id.js'
+import { makeWAMessageID } from '@/test/factories/chat/value-objects/make-wa-message-id.js'
+import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact.js'
+import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message.js'
+import { makeWAMessageMedia } from '@/test/factories/chat/wa/value-objects/make-wa-message-media.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { faker } from '@/test/lib/faker.js'
+import { WAPrivateMessage } from '../message.js'
 
 describe('WAPrivateMessage', () => {
   it('should be able to create', () => {

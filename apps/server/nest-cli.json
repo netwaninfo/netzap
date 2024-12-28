@@ -4,6 +4,7 @@
   "sourceRoot": "src",
   "entryFile": "infra/main",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "builder": "swc"
   }
 }

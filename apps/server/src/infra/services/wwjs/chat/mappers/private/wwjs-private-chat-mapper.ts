@@ -1,11 +1,12 @@
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAPrivateChat } from '@/domain/chat/enterprise/entities/wa/private/chat'
 import { Injectable } from '@nestjs/common'
-import { WWJSChat } from '../../../types/wwjs-entities'
-import { WWJSClient } from '../../../wwjs-client'
-import { MessageUtils } from '../../utils/message'
-import { WWJSPrivateContactMapper } from './wwjs-private-contact-mapper'
-import { WWJSPrivateMessageMapper } from './wwjs-private-message-mapper'
+
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAPrivateChat } from '@/domain/chat/enterprise/entities/wa/private/chat.js'
+import type { WWJSChat } from '../../../types/wwjs-entities.js'
+import { WWJSClient } from '../../../wwjs-client.js'
+import { MessageUtils } from '../../utils/message.js'
+import { WWJSPrivateContactMapper } from './wwjs-private-contact-mapper.js'
+import { WWJSPrivateMessageMapper } from './wwjs-private-message-mapper.js'
 
 interface WWJSPrivateChatMapperToDomainParams {
   chat: WWJSChat

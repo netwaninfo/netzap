@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs'
 
-import { DateService } from '@/domain/chat/application/services/date-service'
+import { DateService } from '@/domain/chat/application/services/date-service.js'
 
 export class DayjsDateService implements DateService {
   private ref: Dayjs

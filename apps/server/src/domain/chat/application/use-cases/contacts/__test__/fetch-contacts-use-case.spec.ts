@@ -1,8 +1,8 @@
-import { makeContact } from '@/test/factories/chat/make-contact'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
-import { each } from '@/test/utilities/each'
-import { FetchContactsUseCase } from '../fetch-contacts-use-case'
+import { makeContact } from '@/test/factories/chat/make-contact.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository.js'
+import { each } from '@/test/utilities/each.js'
+import { FetchContactsUseCase } from '../fetch-contacts-use-case.js'
 
 describe('FetchContactsUseCase', () => {
   let contactsRepository: InMemoryContactsRepository

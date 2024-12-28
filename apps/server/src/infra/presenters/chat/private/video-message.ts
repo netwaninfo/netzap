@@ -1,7 +1,8 @@
-import { PrivateVideoMessage } from '@/domain/chat/enterprise/entities/private/video-message'
-import { PrivateVideoMessage as Output } from '@netzap/entities/chat'
-import { MessageMediaPresenter } from '../message-media-presenter'
-import { PrivateQuotedMessagePresenter } from './quoted-message'
+import type { PrivateVideoMessage as Output } from '@netzap/entities/chat'
+
+import { PrivateVideoMessage } from '@/domain/chat/enterprise/entities/private/video-message.js'
+import { MessageMediaPresenter } from '../message-media-presenter.js'
+import { PrivateQuotedMessagePresenter } from './quoted-message.js'
 
 export class PrivateVideoMessagePresenter {
   static toOutput(message: PrivateVideoMessage): Output {

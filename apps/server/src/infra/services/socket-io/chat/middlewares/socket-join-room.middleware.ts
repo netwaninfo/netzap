@@ -3,8 +3,11 @@ import { type Socket } from 'socket.io'
 import { z } from 'zod'
 import { fromZodError } from 'zod-validation-error'
 
-import { Middleware } from '../../decorators/middleware.decorator'
-import { SocketMiddleware, SocketMiddlewareNext } from '../../types/middleware'
+import { Middleware } from '../../decorators/middleware.decorator.js'
+import type {
+  SocketMiddleware,
+  SocketMiddlewareNext,
+} from '../../types/middleware.js'
 
 const querySchema = z.object({
   instanceId: z.string().min(1),

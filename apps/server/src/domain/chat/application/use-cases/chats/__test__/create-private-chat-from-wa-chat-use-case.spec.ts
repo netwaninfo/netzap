@@ -1,10 +1,10 @@
-import { makeContact } from '@/test/factories/chat/make-contact'
-import { makeWAPrivateChat } from '@/test/factories/chat/wa/make-wa-private-chat'
-import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository'
-import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
-import { FakeDateService } from '@/test/services/chat/fake-date-service'
-import { CreateContactFromWAContactUseCase } from '../../contacts/create-contact-from-wa-contact-use-case'
-import { CreatePrivateChatFromWAChatUseCase } from '../create-private-chat-from-wa-chat-use-case'
+import { makeContact } from '@/test/factories/chat/make-contact.js'
+import { makeWAPrivateChat } from '@/test/factories/chat/wa/make-wa-private-chat.js'
+import { InMemoryChatsRepository } from '@/test/repositories/chat/in-memory-chats-repository.js'
+import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository.js'
+import { FakeDateService } from '@/test/services/chat/fake-date-service.js'
+import { CreateContactFromWAContactUseCase } from '../../contacts/create-contact-from-wa-contact-use-case.js'
+import { CreatePrivateChatFromWAChatUseCase } from '../create-private-chat-from-wa-chat-use-case.js'
 
 describe('CreatePrivateChatFromWAChatUseCase', () => {
   let chatsRepository: InMemoryChatsRepository

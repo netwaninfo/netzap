@@ -1,6 +1,6 @@
-import { makeMimeType } from '@/test/factories/chat/value-objects/make-mime-type'
-import { faker } from '@/test/lib/faker'
-import { StorageObject } from '../storage-object'
+import { makeMimeType } from '@/test/factories/chat/value-objects/make-mime-type.js'
+import { faker } from '@/test/lib/faker.js'
+import { StorageObject } from '../storage-object.js'
 
 describe('StorageObject', () => {
   it('should be able to create', () => {

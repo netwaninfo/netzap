@@ -1,4 +1,4 @@
-import { ValueObject } from '@/core/entities/value-object'
+import { ValueObject } from '@/core/entities/value-object.js'
 
 export interface ContactPhoneProps {
   number: string

@@ -1,7 +1,10 @@
 import timers from 'node:timers/promises'
 
-import { WWJSMessage, WWJSMessageMedia } from '../../types/wwjs-entities'
-import { WWJSMessageTypes } from '../../types/wwjs-enums'
+import type {
+  WWJSMessage,
+  WWJSMessageMedia,
+} from '../../types/wwjs-entities.js'
+import { WWJSMessageTypes } from '../../types/wwjs-enums.js'
 
 const MESSAGES_TYPES_TO_IGNORE = [
   WWJSMessageTypes.E2E_NOTIFICATION,

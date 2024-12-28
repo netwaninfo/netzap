@@ -1,7 +1,7 @@
-import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
-import { makeWAMessageID } from '@/test/factories/chat/value-objects/make-wa-message-id'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { PrivateRevokedMessage } from '../revoked-message'
+import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id.js'
+import { makeWAMessageID } from '@/test/factories/chat/value-objects/make-wa-message-id.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { PrivateRevokedMessage } from '../revoked-message.js'
 
 describe('PrivateRevokedMessage', () => {
   it('should be able to create', () => {

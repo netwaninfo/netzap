@@ -1,7 +1,7 @@
-import { EnvService } from '@/infra/env/env.service'
-import { INestApplicationContext } from '@nestjs/common'
+import { EnvService } from '@/infra/env/env.service.js'
+import type { INestApplicationContext } from '@nestjs/common'
 import { IoAdapter } from '@nestjs/platform-socket.io'
-import { ServerOptions } from 'socket.io'
+import type { ServerOptions } from 'socket.io'
 
 export class SocketIOAdapter extends IoAdapter {
   constructor(

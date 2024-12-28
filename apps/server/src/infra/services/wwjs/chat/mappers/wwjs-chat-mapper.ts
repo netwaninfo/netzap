@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
 
-import { WAChat } from '@/domain/chat/enterprise/types/wa-chat'
-import { WWJSChat, WWJSGroupChat } from '../../types/wwjs-entities'
-import { WWJSClient } from '../../wwjs-client'
-import { ChatUtils } from '../utils/chat'
-import { WWJSGroupChatMapper } from './group/wwjs-group-chat-mapper'
-import { WWJSPrivateChatMapper } from './private/wwjs-private-chat-mapper'
+import type { WAChat } from '@/domain/chat/enterprise/types/wa-chat.js'
+import type { WWJSChat, WWJSGroupChat } from '../../types/wwjs-entities.js'
+import { WWJSClient } from '../../wwjs-client.js'
+import { ChatUtils } from '../utils/chat.js'
+import { WWJSGroupChatMapper } from './group/wwjs-group-chat-mapper.js'
+import { WWJSPrivateChatMapper } from './private/wwjs-private-chat-mapper.js'
 
 type WWJSRawChat = WWJSChat | WWJSGroupChat
 

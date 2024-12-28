@@ -1,6 +1,7 @@
-import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message'
-import { GroupRevokedMessage as Output } from '@netzap/entities/chat'
-import { ContactPresenter } from '../contact-presenter'
+import type { GroupRevokedMessage as Output } from '@netzap/entities/chat'
+
+import { GroupRevokedMessage } from '@/domain/chat/enterprise/entities/group/revoked-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
 
 export class GroupRevokedMessagePresenter {
   static toOutput(message: GroupRevokedMessage): Output {

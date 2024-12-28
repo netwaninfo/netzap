@@ -1,7 +1,7 @@
-import { Message, type MessageProps } from '../message'
+import { Message, type MessageProps } from '../message.js'
 
 import type { Except, SetNonNullable } from 'type-fest'
-import type { PrivateMessage as QuotedMessage } from '../../types/message'
+import type { PrivateMessage as QuotedMessage } from '../../types/message.js'
 
 export interface PrivateMessageProps extends MessageProps {
   quoted: Except<QuotedMessage, 'quoted'> | null

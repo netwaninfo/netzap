@@ -1,10 +1,10 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import {
   MessageMedia,
   type MessageMediaProps,
-} from '@/domain/chat/enterprise/entities/message-media'
-import { faker } from '@/test/lib/faker'
-import { makeMimeType } from './value-objects/make-mime-type'
+} from '@/domain/chat/enterprise/entities/message-media.js'
+import { faker } from '@/test/lib/faker.js'
+import { makeMimeType } from './value-objects/make-mime-type.js'
 
 export const makeMessageMedia = (
   override: Partial<MessageMediaProps> = {},

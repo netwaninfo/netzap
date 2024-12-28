@@ -1,13 +1,14 @@
 import { Readable } from 'node:stream'
-import { type Either, failure, success } from '@/core/either'
-import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
-import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message'
-import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
-import type { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
 import { Injectable } from '@nestjs/common'
-import { StorageService } from '../../services/storage-service'
+
+import { type Either, failure, success } from '@/core/either.js'
+import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media.js'
+import type { WAMessage } from '@/domain/chat/enterprise/types/wa-message.js'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
+import type { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
+import { StorageService } from '../../services/storage-service.js'
 
 interface CreateMessageMediaFromWAMessageUseCaseRequest {
   waMessage: WAMessage

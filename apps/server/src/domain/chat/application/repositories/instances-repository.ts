@@ -1,7 +1,7 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { PaginationParams } from '@/domain/shared/repositories/pagination-params'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { PaginationParams } from '@/domain/shared/repositories/pagination-params.js'
 import type { InstanceStatus } from '@netzap/entities/management'
-import type { Instance } from '../../enterprise/entities/instance'
+import type { Instance } from '../../enterprise/entities/instance.js'
 
 export interface InstancesRepositoryFindManyByAttendantIdParams
   extends PaginationParams {

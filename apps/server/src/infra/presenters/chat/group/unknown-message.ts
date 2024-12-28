@@ -1,7 +1,8 @@
-import { GroupUnknownMessage } from '@/domain/chat/enterprise/entities/group/unknown-message'
-import { GroupUnknownMessage as Output } from '@netzap/entities/chat'
-import { ContactPresenter } from '../contact-presenter'
-import { GroupQuotedMessagePresenter } from './quoted-message'
+import type { GroupUnknownMessage as Output } from '@netzap/entities/chat'
+
+import { GroupUnknownMessage } from '@/domain/chat/enterprise/entities/group/unknown-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
+import { GroupQuotedMessagePresenter } from './quoted-message.js'
 
 export class GroupUnknownMessagePresenter {
   static toOutput(message: GroupUnknownMessage): Output {

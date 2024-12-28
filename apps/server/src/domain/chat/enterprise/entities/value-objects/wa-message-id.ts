@@ -1,6 +1,6 @@
-import { ValueObject } from '@/core/entities/value-object'
+import { ValueObject } from '@/core/entities/value-object.js'
 import type { SetNonNullable, SetOptional } from 'type-fest'
-import { WAEntityID } from './wa-entity-id'
+import { WAEntityID } from './wa-entity-id.js'
 
 export interface WAMessageIDProps {
   entityId: WAEntityID

@@ -1,5 +1,6 @@
-import { MessageStatus } from '@netzap/entities/chat'
-import { WWJSMessageACK } from '../../types/wwjs-enums'
+import type { MessageStatus } from '@netzap/entities/chat'
+
+import { WWJSMessageACK } from '../../types/wwjs-enums.js'
 
 const DOMAIN_MAPPER: { [key in WWJSMessageACK]: MessageStatus } = {
   [WWJSMessageACK.ACK_ERROR]: 'error',

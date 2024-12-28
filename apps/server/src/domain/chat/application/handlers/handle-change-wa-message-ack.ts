@@ -1,12 +1,12 @@
-import { type Either, failure, success } from '@/core/either'
-import type { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
+import { type Either, failure, success } from '@/core/either.js'
+import type { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
 import { Injectable } from '@nestjs/common'
 import type { MessageStatus } from '@netzap/entities/chat'
-import type { Message } from '../../enterprise/types/message'
-import type { WAMessage } from '../../enterprise/types/wa-message'
-import { MessageEmitter } from '../emitters/message-emitter'
-import { MessagesRepository } from '../repositories/messages-repository'
+import type { Message } from '../../enterprise/types/message.js'
+import type { WAMessage } from '../../enterprise/types/wa-message.js'
+import { MessageEmitter } from '../emitters/message-emitter.js'
+import { MessagesRepository } from '../repositories/messages-repository.js'
 
 interface HandleChangeWAMessageACKRequest {
   waMessage: WAMessage

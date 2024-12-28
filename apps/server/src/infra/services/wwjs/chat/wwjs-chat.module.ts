@@ -1,10 +1,10 @@
 import { Module, forwardRef } from '@nestjs/common'
 
-import { WhatsAppService } from '@/domain/chat/application/services/whats-app-service'
-import { WWJSModule } from '../wwjs.module'
-import { WWJSHandlersModule } from './handlers/wwjs-handlers.module'
-import { WWJSMappersModule } from './mappers/wwjs-mappers.module'
-import { WWJSChatService } from './wwjs-chat.service'
+import { WhatsAppService } from '@/domain/chat/application/services/whats-app-service.js'
+import { WWJSModule } from '../wwjs.module.js'
+import { WWJSHandlersModule } from './handlers/wwjs-handlers.module.js'
+import { WWJSMappersModule } from './mappers/wwjs-mappers.module.js'
+import { WWJSChatService } from './wwjs-chat.service.js'
 
 @Module({
   imports: [

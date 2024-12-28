@@ -1,8 +1,8 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { PaginationParams } from '@/domain/shared/repositories/pagination-params'
-import type { SearchParams } from '@/domain/shared/repositories/search-params'
-import type { Contact } from '../../enterprise/entities/contact'
-import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { PaginationParams } from '@/domain/shared/repositories/pagination-params.js'
+import type { SearchParams } from '@/domain/shared/repositories/search-params.js'
+import type { Contact } from '../../enterprise/entities/contact.js'
+import type { WAEntityID } from '../../enterprise/entities/value-objects/wa-entity-id.js'
 
 export interface ContactsRepositoryFindUniqueByWAContactIdAndInstanceIdParams {
   waContactId: WAEntityID

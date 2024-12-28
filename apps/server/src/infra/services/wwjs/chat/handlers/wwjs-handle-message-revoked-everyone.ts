@@ -1,12 +1,12 @@
-import { HandleRevokeWAMessage } from '@/domain/chat/application/handlers/handle-revoke-wa-message'
-import { Handler } from '../../decorators/handler.decorator'
-import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
-import { WWJSMessage } from '../../types/wwjs-entities'
-import { WWJSEvents } from '../../types/wwjs-enums'
-import { type WWJSListener } from '../../types/wwjs-handler'
-import { WWJSClient } from '../../wwjs-client'
-import { WWJSChatMapper } from '../mappers/wwjs-chat-mapper'
-import { WWJSMessageMapper } from '../mappers/wwjs-message-mapper'
+import { HandleRevokeWAMessage } from '@/domain/chat/application/handlers/handle-revoke-wa-message.js'
+import { Handler } from '../../decorators/handler.decorator.js'
+import { SubscribeEvent } from '../../decorators/subscribe-event.decorator.js'
+import type { WWJSMessage } from '../../types/wwjs-entities.js'
+import { WWJSEvents } from '../../types/wwjs-enums.js'
+import { type WWJSListener } from '../../types/wwjs-handler.js'
+import { WWJSClient } from '../../wwjs-client.js'
+import { WWJSChatMapper } from '../mappers/wwjs-chat-mapper.js'
+import { WWJSMessageMapper } from '../mappers/wwjs-message-mapper.js'
 
 @Handler()
 export class WWJSHandleMessageRevokedEveryone {

@@ -1,13 +1,14 @@
-import {
+import { Injectable } from '@nestjs/common'
+
+import type {
   InstancesRepository,
   InstancesRepositoryCountByAttendantIdParams,
   InstancesRepositoryFindManyByAttendantIdParams,
-} from '@/domain/chat/application/repositories/instances-repository'
-import { Instance } from '@/domain/chat/enterprise/entities/instance'
-import { Pagination } from '@/domain/shared/entities/pagination'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../prisma.service'
-import { PrismaInstanceMapper } from '../mappers/prisma-instance-mapper'
+} from '@/domain/chat/application/repositories/instances-repository.js'
+import { Instance } from '@/domain/chat/enterprise/entities/instance.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
+import { PrismaService } from '../../prisma.service.js'
+import { PrismaInstanceMapper } from '../mappers/prisma-instance-mapper.js'
 
 @Injectable()
 export class PrismaInstancesRepository implements InstancesRepository {

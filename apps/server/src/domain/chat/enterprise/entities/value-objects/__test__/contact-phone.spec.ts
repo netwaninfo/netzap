@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker'
-import { ContactPhone } from '../contact-phone'
+import { faker } from '@/test/lib/faker.js'
+import { ContactPhone } from '../contact-phone.js'
 
 describe('ContactPhone', () => {
   it('should be able to create', () => {

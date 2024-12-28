@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 
-import { DateService } from '@/domain/chat/application/services/date-service'
-import { DayjsDateService } from './dayjs-date.service'
+import { DateService } from '@/domain/chat/application/services/date-service.js'
+import { DayjsDateService } from './dayjs-date.service.js'
 
 @Module({
   providers: [

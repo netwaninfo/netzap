@@ -1,4 +1,5 @@
-import { SetOptional } from 'type-fest'
+import pLimit from 'p-limit'
+import type { SetOptional } from 'type-fest'
 
 interface ParallelProcessorProps<T> {
   items: T[]
@@ -22,14 +23,8 @@ export class ParallelProcessor<T> {
     return this.props.concurrency
   }
 
-  private async limiter(concurrency = 1) {
-    const pkg = await import('p-limit')
-
-    return pkg.default(concurrency)
-  }
-
   async processItem<R>(method: ParallelProcessorMethod<T, R>) {
-    const limit = await this.limiter(this.concurrency)
+    const limit = pLimit(this.concurrency)
 
     return await Promise.all(this.items.map(item => limit(() => method(item))))
   }

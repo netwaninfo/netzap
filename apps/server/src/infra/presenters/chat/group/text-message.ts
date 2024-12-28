@@ -1,7 +1,8 @@
-import { GroupTextMessage } from '@/domain/chat/enterprise/entities/group/text-message'
-import { GroupTextMessage as Output } from '@netzap/entities/chat'
-import { ContactPresenter } from '../contact-presenter'
-import { GroupQuotedMessagePresenter } from './quoted-message'
+import type { GroupTextMessage as Output } from '@netzap/entities/chat'
+
+import { GroupTextMessage } from '@/domain/chat/enterprise/entities/group/text-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
+import { GroupQuotedMessagePresenter } from './quoted-message.js'
 
 export class GroupTextMessagePresenter {
   static toOutput(message: GroupTextMessage): Output {

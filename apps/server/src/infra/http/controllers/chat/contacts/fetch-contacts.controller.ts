@@ -1,8 +1,3 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { FetchContactsUseCase } from '@/domain/chat/application/use-cases/contacts/fetch-contacts-use-case'
-import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-http-validation.pipe'
-import { ContactPresenter } from '@/infra/presenters/chat/contact-presenter'
-import { PaginationPresenter } from '@/infra/presenters/pagination-presenter'
 import {
   BadRequestException,
   Controller,
@@ -17,6 +12,12 @@ import {
   fetchContactsRequestParamsSchema,
   fetchContactsRequestQuerySchema,
 } from '@netzap/http/chat'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { FetchContactsUseCase } from '@/domain/chat/application/use-cases/contacts/fetch-contacts-use-case.js'
+import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-http-validation.pipe.js'
+import { ContactPresenter } from '@/infra/presenters/chat/contact-presenter.js'
+import { PaginationPresenter } from '@/infra/presenters/pagination-presenter.js'
 
 const paramsSchema = new ZodHttpValidationPipe(fetchContactsRequestParamsSchema)
 const querySchema = new ZodHttpValidationPipe(fetchContactsRequestQuerySchema)

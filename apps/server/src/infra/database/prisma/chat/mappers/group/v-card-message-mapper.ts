@@ -1,16 +1,17 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { GroupVCardMessage } from '@/domain/chat/enterprise/entities/group/v-card-message'
-import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id'
-import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
-import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
 import { Prisma } from '@prisma/client'
-import { SetNonNullable } from 'type-fest'
+import type { SetNonNullable } from 'type-fest'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { GroupVCardMessage } from '@/domain/chat/enterprise/entities/group/v-card-message.js'
+import { WAEntityID } from '@/domain/chat/enterprise/entities/value-objects/wa-entity-id.js'
+import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id.js'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
 import {
   PrismaContactInstanceMapper,
-  Raw as RawContactInstance,
-} from '../prisma-contact-instance-mapper'
-import { RawGroupMessage } from './message-mapper'
-import { PrismaGroupMessageMapper } from './message-mapper'
+  type Raw as RawContactInstance,
+} from '../prisma-contact-instance-mapper.js'
+import type { RawGroupMessage } from './message-mapper.js'
+import { PrismaGroupMessageMapper } from './message-mapper.js'
 
 type Raw = SetNonNullable<RawGroupMessage, 'author'> & {
   contacts: RawContactInstance[]

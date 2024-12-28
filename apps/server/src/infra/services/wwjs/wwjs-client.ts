@@ -1,15 +1,16 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ValueObject } from '@/core/entities/value-object'
-import { InstanceState, InstanceStatus } from '@netzap/entities/management'
-import { SetOptional } from 'type-fest'
-import { WWJSInternalClient } from './internal/client'
+import type { InstanceState, InstanceStatus } from '@netzap/entities/management'
+import type { SetOptional } from 'type-fest'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { ValueObject } from '@/core/entities/value-object.js'
+import { WWJSInternalClient } from './internal/client.js'
 import {
   WWJSEvents,
   WWJSInternalStates,
   WWJSInternalStatus,
-} from './types/wwjs-enums'
-import { WWJSEvent } from './types/wwjs-event'
-import { WWJSHandler } from './types/wwjs-handler'
+} from './types/wwjs-enums.js'
+import type { WWJSEvent } from './types/wwjs-event.js'
+import { WWJSHandler } from './types/wwjs-handler.js'
 
 export interface WWJSClientProps {
   instanceId: UniqueEntityID

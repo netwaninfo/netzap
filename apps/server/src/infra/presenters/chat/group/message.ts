@@ -1,15 +1,16 @@
-import { GroupMessage } from '@/domain/chat/enterprise/types/message'
-import { GroupMessage as Output } from '@netzap/entities/chat'
-import { GroupAudioMessagePresenter } from './audio-message'
-import { GroupDocumentMessagePresenter } from './document-message'
-import { GroupImageMessagePresenter } from './image-message'
-import { GroupMultiVCardMessagePresenter } from './multi-v-card-message'
-import { GroupRevokedMessagePresenter } from './revoked-message'
-import { GroupTextMessagePresenter } from './text-message'
-import { GroupUnknownMessagePresenter } from './unknown-message'
-import { GroupVCardMessagePresenter } from './v-card-message'
-import { GroupVideoMessagePresenter } from './video-message'
-import { GroupVoiceMessagePresenter } from './voice-message'
+import type { GroupMessage as Output } from '@netzap/entities/chat'
+
+import type { GroupMessage } from '@/domain/chat/enterprise/types/message.js'
+import { GroupAudioMessagePresenter } from './audio-message.js'
+import { GroupDocumentMessagePresenter } from './document-message.js'
+import { GroupImageMessagePresenter } from './image-message.js'
+import { GroupMultiVCardMessagePresenter } from './multi-v-card-message.js'
+import { GroupRevokedMessagePresenter } from './revoked-message.js'
+import { GroupTextMessagePresenter } from './text-message.js'
+import { GroupUnknownMessagePresenter } from './unknown-message.js'
+import { GroupVCardMessagePresenter } from './v-card-message.js'
+import { GroupVideoMessagePresenter } from './video-message.js'
+import { GroupVoiceMessagePresenter } from './voice-message.js'
 
 export class GroupMessagePresenter {
   static toOutput(message: GroupMessage): Output {

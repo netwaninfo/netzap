@@ -1,4 +1,4 @@
-import { Message } from '../../enterprise/types/message'
+import type { Message } from '../../enterprise/types/message.js'
 
 export interface MessageEmitterPayload {
   message: Message

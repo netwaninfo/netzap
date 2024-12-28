@@ -1,8 +1,8 @@
-import { makeContact } from '@/test/factories/chat/make-contact'
-import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
-import { makeWAMessageID } from '@/test/factories/chat/value-objects/make-wa-message-id'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { PrivateVCardMessage } from '../v-card-message'
+import { makeContact } from '@/test/factories/chat/make-contact.js'
+import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id.js'
+import { makeWAMessageID } from '@/test/factories/chat/value-objects/make-wa-message-id.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { PrivateVCardMessage } from '../v-card-message.js'
 
 describe('PrivateVCardMessage', () => {
   it('should be able to create', () => {

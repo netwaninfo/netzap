@@ -1,5 +1,6 @@
-import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media'
-import { MessageMedia as Output } from '@netzap/entities/chat'
+import type { MessageMedia as Output } from '@netzap/entities/chat'
+
+import { MessageMedia } from '@/domain/chat/enterprise/entities/message-media.js'
 
 export class MessageMediaPresenter {
   static toOutput(media: MessageMedia): Output {

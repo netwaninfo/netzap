@@ -1,11 +1,12 @@
-import { Either, success } from '@/core/either'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Instance } from '@/domain/chat/enterprise/entities/instance'
-import { Pagination } from '@/domain/shared/entities/pagination'
-import { PaginationRequest } from '@/domain/shared/use-cases/pagination-request'
 import { Injectable } from '@nestjs/common'
 import type { InstanceStatus } from '@netzap/entities/management'
-import { InstancesRepository } from '../../repositories/instances-repository'
+
+import { type Either, success } from '@/core/either.js'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { Instance } from '@/domain/chat/enterprise/entities/instance.js'
+import { Pagination } from '@/domain/shared/entities/pagination.js'
+import type { PaginationRequest } from '@/domain/shared/use-cases/pagination-request.js'
+import { InstancesRepository } from '../../repositories/instances-repository.js'
 
 interface FetchInstancesUseCaseRequest extends PaginationRequest {
   status?: InstanceStatus

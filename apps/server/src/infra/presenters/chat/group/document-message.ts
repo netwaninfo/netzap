@@ -1,8 +1,9 @@
-import { GroupDocumentMessage } from '@/domain/chat/enterprise/entities/group/document-message'
-import { GroupDocumentMessage as Output } from '@netzap/entities/chat'
-import { ContactPresenter } from '../contact-presenter'
-import { MessageMediaPresenter } from '../message-media-presenter'
-import { GroupQuotedMessagePresenter } from './quoted-message'
+import type { GroupDocumentMessage as Output } from '@netzap/entities/chat'
+
+import { GroupDocumentMessage } from '@/domain/chat/enterprise/entities/group/document-message.js'
+import { ContactPresenter } from '../contact-presenter.js'
+import { MessageMediaPresenter } from '../message-media-presenter.js'
+import { GroupQuotedMessagePresenter } from './quoted-message.js'
 
 export class GroupDocumentMessagePresenter {
   static toOutput(message: GroupDocumentMessage): Output {

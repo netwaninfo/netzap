@@ -1,9 +1,9 @@
-import { FakeMessageEmitter } from '@/test/emitters/chat/fake-message-emitter'
-import { makePrivateTextMessage } from '@/test/factories/chat/private/make-private-text-message'
-import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository'
-import { HandleChangeWAMessageACK } from '../handle-change-wa-message-ack'
+import { FakeMessageEmitter } from '@/test/emitters/chat/fake-message-emitter.js'
+import { makePrivateTextMessage } from '@/test/factories/chat/private/make-private-text-message.js'
+import { makeWAPrivateMessage } from '@/test/factories/chat/wa/make-wa-private-message.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { InMemoryMessagesRepository } from '@/test/repositories/chat/in-memory-messages-repository.js'
+import { HandleChangeWAMessageACK } from '../handle-change-wa-message-ack.js'
 
 describe('HandleChangeWAMessageACK', () => {
   let messagesRepository: InMemoryMessagesRepository

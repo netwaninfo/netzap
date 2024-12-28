@@ -1,9 +1,9 @@
 import type { SetOptional } from 'type-fest'
 
-import { Entity } from '@/core/entities/entity'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { ContactPhone } from './value-objects/contact-phone'
-import type { WAEntityID } from './value-objects/wa-entity-id'
+import { Entity } from '@/core/entities/entity.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { ContactPhone } from './value-objects/contact-phone.js'
+import type { WAEntityID } from './value-objects/wa-entity-id.js'
 
 export interface ContactProps {
   waContactId: WAEntityID

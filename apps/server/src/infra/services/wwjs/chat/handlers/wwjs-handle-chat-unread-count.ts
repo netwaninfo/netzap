@@ -1,11 +1,11 @@
-import { HandleChangeWAChatUnreadCount } from '@/domain/chat/application/handlers/handle-change-wa-chat-unread-count'
-import { Handler } from '../../decorators/handler.decorator'
-import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
-import { WWJSChat } from '../../types/wwjs-entities'
-import { WWJSInternalEvents } from '../../types/wwjs-enums'
-import { type WWJSListener } from '../../types/wwjs-handler'
-import { WWJSClient } from '../../wwjs-client'
-import { WWJSChatMapper } from '../mappers/wwjs-chat-mapper'
+import { HandleChangeWAChatUnreadCount } from '@/domain/chat/application/handlers/handle-change-wa-chat-unread-count.js'
+import { Handler } from '../../decorators/handler.decorator.js'
+import { SubscribeEvent } from '../../decorators/subscribe-event.decorator.js'
+import type { WWJSChat } from '../../types/wwjs-entities.js'
+import { WWJSInternalEvents } from '../../types/wwjs-enums.js'
+import { type WWJSListener } from '../../types/wwjs-handler.js'
+import { WWJSClient } from '../../wwjs-client.js'
+import { WWJSChatMapper } from '../mappers/wwjs-chat-mapper.js'
 
 @Handler()
 export class WWJSHandleChatUnreadCount {

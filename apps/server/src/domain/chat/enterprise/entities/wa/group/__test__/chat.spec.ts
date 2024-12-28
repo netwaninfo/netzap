@@ -1,10 +1,10 @@
-import { faker } from '@/test/lib/faker'
+import { faker } from '@/test/lib/faker.js'
 
-import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
-import { makeWAGroupContact } from '@/test/factories/chat/wa/make-wa-group-contact'
-import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { WAGroupChat } from '../chat'
+import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id.js'
+import { makeWAGroupContact } from '@/test/factories/chat/wa/make-wa-group-contact.js'
+import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { WAGroupChat } from '../chat.js'
 
 describe('WAGroupChat', () => {
   it('should be able to create', () => {

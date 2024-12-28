@@ -1,6 +1,7 @@
-import { InstancesRepository } from '@/domain/management/application/repositories/instances-repository'
 import { Module } from '@nestjs/common'
-import { PrismaInstancesRepository } from './repositories/prisma-instances-repository'
+
+import { InstancesRepository } from '@/domain/management/application/repositories/instances-repository.js'
+import { PrismaInstancesRepository } from './repositories/prisma-instances-repository.js'
 
 @Module({
   providers: [

@@ -1,9 +1,10 @@
-import { type Either, failure, success } from '@/core/either'
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
-import type { Instance } from '../../enterprise/entities/instance'
-import { InstancesRepository } from '../repositories/instances-repository'
+
+import { type Either, failure, success } from '@/core/either.js'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
+import type { Instance } from '../../enterprise/entities/instance.js'
+import { InstancesRepository } from '../repositories/instances-repository.js'
 
 interface HandleInstanceFailedRequest {
   instanceId: UniqueEntityID

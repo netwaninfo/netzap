@@ -1,7 +1,7 @@
-import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id'
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { faker } from '@/test/lib/faker'
-import { WAGroupContact } from '../contact'
+import { makeWAEntityID } from '@/test/factories/chat/value-objects/make-wa-entity-id.js'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { faker } from '@/test/lib/faker.js'
+import { WAGroupContact } from '../contact.js'
 
 describe('WAGroupContact', () => {
   it('should be able to create', () => {

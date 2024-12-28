@@ -1,15 +1,16 @@
-import { type Either, failure, success } from '@/core/either'
-import { GroupUnknownMessage } from '@/domain/chat/enterprise/entities/group/unknown-message'
-import type { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/message'
-import type { GroupMessage } from '@/domain/chat/enterprise/types/message'
-import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
-import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
-import { ChatsRepository } from '../../../repositories/chats-repository'
-import { ContactsRepository } from '../../../repositories/contacts-repository'
-import { MessagesRepository } from '../../../repositories/messages-repository'
-import { DateService } from '../../../services/date-service'
+
+import { type Either, failure, success } from '@/core/either.js'
+import { GroupUnknownMessage } from '@/domain/chat/enterprise/entities/group/unknown-message.js'
+import type { WAGroupMessage } from '@/domain/chat/enterprise/entities/wa/group/message.js'
+import type { GroupMessage } from '@/domain/chat/enterprise/types/message.js'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
+import { ResourceAlreadyExistsError } from '@/domain/shared/errors/resource-already-exists-error.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
+import { ChatsRepository } from '../../../repositories/chats-repository.js'
+import { ContactsRepository } from '../../../repositories/contacts-repository.js'
+import { MessagesRepository } from '../../../repositories/messages-repository.js'
+import { DateService } from '../../../services/date-service.js'
 
 interface CreateGroupUnknownMessageFromWAMessageUseCaseRequest {
   waMessage: WAGroupMessage

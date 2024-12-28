@@ -1,4 +1,4 @@
-import { ValueObject } from '@/core/entities/value-object'
+import { ValueObject } from '@/core/entities/value-object.js'
 
 interface PaginationProps {
   page: number

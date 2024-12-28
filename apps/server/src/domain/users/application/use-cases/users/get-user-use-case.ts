@@ -1,9 +1,10 @@
-import { Either, failure, success } from '@/core/either'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import { User } from '@/domain/users/enterprise/entities/user'
 import { Injectable } from '@nestjs/common'
-import { UsersRepository } from '../../repositories/users-repository'
+
+import { type Either, failure, success } from '@/core/either.js'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
+import { User } from '@/domain/users/enterprise/entities/user.js'
+import { UsersRepository } from '../../repositories/users-repository.js'
 
 interface GetUserUseCaseRequest {
   userId: UniqueEntityID

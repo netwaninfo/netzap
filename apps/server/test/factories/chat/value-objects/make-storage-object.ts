@@ -1,9 +1,9 @@
 import {
   StorageObject,
   type StorageObjectProps,
-} from '@/domain/chat/enterprise/entities/value-objects/storage-object'
-import { faker } from '@/test/lib/faker'
-import { makeMimeType } from './make-mime-type'
+} from '@/domain/chat/enterprise/entities/value-objects/storage-object.js'
+import { faker } from '@/test/lib/faker.js'
+import { makeMimeType } from './make-mime-type.js'
 
 export function makeStorageObject(override: Partial<StorageObjectProps> = {}) {
   return StorageObject.create({

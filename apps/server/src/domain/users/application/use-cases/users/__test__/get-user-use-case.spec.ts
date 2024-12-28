@@ -1,7 +1,7 @@
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { makeUser } from '@/test/factories/users/make-user'
-import { InMemoryUsersRepository } from '@/test/repositories/users/in-memory-users-repository'
-import { GetUserUseCase } from '../get-user-use-case'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { makeUser } from '@/test/factories/users/make-user.js'
+import { InMemoryUsersRepository } from '@/test/repositories/users/in-memory-users-repository.js'
+import { GetUserUseCase } from '../get-user-use-case.js'
 
 describe('GetUserUseCase', () => {
   let usersRepository: InMemoryUsersRepository

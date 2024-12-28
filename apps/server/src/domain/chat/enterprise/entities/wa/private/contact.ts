@@ -1,6 +1,6 @@
 import type { Except, SetOptional } from 'type-fest'
-import type { WAEntityID } from '../../value-objects/wa-entity-id'
-import { WAContact, type WAContactProps } from '../contact'
+import type { WAEntityID } from '../../value-objects/wa-entity-id.js'
+import { WAContact, type WAContactProps } from '../contact.js'
 
 export interface WAPrivateContactProps extends WAContactProps {
   isMe: boolean

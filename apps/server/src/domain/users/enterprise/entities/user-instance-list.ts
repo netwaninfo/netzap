@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { WatchedList } from '@/core/entities/watched-list'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { WatchedList } from '@/core/entities/watched-list.js'
 
 export class UserInstanceList extends WatchedList<UniqueEntityID> {
   compareItems(a: UniqueEntityID, b: UniqueEntityID): boolean {

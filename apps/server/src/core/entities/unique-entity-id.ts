@@ -1,4 +1,6 @@
-import ObjectID from 'bson-objectid'
+import bson from 'bson-objectid'
+
+const ObjectID = bson.default
 
 export class UniqueEntityID {
   private value: string

@@ -1,13 +1,13 @@
-import type { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
+import type { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id.js'
 import {
   WAGroupMessage,
   type WAGroupMessageProps,
-} from '@/domain/chat/enterprise/entities/wa/group/message'
-import { faker } from '@faker-js/faker'
-import { makeUniqueEntityID } from '../../make-unique-entity-id'
-import { makeWAEntityID } from '../value-objects/make-wa-entity-id'
-import { makeWAMessageID } from '../value-objects/make-wa-message-id'
-import { makeWAPrivateContact } from './make-wa-private-contact'
+} from '@/domain/chat/enterprise/entities/wa/group/message.js'
+import { faker } from '@/test/lib/faker.js'
+import { makeUniqueEntityID } from '../../make-unique-entity-id.js'
+import { makeWAEntityID } from '../value-objects/make-wa-entity-id.js'
+import { makeWAMessageID } from '../value-objects/make-wa-message-id.js'
+import { makeWAPrivateContact } from './make-wa-private-contact.js'
 
 export const makeWAGroupMessage = (
   override: Partial<WAGroupMessageProps> = {},

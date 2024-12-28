@@ -1,6 +1,6 @@
-import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact'
-import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository'
-import { CreateContactFromWAContactUseCase } from '../create-contact-from-wa-contact-use-case'
+import { makeWAPrivateContact } from '@/test/factories/chat/wa/make-wa-private-contact.js'
+import { InMemoryContactsRepository } from '@/test/repositories/chat/in-memory-contacts-repository.js'
+import { CreateContactFromWAContactUseCase } from '../create-contact-from-wa-contact-use-case.js'
 
 describe('CreateContactFromWAContactUseCase', () => {
   let contactsRepository: InMemoryContactsRepository

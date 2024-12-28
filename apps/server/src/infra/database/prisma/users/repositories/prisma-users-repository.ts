@@ -1,13 +1,14 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { UsersRepository as AuthUsersRepository } from '@/domain/auth/application/repositories/users-repository'
-import {
+import { Injectable } from '@nestjs/common'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { UsersRepository as AuthUsersRepository } from '@/domain/auth/application/repositories/users-repository.js'
+import type {
   UsersRepository,
   UsersRepositoryFindUniqueByUserIdParams,
-} from '@/domain/users/application/repositories/users-repository'
-import { User } from '@/domain/users/enterprise/entities/user'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../../prisma.service'
-import { PrismaUserMapper } from '../mappers/prisma-user-mapper'
+} from '@/domain/users/application/repositories/users-repository.js'
+import { User } from '@/domain/users/enterprise/entities/user.js'
+import { PrismaService } from '../../prisma.service.js'
+import { PrismaUserMapper } from '../mappers/prisma-user-mapper.js'
 
 @Injectable()
 export class PrismaUsersRepository implements UsersRepository {

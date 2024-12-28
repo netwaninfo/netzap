@@ -1,15 +1,16 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { FetchInstancesUseCase } from '@/domain/chat/application/use-cases/instances/fetch-instances-use-case'
-import { HttpUserId } from '@/infra/auth/decorators/http-user-id.decorator'
-import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-http-validation.pipe'
-import { InstancePresenter } from '@/infra/presenters/chat/instance-presenter'
-import { PaginationPresenter } from '@/infra/presenters/pagination-presenter'
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
 import {
   type FetchInstancesRequestQuery,
   type FetchInstancesResponseBody,
   fetchInstancesRequestQuerySchema,
 } from '@netzap/http/chat'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { FetchInstancesUseCase } from '@/domain/chat/application/use-cases/instances/fetch-instances-use-case.js'
+import { HttpUserId } from '@/infra/auth/decorators/http-user-id.decorator.js'
+import { ZodHttpValidationPipe } from '@/infra/http/pipes/zod-http-validation.pipe.js'
+import { InstancePresenter } from '@/infra/presenters/chat/instance-presenter.js'
+import { PaginationPresenter } from '@/infra/presenters/pagination-presenter.js'
 
 const querySchema = new ZodHttpValidationPipe(fetchInstancesRequestQuerySchema)
 

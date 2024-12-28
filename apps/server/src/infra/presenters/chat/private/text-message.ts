@@ -1,6 +1,7 @@
-import { PrivateTextMessage } from '@/domain/chat/enterprise/entities/private/text-message'
-import { PrivateTextMessage as Output } from '@netzap/entities/chat'
-import { PrivateQuotedMessagePresenter } from './quoted-message'
+import type { PrivateTextMessage as Output } from '@netzap/entities/chat'
+
+import { PrivateTextMessage } from '@/domain/chat/enterprise/entities/private/text-message.js'
+import { PrivateQuotedMessagePresenter } from './quoted-message.js'
 
 export class PrivateTextMessagePresenter {
   static toOutput(message: PrivateTextMessage): Output {

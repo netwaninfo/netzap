@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common'
 
-import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id'
-import { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message'
-import { WWJSMessage } from '../../../types/wwjs-entities'
-import { WWJSClient } from '../../../wwjs-client'
-import { ContactUtils } from '../../utils/contact'
-import { MessageUtils } from '../../utils/message'
-import { VCardUtils } from '../../utils/v-card'
-import { WWJSMessageACKMapper } from '../wwjs-message-ack-mapper'
-import { WWJSMessageMediaMapper } from '../wwjs-message-media-mapper'
-import { WWJSMessageTypeMapper } from '../wwjs-message-type-mapper'
-import { WWJSPrivateContactMapper } from './wwjs-private-contact-mapper'
+import { WAMessageID } from '@/domain/chat/enterprise/entities/value-objects/wa-message-id.js'
+import { WAPrivateMessage } from '@/domain/chat/enterprise/entities/wa/private/message.js'
+import type { WWJSMessage } from '../../../types/wwjs-entities.js'
+import { WWJSClient } from '../../../wwjs-client.js'
+import { ContactUtils } from '../../utils/contact.js'
+import { MessageUtils } from '../../utils/message.js'
+import { VCardUtils } from '../../utils/v-card.js'
+import { WWJSMessageACKMapper } from '../wwjs-message-ack-mapper.js'
+import { WWJSMessageMediaMapper } from '../wwjs-message-media-mapper.js'
+import { WWJSMessageTypeMapper } from '../wwjs-message-type-mapper.js'
+import { WWJSPrivateContactMapper } from './wwjs-private-contact-mapper.js'
 
 interface WWJSPrivateMessageMapperToDomainParams {
   message: WWJSMessage

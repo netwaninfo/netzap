@@ -1,6 +1,11 @@
 {
   "extends": ["@netzap/ts-config/node"],
   "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "declaration": false,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -8,6 +13,12 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/test/*": ["./test/*"]
+    },
     "types": ["vitest/globals"]
-  }
+  },
+  "include": ["test", "src"]
 }

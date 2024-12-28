@@ -1,5 +1,5 @@
-import { ExecutionContext, createParamDecorator } from '@nestjs/common'
-import { Socket } from 'socket.io'
+import { type ExecutionContext, createParamDecorator } from '@nestjs/common'
+import type { Socket } from 'socket.io'
 
 export const SocketUserId = createParamDecorator(
   (_: unknown, context: ExecutionContext) => {

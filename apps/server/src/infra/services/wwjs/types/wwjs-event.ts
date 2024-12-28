@@ -3,7 +3,7 @@ import {
   WWJSInternalEvents,
   WWJSInternalStates,
   WWJSInternalStatus,
-} from './wwjs-enums'
+} from './wwjs-enums.js'
 
 export type WWJSEvent =
   | WWJSEvents

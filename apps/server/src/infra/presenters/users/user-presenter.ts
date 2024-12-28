@@ -1,5 +1,6 @@
-import { User } from '@/domain/users/enterprise/entities/user'
-import { User as Output } from '@netzap/entities/users'
+import type { User as Output } from '@netzap/entities/users'
+
+import { User } from '@/domain/users/enterprise/entities/user.js'
 
 export class UserPresenter {
   static toOutput(user: User): Output {

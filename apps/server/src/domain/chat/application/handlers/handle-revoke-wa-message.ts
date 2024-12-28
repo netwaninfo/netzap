@@ -1,20 +1,20 @@
-import { type Either, failure, success } from '@/core/either'
-import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format'
-import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error'
-import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error'
-import { UnhandledError } from '@/domain/shared/errors/unhandled-error'
+import { type Either, failure, success } from '@/core/either.js'
+import { InvalidResourceFormatError } from '@/domain/shared/errors/invalid-resource-format.js'
+import { ResourceNotFoundError } from '@/domain/shared/errors/resource-not-found-error.js'
+import { ServiceUnavailableError } from '@/domain/shared/errors/service-unavailable-error.js'
+import { UnhandledError } from '@/domain/shared/errors/unhandled-error.js'
 import { Injectable } from '@nestjs/common'
 import {
   isMessageCanRevoke,
   isMessageWithMedia,
-} from '../../enterprise/type-guards/message'
-import type { Message } from '../../enterprise/types/message'
-import type { WAChat } from '../../enterprise/types/wa-chat'
-import type { WAMessage } from '../../enterprise/types/wa-message'
-import { MessageEmitter } from '../emitters/message-emitter'
-import { MessagesRepository } from '../repositories/messages-repository'
-import { DateService } from '../services/date-service'
-import { StorageService } from '../services/storage-service'
+} from '../../enterprise/type-guards/message.js'
+import type { Message } from '../../enterprise/types/message.js'
+import type { WAChat } from '../../enterprise/types/wa-chat.js'
+import type { WAMessage } from '../../enterprise/types/wa-message.js'
+import { MessageEmitter } from '../emitters/message-emitter.js'
+import { MessagesRepository } from '../repositories/messages-repository.js'
+import { DateService } from '../services/date-service.js'
+import { StorageService } from '../services/storage-service.js'
 
 interface HandleRevokeWAMessageRequest {
   waRevokedMessage: WAMessage

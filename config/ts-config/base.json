@@ -16,7 +16,6 @@
 		"noImplicitAny": true,
 		"module": "preserve",
 		"moduleResolution": "bundler",
-		"noEmit": true,
 		"lib": [
 			"es2023"
 		]

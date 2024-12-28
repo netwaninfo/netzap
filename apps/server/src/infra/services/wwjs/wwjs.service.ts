@@ -1,10 +1,15 @@
 import timers from 'node:timers/promises'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { EnvService } from '@/infra/env/env.service'
-import { Injectable, OnApplicationShutdown, OnModuleInit } from '@nestjs/common'
-import { WWJSClient } from './wwjs-client'
-import { WWJSFactory } from './wwjs-factory.service'
+import {
+  Injectable,
+  type OnApplicationShutdown,
+  type OnModuleInit,
+} from '@nestjs/common'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { PrismaService } from '@/infra/database/prisma/prisma.service.js'
+import { EnvService } from '@/infra/env/env.service.js'
+import { WWJSClient } from './wwjs-client.js'
+import { WWJSFactory } from './wwjs-factory.service.js'
 
 @Injectable()
 export class WWJSService implements OnModuleInit, OnApplicationShutdown {

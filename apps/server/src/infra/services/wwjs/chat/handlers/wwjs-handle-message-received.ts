@@ -1,16 +1,16 @@
 import timers from 'node:timers/promises'
 
-import { HandleReceivedWAMessage } from '@/domain/chat/application/handlers/handle-received-wa-message'
-import { Handler } from '../../decorators/handler.decorator'
-import { SubscribeEvent } from '../../decorators/subscribe-event.decorator'
-import { WWJSMessage } from '../../types/wwjs-entities'
-import { WWJSEvents } from '../../types/wwjs-enums'
-import { WWJSHandler, type WWJSListener } from '../../types/wwjs-handler'
-import { WWJSClient } from '../../wwjs-client'
-import { WWJSChatMapper } from '../mappers/wwjs-chat-mapper'
-import { WWJSMessageMapper } from '../mappers/wwjs-message-mapper'
-import { ChatUtils } from '../utils/chat'
-import { MessageUtils } from '../utils/message'
+import { HandleReceivedWAMessage } from '@/domain/chat/application/handlers/handle-received-wa-message.js'
+import { Handler } from '../../decorators/handler.decorator.js'
+import { SubscribeEvent } from '../../decorators/subscribe-event.decorator.js'
+import type { WWJSMessage } from '../../types/wwjs-entities.js'
+import { WWJSEvents } from '../../types/wwjs-enums.js'
+import { WWJSHandler, type WWJSListener } from '../../types/wwjs-handler.js'
+import { WWJSClient } from '../../wwjs-client.js'
+import { WWJSChatMapper } from '../mappers/wwjs-chat-mapper.js'
+import { WWJSMessageMapper } from '../mappers/wwjs-message-mapper.js'
+import { ChatUtils } from '../utils/chat.js'
+import { MessageUtils } from '../utils/message.js'
 
 @Handler()
 export class WWJSHandleMessageReceived implements WWJSHandler {

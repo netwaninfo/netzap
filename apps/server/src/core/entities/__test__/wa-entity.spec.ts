@@ -1,6 +1,6 @@
-import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id'
-import { UniqueEntityID } from '../unique-entity-id'
-import { WAEntity } from '../wa-entity'
+import { makeUniqueEntityID } from '@/test/factories/make-unique-entity-id.js'
+import { UniqueEntityID } from '../unique-entity-id.js'
+import { WAEntity } from '../wa-entity.js'
 
 interface RawWAEntityProps {
   isTrue?: boolean

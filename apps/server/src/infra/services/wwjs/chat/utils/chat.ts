@@ -1,4 +1,4 @@
-import { WWJSChat, WWJSGroupChat } from '../../types/wwjs-entities'
+import type { WWJSChat, WWJSGroupChat } from '../../types/wwjs-entities.js'
 
 export class ChatUtils {
   static isGroupChat(chat: WWJSChat): chat is WWJSGroupChat {

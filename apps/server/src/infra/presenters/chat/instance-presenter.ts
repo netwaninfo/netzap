@@ -1,6 +1,6 @@
-import { Instance } from '@/domain/chat/enterprise/entities/instance'
+import type { Instance as Output } from '@netzap/entities/chat'
 
-import { Instance as Output } from '@netzap/entities/chat'
+import { Instance } from '@/domain/chat/enterprise/entities/instance.js'
 
 export class InstancePresenter {
   static toOutput(instance: Instance): Output {

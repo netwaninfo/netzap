@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 
-import { Either, success } from '@/core/either'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ImportChatsFromInstanceUseCase } from '../chats/import-chats-from-instance-use-case'
-import { ImportContactsFromInstanceUseCase } from '../contacts/import-contacts-from-instance-use-case'
-import { ImportMessagesFromInstanceUseCase } from '../messages/import-messages-from-instance-use-case'
+import { type Either, success } from '@/core/either.js'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import { ImportChatsFromInstanceUseCase } from '../chats/import-chats-from-instance-use-case.js'
+import { ImportContactsFromInstanceUseCase } from '../contacts/import-contacts-from-instance-use-case.js'
+import { ImportMessagesFromInstanceUseCase } from '../messages/import-messages-from-instance-use-case.js'
 
 interface ImportFromInstanceUseCaseRequest {
   instanceId: UniqueEntityID

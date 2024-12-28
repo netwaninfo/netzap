@@ -1,9 +1,9 @@
 import type { SetNonNullable, SetOptional } from 'type-fest'
 
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import type { PrivateMessage } from '../../types/message'
-import { Chat, type ChatProps } from '../chat'
-import { Contact } from '../contact'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
+import type { PrivateMessage } from '../../types/message.js'
+import { Chat, type ChatProps } from '../chat.js'
+import { Contact } from '../contact.js'
 
 export interface PrivateChatProps extends ChatProps {
   contact: Contact

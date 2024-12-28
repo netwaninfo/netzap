@@ -1,7 +1,7 @@
-import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import type { Except, SetOptional } from 'type-fest'
-import { GroupMessage, type GroupMessageProps } from './message'
-import { GroupRevokedMessage } from './revoked-message'
+import { GroupMessage, type GroupMessageProps } from './message.js'
+import { GroupRevokedMessage } from './revoked-message.js'
 
 export interface GroupUnknownMessageProps extends GroupMessageProps {
   type: 'unknown'
