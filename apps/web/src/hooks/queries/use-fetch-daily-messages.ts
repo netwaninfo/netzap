@@ -113,7 +113,7 @@ function useFetchDailyMessages({
           const currentPages = [...prev.pages]
 
           const firstPage = currentPages[0]
-          firstPage.data.unshift(message)
+          firstPage?.data.unshift(message)
 
           return remeda.merge(prev, { pages: currentPages })
         }

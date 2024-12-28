@@ -6,6 +6,8 @@
 		"bump:packages": "turbo run bump --filter=./packages/*",
 		"prepack": "turbo run build --filter=./packages/*",
 		"prepack:dev": "turbo run dev --filter=./packages/*",
+		"build:apps": "turbo run build --filter=./apps/*",
+		"build": "turbo run build",
 		"lint:fix": "turbo run lint:fix",
 		"prepare": "husky"
 	},
